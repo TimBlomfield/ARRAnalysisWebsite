@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 // Styles
 import styles from './styles.module.scss';
-import {retry} from 'next/dist/compiled/@next/font/dist/google/retry';
+
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -14,9 +14,9 @@ const navLinks = [
   { name: 'Contact', href: '/contact' },
 ];
 
+
 const Header = () => {
   const pathName = usePathname();
-  console.log(pathName);
 
   return (
     <>
@@ -34,6 +34,12 @@ const Header = () => {
               </Link>
             );
           })}
+        </div>
+        <div className={styles.titleCentrer}>
+          ARR Analysis
+        </div>
+        <div className={styles.links}>
+          <Link href="/login" className={cn(styles.link, styles.noMr)}>Login</Link>
         </div>
       </div>
     </>

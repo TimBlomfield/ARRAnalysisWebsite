@@ -11,10 +11,13 @@
   top: 0;
   width: 100vw;
   height: 60px;
-  z-index: 1;
+  z-index: 10;
   padding: 0 36px 0 30px;
   box-sizing: border-box;
   background-color: $clrHeaderDarkBk;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
   &.light {
     background-color: $clrHeaderLightBk;
@@ -22,9 +25,12 @@
     .links {
       .link { color: $clrHeaderLightText; }
     }
+
+    .titleCentrer { color: $clrHeaderLightText; }
   }
 
   .links {
+    z-index: 10;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -32,13 +38,43 @@
 
     .link {
       font-size: 16px;
-      margin-right: 40px;
+      margin-right: 35px;
       color: $clrHeaderDarkText;
       text-decoration: none;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 5px;
+      outline: none;
 
       &.active {
         text-decoration: underline;
       }
+
+      &.noMr { margin-right: 0; }
+    }
+  }
+
+  .titleCentrer {
+    z-index: 5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    color: $clrHeaderDarkText;
+
+    @media screen and (max-width: 1096px) {
+      left: 300px;
+    }
+    @media screen and (max-width: 806px) {
+      left: 360px;
     }
   }
 }
