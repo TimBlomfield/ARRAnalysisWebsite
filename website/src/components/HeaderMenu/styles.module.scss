@@ -1,0 +1,6 @@
+@use "globals" as *;
+
+.freezeBody {
+  overflow: hidden;
+  touch-action: none;
+}

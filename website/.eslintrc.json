@@ -1,6 +1,57 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "semi": "error"
+    "semi": "error",
+    "default-case": "off",
+    "comma-dangle": [
+      "error",
+      {
+        "functions": "only-multiline",
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline"
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "FunctionDeclaration": {
+          "parameters": "off"
+        },
+        "ignoredNodes": [
+          "JSXElement *",
+          "JSXElement"
+        ]
+      }
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "beforeSelfClosing": "always"
+      }
+    ],
+    "react-hooks/exhaustive-deps": "off",
+    "react/style-prop-object": "off"
   }
 }

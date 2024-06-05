@@ -1,0 +1,86 @@
+@use "globals" as *;
+
+.animatedNarrow {
+  position: fixed;
+  top: 60px;
+  width: 240px;
+  background-color: white;
+  transition: height 0.4s;
+  overflow: hidden;
+
+  .cont {
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    border-bottom-left-radius: 8px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .mi {
+      @extend %noselect;
+
+      height: 36px;
+      min-height: 36px;
+      box-sizing: border-box;
+      padding: 6px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        background-color: $clrMenuItemHover;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+}
+
+.animatedWide {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-color: white;
+  transition: height 0.4s;
+  overflow: hidden;
+
+  .cont {
+    box-sizing: border-box;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .mi {
+      @extend %noselect;
+
+      height: 49px;
+      min-height: 49px;
+      box-sizing: border-box;
+      padding: 12px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        background-color: $clrMenuItemHover;
+      }
+    }
+  }
+
+  @media screen and (min-width: 480px) {
+    display: none;
+  }
+}

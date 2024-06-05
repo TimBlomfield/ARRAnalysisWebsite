@@ -6,7 +6,7 @@ import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
 
 
-const inter = Inter({ subsets: ["latin-ext"] });
+const inter = Inter({ subsets: ['latin-ext'] });
 
 
 const MainLayout = ({ children }) => {
@@ -17,20 +17,20 @@ const MainLayout = ({ children }) => {
         {children}
       </body>
     </html>
-  )
+  );
 };
 
 
 const metadata = {
-  title: "ARR Analysis",
-  description: "ARR Analysis",
+  title: 'ARR Analysis',
+  description: 'ARR Analysis',
   icons: {
     icon: {
       rel: 'icon',
       url: '/L8-favicon.png',
       type: 'image/png',
     },
-  }
+  },
 };
 
 

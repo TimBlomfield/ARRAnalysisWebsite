@@ -4,3 +4,32 @@ $clrHeaderDarkText: white;
 
 $clrHeaderLightBk: white;
 $clrHeaderLightText: black;
+
+$clrMenuItemHover: #e6e6e6;
+
+// Button
+$mapLinkButton_Dark: (
+  'background':         $clrHeaderDarkBk,
+  'text':               $clrHeaderDarkText,
+  'background-hover':   #515D74,
+  'background-active':  #384D74,
+  'border-focus':       $clrHeaderDarkBk,
+);
+
+$mapLinkButton_Light: (
+  'background':         $clrHeaderLightBk,
+  'text':               $clrHeaderDarkBk,
+  'background-hover':   lightgray,
+  'background-active':  gainsboro,
+  'border-focus':       $clrHeaderLightBk,
+);
+
+%noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}

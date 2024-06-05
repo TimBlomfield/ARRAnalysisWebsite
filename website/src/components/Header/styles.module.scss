@@ -1,11 +1,6 @@
 @use "globals" as *;
 
-.headerPlaceholder {
-  height: 60px;
-  min-height: 60px;
-}
-
-.header {
+%hdr-common {
   position: fixed;
   left: 0;
   top: 0;
@@ -15,15 +10,29 @@
   padding: 0 36px 0 30px;
   box-sizing: border-box;
   background-color: $clrHeaderDarkBk;
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.headerPlaceholder {
+  height: 60px;
+  min-height: 60px;
+}
+
+.header {
+  @extend %hdr-common;
+
+  display: flex;
 
   &.light {
     background-color: $clrHeaderLightBk;
 
     .links {
-      .link { color: $clrHeaderLightText; }
+      .link {
+        color: $clrHeaderLightText;
+
+        &:focus-visible { border-color: $clrHeaderLightText; }
+      }
     }
 
     .titleCentrer { color: $clrHeaderLightText; }
@@ -38,7 +47,7 @@
 
     .link {
       font-size: 16px;
-      margin-right: 35px;
+      margin-right: 31px;
       color: $clrHeaderDarkText;
       text-decoration: none;
       height: 100%;
@@ -47,7 +56,10 @@
       justify-content: center;
       box-sizing: border-box;
       padding: 5px;
+      border: 2px solid transparent;
       outline: none;
+
+      &:focus-visible { border-color: $clrHeaderDarkText; }
 
       &.active {
         text-decoration: underline;
@@ -74,7 +86,36 @@
       left: 300px;
     }
     @media screen and (max-width: 806px) {
-      left: 360px;
+      left: 370px;
     }
+  }
+
+  @media screen and (max-width: 770px) {
+    display: none;
+  }
+}
+
+.narrowHeader {
+  @extend %hdr-common;
+
+  display: none;
+  padding-right: 24px;
+
+  .title {
+    font-size: 25px;
+    color: $clrHeaderDarkText;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &.light {
+    background-color: $clrHeaderLightBk;
+
+    .title { color: $clrHeaderLightText; }
+  }
+
+  @media screen and (max-width: 770px) {
+    display: flex;
   }
 }

@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
 import cn from 'classnames';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import HeaderMenu from '@/components/HeaderMenu';
 // Styles
 import styles from './styles.module.scss';
 
@@ -17,11 +18,12 @@ const navLinks = [
 
 const Header = () => {
   const pathName = usePathname();
+  const bLight =pathName.startsWith('/purchase');
 
   return (
     <>
       <div className={styles.headerPlaceholder} />
-      <div className={cn(styles.header, {[styles.light]: pathName.startsWith('/purchase')})}>
+      <div className={cn(styles.header, {[styles.light]: bLight})}>
         <div className={styles.links}>
           {navLinks.map(link => {
             const isActive = pathName.endsWith(link.href);
@@ -41,6 +43,12 @@ const Header = () => {
         <div className={styles.links}>
           <Link href="/login" className={cn(styles.link, styles.noMr)}>Login</Link>
         </div>
+      </div>
+      <div className={cn(styles.narrowHeader, {[styles.light]: bLight})}>
+        <div className={styles.title}>
+          ARR Analysis
+        </div>
+        <HeaderMenu bLight={bLight} />
       </div>
     </>
   );
