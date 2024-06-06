@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <>
       <div className={styles.headerPlaceholder} />
-      <div className={cn(styles.header, {[styles.light]: bLight})}>
+      <header className={cn(styles.header, {[styles.light]: bLight})}>
         <div className={styles.links}>
           {navLinks.map(link => {
             const isActive = pathName.endsWith(link.href);
@@ -43,13 +43,13 @@ const Header = () => {
         <div className={styles.links}>
           <Link href="/login" className={cn(styles.link, styles.noMr)}>Login</Link>
         </div>
-      </div>
-      <div className={cn(styles.narrowHeader, {[styles.light]: bLight})}>
+      </header>
+      <header className={cn(styles.narrowHeader, {[styles.light]: bLight})}>
         <div className={styles.title}>
           ARR Analysis
         </div>
         <HeaderMenu bLight={bLight} />
-      </div>
+      </header>
     </>
   );
 };
