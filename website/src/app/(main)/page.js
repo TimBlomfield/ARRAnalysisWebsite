@@ -29,7 +29,7 @@ const LandingPage = () => {
             <div className={styles.txt2} data-animated="text1">Generate your retention and churn analysis, cohort analysis, customer concentration, and ARR waterfalls with the click of a button</div>
           </div>
           <div className={cn(styles.part, styles.right)}>
-            <Image alt="ARR Waterfall" src={imgArrWtfl} className={styles.img} data-animated="text1"/>
+            <Image alt="ARR Waterfall" src={imgArrWtfl} className={styles.img} data-animated="text1" />
           </div>
         </section>
 
