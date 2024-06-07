@@ -13,6 +13,7 @@
     .titleText {
       font-size: 72px;
       max-width: $maxHtmlPageWidth;
+      text-align: center;
 
       color: $clrHeaderDarkText;
 
@@ -32,6 +33,9 @@
       @include mx-linscale(min-height, 550, 440, 1450, 450);
 
       .titleText { @include mx-linscale(font-size, 72, 30, 1450, 360); }
+    }
+    @media screen and (max-width: 640px) {
+      .titleText { text-align: start; }
     }
     @media screen and (max-width: 480px) {
       align-items: flex-start;

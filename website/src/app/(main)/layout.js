@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
+import '@/styles/globals.scss';
 
 
 const inter = Inter({ subsets: ['latin-ext'] });

@@ -5,9 +5,10 @@ import { LinkButton_Theme } from '@/utils/common';
 import styles from './styles.module.scss';
 
 
-const LinkButton = ({href, theme = LinkButton_Theme.Dark, children}) => {
+const LinkButton = ({href, theme = LinkButton_Theme.Dark, children, ...attr}) => {
   return (
     <Link className={cn(styles.button, theme === LinkButton_Theme.Dark ? styles.dark : styles.light)}
+          {...attr}
           href={href}>
       <div className={styles.text}>
         {children}
