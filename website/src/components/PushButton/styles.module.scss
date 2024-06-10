@@ -1,0 +1,7 @@
+@use "globals" as *;
+
+
+.pushButton {
+  &.dark {}
+  &.light {}
+}

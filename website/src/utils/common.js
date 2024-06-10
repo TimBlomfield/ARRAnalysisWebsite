@@ -1,7 +1,7 @@
-const LinkButton_Theme = {
+const Button_Theme = {
   Dark: 0,
   Light: 1,
 };
 
 
-export { LinkButton_Theme };
+export { Button_Theme };
