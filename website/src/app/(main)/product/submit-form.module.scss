@@ -1,0 +1,37 @@
+@use "globals" as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+
+  .title {
+    font-size: 52px;
+    line-height: 60px;
+    text-align: center;
+    color: $clrHeaderDarkText;
+    margin-bottom: 16px;
+  }
+
+  .text {
+    font-size: 16px;
+    line-height: 24px;
+    color: $clrHeaderDarkText;
+    margin-bottom: 16px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 1450px) {
+    .title {
+      @include mx-linscale(font-size, 52, 36, 1450, 420);
+      @include mx-linscale(line-height, 60, 42, 1450, 420);
+    }
+  }
+}

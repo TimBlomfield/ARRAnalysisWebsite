@@ -1,7 +1,7 @@
-const Button_Theme = {
+const K_Theme = {
   Dark: 0,
   Light: 1,
 };
 
 
-export { Button_Theme };
+export { K_Theme };

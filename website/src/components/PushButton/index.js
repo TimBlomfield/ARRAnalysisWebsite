@@ -1,15 +1,21 @@
 'use client';
 
 import cn from 'classnames';
-import { Button_Theme } from '@/utils/common';
+import { K_Theme } from '@/utils/common';
 // Styles
 import styles from './styles.module.scss';
 
 
-const PushButton = ({theme = Button_Theme.Dark, onClick, children}) => {
+const PushButton = ({theme = K_Theme.Dark, children, ...attr}) => {
   return (
-    <button className={cn(styles.pushButton, theme === Button_Theme.Dark ? styles.dark : styles.light)} onClick={onClick}>{children}</button>
-  )
+    <button className={cn(styles.pushButton, theme === K_Theme.Dark ? styles.dark : styles.light)}
+            {...attr}>
+      <div className={styles.text}>
+        {children}
+      </div>
+      <div className={styles.inner} />
+    </button>
+  );
 };
 
 

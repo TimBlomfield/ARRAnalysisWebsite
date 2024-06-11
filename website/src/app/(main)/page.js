@@ -2,7 +2,7 @@ import cn from 'classnames';
 import Image from 'next/image';
 import AnimateX from '@/components/AnimateX';
 import LinkButton from '@/components/LinkButton';
-import { Button_Theme } from '@/utils/common';
+import { K_Theme } from '@/utils/common';
 // Images
 import imgQuart from '@/../public/Quarterly_Cohort-graph.jpg';
 import imgArrWtfl from '@/../public/ARR_Waterfall-graph.jpg';
@@ -19,7 +19,7 @@ const LandingPage = () => {
           <div className={styles.titleText} data-animated="text1">Quickly, Acurately and Presentably</div>
           <div className={styles.spacer} />
           <div >
-            <LinkButton theme={Button_Theme.Light} href="/about" data-animated="text1" data-anim-delay=".5">
+            <LinkButton theme={K_Theme.Light} href="/about" data-animated="text1" data-anim-delay=".5">
               Learn More
             </LinkButton>
           </div>

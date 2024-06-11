@@ -1,0 +1,47 @@
+@use "globals" as *;
+
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  input.input {
+    border-radius: 4px;
+    outline-offset: 2px;
+    height: 64px;
+    padding: 0 24px;
+    font-size: 18px;
+    background-color: $clrHeaderLightBk;
+    box-sizing: border-box;
+
+    &::placeholder { color: #B2B2B2; }
+
+    &.light {
+      border: 1px solid $clrHeaderLightBk;
+
+      &:focus-visible {
+        outline: $clrHeaderLightBk solid 2px;
+
+        &.error { outline-color: $clrError; }
+      }
+    }
+
+    &.dark {
+      border: 1px solid $clrHeaderDarkBk;
+
+      &:focus-visible {
+        outline: $clrHeaderDarkBk solid 2px;
+
+        &.error { outline-color: $clrError; }
+      }
+    }
+  }
+
+  .errorText {
+    color: $clrError;
+    font-size: 14px;
+
+    &.none { display: none; }
+  }
+}

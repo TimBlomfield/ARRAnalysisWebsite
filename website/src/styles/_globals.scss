@@ -1,3 +1,4 @@
+@use 'sass:map';
 
 $clrHeaderDarkBk: #253551;
 $clrHeaderDarkText: white;
@@ -6,6 +7,7 @@ $clrHeaderLightBk: white;
 $clrHeaderLightText: black;
 
 $clrMenuItemHover: #e6e6e6;
+$clrError: #CE2C30;
 
 // Button
 $mapLinkButton_Dark: (
@@ -42,4 +44,52 @@ $maxHtmlPageWidth: 1400px;
   $minWPx: #{$minDim}px;
 
   #{$prop}: calc($maxValPx - ($maxWPx - max($measure, $minWPx)) * ($maxVal - $minVal) / ($maxDim - $minDim));
+}
+
+@mixin button($map) {
+  $clrBackground:         map.get($map, 'background');
+  $clrText:               map.get($map, 'text');
+  $clrBackground_Hover:   map.get($map, 'background-hover');
+  $clrBackground_Active:  map.get($map, 'background-active');
+  $clrBorder_Focus:       map.get($map, 'border-focus');
+
+  background-color: transparent;
+  touch-action: none;
+  text-decoration: none;
+  outline: none;
+  transition: border 0.2s;
+
+  .text {
+    z-index: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: $clrText;
+  }
+
+  .inner {
+    z-index: 0;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: 32px;
+    border: none;
+    pointer-events: none;
+    touch-action: none;
+    background-color: $clrBackground;
+    transition: background-color 0.2s;
+  }
+
+  &:hover {
+    .inner { background-color: $clrBackground_Hover; }
+  }
+
+  &:active {
+    .inner { background-color: $clrBackground_Active; }
+  }
+
+  &:focus-visible {
+    border-color: $clrBorder_Focus;
+  }
 }

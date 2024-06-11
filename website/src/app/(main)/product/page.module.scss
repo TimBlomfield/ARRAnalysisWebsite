@@ -114,13 +114,16 @@
     }
   }
 
-  .sTemp {
-    padding: 50px;
+  .s3 {
+    padding: 120px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: $clrHeaderDarkBk;
 
-    &.dark { background-color: $clrHeaderDarkBk; }
-    &.light { background-color: $clrHeaderLightBk; }
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(padding-top, 120, 60, 1450, 450);
+      @include mx-linscale(padding-bottom, 120, 60, 1450, 450);
+    }
   }
 }
