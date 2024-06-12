@@ -1,0 +1,159 @@
+@use "globals" as *;
+
+main {
+  .title {
+    font-size: 120px;
+    color: $clrHeaderLightText;
+    max-width: 1200px;
+    text-align: center;
+
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(font-size, 120, 56, 1450, 360);
+    }
+
+    @media screen and (max-width: 480px) {
+      text-align: left;
+    }
+  }
+
+  .s1 {
+    padding: 60px 20px 0;
+
+    .vflex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 34px;
+      max-width: $maxHtmlPageWidth;
+      margin: 0 auto;
+
+      .txt {
+        font-size: 18px;
+        color: $clrHeaderLightText;
+        text-align: center;
+      }
+
+      .img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(padding-top, 60, 30, 1450, 450);
+
+      .vflex > .txt { @include mx-linscale(font-size, 18, 16, 1450, 360); }
+    }
+
+    @media screen and (max-width: 480px) {
+      .vflex > .txt { text-align: left; }
+    }
+
+    @media screen and (max-width: 1450px) {
+      .vflex {
+        @include mx-linscale(gap, 34, 26, 1450, 450);
+      }
+    }
+  }
+
+  .s2 {
+    padding: 135px 20px 0;
+
+    .vflex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 34px;
+      max-width: $maxHtmlPageWidth;
+      margin: 0 auto;
+      color: $clrHeaderLightText;
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 16px;
+        grid-row-gap: 100px;
+
+        .cell {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 34px;
+
+          .title { font-size: 32px; }
+          .txt {
+            text-align: center;
+            font-size: 18px;
+            line-height: 26px;
+
+            @media screen and (max-width: 1450px) {
+              @include mx-linscale(font-size, 18, 16, 1450, 360);
+            }
+          }
+
+          @media screen and (max-width: 480px) {
+            align-items: start;
+
+            .title, .txt { text-align: left; }
+          }
+        }
+
+        @media screen and (max-width: 780px) {
+          grid-template-columns: 1fr;
+
+          @include mx-linscale(grid-row-gap, 100, 50, 780, 450);
+          @include mx-linscale(max-width, 600, 400, 780, 360);
+        }
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(padding-top, 135, 40, 1450, 360);
+    }
+  }
+
+  .s3 {
+    padding: 120px 20px;
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 16px;
+      max-width: $maxHtmlPageWidth;
+      margin: 0 auto;
+
+      .img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+      }
+
+      @media screen and (max-width: 1100px) {
+        grid-template-columns: 1fr;
+        @include mx-linscale(max-width, 720, 460, 1100, 500);
+      }
+    }
+
+    @media screen and (max-width: 1200px) {
+      @include mx-linscale(padding-top, 120, 80, 1200, 360);
+      @include mx-linscale(padding-bottom, 120, 80, 1200, 360);
+    }
+  }
+
+  .sTemp {
+    display: flex;
+    flex-direction: column;
+
+    .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 0;
+      gap: 50px;
+
+      &.dark { background-color: $clrHeaderDarkBk; }
+      &.light { background-color: $clrHeaderLightBk; }
+    }
+  }
+}

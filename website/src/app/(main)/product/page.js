@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import AnimateX from '@/components/AnimateX';
 import LinkButton from '@/components/LinkButton';
+import SubmitForm from './submit-form';
 import { K_Theme } from '@/utils/common';
 // Images
 import imgCol1 from '@/../public/ACV-over-time.jpg';
@@ -8,7 +9,6 @@ import imgCol2 from '@/../public/Cohort-analysis.jpg';
 import imgCol3 from '@/../public/Rolling-unit-economics.jpg';
 // Styles
 import styles from './page.module.scss';
-import SubmitForm from '@/app/(main)/product/submit-form';
 
 
 const ProductPage = () => {
