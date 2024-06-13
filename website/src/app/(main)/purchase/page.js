@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import cn from 'classnames';
 import AnimateX from '@/components/AnimateX';
 import PricingBox from '@/app/(main)/purchase/pricing-box';
+import { Tiers } from '@/utils/common';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
 import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
@@ -73,15 +73,18 @@ const PurchasePage = () => {
           </div>
         </section>
 
-        <section className={styles.sTemp}>
-          <div className={cn(styles.inner, styles.dark)}>
-            <PricingBox />
-            <PricingBox />
+        <section className={styles.s4}>
+          <div className={styles.vflex}>
+            <div className={styles.title}>Pricing Options</div>
+            <div className={styles.grid}>
+              <PricingBox tier={Tiers.One} />
+              <PricingBox tier={Tiers.Two} />
+              <PricingBox tier={Tiers.Three} />
+            </div>
           </div>
-          <div className={cn(styles.inner, styles.light)}>
-            <PricingBox/>
-            <PricingBox />
-          </div>
+        </section>
+
+        <section className={styles.s5}>
         </section>
       </main>
     </AnimateX>

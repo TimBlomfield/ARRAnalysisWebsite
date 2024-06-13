@@ -141,19 +141,35 @@ main {
     }
   }
 
-  .sTemp {
-    display: flex;
-    flex-direction: column;
+  .s4 {
+    padding: 0 20px;
 
-    .inner {
+    .vflex {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 100px 0;
-      gap: 50px;
+      gap: 34px;
+      max-width: $maxHtmlPageWidth;
+      margin: 0 auto;
+      color: $clrHeaderLightText;
 
-      &.dark { background-color: $clrHeaderDarkBk; }
-      &.light { background-color: $clrHeaderLightBk; }
+      .grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 16px;
+
+        @media screen and (max-width: 760px) {
+          grid-template-columns: 1fr;
+          grid-gap: 80px;
+        }
+      }
     }
+  }
+
+  .s5 {
+    background-color: $clrHeaderDarkBk;
+    min-height: 300px;
+    margin-top: 100px;
   }
 }

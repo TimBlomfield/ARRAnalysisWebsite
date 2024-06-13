@@ -1,0 +1,96 @@
+@use "globals" as *;
+
+@mixin first-last($radius) {
+  &.first {
+    border-bottom-left-radius: $radius;
+    border-top-left-radius: $radius;
+  }
+
+  &.last {
+    border-bottom-right-radius: $radius;
+    border-top-right-radius: $radius;
+  }
+}
+
+.multiToggle {
+  @extend %noselect;
+
+  display: flex;
+  width: fit-content;
+  height: 44px;
+  border-radius: 22px;
+  touch-action: none;
+  position: relative;
+  background-color: $clrHeaderLightBk;
+  overflow: hidden;
+  outline-offset: 2px;
+  outline: 2px solid transparent;
+  box-sizing: border-box;
+  border: 1px solid;
+
+  &.disabled {
+    outline: none;
+
+    &.dark, &.light {
+      border-color: $clrHeaderLight_Disabled;
+      background-color: $clrHeaderLight_Disabled;
+
+      .piece {
+        cursor: not-allowed;
+
+        .txt {
+          color: $clrHeaderDark_Disabled;
+
+          &.selected { color: $clrHeaderLight_Disabled; }
+        }
+      }
+    }
+
+    .hilite { background-color: $clrHeaderDark_Disabled; }
+  }
+
+  &.dark { border-color: $clrHeaderDarkBk; }
+  &.light { border-color: $clrHeaderLightBk; }
+
+  &:focus-visible {
+    &.dark { outline-color: $clrHeaderDarkBk; }
+    &.light { outline-color: $clrHeaderLightBk; }
+  }
+
+  .piece {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 2;
+
+    @include first-last(22px);
+
+    .txt {
+      pointer-events: none;
+      transition: color 0.3s ease;
+      color: $clrHeaderLightText;
+
+      &.selected { color: $clrHeaderDarkText; }
+    }
+  }
+
+  .hilite {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: $clrHeaderDarkBk;
+    transition-property: left, width, border-radius;
+    transition-duration: .25s;
+    transition-timing-function: ease;
+
+    &.noTransit {
+      transition: none;
+    }
+
+    @include first-last(22px);
+  }
+}

@@ -1,0 +1,31 @@
+@use "globals" as *;
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    margin: 33px 0 11px;
+    font-size: 26px;
+    line-height: 36px;
+    text-align: center;
+  }
+
+  .price {
+    margin-top: 11px;
+    font-size: 35px;
+  }
+
+  .evry {
+    color: #404040;
+    font-size: 18px;
+    margin: 11px 0 22px;
+  }
+
+  @media screen and (max-width: 480px) {
+    align-items: start;
+
+    .title { text-align: start; }
+  }
+}
