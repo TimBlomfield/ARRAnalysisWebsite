@@ -7,7 +7,7 @@ import PushButton from '@/components/PushButton';
 import styles from './pricing-box.module.scss';
 
 
-const PricingBox = ({ tier }) => {
+const PricingBox = ({ tier, animDelay = 0 }) => {
   const [sel, setSel] = useState(0);
 
   const USDollar = new Intl.NumberFormat('en-US', {
@@ -16,7 +16,7 @@ const PricingBox = ({ tier }) => {
   });
 
   return (
-    <div className={styles.main}>
+    <div className={styles.main} data-animated="text1" data-anim-delay={animDelay}>
       <MultiToggle selected={sel} options={['Monthly', 'Yearly']} onSelect={x => setSel(x)} />
       <div className={styles.title}>{tier.Desc}</div>
       <div className={styles.price}>{USDollar.format(sel === 0 ? tier.Prices.Monthly : tier.Prices.Yearly)}</div>

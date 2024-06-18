@@ -169,7 +169,70 @@ main {
 
   .s5 {
     background-color: $clrHeaderDarkBk;
-    min-height: 300px;
-    margin-top: 100px;
+    padding: 100px 20px;
+    margin-top: 80px;
+
+    .inner {
+      max-width: $maxHtmlPageWidth;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+      color: $clrHeaderDarkText;
+
+      .titleq {
+        font-size: 94px;
+        line-height: 104px;
+        text-align: center;
+      }
+
+      .saying {
+        display: flex;
+        gap: 20px;
+        text-align: center;
+
+        .single {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+
+          .say {
+            font-size: 23px;
+            line-height: 33px;
+            margin-bottom: 18px;
+          }
+
+          .who {
+            font-size: 16px;
+            line-height: 26px;
+          }
+        }
+      }
+
+      @media screen and (max-width: 1450px) {
+        .titleq {
+          @include mx-linscale(font-size, 94, 56, 1450, 360);
+          @include mx-linscale(line-height, 104, 66, 1450, 360);
+        }
+      }
+      @media screen and (max-width: 780px) {
+        gap: 80px;
+
+        .saying {
+          flex-direction: column;
+          gap: 50px;
+        }
+      }
+      @media screen and (max-width: 480px) {
+        .titleq, .saying { text-align: left; }
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(padding-top, 100, 50, 1450, 360);
+      @include mx-linscale(padding-bottom, 100, 50, 1450, 360);
+      @include mx-linscale(margin-top, 80, 35, 1450, 360);
+    }
   }
 }
