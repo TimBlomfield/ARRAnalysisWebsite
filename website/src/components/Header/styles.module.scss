@@ -72,10 +72,7 @@
   .titleCentrer {
     z-index: 5;
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -85,6 +82,7 @@
     @media screen and (max-width: 1160px) {
       left: 300px;
     }
+
     @media screen and (max-width: 806px) {
       left: 370px;
     }

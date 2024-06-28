@@ -1,4 +1,5 @@
 @use "globals" as *;
+@use "sass:color";
 
 .main {
   background-color: $clrHeaderDarkBk;
@@ -36,8 +37,8 @@
         width: fit-content;
         outline-offset: 8px;
 
-        &:hover { color: darken($clrHeaderDarkText, 10%); }
-        &:active { color: darken($clrHeaderDarkText, 5%); }
+        &:hover { color: color.adjust($clrHeaderDarkText, $lightness: -10%); }
+        &:active { color: color.adjust($clrHeaderDarkText, $lightness: -5%); }
         &:visited { color: $clrHeaderDarkText; }
         &:focus { outline: none; }
         &:focus-visible { outline: 2px solid $clrHeaderDarkText; }

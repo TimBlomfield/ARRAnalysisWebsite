@@ -14,7 +14,6 @@
       font-size: 72px;
       max-width: $maxHtmlPageWidth;
       text-align: center;
-
       color: $clrHeaderDarkText;
 
       &.mb10 {
@@ -34,9 +33,11 @@
 
       .titleText { @include mx-linscale(font-size, 72, 30, 1450, 360); }
     }
+
     @media screen and (max-width: 640px) {
       .titleText { text-align: start; }
     }
+
     @media screen and (max-width: 480px) {
       align-items: flex-start;
     }
@@ -66,6 +67,7 @@
         color: $clrHeaderLightText;
 
         .txt1 { font-size: 34px; }
+
         .txt2 {
           padding-top: 83px;
           font-size: 52px;
@@ -89,10 +91,12 @@
 
       .part {
         @include mx-linscale(min-height, 650, 415, 1450, 770);
+
         &.left {
           @include mx-linscale(padding-right, 90, 40, 1450, 770);
 
           .txt1 { @include mx-linscale(font-size, 34, 25, 1450, 770); }
+
           .txt2 {
             @include mx-linscale(font-size, 52, 34, 1450, 770);
             @include mx-linscale(padding-top, 83, 40, 1450, 770);
@@ -116,6 +120,7 @@
 
           .txt2 {
             font-size: 38px;
+
             @include mx-linscale(padding-top, 35, 22, 770, 480);
           }
         }

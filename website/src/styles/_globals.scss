@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use "sass:map";
 
 $clrHeaderDarkBk: #253551;
 $clrHeaderDarkText: white;
@@ -71,10 +71,7 @@ $maxHtmlPageWidth: 1400px;
   .inner {
     z-index: 0;
     position: absolute;
-    left: 2px;
-    top: 2px;
-    right: 2px;
-    bottom: 2px;
+    inset: 2px;
     border-radius: 32px;
     border: none;
     pointer-events: none;
