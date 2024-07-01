@@ -1,0 +1,12 @@
+{
+  "name": "ARR Analysis Website",
+  "description": "A website for the ARR Analysis excel add-in",
+  "buildpacks": [
+    {
+      "url": "https://github.com/TimBlomfield/ARRAnalysisWebsite/tree/main/website"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "cd website && npm install && npm run build"
+  }
+}
