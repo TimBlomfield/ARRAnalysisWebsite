@@ -1,7 +1,6 @@
 {
   "name": "ARR Analysis Website",
   "description": "A website for the ARR Analysis excel add-in",
-  "repository": "https://github.com/TimBlomfield/ARRAnalysisWebsite/tree/main/website",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
