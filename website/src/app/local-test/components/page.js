@@ -3,7 +3,7 @@
 const ComponentsPage = () => {
   return (
     <div>
-      Components
+      Components XYZ
     </div>
   );
 };
