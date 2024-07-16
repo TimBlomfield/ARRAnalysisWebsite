@@ -1,0 +1,7 @@
+@use "globals" as *;
+
+.layoutBody {
+  background-color: $clrLoginBk;
+  display: grid;
+  place-items: center;
+}
