@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
+import './layout.scss';
 
 
 const inter = Inter({ subsets: ['latin-ext'] });
