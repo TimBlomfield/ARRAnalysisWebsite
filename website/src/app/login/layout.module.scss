@@ -1,6 +1,6 @@
 @use "globals" as *;
 
-body {
+.layoutBody {
   background-color: $clrLoginBk;
   display: grid;
   place-items: center;

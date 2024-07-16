@@ -1,8 +1,9 @@
 import { Inter } from 'next/font/google';
+import cn from 'classnames';
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
-import './layout.scss';
+import styles from './layout.module.scss';
 
 
 const inter = Inter({ subsets: ['latin-ext'] });
@@ -11,7 +12,7 @@ const inter = Inter({ subsets: ['latin-ext'] });
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, styles.layoutBody)}>
         {children}
       </body>
     </html>
