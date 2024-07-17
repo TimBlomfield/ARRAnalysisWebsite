@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 
 const ComponentsPage = () => {
-  if (Math.random() > .5) notFound();
+  notFound();
 
   return (
     <main className={styles.main}>
