@@ -9,6 +9,7 @@ export const middleware = (request) => {
 
   if (isStagingOrProd && pathname.startsWith('/test-pages'))
     return NextResponse.redirect(new URL('/ ', request.url));
+
   return NextResponse.next();
 };
 

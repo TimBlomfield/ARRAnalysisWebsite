@@ -1,13 +1,10 @@
 import cn from 'classnames';
 import Loading from '@/components/Loading';
-import { notFound } from 'next/navigation';
 // Styles
 import styles from './styles.module.scss';
 
 
 const ComponentsPage = () => {
-  notFound();
-
   return (
     <main className={styles.main}>
       <div className={styles.title}>&lt;Loading size={'{1}'} text=&quot;Hello&quot; /&gt;</div>

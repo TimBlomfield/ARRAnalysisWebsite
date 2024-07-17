@@ -9,7 +9,6 @@ import '@/styles/globals.scss';
 
 const inter = Inter({ subsets: ['latin-ext'] });
 
-
 const MainLayout = ({ children }) => {
   return (
     <html lang="en">
