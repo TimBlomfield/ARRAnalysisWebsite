@@ -1,14 +1,26 @@
-import {notFound} from 'next/navigation';
+import cn from 'classnames';
+import Loading from '@/components/Loading';
+import { notFound } from 'next/navigation';
+// Styles
+import styles from './styles.module.scss';
 
 
 const ComponentsPage = () => {
-  if (process.env.K_ENVIRONMENT === 'Local')
-    notFound();
+  if (Math.random() > .5) notFound();
 
   return (
-    <div>
-      Components, environment = {process.env.K_ENVIRONMENT}
-    </div>
+    <main className={styles.main}>
+      <div className={styles.title}>&lt;Loading size={'{1}'} text=&quot;Hello&quot; /&gt;</div>
+      <section className={styles.loadingGrid}>
+        <div className={styles.cell}><Loading /></div>
+        <div className={styles.cell}><Loading scale={1.5} /></div>
+        <div className={styles.cell}><Loading scale={2} /></div>
+        <div className={styles.cell}><Loading text="Loading..." /></div>
+        <div className={styles.cell}><Loading scale={2} text="Loading..." /></div>
+        <div className={cn(styles.cell, styles.wider)}><Loading text="Lorem ipsum dolor sit amet consectetur adipiscing elit..." /></div>
+        <div className={styles.cell}><Loading scale={2} text="Lorem ipsum dolor sit amet consectetur adipiscing elit..." /></div>
+      </section>
+    </main>
   );
 };
 

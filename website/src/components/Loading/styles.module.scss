@@ -1,0 +1,46 @@
+@use "globals" as *;
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  svg {
+    .loading {
+      fill: none;
+      stroke: $clrLoading;
+      animation: rotating 2s linear infinite, dash 1.4s ease-in-out infinite;
+    }
+  }
+
+  @keyframes rotating {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1px, 300px;
+      stroke-dashoffset: 0;
+    }
+
+    50% {
+      stroke-dasharray: 100px, 300px;
+      stroke-dashoffset: -15px;
+    }
+
+    100% {
+      stroke-dasharray: 100px, 200px;
+      stroke-dashoffset: -100px;
+    }
+  }
+
+  .txt {
+    max-width: 220px;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+  }
+}

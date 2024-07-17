@@ -1,0 +1,28 @@
+.main {
+  padding: 20px;
+
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #7979ea;
+    padding-bottom: 50px;
+
+    &.pt { padding-top: 100px; }
+  }
+
+  .loadingGrid {
+    display: grid;
+    grid: auto-flow dense / repeat(4, minmax(200px, min-content));
+    gap: 15px;
+
+    .cell {
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      display: grid;
+      place-items: center;
+      padding: 10px;
+
+      &.wider { min-width: 250px; }
+    }
+  }
+}
