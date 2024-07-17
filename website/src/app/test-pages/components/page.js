@@ -3,7 +3,7 @@
 const ComponentsPage = () => {
   return (
     <div>
-      Components XYZ
+      Components, environment = {process.env.NODE_ENV}
     </div>
   );
 };
