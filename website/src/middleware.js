@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 
-const isStagingOrProd = process.env.K_ENVIRONMENT === "Staging" || process.env.K_ENVIRONMENT === "Production";
+const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
 
 
 export const middleware = (request) => {

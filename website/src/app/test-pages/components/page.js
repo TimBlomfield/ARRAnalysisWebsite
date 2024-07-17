@@ -2,7 +2,7 @@ import {notFound} from 'next/navigation';
 
 
 const ComponentsPage = () => {
-  if (process.env.K_ENVIRONMENT === "Local")
+  if (process.env.K_ENVIRONMENT === 'Local')
     notFound();
 
   return (
