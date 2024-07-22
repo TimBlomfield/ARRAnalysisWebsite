@@ -1,0 +1,46 @@
+@use "globals" as *;
+
+.layoutMain {
+  background-color: $clrLoginBk;
+  min-height: 100vh;
+
+  .outer {
+    padding-top: 100px;
+    margin: 0 auto;
+    max-width: 740px;
+    width: 100%;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      margin: 0 20px;
+      max-width: 100%;
+      border-radius: 30px;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 5%), 0 1px 2px rgb(0 0 0 / 10%);
+      padding: 50px;
+      background-color: white;
+
+      .caption {
+        font-size: 40px;
+        color: black;
+        margin-bottom: 40px;
+
+        @media screen and (max-width: 450px) {
+          @include mx-linscale(font-size, 40, 10, 450, 200);
+        }
+      }
+
+      .wrapInp {
+        margin-bottom: 20px;
+
+        .inp { height: 48px; }
+      }
+
+      .pbtn {
+        min-width: 180px;
+        align-self: center;
+        margin-top: 20px;
+      }
+    }
+  }
+}

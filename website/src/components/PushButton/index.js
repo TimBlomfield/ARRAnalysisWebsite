@@ -6,9 +6,9 @@ import { K_Theme } from '@/utils/common';
 import styles from './styles.module.scss';
 
 
-const PushButton = ({theme = K_Theme.Dark, children, ...attr}) => {
+const PushButton = ({theme = K_Theme.Dark, extraClass='', children, ...attr}) => {
   return (
-    <button className={cn(styles.pushButton, theme === K_Theme.Dark ? styles.dark : styles.light)}
+    <button className={cn(styles.pushButton, theme === K_Theme.Dark ? styles.dark : styles.light, extraClass)}
             {...attr}>
       <div className={styles.text}>
         {children}

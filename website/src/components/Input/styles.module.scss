@@ -12,6 +12,8 @@
     display: flex;
     font-size: 16px;
     color: $clrHeaderDarkText;
+
+    &.dark { color: $clrHeaderLightText; }
   }
 
   .input {

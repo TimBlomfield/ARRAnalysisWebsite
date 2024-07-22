@@ -4,23 +4,23 @@ import { K_Theme } from '@/utils/common';
 import styles from './styles.module.scss';
 
 
-const Input = ({theme = K_Theme.Dark, errorText = '', errorPlaceholder = false, label = '', id='', multiline = false,
-  ...attr}) => {
+const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', errorText = '', errorPlaceholder = false,
+  label = '', id='', multiline = false, ...attr}) => {
   const bHasError = !!errorText;
   const bHasLabel = !!label;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, wrapperExtraClass)}>
       {bHasLabel &&
-        <label className={styles.label} htmlFor={id}>
+        <label className={cn(styles.label, theme === K_Theme.Dark && styles.dark)} htmlFor={id}>
           {label}
         </label>
       }
       {multiline
-        ? <textarea className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError})}
+        ? <textarea className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError}, extraClass)}
                     id={id}
                     {...attr} />
-        : <input className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError})}
+        : <input className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError}, extraClass)}
                  id={id}
                  {...attr} />
       }

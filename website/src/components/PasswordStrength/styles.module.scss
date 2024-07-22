@@ -1,0 +1,29 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  gap: 5px;
+
+  .desc {
+    display: inline-block;
+    gap: 20px;
+  }
+
+  .bars {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    height: 8px;
+
+    .bar {
+      width: 20%;
+      height: 8px;
+    }
+
+    &.veryWeak { .bar { background-color: #802733; }}
+    &.weak { .bar { background-color: #BA3C4E; }}
+    &.fair { .bar { background-color: #BF7242; }}
+    &.good { .bar { background-color: #CACF33; }}
+    &.strong { .bar { background-color: #3BAE3D; }}
+  }
+}

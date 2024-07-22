@@ -1,8 +1,9 @@
 import { useEffect, useId, useState } from 'react';
+// Components
 import MenuButton from '@/components/MenuButton';
+import MenuDrawer from '@/components/MenuDrawer';
 // Styles
 import styles from './styles.module.scss';
-import MenuDrawer from '@/components/MenuDrawer';
 
 
 const HeaderMenu = ({ bLight }) => {
