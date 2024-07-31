@@ -11,8 +11,8 @@ import PushButton from '@/components/PushButton';
 import styles from './admin-register.module.scss';
 
 
-const AdminRegisterPage = () => {
-  const [email, setEmail] = useState('');
+const AdminRegisterPage = ({ dbEmail }) => {
+  const [email, setEmail] = useState(() => dbEmail);
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [errEmail, setErrEmail] = useState('');

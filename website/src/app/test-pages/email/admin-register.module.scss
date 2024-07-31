@@ -3,9 +3,10 @@
 .layoutMain {
   background-color: $clrLoginBk;
   min-height: 100vh;
+  display: grid;
+  place-items: center;
 
   .outer {
-    padding-top: 100px;
     margin: 0 auto;
     max-width: 740px;
     width: 100%;
