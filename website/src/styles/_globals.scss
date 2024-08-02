@@ -83,11 +83,11 @@ $maxHtmlPageWidth: 1400px;
     transition: background-color 0.2s;
   }
 
-  &:hover {
+  &:hover:enabled {
     .inner { background-color: $clrBackground_Hover; }
   }
 
-  &:active {
+  &:active:enabled {
     .inner { background-color: $clrBackground_Active; }
   }
 

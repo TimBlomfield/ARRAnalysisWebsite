@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import db from '@/utils/db';
+import { checkToken, TokenState } from '@/utils/server/common';
 // Components
 import AdminRegisterPage from './admin-register';
 
@@ -7,24 +7,12 @@ import AdminRegisterPage from './admin-register';
 const EmailPage = async ({ searchParams }) => {
   const { token } = searchParams;
 
-  if (token == null) notFound();
-
-  const regLink = await db.adminRegistrationLink.findUnique({
-    where: { token },
-  });
-  if (regLink == null || regLink.expiresAt <= new Date()) {
-    if (regLink != null) {
-      await db.adminRegistrationLink.delete({
-        where: { id: regLink.id },
-      });
-    }
+  const ret = await checkToken(token);
+  if (ret.ts !== TokenState.Valid)
     notFound();
-  }
-
-  console.log(regLink);
 
   return (
-    <AdminRegisterPage dbEmail={regLink.email || ''} />
+    <AdminRegisterPage dbEmail={ret.email || ''} />
   );
 };
 

@@ -1,4 +1,5 @@
 import cn from 'classnames';
+// Components
 import Loading from '@/components/Loading';
 // Styles
 import styles from './styles.module.scss';

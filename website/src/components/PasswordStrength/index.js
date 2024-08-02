@@ -20,7 +20,7 @@ const PasswordStrength = ({password = '', extraClass = ''}) => {
     }
     arr = Array(res.score + 1).fill(0);
   }
-  console.log(arr);
+
   return (
     <div className={cn(styles.main, extraClass)}>
       <div className={styles.desc}>Password Strength: {pwdStrength}</div>

@@ -1,7 +1,9 @@
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import '@/styles/globals.scss';
 
 
@@ -13,6 +15,7 @@ const MainLayout = ({ children }) => {
     <html lang="en">
       <body className={inter.className}>
         {children}
+        <ToastContainer position="bottom-left" stacked />
       </body>
     </html>
   );
