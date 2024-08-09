@@ -15,8 +15,8 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={cn(inter.className, styles.layoutBody)}>
-        {children}
-        <ToastContainer position="bottom-left" stacked />
+      {children}
+      <ToastContainer position="bottom-left" stacked />
       </body>
     </html>
   );
@@ -25,7 +25,7 @@ const RootLayout = ({ children }) => {
 
 const metadata = {
   title: 'ARR Analysis',
-  description: 'ARR Analysis',
+  description: 'ARR Analysis - Admin Section',
   icons: {
     icon: {
       rel: 'icon',

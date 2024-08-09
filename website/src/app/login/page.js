@@ -1,5 +1,7 @@
+import AdminLoginForm from '@/components/forms/AdminLoginForm';
 // Styles
 import styles from './page.module.scss';
+
 
 const LoginPage = () => {
   return (
@@ -9,7 +11,7 @@ const LoginPage = () => {
         <div className={styles.adm}>Admin Console</div>
       </section>
       <section className={styles.form}>
-        {/* TODO: Login form goes here! */}
+        <AdminLoginForm />
       </section>
     </main>
   );

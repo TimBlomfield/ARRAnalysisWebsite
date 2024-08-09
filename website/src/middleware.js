@@ -1,14 +1,29 @@
 import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
 
 const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
 
 
-export const middleware = (request) => {
+export const middleware = async request => {
   const pathname = request.nextUrl.pathname.toLowerCase();
 
   if (isStagingOrProd && pathname.startsWith('/test-pages'))
-    return NextResponse.redirect(new URL('/ ', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
+
+  // Redirect to /login if not logged in
+  if (pathname.startsWith('/admin')) {
+    const token = await getToken({ req: request });
+    if (token == null)
+      return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // Redirect to /admin if logged in
+  if (pathname === '/login') {
+    const token = await getToken({ req: request });
+    if ((token != null) && (token.email != null))
+      return NextResponse.redirect(new URL('/admin', request.url));
+  }
 
   return NextResponse.next();
 };

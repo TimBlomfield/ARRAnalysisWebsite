@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { checkToken, TokenState } from '@/utils/server/common';
 // Components
-import AdminRegisterPage from './admin-register';
+import AdminRegisterPage from '@/components/forms/AdminRegisterPage';
 
 
 const EmailPage = async ({ searchParams }) => {

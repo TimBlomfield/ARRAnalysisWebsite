@@ -82,7 +82,7 @@ const createRegistrationLink = async () => {
     });
     id = ret.id;
   } catch (error) {
-    // console.log(error);
+    // console.info(error);
     if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
       console.error(`The email ${email} already exists in the DB.`);
       console.error('Please delete that entry from the database so you can regenerate an admin registration link for that email.');

@@ -4,7 +4,6 @@ import { useCallback, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
 // Components
 import Input from '@/components/Input';
@@ -12,7 +11,7 @@ import Loading from '@/components/Loading';
 import PasswordStrength from '@/components/PasswordStrength';
 import PushButton from '@/components/PushButton';
 // Styles
-import styles from './admin-register.module.scss';
+import styles from './styles.module.scss';
 
 
 const ID_EMAIL    = 'input-email-4013378082fa-961385';
@@ -20,6 +19,7 @@ const ID_PASSWORD = 'input-password-1347f78c1377-69560';
 const ID_CONFIRM  = 'input-confirm-password-c01bd06c782e-355245';
 
 
+// Note: this is a full page, therefore the name ends with Page and not Form
 const AdminRegisterPage = ({ dbEmail }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -58,7 +58,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
   const passwordFn = handleInputChange(password, setPassword, setErrPassword);
   const confirmFn = handleInputChange(confirm, setConfirm, setErrConfirm);
 
-  const onBtnSubmit = useCallback(evt => {
+  const onBtnSubmit = useCallback(() => {
     let bError = false;
 
     // Validate the email
@@ -88,7 +88,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
         .then(res => {
           toast.success('Admin User successfully created.', {
             autoClose: false,
-            onClose: () => router.push('/'),
+            onClose: () => router.push('/login'),
           });
           setLoader(false);
         })
