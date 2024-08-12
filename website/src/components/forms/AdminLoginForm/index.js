@@ -90,10 +90,25 @@ const AdminLoginForm = () => {
         toast.error('Something went wrong!');
       }
     }
-  });
+  }, [email, password]);
+
+  const handleInputReturn = useCallback(evt => {
+    if (evt.code === 'Enter' || evt.code === 'NumpadEnter') {
+      switch (evt.target.id) {
+        case ID_EMAIL:
+          document.getElementById(ID_PASSWORD).focus();
+          break;
+
+        case ID_PASSWORD:
+          onBtnSubmit();
+          break;
+      }
+    }
+  }, [onBtnSubmit]);
+
 
   return (
-    <main className={styles.main}>
+    <form className={styles.main}> {/* NOTE: using <form> to prevent Chrome warnings */}
       {loading &&
         <div className={styles.overlay}>
           <Loading scale={2} />
@@ -102,6 +117,7 @@ const AdminLoginForm = () => {
       <Input id={ID_EMAIL}
              name="email"
              type="email"
+             autoComplete="email"
              label="Email:"
              wrapperExtraClass={styles.wrapInp}
              extraClass={styles.inp}
@@ -109,10 +125,12 @@ const AdminLoginForm = () => {
              errorPlaceholder
              value={email}
              onChange={emailFn}
+             onKeyDown={handleInputReturn}
              errorText={errEmail} />
       <Input id={ID_PASSWORD}
              name="password"
              type="password"
+             autoComplete="current-password"
              label="Password:"
              wrapperExtraClass={styles.wrapInp}
              extraClass={styles.inp}
@@ -120,13 +138,14 @@ const AdminLoginForm = () => {
              errorPlaceholder
              value={password}
              onChange={passwordFn}
+             onKeyDown={handleInputReturn}
              errorText={errPassword} />
       <PushButton extraClass={styles.pbtn}
                   {...(loading ? { disabled: true } : {})}
                   onClick={onBtnSubmit}>
         Sign In
       </PushButton>
-    </main>
+    </form>
   );
 };
 

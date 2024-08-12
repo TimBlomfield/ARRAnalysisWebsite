@@ -100,10 +100,29 @@ const AdminRegisterPage = ({ dbEmail }) => {
     }
   }, [email, password, confirm]);
 
+  const handleInputReturn = useCallback(evt => {
+    if (evt.code === 'Enter' || evt.code === 'NumpadEnter') {
+      evt.preventDefault();
+      switch (evt.target.id) {
+        case ID_EMAIL:
+          document.getElementById(ID_PASSWORD).focus();
+          break;
+
+        case ID_PASSWORD:
+          document.getElementById(ID_CONFIRM).focus();
+          break;
+
+        case ID_CONFIRM:
+          onBtnSubmit();
+          break;
+      }
+    }
+  }, [onBtnSubmit]);
+
 
   return (
     <main className={styles.layoutMain}>
-      <section className={styles.outer}>
+      <form className={styles.outer}> {/* NOTE: using <form> to prevent Chrome warnings */}
         <div className={styles.form}>
           {loading &&
             <div className={styles.overlay}>
@@ -114,6 +133,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
           <Input id={ID_EMAIL}
                  name="email"
                  type="email"
+                 autoComplete="off"
                  label="Email:"
                  wrapperExtraClass={styles.wrapInp}
                  extraClass={styles.inp}
@@ -121,10 +141,12 @@ const AdminRegisterPage = ({ dbEmail }) => {
                  errorPlaceholder
                  value={email}
                  onChange={emailFn}
+                 onKeyDown={handleInputReturn}
                  errorText={errEmail} />
           <Input id={ID_PASSWORD}
                  name="password"
                  type="password"
+                 autoComplete="new-password"
                  label="Password:"
                  wrapperExtraClass={styles.wrapInp}
                  extraClass={styles.inp}
@@ -132,10 +154,12 @@ const AdminRegisterPage = ({ dbEmail }) => {
                  errorPlaceholder
                  value={password}
                  onChange={passwordFn}
+                 onKeyDown={handleInputReturn}
                  errorText={errPassword} />
           <Input id={ID_CONFIRM}
                  name="confirm-password"
                  type="password"
+                 autoComplete="new-password"
                  label="Confirm Password:"
                  wrapperExtraClass={styles.wrapInp}
                  extraClass={styles.inp}
@@ -143,6 +167,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
                  errorPlaceholder
                  value={confirm}
                  onChange={confirmFn}
+                 onKeyDown={handleInputReturn}
                  errorText={errConfirm} />
           <PasswordStrength password={password} />
           <PushButton extraClass={styles.pbtn}
@@ -151,7 +176,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
             Submit
           </PushButton>
         </div>
-      </section>
+      </form>
     </main>
   );
 };

@@ -7,6 +7,13 @@
   place-items: center;
   width: 100%;
 
+  @media screen and (max-width: 550px) {
+    display: block;
+    min-height: auto;
+
+    @include mx-linscale(margin-top, 140, 25, 550, 360);
+  }
+
   .outer {
     margin: 0 auto;
     max-width: 740px;
@@ -46,7 +53,16 @@
       .wrapInp {
         margin-bottom: 20px;
 
-        .inp { height: 48px; }
+        .inp {
+          height: 48px;
+          width: 100%;
+        }
+      }
+
+      @media screen and (max-width: 440px) {
+        padding: 25px;
+
+        .wrapInp { margin-bottom: 10px; }
       }
 
       .pbtn {

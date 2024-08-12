@@ -21,12 +21,20 @@
   .wrapInp {
     margin-bottom: 20px;
 
-    .inp { height: 48px; }
+    .inp {
+      height: 48px;
+      width: 100%;
+    }
   }
 
   .pbtn {
     min-width: 180px;
     align-self: flex-start;
     margin-top: 20px;
+  }
+
+  @media screen and (max-width: 440px) {
+    .wrapInp { margin-bottom: 10px; }
+    .pbtn { align-self: center; }
   }
 }
