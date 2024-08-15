@@ -1,0 +1,81 @@
+@use "globals" as *;
+
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #EFF2F3;
+  min-height: calc(100vh - 60px);
+  padding-bottom: 20px;
+  box-sizing: border-box;
+
+  .inner {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: fit-content;
+
+    section.title {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 100px 0 60px;
+      color: #576366;
+      font-size: 42px;
+
+      img.padlock {
+        width: 48px;
+        height: auto;
+      }
+
+      @media screen and (max-width: 1400px) {
+        @include mx-linscale(margin-top, 100, 40, 1400, 400);
+        @include mx-linscale(margin-bottom, 60, 30, 1400, 400);
+      }
+    }
+
+    section.card {
+      width: 100%;
+      box-sizing: border-box;
+      border: 3px solid #24B47E;
+      border-radius: 5px;
+      color: #24B47E;
+      font-size: 26px;
+      display: grid;
+      grid: 50px 126px 60px / repeat(3, 1fr);
+      background-color: white;
+
+      .title {
+        grid-area: 1 / 1 / 2 / 4;
+        display: grid;
+        place-items: center;
+      }
+
+      .cell {
+        padding: 5px;
+        box-sizing: border-box;
+        display: grid;
+        place-items: center;
+      }
+
+      .billing {
+        grid-area: 3 / 1 / 4 / 4;
+        display: flex;
+        align-items: center;
+        padding: 14px 0 0 10px;
+        gap: 8px;
+        font-size: 18px;
+        color: black;
+
+        .mulTogXtra {
+          font-size: 14px;
+          height: 34px;
+        }
+      }
+    }
+  }
+}

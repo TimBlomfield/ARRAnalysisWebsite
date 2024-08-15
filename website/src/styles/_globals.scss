@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:color";
 
 $clrHeaderDarkBk: #253551;
 $clrHeaderDarkText: white;
@@ -17,19 +18,23 @@ $clrAdminBk: #1C5886;
 
 // Button
 $mapLinkButton_Dark: (
-  'background':         $clrHeaderDarkBk,
-  'text':               $clrHeaderDarkText,
-  'background-hover':   #515D74,
-  'background-active':  #384D74,
-  'border-focus':       $clrHeaderDarkBk,
+  'background':           $clrHeaderDarkBk,
+  'text':                 $clrHeaderDarkText,
+  'background-hover':     #515D74,
+  'background-active':    #384D74,
+  'border-focus':         $clrHeaderDarkBk,
+  'background-disabled':  $clrHeaderLight_Disabled,
+  'text-disabled':        $clrHeaderDark_Disabled,
 );
 
 $mapLinkButton_Light: (
-  'background':         $clrHeaderLightBk,
-  'text':               $clrHeaderDarkBk,
-  'background-hover':   lightgray,
-  'background-active':  gainsboro,
-  'border-focus':       $clrHeaderLightBk,
+  'background':           $clrHeaderLightBk,
+  'text':                 $clrHeaderDarkBk,
+  'background-hover':     lightgray,
+  'background-active':    gainsboro,
+  'border-focus':         $clrHeaderLightBk,
+  'background-disabled':  $clrHeaderLight_Disabled,
+  'text-disabled':        $clrHeaderDark_Disabled,
 );
 
 $maxHtmlPageWidth: 1400px;
@@ -53,11 +58,13 @@ $maxHtmlPageWidth: 1400px;
 }
 
 @mixin button($map) {
-  $clrBackground:         map.get($map, 'background');
-  $clrText:               map.get($map, 'text');
-  $clrBackground_Hover:   map.get($map, 'background-hover');
-  $clrBackground_Active:  map.get($map, 'background-active');
-  $clrBorder_Focus:       map.get($map, 'border-focus');
+  $clrBackground:           map.get($map, 'background');
+  $clrText:                 map.get($map, 'text');
+  $clrBackground_Hover:     map.get($map, 'background-hover');
+  $clrBackground_Active:    map.get($map, 'background-active');
+  $clrBorder_Focus:         map.get($map, 'border-focus');
+  $clrText_Disabled:        map.get($map, 'text-disabled');
+  $clrBackground_Disabled:  map.get($map, 'background-disabled');
 
   background-color: transparent;
   touch-action: none;
@@ -94,5 +101,11 @@ $maxHtmlPageWidth: 1400px;
 
   &:focus-visible {
     border-color: $clrBorder_Focus;
+  }
+
+  &:disabled {
+    opacity: .7;
+    .text { color: $clrText_Disabled; }
+    .inner { background-color: $clrBackground_Disabled; }
   }
 }

@@ -7,7 +7,7 @@ import { K_Theme } from '@/utils/common';
 import styles from './styles.module.scss';
 
 
-const MultiToggle = ({ theme = K_Theme.Dark, selected = 0, options = [], onSelect, disabled = false }) => {
+const MultiToggle = ({ theme = K_Theme.Dark, selected = 0, options = [], onSelect, disabled = false, extraClass = '' }) => {
   const refTopElem = useRef(), refData = useRef({ noTransit: true });
 
 
@@ -66,7 +66,7 @@ const MultiToggle = ({ theme = K_Theme.Dark, selected = 0, options = [], onSelec
 
 
   return (
-    <div className={cn(styles.multiToggle, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.disabled]: disabled})}
+    <div className={cn(styles.multiToggle, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.disabled]: disabled}, extraClass)}
          ref={refTopElem}
          { ...(disabled ? {} : { tabIndex: 0 }) }
          onMouseDown={handleMouseDown}
