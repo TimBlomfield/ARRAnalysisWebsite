@@ -1,39 +1,161 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
 import { Tiers } from '@/utils/common';
+import { convertToSuburrency } from '@/utils/func';
 // Components
+import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import MultiToggle from '@/components/MultiToggle';
+import PushButton from '@/components/PushButton';
 import SubscriptionCard from './subscription-card';
+import ValidationError from '@/components/ValidationError';
 // Images
 import imgPadlock from '@/../public/Padlock.png';
 // Styles
 import styles from './page.module.scss';
 
 
+const ID_FIRST_NAME   = 'input-first-name-4ed8b1ab-6b5ba413a969';
+const ID_LAST_NAME    = 'input-last-name-4144acc0-df0b9627fc38';
+const ID_EMAIL        = 'input-email-4b4fae39-042834bf0b68';
+const ID_COMPANY      = 'input-company-48a98f9b-285389b15627';
+const ID_PASSWORD     = 'input-password-4e1e819f-c22942d6e8ce';
+const ID_CONFIRM      = 'input-confirm-password-4404a5dc-de51f57bccd2';
+
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY == null)
+  throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined!');
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
+const getAmount = (tier, period) => {
+  const prices = tier === 0
+    ? Tiers.One.Prices
+    : (tier === 1 ? Tiers.Two.Prices : Tiers.Three.Prices);
+  return period === 0 ? prices.Monthly : prices.Yearly;
+};
+
+
 const CheckoutPage = () => {
   const searchParams = useSearchParams();
 
+  //////////////////////////////////////////////////////////////////
+  // State
+  //////////////////////////////////////////////////////////////////
+  const [urlDataRead, setUrlDataRead] = useState(false);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState(0);
   const [tier, setTier] = useState(0);
+  // Customer Information
+  const [firstName, setFirstName] = useState('');
+  const [errFirstName, setErrFirstName] = useState(false);
+  const [lastName, setLastName] = useState('');
+  const [errLastName, setErrLastName] = useState(false);
+  const [email, setEmail] = useState('');
+  const [errEmail, setErrEmail] = useState(false);
+  const [company, setCompany] = useState('');
+  const [errCompany, setErrCompany] = useState(false);
+  const [password, setPassword] = useState('');
+  const [errPassword, setErrPassword] = useState(false);
+  const [confirm, setConfirm] = useState('');
+  const [errConfirm, setErrConfirm] = useState(false);
+  // Validation error
+  const [validationError, setValidationError] = useState('');
+  // Payment
+  const [clientSecret, setClientSecret] = useState('');
+  const [sPay, setSPay] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  //////////////////////////////////////////////////////////////////
 
+  const dollars = getAmount(tier, period);
+  const amount = convertToSuburrency( dollars );  // Amount in cents
+  const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+  const txtPayBtn = `SUBMIT ORDER\xa0\xa0\xa0(${fnUSD.format(dollars)})`;
+  const bDisablePayButton = processing || clientSecret === '' || sPay == null || sPay.stripe == null || sPay.elements == null;
+
+
+  //////////////////////////////////////////////////////////////////
+  // Effects
+  //////////////////////////////////////////////////////////////////
   useEffect(() => {
     const period = window.atob(searchParams.get('period'));
     const tierDesc = window.atob(searchParams.get('tier'));
 
     setPeriod(period === 'Monthly' ? 0 : 1);
     setTier(tierDesc === Tiers.One.Desc ? 0 : (tierDesc === Tiers.Two.Desc ? 1 : 2));
-    setLoading(false);
+    setUrlDataRead(true);
   }, []);
+
+  useEffect(() => {
+    if (urlDataRead) {
+      axios.post('/api/stripe/create-payment-intent', { amount })
+        .then(res => setClientSecret(res.data.clientSecret))
+        .catch(err => setLoading(false));
+    }
+  }, [amount, urlDataRead]);
+
+  useEffect(() => {
+    if (clientSecret)
+      setLoading(false);
+  }, [clientSecret]);
+  //////////////////////////////////////////////////////////////////
+
+
+  const handleInputChange = useCallback((val, fn, errFn = null) => {
+    return evt => {
+      if (val !== evt.target.value) {
+        fn(evt.target.value);
+        if (errFn) errFn(false);
+      }
+    };
+  }, []);
+  const firstNameFn = handleInputChange(firstName, setFirstName, setErrFirstName);
+  const lastNameFn = handleInputChange(lastName, setLastName, setErrLastName);
+  const emailFn = handleInputChange(email, setEmail, setErrEmail);
+  const companyFn = handleInputChange(company, setCompany, setErrCompany);
+  const passwordFn = handleInputChange(password, setPassword, setErrPassword);
+  const confirmFn = handleInputChange(confirm, setConfirm, setErrConfirm);
+
+  const handlePay = async evt => {
+    evt.preventDefault(); // Don't submit the form
+    setValidationError('');
+    if (bDisablePayButton) return; // Sanity check
+    setProcessing(true);
+
+    const { stripe, elements } = sPay;
+
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setProcessing(false);
+      return;
+    }
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: {
+        return_url: `http://localhost:4550/purchase/checkout/success?amount=${fnUSD.format(dollars)}`,
+      },
+    });
+
+    setProcessing(false);
+
+    if (error) {
+      const strErr = (error?.message?.length > 0) ? error.message : 'An unknown error has occurred.';
+      setValidationError(strErr);
+    }
+  };
 
   return (
     <main className={styles.main}>
 
-      <div className={styles.inner}>
+      <form className={styles.inner}>
         <section className={styles.title}>
           <Image alt="lock" src={imgPadlock} className={styles.padlock} priority />
           Checkout
@@ -42,28 +164,116 @@ const CheckoutPage = () => {
         {loading && <Loading scale={2} />}
         {!loading &&
           <>
-            <section className={styles.card}>
+            {validationError && <ValidationError onClose={() => setValidationError('')}>{validationError}</ValidationError>}
+
+            <section className={styles.subscription}>
               <div className={styles.title}>Subscription</div>
               <div className={styles.cell}>
-                <SubscriptionCard tier={Tiers.One} selected={tier === 0} onSelect={() => setTier(0)} monthly={period == 0} />
+                <SubscriptionCard tier={Tiers.One} selected={tier === 0} onSelect={() => setTier(0)} monthly={period == 0} processing={processing} />
               </div>
               <div className={styles.cell}>
-                <SubscriptionCard tier={Tiers.Two} selected={tier === 1} onSelect={() => setTier(1)} monthly={period == 0} />
+                <SubscriptionCard tier={Tiers.Two} selected={tier === 1} onSelect={() => setTier(1)} monthly={period == 0} processing={processing} />
               </div>
               <div className={styles.cell}>
-                <SubscriptionCard tier={Tiers.Three} selected={tier === 2} onSelect={() => setTier(2)} monthly={period == 0} />
+                <SubscriptionCard tier={Tiers.Three} selected={tier === 2} onSelect={() => setTier(2)} monthly={period == 0} processing={processing} />
               </div>
               <div className={styles.billing}>
                 <MultiToggle extraClass={styles.mulTogXtra}
+                             disabled={processing}
                              selected={period}
                              onSelect={x => setPeriod(x)}
                              options={['Monthly', 'Yearly']} />
                 <div>Billing</div>
               </div>
             </section>
+
+            <section className={styles.customerInfo}>
+              <div className={styles.title}>Customer Information</div>
+              <Input id={ID_FIRST_NAME}
+                     disabled={processing}
+                     name="first-name"
+                     type="text"
+                     autoComplete="given-name"
+                     placeholder="First Name"
+                     extraClass={styles.inp}
+                     value={firstName}
+                     onChange={firstNameFn}
+                     errorBorder={errFirstName} />
+              <Input id={ID_LAST_NAME}
+                     disabled={processing}
+                     name="last-name"
+                     type="text"
+                     autoComplete="family-name"
+                     placeholder="Last Name"
+                     extraClass={styles.inp}
+                     value={lastName}
+                     onChange={lastNameFn}
+                     errorBorder={errLastName} />
+              <Input id={ID_EMAIL}
+                     disabled={processing}
+                     name="email"
+                     type="email"
+                     autoComplete="email"
+                     placeholder="Email"
+                     extraClass={styles.inp}
+                     value={email}
+                     onChange={emailFn}
+                     errorBorder={errEmail} />
+              <Input id={ID_COMPANY}
+                     disabled={processing}
+                     name="company"
+                     type="text"
+                     autoComplete="organization"
+                     placeholder="Company"
+                     wrapperExtraClass={styles.inpWrapComp}
+                     extraClass={styles.inp}
+                     value={company}
+                     onChange={companyFn}
+                     errorBorder={errCompany} />
+              <Input id={ID_PASSWORD}
+                     disabled={processing}
+                     name="password"
+                     type="password"
+                     autoComplete="new-password"
+                     placeholder="Password"
+                     extraClass={styles.inp}
+                     value={password}
+                     onChange={passwordFn}
+                     errorBorder={errPassword} />
+              <Input id={ID_CONFIRM}
+                     disabled={processing}
+                     name="confirm"
+                     type="password"
+                     autoComplete="new-password"
+                     placeholder="Confirm Password"
+                     extraClass={styles.inp}
+                     value={confirm}
+                     onChange={confirmFn}
+                     errorBorder={errConfirm} />
+            </section>
+
+            <section className={styles.paymentMethod}>
+              <div className={styles.title}>Payment Method</div>
+              <Elements stripe={stripePromise} options={{
+                mode: 'payment',
+                amount,
+                currency: 'usd',
+              }}>
+                <ElementsConsumer>
+                  {({stripe, elements}) => {
+                    useEffect(() => setSPay({ stripe, elements }), [stripe, elements]);
+
+                    return clientSecret ? <PaymentElement options={{ readOnly: processing }} /> : null;
+                  }}
+                </ElementsConsumer>
+              </Elements>
+              {processing && <div className={styles.overlay}><Loading scale={2} /></div>}
+            </section>
+
+            <PushButton disabled={bDisablePayButton} extraClass={styles.btnPayXtra} onClick={handlePay}>{processing ? 'Processing...' : txtPayBtn}</PushButton>
           </>
         }
-      </div>
+      </form>
     </main>
   );
 };

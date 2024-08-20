@@ -7,7 +7,7 @@ import PushButton from '@/components/PushButton';
 import styles from './subscription-card.module.scss';
 
 
-const SubscriptionCard = ({ selected, onSelect, tier, monthly = false }) => {
+const SubscriptionCard = ({ selected, onSelect, tier, processing, monthly = false }) => {
   return (
     <div className={cn(styles.main, {[styles.selected]: selected})}>
       <div className={styles.title}>{tier.Desc}</div>
@@ -16,7 +16,7 @@ const SubscriptionCard = ({ selected, onSelect, tier, monthly = false }) => {
       </div>
       <div className={styles.line} />
       <PushButton extraClass={styles.pbXtra}
-                  disabled={selected}
+                  disabled={selected || processing}
                   onClick={onSelect}>
         {selected ? 'Selected' : 'Select'}
       </PushButton>

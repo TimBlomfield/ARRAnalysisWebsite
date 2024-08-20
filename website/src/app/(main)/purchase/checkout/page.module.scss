@@ -1,21 +1,35 @@
 @use "globals" as *;
 
+
+%card-common {
+  width: 100%;
+  box-sizing: border-box;
+  border: 3px solid #24B47E;
+  border-radius: 5px;
+  background-color: white;
+  color: #24B47E;
+  font-size: 26px;
+}
+
+
 .main {
   width: 100%;
   display: flex;
   justify-content: center;
   background-color: #EFF2F3;
   min-height: calc(100vh - 60px);
-  padding-bottom: 20px;
+  padding-bottom: 80px;
   box-sizing: border-box;
 
   .inner {
     width: 100%;
-    max-width: 900px;
+    max-width: 940px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     height: fit-content;
+    box-sizing: border-box;
+    padding: 0 20px;
 
     section.title {
       width: 100%;
@@ -38,16 +52,11 @@
       }
     }
 
-    section.card {
-      width: 100%;
-      box-sizing: border-box;
-      border: 3px solid #24B47E;
-      border-radius: 5px;
-      color: #24B47E;
-      font-size: 26px;
+    section.subscription {
+      @extend %card-common;
+
       display: grid;
       grid: 50px 126px 60px / repeat(3, 1fr);
-      background-color: white;
 
       .title {
         grid-area: 1 / 1 / 2 / 4;
@@ -76,6 +85,60 @@
           height: 34px;
         }
       }
+    }
+
+    section.customerInfo {
+      @extend %card-common;
+
+      padding: 0 20px 20px;
+      display: grid;
+      grid: 50px repeat(3, 1fr) / repeat(2, 1fr);
+      gap: 20px;
+
+      .title {
+        grid-area: 1 / 1 / 2 / 3;
+        display: grid;
+        place-items: center;
+      }
+
+      .inpWrapComp { grid-row: 4; }
+
+      .inp {
+        height: 40px;
+        width: 100%;
+        font-size: 16px;
+        padding: 0 18px;
+      }
+    }
+
+    section.paymentMethod {
+      @extend %card-common;
+
+      padding: 0 20px 20px;
+      display: grid;
+      grid: 70px 1fr / 1fr;
+      position: relative;
+
+      .overlay {
+        position: absolute;
+        z-index: 10;
+        inset: 5px;
+        background-color: rgb(255 255 255 / 75%);
+        display: grid;
+        place-items: center;
+      }
+
+      .title {
+        display: grid;
+        place-items: center;
+        padding-bottom: 20px;
+      }
+    }
+
+    .btnPayXtra {
+      width: 100%;
+      max-width: 400px;
+      align-self: center;
     }
   }
 }

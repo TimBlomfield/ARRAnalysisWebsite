@@ -104,6 +104,7 @@ $maxHtmlPageWidth: 1400px;
   }
 
   &:disabled {
+    cursor: not-allowed;
     opacity: .7;
     .text { color: $clrText_Disabled; }
     .inner { background-color: $clrBackground_Disabled; }

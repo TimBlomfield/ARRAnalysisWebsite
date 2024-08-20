@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 
 
 const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', errorText = '', errorPlaceholder = false,
-  label = '', id='', multiline = false, ...attr}) => {
+  errorBorder = false, label = '', id='', multiline = false, ...attr}) => {
   const bHasError = !!errorText;
   const bHasLabel = !!label;
 
@@ -17,10 +17,10 @@ const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', e
         </label>
       }
       {multiline
-        ? <textarea className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError}, extraClass)}
+        ? <textarea className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError, [styles.errorBorder]: errorBorder}, extraClass)}
                     id={id}
                     {...attr} />
-        : <input className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError}, extraClass)}
+        : <input className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError, [styles.errorBorder]: errorBorder}, extraClass)}
                  id={id}
                  {...attr} />
       }

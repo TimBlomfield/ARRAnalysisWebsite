@@ -30,22 +30,32 @@
     &.light {
       border: 1px solid $clrHeaderLightBk;
 
+      &.errorBorder { border-color: $clrError; }
+
       &:focus-visible {
         outline: $clrHeaderLightBk solid 2px;
 
         &.error { outline-color: $clrError; }
       }
+
+      &:disabled { border-color: $clrHeaderDark_Disabled; }
     }
 
     &.dark {
       border: 1px solid $clrHeaderDarkBk;
+
+      &.errorBorder { border-color: $clrError; }
 
       &:focus-visible {
         outline: $clrHeaderDarkBk solid 2px;
 
         &.error { outline-color: $clrError; }
       }
+
+      &:disabled { border-color: $clrHeaderLight_Disabled; }
     }
+
+    &:disabled { cursor: not-allowed; }
   }
 
   .errorText {
