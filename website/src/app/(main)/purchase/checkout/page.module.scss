@@ -31,6 +31,10 @@
     box-sizing: border-box;
     padding: 0 20px;
 
+    @media screen and (max-width: 550px) {
+      padding: 0 10px;
+    }
+
     section.title {
       width: 100%;
       display: flex;
@@ -85,6 +89,22 @@
           height: 34px;
         }
       }
+
+      @media screen and (max-width: 800px) {
+        grid: 50px repeat(2, 1fr) 60px / repeat(2, 1fr);
+
+        .title { grid-area: 1 / 1 / 2 / 3; }
+        .billing { grid-area: 4 / 1 / 5 / 3; }
+      }
+
+      @media screen and (max-width: 530px) {
+        grid: 50px repeat(3, 1fr) 60px / 1fr;
+
+        .title, .billing {
+          grid-area: auto;
+          justify-content: center;
+        }
+      }
     }
 
     section.customerInfo {
@@ -108,6 +128,12 @@
         width: 100%;
         font-size: 16px;
         padding: 0 18px;
+      }
+
+      @media screen and (max-width: 650px) {
+        grid: 50px repeat(6, 1fr) / 1fr;
+
+        .title { grid-area: auto; }
       }
     }
 

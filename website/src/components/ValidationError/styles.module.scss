@@ -7,14 +7,19 @@
   border: 1px solid $clrError;
   background-color: color.adjust($clrError, $alpha: -.8);
   width: 100%;
+  box-sizing: border-box;
   color: $clrError;
   font-size: 16px;
   align-items: center;
+  padding: 10px 50px 10px 5px;
+  position: relative;
+  white-space: pre-wrap;
 
   .spacer { flex: 1; }
 
   svg.imgExclamation {
     width: 30px;
+    min-width: 30px;
     height: auto;
     padding: 5px 15px 5px 5px;
 
@@ -22,9 +27,12 @@
   }
 
   button.close {
+    position: absolute;
     width: 40px;
+    right: 0;
+    top: 0;
+    bottom: 0;
     font-size: 28px;
-    height: 35px;
     background-color: transparent;
     border: none;
     border-left: 1px solid $clrError;

@@ -19,6 +19,7 @@ import ValidationError from '@/components/ValidationError';
 import imgPadlock from '@/../public/Padlock.png';
 // Styles
 import styles from './page.module.scss';
+import {validateUnicodeEmail} from '@/utils/validators';
 
 
 const ID_FIRST_NAME   = 'input-first-name-4ed8b1ab-6b5ba413a969';
@@ -76,7 +77,7 @@ const CheckoutPage = () => {
   const dollars = getAmount(tier, period);
   const amount = convertToSuburrency( dollars );  // Amount in cents
   const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-  const txtPayBtn = `SUBMIT ORDER\xa0\xa0\xa0(${fnUSD.format(dollars)})`;
+  const txtPayBtn = `SUBMIT ORDER\u00A0\u00A0(${fnUSD.format(dollars)})`;
   const bDisablePayButton = processing || clientSecret === '' || sPay == null || sPay.stripe == null || sPay.elements == null;
 
 
@@ -124,6 +125,39 @@ const CheckoutPage = () => {
 
   const handlePay = async evt => {
     evt.preventDefault(); // Don't submit the form
+
+    const userData = {
+      firstName: firstName.trim(),
+      lastName: firstName.trim(),
+      email: email.trim(),
+      company: company.trim(),
+      password: password,
+      confirm: confirm,
+    };
+    let bErrorMissing = false, bErrorInvalidEmail = false, bErrorPassMatch = false, bErrorPassShort = false;
+
+    if (userData.firstName.length === 0) { bErrorMissing = true; setErrFirstName(true); }
+    if (userData.lastName.length === 0) { bErrorMissing = true; setErrLastName(true); }
+    if (userData.email.length === 0) { bErrorMissing = true; setErrEmail(true); }
+    if (userData.password.length === 0) { bErrorMissing = true; setErrPassword(true); }
+    if (userData.password.length > 0 && userData.password.length < 4) { bErrorPassShort = true; setErrPassword(true); }
+    if (userData.email.length > 0 && !validateUnicodeEmail(userData.email)) { bErrorInvalidEmail = true; setErrEmail(true); }
+    if (userData.password !== userData.confirm) { bErrorPassMatch = true; setErrPassword(true); setErrConfirm(true); }
+    if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort) {
+      let strError = "Customer validation failed:";
+      if (bErrorMissing)
+        strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
+      if (bErrorInvalidEmail)
+        strError += '\n\u00A0\u00A0\u00A0• Invalid email address';
+      if (bErrorPassShort)
+        strError += '\n\u00A0\u00A0\u00A0• Password must be at least 4 characters long';
+      if (bErrorPassMatch)
+        strError += '\n\u00A0\u00A0\u00A0• Password confirmation does not match';
+      setValidationError(strError);
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      return;
+    }
+
     setValidationError('');
     if (bDisablePayButton) return; // Sanity check
     setProcessing(true);
@@ -140,7 +174,7 @@ const CheckoutPage = () => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://localhost:4550/purchase/checkout/success?amount=${fnUSD.format(dollars)}`,
+        return_url: `${process.env.NEXTAUTH_URL}/purchase/checkout/success?amount=${fnUSD.format(dollars)}`,
       },
     });
 
@@ -261,6 +295,7 @@ const CheckoutPage = () => {
               }}>
                 <ElementsConsumer>
                   {({stripe, elements}) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => setSPay({ stripe, elements }), [stripe, elements]);
 
                     return clientSecret ? <PaymentElement options={{ readOnly: processing }} /> : null;
