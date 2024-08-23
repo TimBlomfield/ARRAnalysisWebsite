@@ -8,6 +8,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
 import { Tiers } from '@/utils/common';
 import { convertToSuburrency } from '@/utils/func';
+import { validateUnicodeEmail } from '@/utils/validators';
 // Components
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -19,7 +20,6 @@ import ValidationError from '@/components/ValidationError';
 import imgPadlock from '@/../public/Padlock.png';
 // Styles
 import styles from './page.module.scss';
-import {validateUnicodeEmail} from '@/utils/validators';
 
 
 const ID_FIRST_NAME   = 'input-first-name-4ed8b1ab-6b5ba413a969';
@@ -49,7 +49,6 @@ const CheckoutPage = () => {
   //////////////////////////////////////////////////////////////////
   // State
   //////////////////////////////////////////////////////////////////
-  const [urlDataRead, setUrlDataRead] = useState(false);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState(0);
   const [tier, setTier] = useState(0);
@@ -75,10 +74,10 @@ const CheckoutPage = () => {
   //////////////////////////////////////////////////////////////////
 
   const dollars = getAmount(tier, period);
-  const amount = convertToSuburrency( dollars );  // Amount in cents
+  const amount = convertToSuburrency( dollars );  // Amount in cents  const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const txtPayBtn = `SUBMIT ORDER\u00A0\u00A0(${fnUSD.format(dollars)})`;
-  const bDisablePayButton = processing || clientSecret === '' || sPay == null || sPay.stripe == null || sPay.elements == null;
+  const bDisablePayButton = processing || sPay == null || sPay.stripe == null || sPay.elements == null;
 
 
   //////////////////////////////////////////////////////////////////
@@ -90,21 +89,8 @@ const CheckoutPage = () => {
 
     setPeriod(period === 'Monthly' ? 0 : 1);
     setTier(tierDesc === Tiers.One.Desc ? 0 : (tierDesc === Tiers.Two.Desc ? 1 : 2));
-    setUrlDataRead(true);
+    setLoading(false);
   }, []);
-
-  useEffect(() => {
-    if (urlDataRead) {
-      axios.post('/api/stripe/create-payment-intent', { amount })
-        .then(res => setClientSecret(res.data.clientSecret))
-        .catch(err => setLoading(false));
-    }
-  }, [amount, urlDataRead]);
-
-  useEffect(() => {
-    if (clientSecret)
-      setLoading(false);
-  }, [clientSecret]);
   //////////////////////////////////////////////////////////////////
 
 
@@ -126,63 +112,84 @@ const CheckoutPage = () => {
   const handlePay = async evt => {
     evt.preventDefault(); // Don't submit the form
 
-    const userData = {
-      firstName: firstName.trim(),
-      lastName: firstName.trim(),
-      email: email.trim(),
-      company: company.trim(),
-      password: password,
-      confirm: confirm,
-    };
-    let bErrorMissing = false, bErrorInvalidEmail = false, bErrorPassMatch = false, bErrorPassShort = false;
+    try {
+      const userData = {
+        firstName: firstName.trim(),
+        lastName: firstName.trim(),
+        email: email.trim(),
+        company: company.trim(),
+        password: password,
+        confirm: confirm,
+      };
+      let bErrorMissing = false, bErrorInvalidEmail = false, bErrorPassMatch = false, bErrorPassShort = false;
 
-    if (userData.firstName.length === 0) { bErrorMissing = true; setErrFirstName(true); }
-    if (userData.lastName.length === 0) { bErrorMissing = true; setErrLastName(true); }
-    if (userData.email.length === 0) { bErrorMissing = true; setErrEmail(true); }
-    if (userData.password.length === 0) { bErrorMissing = true; setErrPassword(true); }
-    if (userData.password.length > 0 && userData.password.length < 4) { bErrorPassShort = true; setErrPassword(true); }
-    if (userData.email.length > 0 && !validateUnicodeEmail(userData.email)) { bErrorInvalidEmail = true; setErrEmail(true); }
-    if (userData.password !== userData.confirm) { bErrorPassMatch = true; setErrPassword(true); setErrConfirm(true); }
-    if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort) {
-      let strError = "Customer validation failed:";
-      if (bErrorMissing)
-        strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
-      if (bErrorInvalidEmail)
-        strError += '\n\u00A0\u00A0\u00A0• Invalid email address';
-      if (bErrorPassShort)
-        strError += '\n\u00A0\u00A0\u00A0• Password must be at least 4 characters long';
-      if (bErrorPassMatch)
-        strError += '\n\u00A0\u00A0\u00A0• Password confirmation does not match';
-      setValidationError(strError);
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      return;
-    }
+      if (userData.firstName.length === 0) { bErrorMissing = true; setErrFirstName(true); }
+      if (userData.lastName.length === 0) { bErrorMissing = true; setErrLastName(true); }
+      if (userData.email.length === 0) { bErrorMissing = true; setErrEmail(true); }
+      if (userData.password.length === 0) { bErrorMissing = true; setErrPassword(true); }
+      if (userData.password.length > 0 && userData.password.length < 4) { bErrorPassShort = true; setErrPassword(true); }
+      if (userData.email.length > 0 && !validateUnicodeEmail(userData.email)) { bErrorInvalidEmail = true; setErrEmail(true); }
+      if (userData.password !== userData.confirm) { bErrorPassMatch = true; setErrPassword(true); setErrConfirm(true); }
+      if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort) {
+        let strError = "Customer validation failed:";
+        if (bErrorMissing)
+          strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
+        if (bErrorInvalidEmail)
+          strError += '\n\u00A0\u00A0\u00A0• Invalid email address';
+        if (bErrorPassShort)
+          strError += '\n\u00A0\u00A0\u00A0• Password must be at least 4 characters long';
+        if (bErrorPassMatch)
+          strError += '\n\u00A0\u00A0\u00A0• Password confirmation does not match';
+        throw new Error(strError);
+      }
 
-    setValidationError('');
-    if (bDisablePayButton) return; // Sanity check
-    setProcessing(true);
+      setValidationError('');
+      if (bDisablePayButton) return; // Sanity check
+      const { stripe, elements } = sPay;  // These are valid because bDisablePayButton is false at this point
 
-    const { stripe, elements } = sPay;
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        const errElems = new Error(submitError?.message ?? 'Payment Method error');
+        errElems.name = 'submitForm';
+        throw errElems;
+      }
 
-    const { error: submitError } = await elements.submit();
-    if (submitError) {
-      setProcessing(false);
-      return;
-    }
+      setProcessing(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `${process.env.NEXTAUTH_URL}/purchase/checkout/success?amount=${fnUSD.format(dollars)}`,
-      },
-    });
+      const { data } = await axios.post('/api/stripe/create-payment-intent', { tier, period });
+      const { clientSecret, paid, redirectBase } = data;
 
-    setProcessing(false);
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        confirmParams: {
+          return_url: `${redirectBase}/purchase/checkout/success?amount=${fnUSD.format(paid.dollars)}`,
+        },
+      });
 
-    if (error) {
-      const strErr = (error?.message?.length > 0) ? error.message : 'An unknown error has occurred.';
+      if (error) {
+        const errConfirm = new Error(error?.message ?? 'Payment Method error');
+        errConfirm.name = 'confirmPayment';
+        throw errConfirm;
+      }
+    } catch (error) {
+      let strErr, bScroll = true;
+      if (error?.name === 'AxiosError') {
+        // Server error
+        strErr = `Server error - ${(error?.message?.length > 0) ? error.message : 'An unknown error has occurred.'}`
+        if (error?.response?.data?.message?.length > 0)
+          strErr += `:\n\u00A0\u00A0\u00A0• ${error.response.data.message}`;
+      } else {
+        // Client error (or Server non-Axios error)
+        if (error?.name === 'submitForm') {
+          bScroll = false;
+          strErr = '';
+        } else
+          strErr = (error?.message?.length > 0) ? error.message : 'An unknown error has occurred.';
+      }
       setValidationError(strErr);
+      setProcessing(false);
+      if (bScroll) window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   };
 
@@ -288,17 +295,18 @@ const CheckoutPage = () => {
 
             <section className={styles.paymentMethod}>
               <div className={styles.title}>Payment Method</div>
-              <Elements stripe={stripePromise} options={{
-                mode: 'payment',
-                amount,
-                currency: 'usd',
-              }}>
+              <Elements stripe={stripePromise}
+                        options={{
+                          mode: 'payment',
+                          amount,
+                          currency: 'usd',
+                        }}>
                 <ElementsConsumer>
                   {({stripe, elements}) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => setSPay({ stripe, elements }), [stripe, elements]);
 
-                    return clientSecret ? <PaymentElement options={{ readOnly: processing }} /> : null;
+                    return <PaymentElement options={{ readOnly: processing }} />;
                   }}
                 </ElementsConsumer>
               </Elements>

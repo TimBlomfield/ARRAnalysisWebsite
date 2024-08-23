@@ -12,7 +12,7 @@ const ValidationError = ({ onClose, children }) => {
       <TriangleSvg className={styles.imgExclamation} />
       {children}
       <div className={styles.spacer} />
-      <button class={styles.close} onClick={evt => {
+      <button className={styles.close} onClick={evt => {
         evt.preventDefault(); // Because this button might be inside of a <form> element
         onClose();
       }}>×</button>
