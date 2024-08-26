@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { hash } from 'bcrypt';
 import { Tiers } from '@/utils/common';
 import { convertToSuburrency } from '@/utils/func';
 
@@ -15,7 +16,7 @@ const getAmount = (tier, period) => {
 
 const POST = async req => {
   try {
-    const { tier, period } = await req.json();
+    const { tier, period, userData } = await req.json();
 
     if (tier == null || period == null || tier < 0 || tier > 2 || period < 0 || period > 1)
       throw new Error('Invalid tier or period detected!');
@@ -23,11 +24,30 @@ const POST = async req => {
     const dollars = getAmount(tier, period);
     const amount = convertToSuburrency( dollars );  // Amount in cents
 
-    const paymentIntent = await stripe.paymentIntents.create({
+    let customer = null;
+    if (userData != null) {
+      const hashedPassword = await hash(userData.password, 10);
+      const customerObject = {
+        name: `${userData.firstName} ${userData.lastName}`,
+        email: userData.email,
+        metadata: { hashedPassword, tier, period },
+      };
+      if (userData?.company?.length > 0)
+        customerObject.metadata.company = userData.company;
+      customer = await stripe.customers.create(customerObject);
+    }
+
+    const paymentIntentObject = {
       amount,
       currency: 'usd',
       automatic_payment_methods: { enabled: true },
-    });
+    };
+    if (customer != null) {
+      paymentIntentObject.customer = customer.id;
+      paymentIntentObject.setup_future_usage = 'off_session'; // Save the payment method of this payment intent to the customer
+    }
+
+    const paymentIntent = await stripe.paymentIntents.create(paymentIntentObject);
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret, amount, paid: { amount, dollars }, redirectBase: process.env.NEXTAUTH_URL });
   } catch (err) {

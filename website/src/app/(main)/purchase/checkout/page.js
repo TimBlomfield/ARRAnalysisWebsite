@@ -115,7 +115,7 @@ const CheckoutPage = () => {
     try {
       const userData = {
         firstName: firstName.trim(),
-        lastName: firstName.trim(),
+        lastName: lastName.trim(),
         email: email.trim(),
         company: company.trim(),
         password: password,
@@ -156,7 +156,7 @@ const CheckoutPage = () => {
 
       setProcessing(true);
 
-      const { data } = await axios.post('/api/stripe/create-payment-intent', { tier, period });
+      const { data } = await axios.post('/api/stripe/create-payment-intent', { tier, period, userData });
       const { clientSecret, paid, redirectBase } = data;
 
       const { error } = await stripe.confirmPayment({
@@ -300,6 +300,7 @@ const CheckoutPage = () => {
                           mode: 'payment',
                           amount,
                           currency: 'usd',
+                          setupFutureUsage: 'off_session',
                         }}>
                 <ElementsConsumer>
                   {({stripe, elements}) => {
