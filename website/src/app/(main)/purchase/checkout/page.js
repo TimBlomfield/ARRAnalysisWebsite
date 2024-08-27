@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import axios from 'axios';
@@ -43,7 +43,7 @@ const getAmount = (tier, period) => {
 };
 
 
-const CheckoutPage = () => {
+const CheckoutPageBase = () => {
   const searchParams = useSearchParams();
 
   //////////////////////////////////////////////////////////////////
@@ -68,7 +68,6 @@ const CheckoutPage = () => {
   // Validation error
   const [validationError, setValidationError] = useState('');
   // Payment
-  const [clientSecret, setClientSecret] = useState('');
   const [sPay, setSPay] = useState(null);
   const [processing, setProcessing] = useState(false);
   //////////////////////////////////////////////////////////////////
@@ -321,6 +320,14 @@ const CheckoutPage = () => {
     </main>
   );
 };
+
+
+// Next.js requires this fix:
+const CheckoutPage = () => (
+  <Suspense>
+    <CheckoutPageBase />
+  </Suspense>
+);
 
 
 export default CheckoutPage;
