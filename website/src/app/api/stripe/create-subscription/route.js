@@ -15,7 +15,7 @@ const POST = async req => {
 
     const prices = await stripe.prices.list({
       lookup_keys: [
-        `standard_${period === 0 ? 'monthly' : 'yearly'}_tier${tier + 1}`
+        `standard_${period === 0 ? 'monthly' : 'yearly'}_tier${tier + 1}`,
       ],
     });
 

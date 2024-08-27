@@ -131,7 +131,7 @@ const CheckoutPage = () => {
       if (userData.email.length > 0 && !validateUnicodeEmail(userData.email)) { bErrorInvalidEmail = true; setErrEmail(true); }
       if (userData.password !== userData.confirm) { bErrorPassMatch = true; setErrPassword(true); setErrConfirm(true); }
       if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort) {
-        let strError = "Customer validation failed:";
+        let strError = 'Customer validation failed:';
         if (bErrorMissing)
           strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
         if (bErrorInvalidEmail)
@@ -176,7 +176,7 @@ const CheckoutPage = () => {
       let strErr, bScroll = true;
       if (error?.name === 'AxiosError') {
         // Server error
-        strErr = `Server error - ${(error?.message?.length > 0) ? error.message : 'An unknown error has occurred.'}`
+        strErr = `Server error - ${(error?.message?.length > 0) ? error.message : 'An unknown error has occurred.'}`;
         if (error?.response?.data?.message?.length > 0)
           strErr += `:\n\u00A0\u00A0\u00A0• ${error.response.data.message}`;
       } else {
