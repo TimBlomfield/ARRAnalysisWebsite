@@ -76,7 +76,7 @@ const CheckoutPage = () => {
   const dollars = getAmount(tier, period);
   const amount = convertToSuburrency( dollars );  // Amount in cents  const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
-  const txtPayBtn = `SUBMIT ORDER\u00A0\u00A0(${fnUSD.format(dollars)})`;
+  const txtPayBtn = `SUBSCRIBE\u00A0\u00A0(${fnUSD.format(dollars)})`;
   const bDisablePayButton = processing || sPay == null || sPay.stripe == null || sPay.elements == null;
 
 
@@ -156,14 +156,14 @@ const CheckoutPage = () => {
 
       setProcessing(true);
 
-      const { data } = await axios.post('/api/stripe/create-payment-intent', { tier, period, userData });
-      const { clientSecret, paid, redirectBase } = data;
+      const { data } = await axios.post('/api/stripe/create-subscription', { tier, period, userData });
+      const { clientSecret, redirectBase } = data;
 
       const { error } = await stripe.confirmPayment({
         elements,
         clientSecret,
         confirmParams: {
-          return_url: `${redirectBase}/purchase/checkout/success?amount=${fnUSD.format(paid.dollars)}`,
+          return_url: `${redirectBase}/purchase/checkout/success`,
         },
       });
 
@@ -297,7 +297,7 @@ const CheckoutPage = () => {
               <div className={styles.title}>Payment Method</div>
               <Elements stripe={stripePromise}
                         options={{
-                          mode: 'payment',
+                          mode: 'subscription',
                           amount,
                           currency: 'usd',
                           setupFutureUsage: 'off_session',

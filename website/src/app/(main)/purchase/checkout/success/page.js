@@ -1,8 +1,8 @@
 
-const PaymentSuccessPage = ({ searchParams }) => {
+const PaymentSuccessPage = () => {
   return (
     <div>
-      Success! You paid: {searchParams.amount}
+      Success! You are subscribed now
     </div>
   );
 };
