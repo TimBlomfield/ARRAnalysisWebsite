@@ -30,7 +30,7 @@ const sendEmail = async (id, to, token) => {
       to: [to],
       subject: 'Admin Registration',
       text: 'Ephemeral link',
-      html: `<p>This is an ephemeral link for admin registration.</p><p><a href="${regUrl}">Register</a></p>`,
+      html: `<p>This is an ephemeral link for admin registration.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p>`,
     });
 
     console.info(msg);
@@ -72,9 +72,10 @@ const createRegistrationLink = async () => {
   const token = randomBytes(32).toString('hex');
   let id = 0;
   try {
-    const expiresAt = new Date(Date.now() + 1000*60*60*24);
-    const ret = await prisma.adminRegistrationLink.create({
+    const expiresAt = new Date(Date.now() + 1000*60*60*24); // Expires in 24 hours
+    const ret = await prisma.registrationLink.create({
       data: {
+        admin: true,
         token,
         email,
         expiresAt,
@@ -82,10 +83,9 @@ const createRegistrationLink = async () => {
     });
     id = ret.id;
   } catch (error) {
-    // console.info(error);
     if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
       console.error(`The email ${email} already exists in the DB.`);
-      console.error('Please delete that entry from the database so you can regenerate an admin registration link for that email.');
+      console.error('Please delete that RegistrationLink entry from the database so you can regenerate an admin RegistrationLink for that email.');
     }
     else
       console.error(error.message);
