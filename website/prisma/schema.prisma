@@ -22,8 +22,11 @@ model RegistrationLink {
   expiresAt DateTime
 }
 
-model AdminUser {
-  id          Int      @id @default(autoincrement())
+model Administrator {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   id_UserData Int      @unique
   data        UserData @relation(fields: [id_UserData], references: [id])
 }
@@ -71,7 +74,7 @@ model UserData {
   updatedAt      DateTime @updatedAt
 
   // Optional relations
-  adminUser AdminUser?
+  adminUser Administrator?
   customer  Customer?
   user      User?
 }
