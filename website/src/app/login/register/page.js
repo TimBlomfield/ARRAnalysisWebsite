@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { checkToken, TokenState } from '@/utils/server/common';
 // Components
-import AdminRegisterPage from '@/components/forms/AdminRegisterPage';
+import PortalRegistrationPage from '@/components/forms/PortalRegistrationPage';
 
 
 const EmailPage = async ({ searchParams }) => {
@@ -11,9 +11,7 @@ const EmailPage = async ({ searchParams }) => {
   if (ret.ts !== TokenState.Valid)
     notFound();
 
-  return (
-    <AdminRegisterPage dbEmail={ret.email || ''} />
-  );
+  return <PortalRegistrationPage dbEmail={ret.email || ''} roleStr={ret.roleStr} />;
 };
 
 

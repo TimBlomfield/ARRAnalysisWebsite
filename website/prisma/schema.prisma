@@ -13,11 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  CUSTOMER
+  USER
+}
+
 model RegistrationLink {
   id        Int      @id @default(autoincrement())
   token     String   @unique
   email     String   @unique
-  admin     Boolean
+  role      Role
   createdAt DateTime @default(now())
   expiresAt DateTime
 }
@@ -55,28 +61,28 @@ model User {
 
 model UserData {
   id             Int      @id @default(autoincrement())
-  firstName      String
-  lastName       String
-  phone          String
-  company        String
+  firstName      String   @default("")
+  lastName       String   @default("")
+  phone          String   @default("")
+  company        String   @default("")
   email          String   @unique
   hashedPassword String
-  jobTitle       String
-  address        String
-  street1        String
-  street2        String
-  street3        String
-  city           String
-  state          String
-  postalCode     String
-  country        String
+  jobTitle       String   @default("")
+  address        String   @default("")
+  street1        String   @default("")
+  street2        String   @default("")
+  street3        String   @default("")
+  city           String   @default("")
+  state          String   @default("")
+  postalCode     String   @default("")
+  country        String   @default("")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   // Optional relations
-  adminUser Administrator?
-  customer  Customer?
-  user      User?
+  admin    Administrator?
+  customer Customer?
+  user     User?
 }
 
 model PricingModel {

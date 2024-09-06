@@ -20,7 +20,7 @@ const ID_CONFIRM  = 'input-confirm-password-c01bd06c782e-355245';
 
 
 // Note: this is a full page, therefore the name ends with Page and not Form
-const AdminRegisterPage = ({ dbEmail }) => {
+const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
@@ -86,7 +86,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
       // Using APIs
       axios.post('/api/register', { email, password, token })
         .then(res => {
-          toast.success('Admin User successfully created.', {
+          toast.success(res.data.message, {
             autoClose: false,
             onClose: () => router.push('/login'),
           });
@@ -119,7 +119,6 @@ const AdminRegisterPage = ({ dbEmail }) => {
     }
   }, [onBtnSubmit]);
 
-
   return (
     <main className={styles.layoutMain}>
       <form className={styles.outer}> {/* NOTE: using <form> to prevent Chrome warnings */}
@@ -129,7 +128,7 @@ const AdminRegisterPage = ({ dbEmail }) => {
               { loader && <Loading scale={2} /> }
             </div>
           }
-          <div className={styles.caption}>Register Admin</div>
+          <div className={styles.caption}>Register {roleStr}</div>
           <Input id={ID_EMAIL}
                  name="email"
                  type="email"
@@ -182,4 +181,4 @@ const AdminRegisterPage = ({ dbEmail }) => {
 };
 
 
-export default AdminRegisterPage;
+export default PortalRegistrationPage;

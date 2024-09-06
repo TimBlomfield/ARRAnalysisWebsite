@@ -1,4 +1,5 @@
 import 'server-only';
+import { Role } from '@prisma/client';
 import db from '@/utils/db';
 
 
@@ -11,22 +12,32 @@ const TokenState = {
 };
 
 const checkToken = async token => {
-  if (token == null) return { ts: TokenState.Null };
-  if (token === '') return { ts: TokenState.Empty };
+  try {
+    if (token == null) return { ts: TokenState.Null };
+    if (token === '') return { ts: TokenState.Empty };
 
-  const regLink = await db.adminRegistrationLink.findUnique({
-    where: { token },
-  });
-  if (regLink == null) return { ts: TokenState.NotFound };
-
-  if (regLink.expiresAt <= new Date()) {
-    await db.adminRegistrationLink.delete({
-      where: { id: regLink.id },
+    const regLink = await db.registrationLink.findUnique({
+      where: { token },
     });
-    return { ts: TokenState.Expired };
-  }
+    if (regLink == null) return { ts: TokenState.NotFound };
 
-  return { ts: TokenState.Valid, email: regLink.email };
+    if (regLink.expiresAt <= new Date()) {
+      await db.registrationLink.delete({
+        where: { id: regLink.id },
+      });
+      return { ts: TokenState.Expired };
+    }
+
+    const roleStr = regLink.role === Role.ADMIN
+      ? 'Administrator'
+      : regLink.role === Role.CUSTOMER
+        ? 'Customer'
+        : 'User';
+
+    return { ts: TokenState.Valid, email: regLink.email, role: regLink.role, roleStr };
+  } catch (error) {
+    return { ts: TokenState.Null, error };
+  }
 };
 
 export {

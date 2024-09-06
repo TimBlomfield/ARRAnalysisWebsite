@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
+import { Role } from '@prisma/client';
 import db from '@/utils/db';
 import { checkToken, TokenState } from '@/utils/server/common';
 
 
+// Used for registering both admins, customers or users
 const POST = async req => {
   try {
     const body = await req.json();
@@ -23,27 +25,59 @@ const POST = async req => {
     }
 
     // Check if email already exists
-    const existingUserByEmail = await db.adminUser.findUnique({
+    const emailExists = await db.userData.findUnique({
       where: { email },
     });
-    if (existingUserByEmail)
-      return NextResponse.json({ message: `An Admin User with the email ${email} already exists!` }, { status: 409 });
+    if (emailExists)
+      return NextResponse.json({ message: `The email ${email} already exists in the Portal! Try using another email.` }, { status: 409 });
 
-    // Create a new AdminUser
+    // Create the UserData
     const hashedPassword = await hash(password, 10);
-    const newAdmin = await db.adminUser.create({
+    const newUserData = await db.userData.create({
       data: {
         email,
         hashedPassword,
       },
     });
 
-    const { hashedPassword: newUserPassword, updatedAt, ...rest } = newAdmin;  // Don't send back the hashed password
+    // Create an Administrator, Customer or User
+    let newPortalUser = null;
+    switch (tokenState.role) {
+      case Role.ADMIN:
+        newPortalUser = await  db.administrator.create({
+          data: {
+            id_UserData: newUserData.id,
+          }
+        });
+        break;
+
+      case Role.CUSTOMER:
+        // TODO: implement this
+        break;
+
+      case Role.USER:
+        // TODO: implement this
+        break;
+    }
 
     // Delete the AdminRegistrationLink
-    const id = await db.adminRegistrationLink.delete({ where: { token } });
+    const id = await db.registrationLink.delete({ where: { token } });
 
-    return NextResponse.json({ user: rest, message: 'Admin User created successfully.' }, { status: 201 });
+    const portalUser = {
+      id: newPortalUser.id,
+      idUserData: newUserData.id,
+      type: tokenState.role,
+      createdAt: newPortalUser.createdAt,
+      email: newUserData.email,
+    };
+
+    const message = tokenState.role === Role.ADMIN
+      ? 'Portal Administrator registered successfully.'
+      : tokenState.role === Role.CUSTOMER
+        ? 'Portal Customer registered successfully.'
+        : 'Portal User registered successfully.';
+
+    return NextResponse.json({ portalUser, message }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: 'Something went wrong!', error }, { status: 500 });
   }

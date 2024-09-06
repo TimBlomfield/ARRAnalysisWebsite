@@ -5,7 +5,7 @@
 
 import Mailgun from 'mailgun.js';
 import { randomBytes } from 'node:crypto';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import formData from 'form-data';
 import XRegExp from 'xregexp';
 
@@ -75,7 +75,7 @@ const createRegistrationLink = async () => {
     const expiresAt = new Date(Date.now() + 1000*60*60*24); // Expires in 24 hours
     const ret = await prisma.registrationLink.create({
       data: {
-        admin: true,
+        role: Role.ADMIN,
         token,
         email,
         expiresAt,
@@ -92,7 +92,7 @@ const createRegistrationLink = async () => {
     process.exit(1);
   }
 
-  console.info('AdminRegistrationLink entry created and stored in the database.');
+  console.info('Admin RegistrationLink entry created and stored in the database.');
 
   await sendEmail(id, email, token);
 
