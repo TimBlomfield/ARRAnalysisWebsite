@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import AnimateX from '@/components/AnimateX';
 import PricingBox from '@/app/(main)/purchase/pricing-box';
-import { Tiers } from '@/utils/common';
+import { getPricingTiers } from '@/utils/server/prices';
+import { notFound } from 'next/navigation';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
 import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
@@ -10,7 +11,11 @@ import imgBeginARR from '@/../public/Beginning-ARR.jpg';
 import styles from './page.module.scss';
 
 
-const PurchasePage = () => {
+const PurchasePage = async () => {
+  const tiers = await getPricingTiers();
+  if (!tiers)
+    notFound();
+
   return (
     <AnimateX>
       <main>
@@ -77,9 +82,9 @@ const PurchasePage = () => {
           <div className={styles.vflex}>
             <div className={styles.title} data-animated="text1">Pricing Options</div>
             <div className={styles.grid}>
-              <PricingBox tier={Tiers.One} />
-              <PricingBox tier={Tiers.Two} animDelay={.2} />
-              <PricingBox tier={Tiers.Three} animDelay={.4} />
+              <PricingBox tier={tiers.One} />
+              <PricingBox tier={tiers.Two} animDelay={.2} />
+              <PricingBox tier={tiers.Three} animDelay={.4} />
             </div>
           </div>
         </section>

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 import { Role } from '@prisma/client';
-import db from '@/utils/db';
+import db from '@/utils/server/db';
 import { checkToken, TokenState } from '@/utils/server/common';
 
 
@@ -47,7 +47,7 @@ const POST = async req => {
         newPortalUser = await  db.administrator.create({
           data: {
             id_UserData: newUserData.id,
-          }
+          },
         });
         break;
 
