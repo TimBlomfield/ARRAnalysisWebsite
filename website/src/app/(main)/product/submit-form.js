@@ -17,7 +17,7 @@ const SubmitForm = () => {
   };
   const handleBtnClick = evt => {
     if (email === '') setErrorEmail('Email address is required');
-    console.log('submit button click');
+    // TODO: subscribe to newsletter
   };
 
   return (

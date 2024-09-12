@@ -6,7 +6,7 @@ import SignOutButton from './sign-out-button';
 const AdminPage = async () => {
   /*
   const session = await getServerSession(authOptions);
-  console.log(session);
+  console.info(session);
 
   if (!session?.user)
     notFound();
@@ -16,7 +16,6 @@ const AdminPage = async () => {
       <div>This is the admin page</div>
       <SignOutButton />
     </>
-
   );
 };
 

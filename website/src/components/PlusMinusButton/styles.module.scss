@@ -1,0 +1,99 @@
+@use "globals" as *;
+
+.wrapper {
+  display: flex;
+  padding: 5px;
+  flex-wrap: nowrap;
+  width: fit-content;
+
+  .button {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    font-size: 32px;
+    padding: 0 0 5px;
+    outline: none;
+    outline-offset: 1px;
+    transition: background-color 0.2s;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
+    &:focus { z-index: 1; }
+
+    &.left {
+      border-radius: 100px 0 0 100px;
+      border-right-width: 1px;
+      padding-left: 3px;
+    }
+
+    &.right {
+      border-radius: 0 100px 100px 0;
+      border-left-width: 1px;
+      padding-right: 3px;
+    }
+  }
+
+  &.light {
+    .button {
+      border: 2px solid $clrHeaderLightBk;
+      color: $clrHeaderLightBk;
+      background-color: $clrHeaderDarkBk;
+
+      &:disabled {
+        border-color: $clrHeaderDarkBk;
+        background-color: $clrHeaderLight_Disabled;
+        color: $clrHeaderDark_Disabled;
+      }
+      &:hover:enabled { background-color: #515D74; }
+      &:active:enabled { background-color: #384D74; }
+      &:focus-visible { outline: 2px solid $clrHeaderLightBk; }
+    }
+
+    &.invertBkTheme {
+      .button:disabled {
+        border-color: $clrHeaderLightBk;
+        background-color: $clrHeaderLight_Disabled;
+        color: $clrHeaderDark_Disabled;
+      }
+
+      .button:focus-visible {
+        outline-color: $clrHeaderDarkBk;
+        outline-offset: -1px;
+      }
+    }
+  }
+
+  &.dark {
+    .button {
+      border: 2px solid $clrHeaderDarkBk;
+      color: $clrHeaderDarkBk;
+      background-color: $clrHeaderLightBk;
+
+      &:disabled {
+        border-color: $clrHeaderLightBk;
+        background-color: $clrHeaderLight_Disabled;
+        color: $clrHeaderDark_Disabled;
+      }
+      &:hover:enabled { background-color: lightgray; }
+      &:active:enabled { background-color: gainsboro; }
+      &:focus-visible { outline: 2px solid $clrHeaderDarkBk; }
+    }
+
+    &.invertBkTheme {
+      .button:disabled {
+        border-color: $clrHeaderDarkBk;
+        background-color: $clrHeaderLight_Disabled;
+        color: $clrHeaderDark_Disabled;
+      }
+
+      .button:focus-visible {
+        outline-color: $clrHeaderLightBk;
+        outline-offset: -1px;
+      }
+    }
+  }
+}
