@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const POST = async req => {
   try {
-    const { tier, period, userData } = await req.json();
+    const { tier, t3Licenses, period, userData } = await req.json();
 
     if (![0, 1].includes(period) || ![0, 1, 2].includes(tier))
       return NextResponse.json({ message: 'Invalid tier or period detected!' }, { status: 500 });
@@ -19,6 +19,8 @@ const POST = async req => {
       ],
     });
 
+    if (tier === 2 && (!Number.isInteger(t3Licenses) || t3Licenses < 1 || t3Licenses > 300))
+      return NextResponse.json({ message: `Invalid quantity provided: ${t3Licenses}` }, { status: 500 });
     if (prices == null || prices.data == null || prices.data.length !== 1)
       return NextResponse.json({ message: 'Could not lookup stripe price-object!' }, { status: 500 });
 
@@ -50,7 +52,7 @@ const POST = async req => {
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [
-        { price: priceId },
+        { price: priceId, quantity: tier === 2 ? t3Licenses : 1 },
       ],
       payment_behavior: 'default_incomplete',
       payment_settings: { save_default_payment_method: 'on_subscription' },

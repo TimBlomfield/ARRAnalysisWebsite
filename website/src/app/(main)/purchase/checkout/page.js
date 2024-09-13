@@ -1,4 +1,3 @@
-// NOTE: Next.js requires the usage of <Suspense>
 import { notFound } from 'next/navigation';
 import { getPricingTiers } from '@/utils/server/prices';
 // Components

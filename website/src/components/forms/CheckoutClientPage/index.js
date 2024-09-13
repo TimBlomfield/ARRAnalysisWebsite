@@ -153,7 +153,7 @@ const CheckoutClientPage = ({ tiers }) => {
 
       setProcessing(true);
 
-      const { data } = await axios.post('/api/stripe/create-subscription', { tier, period, userData });
+      const { data } = await axios.post('/api/stripe/create-subscription', { tier, t3Licenses, period, userData });
       const { clientSecret, redirectBase } = data;
 
       const { error } = await stripe.confirmPayment({
