@@ -84,26 +84,3 @@ model UserData {
   customer Customer?
   user     User?
 }
-
-model PricingModel {
-  id Int @id @default(autoincrement())
-
-  name           String   @default("")
-  description    String   @default("")
-  startDate      DateTime
-  endDate        DateTime
-  monthly_tier01 Int
-  monthly_tier02 Int
-  monthly_tier03 Int
-  yearly_tier01  Int
-  yearly_tier02  Int
-  yearly_tier03  Int
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  // Note: a PricingModel can be contained in another PricingModel. For example, the current PricingModel can contain a Christmas discount
-  // PricingModel that starts on 15. December and ends on 1. January, all within the start/end date of the current PricingModel.
-  // The active PricingModel is determined by quering all PricingModels where current date is between startDate and endDate and
-  // endDate-startDate is smallest.
-  // Prices are in USD cents
-}
