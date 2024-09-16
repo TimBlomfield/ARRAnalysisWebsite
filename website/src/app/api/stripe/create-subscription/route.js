@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
-import { validateUnicodeEmail } from '@/utils/validators';
+import { randomBytes } from 'node:crypto';
 import { hash } from 'bcrypt';
+import Stripe from 'stripe';
+import db from '@/utils/server/db';
+import { validateUnicodeEmail } from '@/utils/validators';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -39,14 +41,10 @@ const POST = async req => {
     if (bInvalidUserData)
       return NextResponse.json({ message: 'Invalid Customer data!' }, { status: 500 });
 
-    const hashedPassword = await hash(password, 10);
     const customerObject = {
       name: `${firstName} ${lastName}`,
       email,
-      metadata: { hashedPassword, tier, period, priceId },
     };
-    if (company?.length > 0)
-      customerObject.metadata.company = company;
     const customer = await stripe.customers.create(customerObject);
 
     const subscription = await stripe.subscriptions.create({
@@ -59,7 +57,25 @@ const POST = async req => {
       expand: ['latest_invoice.payment_intent'],
     });
 
-    return NextResponse.json({ clientSecret: subscription.latest_invoice.payment_intent.client_secret, redirectBase: process.env.NEXTAUTH_URL });
+    const hashedPassword = await hash(password, 10);
+    const secret = randomBytes(32).toString('hex');
+    await db.userData.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        company,
+        hashedPassword,
+        secret,
+      },
+    });
+
+    return NextResponse.json({
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+      stripeCustomerId: customer.id,
+      secret,
+      redirectBase: process.env.NEXTAUTH_URL,
+    });
   } catch (err) {
     return NextResponse.json({ message: err?.message ?? 'Something went wrong!' }, { status: 500 });
   }
