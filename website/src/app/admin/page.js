@@ -1,22 +1,8 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/utils/server/auth';
-import { notFound } from 'next/navigation';
-import SignOutButton from './sign-out-button';
+import { redirect } from 'next/navigation';
 
-const AdminPage = async () => {
-  /*
-  const session = await getServerSession(authOptions);
-  console.info(session);
 
-  if (!session?.user)
-    notFound();
-  */
-  return (
-    <>
-      <div>This is the admin page</div>
-      <SignOutButton />
-    </>
-  );
+const AdminPage = () => {
+  redirect('/admin/dashboard');
 };
 
 

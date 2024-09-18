@@ -14,7 +14,6 @@ $clrError: #CE2C30;
 
 $clrLoginBk: #F7F8F9;
 $clrLoading: #3B3BEC;
-$clrAdminBk: #1C5886;
 
 // Button
 $mapLinkButton_Dark: (
@@ -110,3 +109,13 @@ $maxHtmlPageWidth: 1400px;
     .inner { background-color: $clrBackground_Disabled; }
   }
 }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Admin section
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$clrAdminBk: #1C5886;
+$clrAdminScrollbar_Track: #10324D;
+$clrAdminScrollbar_Thumb: #69DEF6;

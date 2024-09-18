@@ -1,0 +1,11 @@
+@use "globals" as *;
+
+.navbar {
+  width: 245px;
+  box-sizing: border-box;
+  border: 2px solid #2D2D65;
+  display: grid;
+  place-items: center;
+  color: #EAEAFB;
+  font-size: 20px;
+}

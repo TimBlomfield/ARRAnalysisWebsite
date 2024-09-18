@@ -31,6 +31,7 @@ const SubscriptionCard = ({ selected, onSelect, tier, processing, licenceCount, 
           </div>
           <div className={styles.c2}>
             <PlusMinusButton extraBtnClass={styles.xtraBtn}
+                             disabled={processing}
                              onMore={() => setLicenseCount(prev => prev < 300 ? prev + 1 : 300)}
                              onLess={() => setLicenseCount(prev => prev > 1 ? prev - 1 : 1)} />
           </div>

@@ -1,0 +1,13 @@
+@use "globals" as *;
+
+.header {
+  width: 100%;
+  min-height: 72px;
+  max-height: 72px;
+  box-sizing: border-box;
+  border: 2px solid #023302;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: white;
+}

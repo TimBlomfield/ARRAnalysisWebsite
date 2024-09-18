@@ -1,11 +1,19 @@
 @use "globals" as *;
 
 .layoutBody {
-  background-color: $clrAdminBk;
+  position: fixed;
+  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: white;
-  font-size: 24px;
+  background-color: $clrAdminBk;
+
+  .viewWithHeader {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .mainView {
+      flex: 1;
+      overflow-y: auto;
+    }
+  }
 }

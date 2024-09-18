@@ -157,12 +157,13 @@ const CheckoutClientPage = ({ tiers }) => {
       const { data } = await axios.post('/api/stripe/create-subscription', { tier, t3Licenses, period, userData });
       const { clientSecret, redirectBase, stripeCustomerId, secret } = data;
 
-      deleteData = { secret, failed: true };  // Delete the UserData object in the finally block if an error occurs during payment
+      deleteData = { secret };  // Delete the UserData object if an error occurs during payment
+      const purchaseInfo = { tier, period, ...(tier === 2 ? { licenses: t3Licenses} : {}) };
       const { error } = await stripe.confirmPayment({
         elements,
         clientSecret,
         confirmParams: {
-          return_url: `${redirectBase}/purchase/checkout/success?scid=${stripeCustomerId}?secret=${secret}`,
+          return_url: `${redirectBase}/purchase/checkout/success?scid=${stripeCustomerId}&secret=${secret}&pi=${btoa(JSON.stringify(purchaseInfo))}`,
         },
       });
 
@@ -189,9 +190,8 @@ const CheckoutClientPage = ({ tiers }) => {
       setValidationError(strErr);
       setProcessing(false);
       if (bScroll) window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      if (deleteData != null) {
-        await axios.post('/api/create-customer', { ...deleteData });
-      }
+      if (deleteData != null)
+        await axios.post('/api/discard-userdata', deleteData);
     }
   };
 
