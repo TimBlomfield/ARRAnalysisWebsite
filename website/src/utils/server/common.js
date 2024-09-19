@@ -40,7 +40,10 @@ const checkToken = async token => {
   }
 };
 
+const isAuthTokenValid = authToken => (authToken != null && authToken.email != null && (new Date(authToken.exp * 1000) > new Date()));
+
 export {
   TokenState,
   checkToken,
+  isAuthTokenValid,
 };

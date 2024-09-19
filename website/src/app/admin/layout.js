@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import cn from 'classnames';
+import chalk from 'chalk';
 import { ToastContainer } from 'react-toastify';
 import dynamic from 'next/dynamic';
 // Components
@@ -17,6 +18,7 @@ const inter = Inter({ subsets: ['latin-ext'] });
 
 
 const RootLayout = ({ children }) => {
+  console.log(chalk.cyan('Admin Root Layout'));
   return (
     <html lang="en">
       <body className={cn(inter.className, styles.layoutBody)}>

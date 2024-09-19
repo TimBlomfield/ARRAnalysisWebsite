@@ -51,6 +51,10 @@ const authOptions = {
     }),
   ],
   callbacks: {
+    async session({ session, token }) {
+      session.token = token;
+      return session;
+    },
     async jwt({ token, user }) {
       if (user)
         token.userData = user;
