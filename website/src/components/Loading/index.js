@@ -2,11 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import { select } from 'd3';
+import cn from 'classnames';
+import { K_Theme } from '@/utils/common';
 // Styles
 import styles from './styles.module.scss';
 
 
-const Loading = ({scale = 1, text}) => {
+const   Loading = ({theme = K_Theme.Dark, scale = 1, text}) => {
   const refSvg = useRef();
 
   // Effects
@@ -29,7 +31,7 @@ const Loading = ({scale = 1, text}) => {
 
   return (
     <div className={styles.main}>
-      <svg className={styles.svg} ref={refSvg} />
+      <svg className={cn(styles.svg, {[styles.light]: theme === K_Theme.Light})} ref={refSvg} />
       {text != null && <div className={styles.txt}>{text}</div> }
     </div>
   );

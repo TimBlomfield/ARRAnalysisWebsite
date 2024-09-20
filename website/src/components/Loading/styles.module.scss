@@ -6,12 +6,14 @@
   justify-content: flex-start;
   align-items: center;
 
-  svg {
+  svg.svg {
     .loading {
       fill: none;
       stroke: $clrLoading;
       animation: rotating 2s linear infinite, dash 1.4s ease-in-out infinite;
     }
+
+    &.light { .loading { stroke: $clrLoadingLight; } }
   }
 
   @keyframes rotating {

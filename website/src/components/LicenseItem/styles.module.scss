@@ -1,0 +1,42 @@
+@use "globals" as *;
+
+.licenseBlock {
+  border: 2px solid gainsboro;
+  border-radius: 40px;
+  box-sizing: border-box;
+  padding: 30px 30px 20px;
+
+  .dataList {
+    display: grid;
+    grid: auto-flow / auto 1fr;
+    grid-gap: 10px 30px;
+    font-size: 15px;
+
+    :nth-child(odd) {
+      color: orange;
+      font-weight: bold;
+    }
+
+    :nth-child(even) {
+      color: white;
+    }
+
+    .status {
+      font-size: 16px;
+
+      &.active { color: #24B47E; }
+      &.inactive { color: #949E9E; }
+      &.disabled { color: #EA697B; }
+    }
+  }
+
+  .actions {
+    display: flex;
+    box-sizing: border-box;
+    padding: 8px 0;
+
+    .pbXtra {
+      height: 48px;
+    }
+  }
+}
