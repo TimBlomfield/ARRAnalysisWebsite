@@ -1,0 +1,102 @@
+@use "globals" as *;
+
+$borderRadius: 12px;
+
+%overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.overlay {
+  @extend %overlay;
+  @extend %focusator;
+
+  background-color: rgba(black, 0.75);
+
+  .dialog {
+    max-height: 90vh;
+    min-width: 300px;
+    border: 1px solid gainsboro;
+    border-radius: $borderRadius;
+    background-color: $clrHeaderLightBk;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: $clrHeaderLightText;
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 4px 16px;
+      box-sizing: border-box;
+      min-height: 60px;
+
+      .bkBtnXtra { margin-right: 8px; }
+
+      .titleWrapper {
+        flex: 1;
+        padding-right: 10px;
+        overflow-x: hidden;
+
+        .txt {
+          font-size: 18px;
+
+          @include mx-txt-overflow-hidden;
+        }
+      }
+    }
+
+    .body {
+      flex: 1;
+      box-sizing: border-box;
+      overflow: auto;
+
+      &.roundBottom { // When no footer
+        padding-bottom: $borderRadius;
+        border-bottom-right-radius: $borderRadius;
+        border-bottom-left-radius: $borderRadius;
+      }
+    }
+
+    .footer {
+      width: 100%;
+      min-height: 70px;
+      padding: 0 14px;
+      box-sizing: border-box;
+      border-bottom-right-radius: $borderRadius;
+      border-bottom-left-radius: $borderRadius;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      &.separator {
+        border-top: 1px solid gray;
+      }
+
+      .buttons {
+        flex: 1;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 16px;
+      }
+    }
+
+    .processing {
+      @extend %overlay;
+
+      background-color: rgba($clrHeaderLightBk, 0.75);
+      z-index: 100;
+    }
+  }
+}

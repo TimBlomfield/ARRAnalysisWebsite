@@ -1,35 +1,49 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { DateTime } from 'luxon';
+import { toast } from 'react-toastify';
 // Components
+import AssignLicenseDialog from './AssignLicenseDialog';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
-import axios from 'axios';
 
 
 const LicenseItem = ({ license }) => {
+  const [isDlgOpen, setIsDlgOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    if (!isDlgOpen && successMessage !== '') {
+      console.log('success');
+      setTimeout(() => {
+        toast.success(successMessage);
+        setSuccessMessage('');
+      }, 100);
+    }
+  }, [isDlgOpen, successMessage]);
+
   const statusClass = cn(styles.status, {
     [styles.active]: license.status.toLowerCase().startsWith('active'),
     [styles.inactive]: license.status.toLowerCase().startsWith('inactive'),
     [styles.disabled]: license.status.toLowerCase().startsWith('disabled'),
   });
 
-  const assignUser = async () => {
-    try {
-      // const { data } = await axios.post('/api/stripe/create-subscription', { tier, t3Licenses, period, userData });
-      const { data } = await axios.post('/api/license-spring/assign-license-to-user', {
-        email: 'truk_123@example.com',
-        first_name: 'Katherine',
-        last_name: 'Truman',
-      });
-
-      console.log(data);
-    } catch (err) {
-      console.error(err);
+  let licenseUser = 'Unassigned';
+  if (Array.isArray(license.license_users) && license.license_users.length > 0) {
+    const u = license.license_users[0];
+    licenseUser = u.true_email;
+    const fn = u.first_name ?? '';
+    const ln = u.last_name ?? '';
+    if (fn || ln) {
+      let fnln = fn;
+      if (fn.length > 0 && ln.length > 0) fnln += ' ';
+      fnln += ln;
+      licenseUser += ` (${fnln})`;
     }
-  };
+  }
 
   return (
     <div className={styles.licenseBlock}>
@@ -45,11 +59,16 @@ const LicenseItem = ({ license }) => {
         <div>Valid until:</div>
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
         <div>Assigned to:</div>
-        <div>{license.license_user == null ? 'Unassigned' : 'Some User'}</div>
+        <div>{licenseUser}</div>
       </div>
       <div className={styles.actions}>
-        <PushButton extraClass={styles.pbXtra} onClick={assignUser}>Assign</PushButton>
+        <PushButton extraClass={styles.pbXtra} onClick={() => setIsDlgOpen(true)}>Assign</PushButton>
+        <PushButton extraClass={styles.pbXtra} onClick={() => toast.success('Howdy Test Toast!')}>Toast</PushButton>
       </div>
+      <AssignLicenseDialog isOpen={isDlgOpen}
+                           notifyClosed={() => setIsDlgOpen(false)}
+                           licenseId={license.id}
+                           passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );
 };

@@ -1,0 +1,79 @@
+@use "globals" as *;
+@use "sass:color";
+
+$clrErrorInput: #E46;
+
+.assignLicenseDialog {
+  max-width: 96vw;
+  width: 600px;
+  padding: 20px;
+  border: 1px solid color.adjust($clrAdminBk, $lightness: -20%);
+  border-radius: 10px;
+  background-color: $clrAdminBk;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &::backdrop {
+    background-color: rgba(black, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  *::selection {
+    background-color: #09184c;
+    color: #95DBEA;
+  }
+
+  .title {
+    font-size: 20px;
+    color: white;
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      background-color: $clrAdminBk;
+      opacity: .75;
+      display: grid;
+      place-items: center;
+    }
+
+    .inp {
+      height: 48px;
+      width: 100%;
+      background-color: transparent;
+      color: white;
+
+      &.light {
+        &:focus-visible {
+          &.error { outline-color: #E46; }
+        }
+      }
+    }
+  }
+
+  .errorTextXtra {
+    color: #F87A93;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .pbtn {
+      height: 48px;
+
+      &:focus-visible {
+        border-color: $clrHeaderLightBk;
+      }
+    }
+  }
+}

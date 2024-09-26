@@ -37,6 +37,10 @@
 
     .pbXtra {
       height: 48px;
+
+      &:focus-visible {
+        border-color: $clrHeaderLightBk;
+      }
     }
   }
 }

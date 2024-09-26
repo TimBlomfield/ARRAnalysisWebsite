@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 
 
 const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', errorText = '', errorPlaceholder = false,
-  errorBorder = false, label = '', id='', multiline = false, ...attr}) => {
+  errorBorder = false, errorTextExtraClass = '', label = '', id='', multiline = false, ...attr}) => {
   const bHasError = !!errorText;
   const bHasLabel = !!label;
 
@@ -25,7 +25,7 @@ const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', e
                  {...attr} />
       }
 
-      {(bHasError || errorPlaceholder) && <div className={styles.errorText}>{errorText}</div>}
+      {(bHasError || errorPlaceholder) && <div className={cn(styles.errorText, errorTextExtraClass)}>{errorText}</div>}
     </div>
   );
 };
