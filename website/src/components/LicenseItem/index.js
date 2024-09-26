@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import cn from 'classnames';
 import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
@@ -12,16 +13,16 @@ import styles from './styles.module.scss';
 
 
 const LicenseItem = ({ license }) => {
+  const router = useRouter();
+
   const [isDlgOpen, setIsDlgOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     if (!isDlgOpen && successMessage !== '') {
-      console.log('success');
-      setTimeout(() => {
-        toast.success(successMessage);
-        setSuccessMessage('');
-      }, 100);
+      toast.success(successMessage);
+      setSuccessMessage('');
+      router.refresh();
     }
   }, [isDlgOpen, successMessage]);
 
@@ -32,7 +33,9 @@ const LicenseItem = ({ license }) => {
   });
 
   let licenseUser = 'Unassigned';
+  let bAssigned = false;
   if (Array.isArray(license.license_users) && license.license_users.length > 0) {
+    bAssigned = true;
     const u = license.license_users[0];
     licenseUser = u.true_email;
     const fn = u.first_name ?? '';
@@ -59,11 +62,27 @@ const LicenseItem = ({ license }) => {
         <div>Valid until:</div>
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
         <div>Assigned to:</div>
-        <div>{licenseUser}</div>
+        <div className={bAssigned ? styles.user : ''}>{licenseUser}</div>
       </div>
       <div className={styles.actions}>
-        <PushButton extraClass={styles.pbXtra} onClick={() => setIsDlgOpen(true)}>Assign</PushButton>
-        <PushButton extraClass={styles.pbXtra} onClick={() => toast.success('Howdy Test Toast!')}>Toast</PushButton>
+        {!bAssigned &&
+          <>
+            <PushButton extraClass={styles.pbXtra}
+                        onClick={() => setIsDlgOpen(true)}>
+              Assign
+            </PushButton>
+            <PushButton extraClass={styles.pbXtra}
+                        onClick={() => { /* TODO: to be implemented*/ }}>
+              Assign to self
+            </PushButton>
+          </>
+        }
+        {bAssigned &&
+          <PushButton extraClass={styles.pbXtra}
+                      onClick={() => { /* TODO: to be implemented*/ }}>
+            Unassign user
+          </PushButton>
+        }
       </div>
       <AssignLicenseDialog isOpen={isDlgOpen}
                            notifyClosed={() => setIsDlgOpen(false)}

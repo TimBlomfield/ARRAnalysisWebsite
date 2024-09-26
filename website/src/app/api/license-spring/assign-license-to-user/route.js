@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getToken } from 'next-auth/jwt';
 import { isAuthTokenValid } from '@/utils/server/common';
 import axios from 'axios';
@@ -22,8 +23,11 @@ const POST = async req => {
         },
       });
   } catch (error) {
-    return NextResponse.json({ message: 'Something went wrong!', error }, { status: 500 });
+    const message = error?.response?.data?.detail ?? 'Something went wrong!';
+    return NextResponse.json({ message , error }, { status: 500 });
   }
+
+  revalidatePath('/admin/licenses');
 
   return NextResponse.json({ message: 'User assigned successfully' }, { status: 201 });
 };

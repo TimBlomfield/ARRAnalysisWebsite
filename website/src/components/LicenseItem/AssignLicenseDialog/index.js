@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
+import { ID_TOASTER_DIALOG_ASSIGN_LICENSE } from '@/utils/toast-container-ids';
 // Components
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -107,7 +108,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
         })
         .catch(err => {
           setLoading(false);
-          toast.error(err.response?.data?.message ?? 'Could not assign user!');
+          toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_ASSIGN_LICENSE, });
         });
     }
   }, [email]);
@@ -192,7 +193,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
           Cancel
         </PushButton>
       </div>
-      <ToastContainer position="bottom-left" stacked />
+      <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_ASSIGN_LICENSE} />
     </dialog>
   );
 };

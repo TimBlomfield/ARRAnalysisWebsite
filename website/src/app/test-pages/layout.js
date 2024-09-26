@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-import '@/styles/globals.scss';
 
 
 const inter = Inter({ subsets: ['latin-ext'] });
