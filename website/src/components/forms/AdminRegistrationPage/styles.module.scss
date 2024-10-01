@@ -63,6 +63,7 @@
         padding: 25px;
 
         .wrapInp { margin-bottom: 10px; }
+        .overlay { inset: 25px; }
       }
 
       .pbtn {
@@ -72,4 +73,10 @@
       }
     }
   }
+}
+
+
+.toastCustomStyle {
+  div { padding-bottom: 5px; }
+  .b { font-weight: bold; }
 }

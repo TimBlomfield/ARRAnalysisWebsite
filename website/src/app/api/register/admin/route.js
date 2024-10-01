@@ -2,25 +2,25 @@ import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
 import { Role } from '@prisma/client';
 import db from '@/utils/server/db';
-import { checkToken, TokenState } from '@/utils/server/common';
+import { checkRegToken, RegTokenState } from '@/utils/server/common';
 
 
-// Used for registering both admins, customers or users
+// TODO: make this for admin exclusive
 const POST = async req => {
   try {
     const body = await req.json();
     const { email, password, token } = body;
 
-    const tokenState = await checkToken(token);
+    const tokenState = await checkRegToken(token);
 
     // Check if the token is valid and not expired
     switch (tokenState.ts) {
-      case TokenState.Null:
-      case TokenState.Empty:
+      case RegTokenState.Null:
+      case RegTokenState.Empty:
         return NextResponse.json({ message: 'Null token provided!'}, { status: 406 });
-      case TokenState.NotFound:
+      case RegTokenState.NotFound:
         return NextResponse.json({ message: 'Invalid Token!'}, { status: 406 });
-      case TokenState.Expired:
+      case RegTokenState.Expired:
         return NextResponse.json({ message: 'Token expired!'}, { status: 406 });
     }
 
@@ -29,7 +29,7 @@ const POST = async req => {
       where: { email },
     });
     if (emailExists)
-      return NextResponse.json({ message: `The email ${email} already exists in the Portal! Try using another email.` }, { status: 409 });
+      return NextResponse.json({ message: `An admin with this email ${email} already exists! Try using another email.`, adminExists: 'Yes' }, { status: 409 });
 
     // Create the UserData
     const hashedPassword = await hash(password, 10);

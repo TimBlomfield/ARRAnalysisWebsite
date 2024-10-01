@@ -19,13 +19,23 @@ const ID_PASSWORD = 'input-password-1347f78c1377-69560';
 const ID_CONFIRM  = 'input-confirm-password-c01bd06c782e-355245';
 
 
+const ToastMsg = ({ email }) => {
+  return (
+    <div className={styles.toastCustomStyle}>
+      <div>An admin with this email:</div>
+      <div className={styles.b}>{email}</div>
+      <div>already exists in the portal.</div>
+    </div>
+  );
+};
+
 // Note: this is a full page, therefore the name ends with Page and not Form
-const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
+const AdminRegistrationPage = ({ reglinkEmail }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
 
-  const [email, setEmail] = useState(() => dbEmail);
+  const [email, setEmail] = useState(() => reglinkEmail);
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [errEmail, setErrEmail] = useState('');
@@ -35,7 +45,7 @@ const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
-    if (dbEmail === '') {
+    if (reglinkEmail === '') {
       const inputEmail = document.getElementsByName('email')[0];
       if (inputEmail != null)
         inputEmail.focus();
@@ -84,7 +94,7 @@ const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
       setLoading(true);
 
       // Using APIs
-      axios.post('/api/register', { email, password, token })
+      axios.post('/api/register/admin', { email, password, token })
         .then(res => {
           toast.success(res.data.message, {
             autoClose: false,
@@ -93,7 +103,11 @@ const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
           setLoader(false);
         })
         .catch(err => {
-          toast.error(err.response?.data?.message ?? err.message);
+          if (err.response?.data?.adminExists === 'Yes') {
+            toast.error(<ToastMsg email={email} />);
+          } else {
+            toast.error(err.response?.data?.message ?? err.message);
+          }
           setLoading(false);
           setTimeout(() => document.getElementById(ID_EMAIL).focus(), 250);
         });
@@ -128,7 +142,7 @@ const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
               { loader && <Loading scale={2} /> }
             </div>
           }
-          <div className={styles.caption}>Register {roleStr}</div>
+          <div className={styles.caption}>Register Admin</div>
           <Input id={ID_EMAIL}
                  name="email"
                  type="email"
@@ -181,4 +195,4 @@ const PortalRegistrationPage = ({ dbEmail, roleStr }) => {
 };
 
 
-export default PortalRegistrationPage;
+export default AdminRegistrationPage;

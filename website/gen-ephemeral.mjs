@@ -21,9 +21,9 @@ const validateUnicodeEmail = value => {
 const sendEmail = async (id, to, token) => {
   try {
     const mailgun = new Mailgun(formData);
-    const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY});
+    const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 
-    const regUrl = process.env.ADMIN_REGISTRATION_BASE + '?token=' + token;
+    const regUrl = process.env.REGISTRATION_BASEURL + '?token=' + token;
 
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `Webmaster <postmaster@${process.env.MAILGUN_DOMAIN}>`,
@@ -38,10 +38,10 @@ const sendEmail = async (id, to, token) => {
     console.error(err);
 
     try {
-      await prisma.adminRegistrationLink.delete({
+      await prisma.registrationLink.delete({
         where: { id },
       });
-      console.info('AdminRegistrationLink entry deleted!');
+      console.info('RegistrationLink DB entry deleted!');
     } catch (error) {
       console.error(error.message);
     }
@@ -73,26 +73,34 @@ const createRegistrationLink = async () => {
   let id = 0;
   try {
     const expiresAt = new Date(Date.now() + 1000*60*60*24); // Expires in 24 hours
-    const ret = await prisma.registrationLink.create({
-      data: {
-        role: Role.ADMIN,
-        token,
-        email,
-        expiresAt,
-      },
-    });
-    id = ret.id;
-  } catch (error) {
-    if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
-      console.error(`The email ${email} already exists in the DB.`);
-      console.error('Please delete that RegistrationLink entry from the database so you can regenerate an admin RegistrationLink for that email.');
+
+    const existingRegLink = await prisma.registrationLink.findFirst({ where: { email, role: Role.ADMIN } });
+
+    if (existingRegLink != null) {
+      id = existingRegLink.id;
+      await prisma.registrationLink.update({
+        where: { id },
+        data: { token, expiresAt },
+      });
+
+      console.info('Admin RegistrationLink updated.');
+    } else {
+      const ret = await prisma.registrationLink.create({
+        data: {
+          role: Role.ADMIN,
+          token,
+          email,
+          expiresAt,
+        },
+      });
+      id = ret.id;
+
+      console.info('Admin RegistrationLink entry created and stored in the database.');
     }
-    else
-      console.error(error.message);
+  } catch (error) {
+    console.error(error.message);
     process.exit(1);
   }
-
-  console.info('Admin RegistrationLink entry created and stored in the database.');
 
   await sendEmail(id, email, token);
 

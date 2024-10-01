@@ -1,5 +1,3 @@
-// Components
-import SignOutButton from '@/app/admin/sign-out-button';
 import chalk from 'chalk';
 
 
@@ -40,7 +38,6 @@ const DashboardPage = () => {
       <div style={{ width: '300px', minHeight: '100px', background: 'orange', color: 'black', display: 'grid', placeItems: 'center', margin: '10px 20px' }}>
         Force Scrollbar
       </div>
-      <SignOutButton />
     </div>
   );
 };

@@ -48,6 +48,8 @@ const LicenseItem = ({ license }) => {
     }
   }
 
+  const dateActivated = DateTime.fromISO(license.time_activated);
+
   return (
     <div className={styles.licenseBlock}>
       <div className={styles.dataList}>
@@ -57,8 +59,12 @@ const LicenseItem = ({ license }) => {
         <div>{license.product?.product_name ?? '?'}</div>
         <div>License type:</div>
         <div>{license.license_type}</div>
-        <div>Activated on:</div>
-        <div>{DateTime.fromISO(license.time_activated).toFormat('MMM d yyyy')}</div>
+        {dateActivated.isValid &&
+          <>
+            <div>Activated on:</div>
+            <div>{dateActivated.toFormat('MMM d yyyy')}</div>
+          </>
+        }
         <div>Valid until:</div>
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
         <div>Assigned to:</div>

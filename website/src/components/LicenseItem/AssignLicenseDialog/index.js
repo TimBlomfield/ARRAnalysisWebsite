@@ -94,13 +94,11 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
     if (!bError) {
       setLoading(true);
 
-      axios.post('/api/license-spring/assign-license-to-user', {
+      axios.post('/api/licensing/send-license-user-email', {
         licenseId,
-        params: {
-          email: email.trim(),
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
-        },
+        email: email.trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
       })
         .then(res => {
           closeDialog();
@@ -148,7 +146,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
                name="first-name"
                type="text"
                autoComplete="given-name"
-               label="First Name:"
+               label="First Name (optional):"
                extraClass={styles.inp}
                {...(loading ? { disabled: true } : {})}
                value={firstName}
@@ -159,7 +157,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
                name="last-name"
                type="text"
                autoComplete="family-name"
-               label="Last Name:"
+               label="Last Name (optional):"
                extraClass={styles.inp}
                {...(loading ? { disabled: true } : {})}
                value={lastName}
@@ -185,7 +183,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
                     theme={K_Theme.Light}
                     {...(loading ? { disabled: true } : {})}
                     onClick={onBtnSubmit}>
-          Assign
+          Send Email
         </PushButton>
         <PushButton extraClass={styles.pbtn}
                     {...(loading ? { disabled: true } : {})}

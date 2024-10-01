@@ -22,8 +22,13 @@ enum Role {
 model RegistrationLink {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  email     String   @unique
+  email     String
   role      Role     @default(USER)
+  // @Begin {{ Role: User }}
+  licenseId BigInt?
+  firstName String?
+  lastName  String?
+  // @End {{ Role: User }}
   createdAt DateTime @default(now())
   expiresAt DateTime
 }
@@ -49,9 +54,10 @@ model Customer {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  licenseIds BigInt[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   id_UserData Int      @unique
   data        UserData @relation(fields: [id_UserData], references: [id])

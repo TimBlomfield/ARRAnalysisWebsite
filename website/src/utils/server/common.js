@@ -3,7 +3,7 @@ import { Role } from '@prisma/client';
 import db from '@/utils/server/db';
 
 
-const TokenState = {
+const RegTokenState = {
   Null:     -1, // null or undefined
   Empty:    -2, // '' i.e. empty string
   NotFound: -3, // Doesn't exist in the DB
@@ -11,39 +11,51 @@ const TokenState = {
   Valid:    1,
 };
 
-const checkToken = async token => {
+// Check the registration token (passed as a URL parameter)
+const checkRegToken = async token => {
   try {
-    if (token == null) return { ts: TokenState.Null };
-    if (token === '') return { ts: TokenState.Empty };
+    if (token == null) return { ts: RegTokenState.Null };
+    if (token === '') return { ts: RegTokenState.Empty };
 
     const regLink = await db.registrationLink.findUnique({
       where: { token },
     });
-    if (regLink == null) return { ts: TokenState.NotFound };
+    if (regLink == null) return { ts: RegTokenState.NotFound };
 
     if (regLink.expiresAt <= new Date()) {
       await db.registrationLink.delete({
         where: { id: regLink.id },
       });
-      return { ts: TokenState.Expired };
+      return { ts: RegTokenState.Expired };
     }
 
-    const roleStr = regLink.role === Role.ADMIN
-      ? 'Administrator'
-      : regLink.role === Role.CUSTOMER
-        ? 'Customer'
-        : 'User';
+    const retVal = { ts: RegTokenState.Valid, email: regLink.email, role: regLink.role };
 
-    return { ts: TokenState.Valid, email: regLink.email, role: regLink.role, roleStr };
+    // Add more fields for Role.USER
+    if (regLink.role === Role.USER) {
+      retVal.userData = {
+        licenseId: regLink.licenseId,
+        firstName: regLink.firstName,
+        lastName: regLink.lastName,
+      };
+
+      // Check for existing UserData
+      const existingUserData = await db.userData.findUnique({
+        where: { email: regLink.email },
+      });
+      retVal.userExists = existingUserData != null;
+    }
+
+    return retVal;
   } catch (error) {
-    return { ts: TokenState.Null, error };
+    return { ts: RegTokenState.Null, error };
   }
 };
 
 const isAuthTokenValid = authToken => (authToken != null && authToken.email != null && (new Date(authToken.exp * 1000) > new Date()));
 
 export {
-  TokenState,
-  checkToken,
+  RegTokenState,
+  checkRegToken,
   isAuthTokenValid,
 };
