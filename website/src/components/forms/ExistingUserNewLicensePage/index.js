@@ -1,7 +1,7 @@
 'use client';
 
 
-const ExistingUserNewLicensePage = ({ email, licenseId }) => {
+const ExistingUserNewLicensePage = ({ email, licenseData }) => {
   return (
     <div>User Registration Page</div>
   );

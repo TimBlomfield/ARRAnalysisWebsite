@@ -1,6 +1,5 @@
 'use client';
 
-
 import { signOut } from 'next-auth/react';
 // Components
 import PushButton from '@/components/PushButton';

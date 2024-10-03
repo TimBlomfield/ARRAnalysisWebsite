@@ -1,16 +1,29 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { checkRegToken, RegTokenState } from '@/utils/server/common';
 import { Role } from '@prisma/client';
+import { getLicenseData } from '@/utils/server/licenses';
 // Components
 import AdminRegistrationPage from '@/components/forms/AdminRegistrationPage';
 import ExistingUserNewLicensePage from '@/components/forms/ExistingUserNewLicensePage';
+import LoadingSSR from '@/components/LoadingSSR';
 import UserRegistrationPage from '@/components/forms/UserRegistrationPage';
+// Styles
+import styles from './styles.module.scss';
 
-// TODO: Wrap with <Suspense fallback={<LoadingScreen />}> and fetch the licensing data from LicenseSpring for Role.USER,
-//  and pass that data to <ExistingUserNewLicensePage> or <UserRegistrationPage>. See ChatGPT conversation.
-const RegistrationPage = async ({ searchParams }) => {
+
+const RegistrationPage = ({ searchParams }) => {
   const { token } = searchParams;
 
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <AsyncPage token={token} />
+    </Suspense>
+  );
+};
+
+
+const AsyncPage = async ({ token }) => {
   const ret = await checkRegToken(token);
   if (ret.ts !== RegTokenState.Valid)
     notFound();
@@ -20,15 +33,25 @@ const RegistrationPage = async ({ searchParams }) => {
       return <AdminRegistrationPage reglinkEmail={ret.email} />;
 
     case Role.USER:
+      const ld = await getLicenseData(ret.userData?.licenseId);
+      if (ld == null)
+        notFound();
       return ret.userExists
-        ? <ExistingUserNewLicensePage email={ret.email} licenseId={ret.licenseId} />
-        : <UserRegistrationPage email={ret.email} licenseId={ret.licenseId} firstName={ret.firstName} lastName={ret.lastName} />;
+        ? <ExistingUserNewLicensePage email={ret.email} licenseData={ld} />
+        : <UserRegistrationPage email={ret.email} licenseData={ld} firstName={ret.firstName} lastName={ret.lastName} />;
 
     default:
       notFound();
       return null;
   }
 };
+
+
+const LoadingScreen = () => (
+  <div className={styles.loadingScreen}>
+    <LoadingSSR scale={1.5} /> {/* Note: Cannot use a client component here. */}
+  </div>
+);
 
 
 export default RegistrationPage;

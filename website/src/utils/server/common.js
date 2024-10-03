@@ -54,8 +54,11 @@ const checkRegToken = async token => {
 
 const isAuthTokenValid = authToken => (authToken != null && authToken.email != null && (new Date(authToken.exp * 1000) > new Date()));
 
+const debugWait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 export {
   RegTokenState,
   checkRegToken,
   isAuthTokenValid,
+  debugWait,
 };

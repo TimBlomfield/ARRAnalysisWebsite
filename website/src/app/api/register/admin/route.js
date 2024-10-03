@@ -5,7 +5,6 @@ import db from '@/utils/server/db';
 import { checkRegToken, RegTokenState } from '@/utils/server/common';
 
 
-// TODO: make this for admin exclusive
 const POST = async req => {
   try {
     const body = await req.json();
@@ -24,6 +23,10 @@ const POST = async req => {
         return NextResponse.json({ message: 'Token expired!'}, { status: 406 });
     }
 
+    // Make sure that the role in the RegistrationLink is ADMIN
+    if(tokenState.role !== Role.ADMIN)
+      return NextResponse.json({ message: 'Wrong role type (non-admin) associated with admin registration token' }, { status: 409 });
+
     // Check if email already exists
     const emailExists = await db.userData.findUnique({
       where: { email },
@@ -40,48 +43,30 @@ const POST = async req => {
       },
     });
 
-    // Create an Administrator, Customer or User
-    let newPortalUser = null;
-    switch (tokenState.role) {
-      case Role.ADMIN:
-        newPortalUser = await  db.administrator.create({
-          data: {
-            id_UserData: newUserData.id,
-          },
-        });
-        break;
+    // Create an Administrator
+    const newPortalAdmin = await db.administrator.create({
+      data: {
+        id_UserData: newUserData.id,
+      },
+    });
 
-      case Role.CUSTOMER:
-        // TODO: implement this
-        break;
+    // Delete the RegistrationLink entry
+    await db.registrationLink.delete({ where: { token } });
 
-      case Role.USER:
-        // TODO: implement this
-        break;
-    }
-
-    // Delete the AdminRegistrationLink
-    const id = await db.registrationLink.delete({ where: { token } });
-
-    const portalUser = {
-      id: newPortalUser.id,
+    const portalAdmin = {
+      id: newPortalAdmin.id,
       idUserData: newUserData.id,
-      type: tokenState.role,
-      createdAt: newPortalUser.createdAt,
+      createdAt: newPortalAdmin.createdAt,
       email: newUserData.email,
     };
+    const message = 'Portal Administrator registered successfully.';
 
-    const message = tokenState.role === Role.ADMIN
-      ? 'Portal Administrator registered successfully.'
-      : tokenState.role === Role.CUSTOMER
-        ? 'Portal Customer registered successfully.'
-        : 'Portal User registered successfully.';
-
-    return NextResponse.json({ portalUser, message }, { status: 201 });
+    return NextResponse.json({ portalAdmin, message }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: 'Something went wrong!', error }, { status: 500 });
   }
 };
+
 
 export {
   POST,

@@ -1,12 +1,12 @@
 'use client';
 
-
 import { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
 import Loading from '@/components/Loading';
+import LoadingSSR from '@/components/LoadingSSR';
 import PlusMinusButton from '@/components/PlusMinusButton';
 import PushButton from '@/components/PushButton';
 // Styles
@@ -105,6 +105,8 @@ const ComponentsPage = () => {
         <div className={styles.cell}><Loading scale={2} text="Loading..." /></div>
         <div className={cn(styles.cell, styles.wider)}><Loading text="Lorem ipsum dolor sit amet consectetur adipiscing elit..." /></div>
         <div className={styles.cell}><Loading scale={2} text="Lorem ipsum dolor sit amet consectetur adipiscing elit..." /></div>
+        <div className={styles.cell}><LoadingSSR theme={K_Theme.Dark} scale={1} text="Howdy" /></div>
+        <div className={cn(styles.cell, styles.wider)}><LoadingSSR scale={2} text="Lorem ipsum dolor sit amet consectetur adipiscing elit..." /></div>
       </section>
 
       {PushButtonSection_MemoRender}

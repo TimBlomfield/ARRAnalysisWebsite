@@ -1,7 +1,7 @@
 'use client';
 
 
-const UserRegistrationPage = ({ email, licenseId, firstName, lastName }) => {
+const UserRegistrationPage = ({ email, licenseData, firstName, lastName }) => {
   return (
     <div>User Registration Page</div>
   );

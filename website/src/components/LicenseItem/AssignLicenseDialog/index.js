@@ -106,7 +106,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
         })
         .catch(err => {
           setLoading(false);
-          toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_ASSIGN_LICENSE, });
+          toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_ASSIGN_LICENSE });
         });
     }
   }, [email]);

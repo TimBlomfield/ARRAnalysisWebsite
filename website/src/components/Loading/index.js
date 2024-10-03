@@ -8,7 +8,7 @@ import { K_Theme } from '@/utils/common';
 import styles from './styles.module.scss';
 
 
-const   Loading = ({theme = K_Theme.Dark, scale = 1, text}) => {
+const Loading = ({theme = K_Theme.Dark, scale = 1, text}) => {
   const refSvg = useRef();
 
   // Effects

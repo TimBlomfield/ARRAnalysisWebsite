@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import axios from 'axios';
@@ -40,7 +40,7 @@ const getAmount = (tier, period, tiers) => {
 };
 
 
-const CheckoutClientPage = ({ tiers }) => {
+const CheckoutClientPageInner = ({ tiers }) => {
   const searchParams = useSearchParams();
 
   //////////////////////////////////////////////////////////////////
@@ -337,6 +337,13 @@ const CheckoutClientPage = ({ tiers }) => {
     </main>
   );
 };
+
+
+const CheckoutClientPage = (params) => (
+  <Suspense>
+    <CheckoutClientPageInner {...params} />
+  </Suspense>
+);
 
 
 export default CheckoutClientPage;

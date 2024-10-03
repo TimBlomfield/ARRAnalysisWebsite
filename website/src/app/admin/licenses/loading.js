@@ -1,6 +1,6 @@
 import { K_Theme } from '@/utils/common';
 // Components
-import Loading from '@/components/Loading';
+import LoadingSSR from '@/components/LoadingSSR';
 // Styles
 import styles from './styles.module.scss';
 
@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 const LoadingLicensesPage = () => {
   return (
     <div className={styles.fullScreenLoading}>
-      <Loading scale={2} theme={K_Theme.Light} />
+      <LoadingSSR scale={2} theme={K_Theme.Light} />
     </div>
   );
 };
