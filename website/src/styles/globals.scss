@@ -1,3 +1,16 @@
 [data-animated='text1'] {
   opacity: 0;
 }
+
+// Font variables
+$font-primary: var(--font-aspekta-750);
+$font-secondary: var(--font-aspekta-250);
+
+// Global font styles
+.g_fontPrimary {
+  font-family: $font-primary, sans-serif;
+}
+
+.g_fontSecondary {
+  font-family: $font-secondary, sans-serif;
+}

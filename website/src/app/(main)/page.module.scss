@@ -11,6 +11,8 @@
     align-items: center;
 
     .titleText {
+      @extend %fnt-secondary;
+
       font-size: 72px;
       max-width: $maxHtmlPageWidth;
       text-align: center;
