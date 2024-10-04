@@ -12,13 +12,13 @@ const aspekta750 = localFont({
   src: '../../../public/font/Aspekta-750.woff2',
   variable: '--font-aspekta-750',
   preload: true,
-})
+});
 
 const aspekta250 = localFont({
   src: '../../../public/font/Aspekta-250.woff2',
   variable: '--font-aspekta-250',
   preload: true,
-})
+});
 
 
 const MainLayout = ({ children }) => {
