@@ -34,6 +34,7 @@ const POST = async req => {
         licenseId,
         firstName,
         lastName,
+        customerEmail: authToken.email,
         token,
         email,
         expiresAt,

@@ -25,7 +25,7 @@ const RegistrationPage = async ({ searchParams }) => {
         notFound();
       return ret.userExists
         ? <ExistingUserNewLicensePage email={ret.email} licenseData={ld} />
-        : <UserRegistrationPage email={ret.email} licenseData={ld} firstName={ret.firstName} lastName={ret.lastName} />;
+        : <UserRegistrationPage email={ret.email} licenseData={ld} />;
 
     default:
       notFound();

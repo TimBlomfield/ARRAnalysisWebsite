@@ -20,17 +20,18 @@ enum Role {
 }
 
 model RegistrationLink {
-  id        Int      @id @default(autoincrement())
-  token     String   @unique
-  email     String
-  role      Role     @default(USER)
+  id            Int      @id @default(autoincrement())
+  token         String   @unique
+  email         String
+  role          Role     @default(USER)
   // @Begin {{ Role: User }}
-  licenseId BigInt?
-  firstName String?
-  lastName  String?
+  licenseId     BigInt?
+  firstName     String?
+  lastName      String?
+  customerEmail String?
   // @End {{ Role: User }}
-  createdAt DateTime @default(now())
-  expiresAt DateTime
+  createdAt     DateTime @default(now())
+  expiresAt     DateTime
 }
 
 model Administrator {

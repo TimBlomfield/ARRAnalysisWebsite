@@ -1,0 +1,100 @@
+@use "globals" as *;
+
+.layoutMain {
+  background-color: $clrLoginBk;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  width: 100%;
+
+  @media screen and (max-width: 550px) {
+    display: block;
+    min-height: auto;
+
+    @include mx-linscale(margin-top, 140, 25, 550, 360);
+  }
+
+  .outer {
+    margin: 0 auto;
+    max-width: 740px;
+    width: 100%;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      margin: 0 20px;
+      max-width: 100%;
+      border-radius: 30px;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 5%), 0 1px 2px rgb(0 0 0 / 10%);
+      padding: 50px;
+      background-color: white;
+      position: relative;
+
+      .overlay {
+        position: absolute;
+        z-index: 10;
+        inset: 50px;
+        background-color: white;
+        opacity: .75;
+        display: grid;
+        place-items: center;
+      }
+
+      .caption {
+        font-size: 32px;
+        color: black;
+        margin-bottom: 26px;
+
+        @media screen and (max-width: 450px) {
+          @include mx-linscale(font-size, 40, 10, 450, 200);
+        }
+      }
+
+      .text {
+        color: black;
+        margin-bottom: 14px;
+      }
+
+      .central { align-self: center; }
+
+      .emailLine {
+        display: flex;
+        align-items: center;
+        color: black;
+        gap: 40px;
+        margin: 20px 0;
+
+        .emailTitle { font-size: 16px; }
+        .emailValue { font-size: 20px; }
+      }
+
+      .wrapInp {
+        margin-bottom: 20px;
+
+        .inp {
+          height: 48px;
+          width: 100%;
+        }
+      }
+
+      @media screen and (max-width: 440px) {
+        padding: 25px;
+
+        .wrapInp { margin-bottom: 10px; }
+        .overlay { inset: 25px; }
+      }
+
+      .pbtn {
+        min-width: 180px;
+        align-self: center;
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+
+.toastCustomStyle {
+  div { padding-bottom: 5px; }
+  .b { font-weight: bold; }
+}

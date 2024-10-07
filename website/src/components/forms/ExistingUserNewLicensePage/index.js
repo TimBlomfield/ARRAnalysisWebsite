@@ -3,7 +3,7 @@
 
 const ExistingUserNewLicensePage = ({ email, licenseData }) => {
   return (
-    <div>User Registration Page</div>
+    <div>Existing User Registration Page</div>
   );
 };
 

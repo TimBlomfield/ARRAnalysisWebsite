@@ -37,6 +37,7 @@ const checkRegToken = async token => {
         licenseId: regLink.licenseId,
         firstName: regLink.firstName,
         lastName: regLink.lastName,
+        customerEmail: regLink.customerEmail,
       };
 
       // Check for existing UserData
