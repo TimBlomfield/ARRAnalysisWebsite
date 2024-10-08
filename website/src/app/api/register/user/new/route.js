@@ -43,10 +43,41 @@ const POST = async req => {
     if (udCustomer == null || udCustomer.customer == null)
       return NextResponse.json({ message: 'Customer not found in the system!' }, { status: 409 });
 
-    // Prepare "data" for creating a UserData in the local db, and prepare "params" for the License Spring API call
     const hashedPassword = await hash(password, 10);
     const firstName = tokenState.userData.firstName;
     const lastName = tokenState.userData.lastName;
+
+    // Check if the user exists in LicenseSpring
+    const { data: lsUsersList } = await axios.get('https://saas.licensespring.com/api/v1/license-users/', {
+      headers: {
+        Authorization: `Api-Key ${process.env.LICENSESPRING_MANAGEMENT_API_KEY}`,
+      },
+      params: {
+        true_email__iexact: email,
+      },
+    });
+
+    // Update the LicenseSpring user with the new first-name and last-name if they are different
+    if (lsUsersList?.results?.length > 0) {
+      const lsUser = lsUsersList.results[0];
+
+      if ((firstName != null && firstName != lsUser.first_name) || (lastName != null && lastName != lsUser.last_name)) {
+        const userParams = {};
+        if (firstName != null) userParams.first_name = firstName;
+        if (lastName != null) userParams.last_name = lastName;
+        await axios.patch(
+          `https://saas.licensespring.com/api/v1/license-users/${lsUser.id}/`,
+          userParams,
+          {
+            headers: {
+              Authorization: `Api-Key ${process.env.LICENSESPRING_MANAGEMENT_API_KEY}`,
+            },
+          },
+        );
+      }
+    }
+
+    // Prepare "data" for creating a UserData in the local db, and prepare "params" for the License Spring API call
     const data = { email, hashedPassword };
     if (firstName != null && typeof(firstName) === 'string' && firstName.length > 0)
       data.firstName = firstName;

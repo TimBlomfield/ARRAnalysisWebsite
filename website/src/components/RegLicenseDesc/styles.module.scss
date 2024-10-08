@@ -19,6 +19,14 @@
 
     .logo { width: 160px; }
     .headerText { font-size: 18px; }
+
+    @media screen and (max-width: 600px) {
+      gap: 20px;
+      min-height: 40px;
+
+      .logo { width: 120px; }
+      .headerText { font-size: 14px; }
+    }
   }
 
   .body {
@@ -26,6 +34,21 @@
     grid: repeat(4, 30px) / auto 1fr;
     padding: 10px 20px;
     grid-column-gap: 20px;
+
+    @media screen and (max-width: 600px) {
+      grid: repeat(4, 24px) / auto 1fr;
+      padding: 8px 16px;
+      grid-column-gap: 14px;
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 430px) {
+      grid: repeat(8, 20px) / auto;
+
+      div:nth-child(even) {
+        padding-left: 20px;
+      }
+    }
 
     div {
       @include mx-txt-overflow-hidden;
