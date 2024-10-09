@@ -21,7 +21,7 @@ const authOptions = {
           if (!credentials?.email || !credentials?.password)
             return null;
 
-          const exitingUserData = await db.userData.findUnique({
+          const existingUserData = await db.userData.findUnique({
             where: { email: credentials.email },
             include: {
               admin: true,
@@ -29,14 +29,14 @@ const authOptions = {
               user: true,
             },
           });
-          if (!exitingUserData)
+          if (!existingUserData)
             return null;
 
-          const passwordMatch = await compare(credentials.password, exitingUserData.hashedPassword);
+          const passwordMatch = await compare(credentials.password, existingUserData.hashedPassword);
           if (!passwordMatch)
             return null;
 
-          const { id, email, admin, customer, user } = exitingUserData;
+          const { id, email, admin, customer, user } = existingUserData;
           return {
             id,
             email,

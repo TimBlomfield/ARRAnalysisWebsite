@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import { hash } from 'bcrypt';
-import { Role } from '@prisma/client';
+import { compare } from 'bcrypt';
+import {checkRegToken, RegTokenState} from '@/utils/server/common';
 import db from '@/utils/server/db';
-import { checkRegToken, RegTokenState } from '@/utils/server/common';
+import {Role} from '@prisma/client';
 import axios from 'axios';
-
 
 const POST = async req => {
   try {
@@ -28,12 +27,13 @@ const POST = async req => {
     if(tokenState.role !== Role.USER)
       return NextResponse.json({ message: 'Wrong role type (non-user) associated with user registration token' }, { status: 409 });
 
-    // Check if email already exists
-    const emailExists = await db.userData.findUnique({
+    // Get the existing UserData
+    const existingUserData = await db.userData.findUnique({
       where: { email },
+      include: { user: true },
     });
-    if (emailExists)
-      return NextResponse.json({ message: `This email ${email} is already registered in the system!` }, { status: 409 });
+    if (existingUserData == null || !tokenState.userExists)
+      return NextResponse.json({ message: 'User not found in the system!'}, { status: 409 });
 
     // Find the customer
     const udCustomer = await db.userData.findUnique({
@@ -43,7 +43,22 @@ const POST = async req => {
     if (udCustomer == null || udCustomer.customer == null)
       return NextResponse.json({ message: 'Customer not found in the system!' }, { status: 409 });
 
-    const hashedPassword = await hash(password, 10);
+    // Check if the password matches
+    const passwordMatch = await compare(password, existingUserData.hashedPassword);
+    if (!passwordMatch)
+      return NextResponse.json({ message: 'Wrong password!'}, { status: 409 });
+
+    // If no associated User create one
+    let userObj = existingUserData.user;
+    if (userObj == null) {
+      userObj = await db.user.create({
+        data: {
+          id_UserData: existingUserData.id,
+          id_Customer: udCustomer.customer.id,
+        },
+      });
+    }
+
     const firstName = tokenState.userData.firstName;
     const lastName = tokenState.userData.lastName;
 
@@ -77,20 +92,10 @@ const POST = async req => {
       }
     }
 
-    // Prepare "data" for creating a UserData in the local db, and prepare "params" for the License Spring API call
-    const data = { email, hashedPassword };
-    if (firstName != null && typeof(firstName) === 'string' && firstName.length > 0)
-      data.firstName = firstName;
-    if (lastName != null && typeof(lastName) === 'string' && lastName.length > 0)
-      data.lastName = lastName;
-    const params = { email, password };
-    if (data.firstName != null) params.first_name = data.firstName;
-    if (data.lastName != null) params.last_name = data.lastName;
-
     // Assign user to license in License Spring
     const { data: licenseSpringResponse } = await axios.post(
       `https://saas.licensespring.com/api/v1/licenses/${tokenState.userData.licenseId}/assign_user/`,
-      params,
+      { email, password },
       {
         headers: {
           Authorization: `Api-Key ${process.env.LICENSESPRING_MANAGEMENT_API_KEY}`,
@@ -101,30 +106,21 @@ const POST = async req => {
     if (licenseSpringResponse?.new_password !== password)
       return NextResponse.json({ message: 'LicenseSpring error!' }, { status: 400 });
 
-    // Create the new UserData
-    const newUserData = await db.userData.create({ data });
-
-    // Create a User
-    const newPortalUser = await db.user.create({
+    // Add the license-id to the user's licenseIds array
+    const updatedUser = await db.user.update({
+      where: { id: userObj.id },
       data: {
-        licenseIds: [ tokenState.userData.licenseId ],
-        id_UserData: newUserData.id,
-        id_Customer: udCustomer.customer.id,
+        licenseIds: {
+          push: tokenState.userData.licenseId,
+        },
       },
     });
 
     // Delete the RegistrationLink entry
     await db.registrationLink.delete({ where: { token } });
 
-    const portalUser = {
-      id: newPortalUser.id,
-      idUserData: newUserData.id,
-      createdAt: newPortalUser.createdAt,
-      email: newUserData.email,
-    };
-    const message = 'New User registered successfully.';
-
-    return NextResponse.json({ portalUser, message }, { status: 201 });
+    const message = 'User assigned to license successfully.';
+    return NextResponse.json({ message }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Something went wrong!', error }, { status: 500 });
   }

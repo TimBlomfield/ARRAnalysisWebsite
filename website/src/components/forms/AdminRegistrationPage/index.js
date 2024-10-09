@@ -12,6 +12,7 @@ import PasswordStrength from '@/components/PasswordStrength';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
+import Link from 'next/link';
 
 
 const ID_EMAIL    = 'input-email-4013378082fa-961385';
@@ -43,6 +44,7 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
   const [errConfirm, setErrConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [loader, setLoader] = useState(true);
+  const [adminCreated, setAdminCreated] = useState(false);
 
   useEffect(() => {
     if (reglinkEmail === '') {
@@ -96,11 +98,8 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
       // Using APIs
       axios.post('/api/register/admin', { email, password, token })
         .then(res => {
-          toast.success(res.data.message, {
-            autoClose: false,
-            onClose: () => router.push('/login'),
-          });
-          setLoader(false);
+          setAdminCreated(true);
+          setLoading(false); // Unnecessary, but let it stay here
         })
         .catch(err => {
           if (err.response?.data?.adminExists === 'Yes') {
@@ -137,57 +136,67 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
     <main className={styles.layoutMain}>
       <form className={styles.outer}> {/* NOTE: using <form> to prevent Chrome warnings */}
         <div className={styles.form}>
-          {loading &&
-            <div className={styles.overlay}>
-              { loader && <Loading scale={2} /> }
-            </div>
+          {!adminCreated &&
+            <>
+              {loading &&
+                <div className={styles.overlay}>
+                  { loader && <Loading scale={2} /> }
+                </div>
+              }
+              <div className={styles.caption}>Register Admin</div>
+              <Input id={ID_EMAIL}
+                     name="email"
+                     type="email"
+                     autoComplete="off"
+                     label="Email:"
+                     wrapperExtraClass={styles.wrapInp}
+                     extraClass={styles.inp}
+                     {...(loading ? { disabled: true } : {})}
+                     errorPlaceholder
+                     value={email}
+                     onChange={emailFn}
+                     onKeyDown={handleInputReturn}
+                     errorText={errEmail} />
+              <Input id={ID_PASSWORD}
+                     name="password"
+                     type="password"
+                     autoComplete="new-password"
+                     label="Password:"
+                     wrapperExtraClass={styles.wrapInp}
+                     extraClass={styles.inp}
+                     {...(loading ? { disabled: true } : {})}
+                     errorPlaceholder
+                     value={password}
+                     onChange={passwordFn}
+                     onKeyDown={handleInputReturn}
+                     errorText={errPassword} />
+              <Input id={ID_CONFIRM}
+                     name="confirm-password"
+                     type="password"
+                     autoComplete="new-password"
+                     label="Confirm Password:"
+                     wrapperExtraClass={styles.wrapInp}
+                     extraClass={styles.inp}
+                     {...(loading ? { disabled: true } : {})}
+                     errorPlaceholder
+                     value={confirm}
+                     onChange={confirmFn}
+                     onKeyDown={handleInputReturn}
+                     errorText={errConfirm} />
+              <PasswordStrength password={password} />
+              <PushButton extraClass={styles.pbtn}
+                          {...(loading ? { disabled: true } : {})}
+                          onClick={onBtnSubmit}>
+                Submit
+              </PushButton>
+            </>
           }
-          <div className={styles.caption}>Register Admin</div>
-          <Input id={ID_EMAIL}
-                 name="email"
-                 type="email"
-                 autoComplete="off"
-                 label="Email:"
-                 wrapperExtraClass={styles.wrapInp}
-                 extraClass={styles.inp}
-                 {...(loading ? { disabled: true } : {})}
-                 errorPlaceholder
-                 value={email}
-                 onChange={emailFn}
-                 onKeyDown={handleInputReturn}
-                 errorText={errEmail} />
-          <Input id={ID_PASSWORD}
-                 name="password"
-                 type="password"
-                 autoComplete="new-password"
-                 label="Password:"
-                 wrapperExtraClass={styles.wrapInp}
-                 extraClass={styles.inp}
-                 {...(loading ? { disabled: true } : {})}
-                 errorPlaceholder
-                 value={password}
-                 onChange={passwordFn}
-                 onKeyDown={handleInputReturn}
-                 errorText={errPassword} />
-          <Input id={ID_CONFIRM}
-                 name="confirm-password"
-                 type="password"
-                 autoComplete="new-password"
-                 label="Confirm Password:"
-                 wrapperExtraClass={styles.wrapInp}
-                 extraClass={styles.inp}
-                 {...(loading ? { disabled: true } : {})}
-                 errorPlaceholder
-                 value={confirm}
-                 onChange={confirmFn}
-                 onKeyDown={handleInputReturn}
-                 errorText={errConfirm} />
-          <PasswordStrength password={password} />
-          <PushButton extraClass={styles.pbtn}
-                      {...(loading ? { disabled: true } : {})}
-                      onClick={onBtnSubmit}>
-            Submit
-          </PushButton>
+          {adminCreated &&
+            <>
+              <div className={styles.c1}>Admin created successfully!</div>
+              <div className={styles.t2}>You can now <Link href="/login">login here</Link> as a portal administrator.</div>
+            </>
+          }
         </div>
       </form>
     </main>

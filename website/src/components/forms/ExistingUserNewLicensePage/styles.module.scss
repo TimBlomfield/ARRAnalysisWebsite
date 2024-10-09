@@ -39,12 +39,38 @@
       }
 
       .caption {
-        font-size: 40px;
+        font-size: 32px;
         color: black;
-        margin-bottom: 40px;
+        margin-bottom: 26px;
+        line-height: 37px;
 
         @media screen and (max-width: 450px) {
-          @include mx-linscale(font-size, 40, 10, 450, 200);
+          @include mx-linscale(font-size, 32, 10, 450, 200);
+        }
+      }
+
+      .text {
+        color: black;
+        margin-bottom: 14px;
+      }
+
+      .central { align-self: center; }
+
+      .emailLine {
+        display: flex;
+        align-items: center;
+        color: black;
+        gap: 40px;
+        margin: 20px 0;
+
+        .emailTitle { font-size: 16px; }
+        .emailValue { font-size: 20px; }
+
+        @media screen and (max-width: 450px) {
+          gap: 20px;
+          flex-wrap: wrap;
+
+          .emailValue { font-size: 18px; }
         }
       }
 
@@ -81,7 +107,27 @@
         }
       }
 
+      .t1 {
+        @extend %fnt-secondary;
+
+        color: black;
+        margin-bottom: 36px;
+        line-height: 30px;
+        text-align: center;
+
+        .mail { @extend %fnt-primary; }
+
+        .logo {
+          display: inline-block;
+          height: 30px;
+          padding: 0 5px;
+          margin-bottom: -8px;
+        }
+      }
+
       .t2 {
+        @extend %fnt-secondary;
+
         color: black;
         text-align: center;
         line-height: 20px;
