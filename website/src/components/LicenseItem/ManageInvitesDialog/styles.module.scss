@@ -1,0 +1,80 @@
+@use "globals" as *;
+@use "sass:color";
+
+.manageInvitesDialog {
+  max-width: 96vw;
+  width: 600px;
+  padding: 20px;
+  border: 1px solid color.adjust($clrAdminBk, $lightness: -20%);
+  border-radius: 10px;
+  background-color: $clrAdminBk;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  &::backdrop {
+    background-color: rgba(black, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  *::selection {
+    background-color: #09184c;
+    color: #95DBEA;
+  }
+
+  .title {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .checkboxes {
+    box-sizing: border-box;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      background-color: $clrAdminBk;
+      opacity: .75;
+      display: grid;
+      place-items: center;
+    }
+
+    label {
+      @extend %noselect;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: gainsboro;
+      transition: color 400ms;
+      &:has(input.cb:checked) { color: white; }
+
+      input.cb {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .pbtn {
+      height: 48px;
+
+      &:focus-visible {
+        border-color: $clrHeaderLightBk;
+      }
+    }
+  }
+}

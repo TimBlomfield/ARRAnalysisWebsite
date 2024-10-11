@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
 // Components
 import AssignLicenseDialog from './AssignLicenseDialog';
+import ManageInvitesDialog from './ManageInvitesDialog';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
@@ -15,16 +16,17 @@ import styles from './styles.module.scss';
 const LicenseItem = ({ license }) => {
   const router = useRouter();
 
-  const [isDlgOpen, setIsDlgOpen] = useState(false);
+  const [isOpen_AssignLicenseDialog, setIsOpen_AssignLicenseDialog] = useState(false);
+  const [isOpen_ManageInvitesDialog, setIsOpen_ManageInvitesDialog] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    if (!isDlgOpen && successMessage !== '') {
+    if (!isOpen_AssignLicenseDialog && !isOpen_ManageInvitesDialog && successMessage !== '') {
       toast.success(successMessage);
       setSuccessMessage('');
       router.refresh();
     }
-  }, [isDlgOpen, successMessage]);
+  }, [isOpen_AssignLicenseDialog, isOpen_ManageInvitesDialog, successMessage]);
 
   const statusClass = cn(styles.status, {
     [styles.active]: license.status.toLowerCase().startsWith('active'),
@@ -49,6 +51,7 @@ const LicenseItem = ({ license }) => {
   }
 
   const dateActivated = DateTime.fromISO(license.time_activated);
+  const bMailsSent = Array.isArray(license.mailsSent) && license.mailsSent.length > 0;
 
   return (
     <div className={styles.licenseBlock}>
@@ -69,18 +72,30 @@ const LicenseItem = ({ license }) => {
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
         <div>Assigned to:</div>
         <div className={bAssigned ? styles.user : ''}>{licenseUser}</div>
+        {bMailsSent &&
+          <>
+            <div>Email sent to:</div>
+            <div>{license.mailsSent.map(item => item.email).join(', ')}</div>
+          </>
+        }
       </div>
       <div className={styles.actions}>
         {!bAssigned &&
           <>
             <PushButton extraClass={styles.pbXtra}
-                        onClick={() => setIsDlgOpen(true)}>
+                        onClick={() => setIsOpen_AssignLicenseDialog(true)}>
               Assign
             </PushButton>
             <PushButton extraClass={styles.pbXtra}
                         onClick={() => { /* TODO: to be implemented*/ }}>
               Assign to self
             </PushButton>
+            {bMailsSent &&
+              <PushButton extraClass={styles.pbXtra}
+                          onClick={() => setIsOpen_ManageInvitesDialog(true)}>
+                Manage invites
+              </PushButton>
+            }
           </>
         }
         {bAssigned &&
@@ -90,9 +105,13 @@ const LicenseItem = ({ license }) => {
           </PushButton>
         }
       </div>
-      <AssignLicenseDialog isOpen={isDlgOpen}
-                           notifyClosed={() => setIsDlgOpen(false)}
+      <AssignLicenseDialog isOpen={isOpen_AssignLicenseDialog}
+                           notifyClosed={() => setIsOpen_AssignLicenseDialog(false)}
                            licenseId={license.id}
+                           passSuccessMessage={msg => setSuccessMessage(msg)} />
+      <ManageInvitesDialog isOpen={isOpen_ManageInvitesDialog}
+                           notifyClosed={() => setIsOpen_ManageInvitesDialog(false)}
+                           emailList={license.mailsSent}
                            passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );

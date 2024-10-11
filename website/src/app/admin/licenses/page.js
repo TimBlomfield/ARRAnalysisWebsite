@@ -31,7 +31,7 @@ const LicensesPage = async () => {
     });
 
     if (customer == null) throw new Error('Customer not found!');
-    if (typeof customer.id_stripeCustomer !== 'string' || customer.id_stripeCustomer.length < 2) throw new Error('Invalide Stripe CustomerID encountered!');
+    if (typeof customer.id_stripeCustomer !== 'string' || customer.id_stripeCustomer.length < 2) throw new Error('Invalid Stripe CustomerID encountered!');
 
     const { data: customerData } = await axios.get('https://saas.licensespring.com/api/v1/customers/', {
       headers: {
@@ -57,6 +57,16 @@ const LicensesPage = async () => {
 
     licenseData = data;
     if (licenseData == null) throw new Error('Null fetch for licenses');
+
+    // Collect the emails sent to users for each license, and put them in the license object
+    for (const license of licenseData.results) {
+      const regLinks = await db.registrationLink.findMany({
+        where: { licenseId: license.id },
+      });
+      if (regLinks != null) {
+        license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id } ], []);
+      }
+    }
   } catch (err) {
     console.error(err);
     notFound();
