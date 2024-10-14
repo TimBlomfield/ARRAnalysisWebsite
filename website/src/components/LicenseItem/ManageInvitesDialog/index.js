@@ -77,8 +77,6 @@ const ManageInvitesDialog = ({ isOpen, notifyClosed, emailList, passSuccessMessa
       axios.post('/api/licensing/resend-emails', { resendList: reducedList })
         .then(res => {
           closeDialog();
-          console.log('message to pass');
-          console.log(res.data.message);
           passSuccessMessage(res.data.message);
         })
         .catch(err => {
@@ -87,7 +85,30 @@ const ManageInvitesDialog = ({ isOpen, notifyClosed, emailList, passSuccessMessa
         });
     }
   }, []);
-  const onBtnUninvite = useCallback(() => {}, []);
+  const onBtnUninvite = useCallback(() => {
+    const checkedInputs = getCheckedInputs();
+    if (checkedInputs != null && checkedInputs.length > 0) {
+      const arrCI = Array.from(checkedInputs);
+      const reducedList = emailList.reduce((acc, cur) => {
+        if (arrCI.some(checkbox => +checkbox.dataset.id === +cur.id)) {
+          acc.push(+cur.id);
+        }
+        return acc;
+      }, []);
+
+      setLoading(true);
+
+      axios.post('/api/licensing/uninvite-user-for-license', { uninviteList: reducedList })
+        .then(res => {
+          closeDialog();
+          passSuccessMessage(res.data.message);
+        })
+        .catch(err => {
+          setLoading(false);
+          toast.error(err.response?.data?.message ?? 'Could not re-send email(s)!', { containerId: ID_TOASTER_DIALOG_MANAGE_INVITES });
+        });
+    }
+  }, []);
 
   const onCheckboxChange = evt => {
     const checkedInputs = getCheckedInputs();

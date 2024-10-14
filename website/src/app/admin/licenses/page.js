@@ -58,13 +58,23 @@ const LicensesPage = async () => {
     licenseData = data;
     if (licenseData == null) throw new Error('Null fetch for licenses');
 
+    // Delete expired registration links
+    const now = new Date();
+    await db.registrationLink.deleteMany({
+      where: {
+        expiresAt: {
+          lt: now,
+        },
+      },
+    });
+
     // Collect the emails sent to users for each license, and put them in the license object
     for (const license of licenseData.results) {
       const regLinks = await db.registrationLink.findMany({
         where: { licenseId: license.id },
       });
       if (regLinks != null) {
-        license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id } ], []);
+        license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id, token: cur.token, f: cur.firstName, l: cur.lastName } ], []);
       }
     }
   } catch (err) {
