@@ -1,17 +1,26 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import cn from 'classnames';
+import axios from 'axios';
 import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
+import { K_Theme } from '@/utils/common';
 // Components
 import AssignLicenseDialog from './AssignLicenseDialog';
+import Loading from '@/components/Loading';
 import ManageInvitesDialog from './ManageInvitesDialog';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
 
+
+const LoadingHelper = {
+  None: 'None',
+  Enable: 'Enable',
+  Disable: 'Disable',
+};
 
 const LicenseItem = ({ license }) => {
   const router = useRouter();
@@ -19,6 +28,8 @@ const LicenseItem = ({ license }) => {
   const [isOpen_AssignLicenseDialog, setIsOpen_AssignLicenseDialog] = useState(false);
   const [isOpen_ManageInvitesDialog, setIsOpen_ManageInvitesDialog] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [loadingHelper, setLoadingHelper] = useState(LoadingHelper.None);
 
   useEffect(() => {
     if (!isOpen_AssignLicenseDialog && !isOpen_ManageInvitesDialog && successMessage !== '') {
@@ -28,11 +39,33 @@ const LicenseItem = ({ license }) => {
     }
   }, [isOpen_AssignLicenseDialog, isOpen_ManageInvitesDialog, successMessage]);
 
+  const bLicenseDisabled = license.status.toLowerCase().startsWith('disabled');
   const statusClass = cn(styles.status, {
     [styles.active]: license.status.toLowerCase().startsWith('active'),
     [styles.inactive]: license.status.toLowerCase().startsWith('inactive'),
-    [styles.disabled]: license.status.toLowerCase().startsWith('disabled'),
+    [styles.disabled]: bLicenseDisabled,
   });
+
+  useEffect(() => {
+    if ((loadingHelper === LoadingHelper.Enable && !bLicenseDisabled) || (loadingHelper === LoadingHelper.Disable && bLicenseDisabled)) {
+      setLoading(false);
+      setLoadingHelper(LoadingHelper.None);
+    }
+  }, [bLicenseDisabled, loadingHelper]);
+
+  const onEnableDisableLicense = useCallback(() => {
+    setLoading(true);
+
+    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: bLicenseDisabled })
+      .then(res => {
+        router.refresh();
+        setLoadingHelper(bLicenseDisabled ? LoadingHelper.Enable : LoadingHelper.Disable);
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(err.response?.data?.message ?? `Could not ${bLicenseDisabled ? 'enable' : 'disable'} license!`);
+      });
+  }, [bLicenseDisabled]);
 
   let licenseUser = 'Unassigned';
   let bAssigned = false;
@@ -55,6 +88,11 @@ const LicenseItem = ({ license }) => {
 
   return (
     <div className={styles.licenseBlock}>
+      {loading &&
+        <div className={styles.overlay}>
+          <Loading theme={K_Theme.Light} scale={2} />
+        </div>
+      }
       <div className={styles.dataList}>
         <div>Status:</div>
         <div className={statusClass}>{license.status}</div>
@@ -83,15 +121,18 @@ const LicenseItem = ({ license }) => {
         {!bAssigned &&
           <>
             <PushButton extraClass={styles.pbXtra}
+                        disabled={loading}
                         onClick={() => setIsOpen_AssignLicenseDialog(true)}>
               Assign
             </PushButton>
             <PushButton extraClass={styles.pbXtra}
+                        disabled={loading}
                         onClick={() => { /* TODO: to be implemented*/ }}>
               Assign to self
             </PushButton>
             {bMailsSent &&
               <PushButton extraClass={styles.pbXtra}
+                          disabled={loading}
                           onClick={() => setIsOpen_ManageInvitesDialog(true)}>
                 Manage invites
               </PushButton>
@@ -100,10 +141,16 @@ const LicenseItem = ({ license }) => {
         }
         {bAssigned &&
           <PushButton extraClass={styles.pbXtra}
+                      disabled={loading}
                       onClick={() => { /* TODO: to be implemented*/ }}>
             Unassign user
           </PushButton>
         }
+        <PushButton extraClass={styles.pbXtra}
+                    disabled={loading}
+                    onClick={onEnableDisableLicense}>
+          {bLicenseDisabled ? 'Enable' : 'Disable'}
+        </PushButton>
       </div>
       <AssignLicenseDialog isOpen={isOpen_AssignLicenseDialog}
                            notifyClosed={() => setIsOpen_AssignLicenseDialog(false)}
