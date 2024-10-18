@@ -40,7 +40,7 @@ const ExistingUserNewLicensePage = ({ email, licenseData }) => {
 
     setLoading(true);
 
-    axios.post('/api/register/user/assign-license-to-existing', { email, password, token })
+    axios.post('/api/register/user/assign-existing-to-license', { email, password, token })
       .then(res => {
         setUserCreated(true);
         setLoading(false); // Unnecessary, but let it stay here

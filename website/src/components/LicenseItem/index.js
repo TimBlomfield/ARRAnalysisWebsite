@@ -12,6 +12,7 @@ import AssignLicenseDialog from './AssignLicenseDialog';
 import Loading from '@/components/Loading';
 import ManageInvitesDialog from './ManageInvitesDialog';
 import PushButton from '@/components/PushButton';
+import SelfAssignDialog from './SelfAssignDialog';
 // Styles
 import styles from './styles.module.scss';
 
@@ -22,22 +23,23 @@ const LoadingHelper = {
   Disable: 'Disable',
 };
 
-const LicenseItem = ({ license }) => {
+const LicenseItem = ({ license, myEmail }) => {
   const router = useRouter();
 
   const [isOpen_AssignLicenseDialog, setIsOpen_AssignLicenseDialog] = useState(false);
   const [isOpen_ManageInvitesDialog, setIsOpen_ManageInvitesDialog] = useState(false);
+  const [isOpen_SelfAssignDialog, setIsOpen_SelfAssignDialog] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingHelper, setLoadingHelper] = useState(LoadingHelper.None);
 
   useEffect(() => {
-    if (!isOpen_AssignLicenseDialog && !isOpen_ManageInvitesDialog && successMessage !== '') {
+    if (!isOpen_AssignLicenseDialog && !isOpen_ManageInvitesDialog && !isOpen_SelfAssignDialog && successMessage !== '') {
       toast.success(successMessage);
       setSuccessMessage('');
       router.refresh();
     }
-  }, [isOpen_AssignLicenseDialog, isOpen_ManageInvitesDialog, successMessage]);
+  }, [isOpen_AssignLicenseDialog, isOpen_ManageInvitesDialog, isOpen_SelfAssignDialog, successMessage]);
 
   const bLicenseDisabled = license.status.toLowerCase().startsWith('disabled');
   const statusClass = cn(styles.status, {
@@ -56,7 +58,7 @@ const LicenseItem = ({ license }) => {
   const onEnableDisableLicense = useCallback(() => {
     setLoading(true);
 
-    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: bLicenseDisabled })
+    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: license.license_users[0].id })
       .then(res => {
         router.refresh();
         setLoadingHelper(bLicenseDisabled ? LoadingHelper.Enable : LoadingHelper.Disable);
@@ -66,6 +68,26 @@ const LicenseItem = ({ license }) => {
         toast.error(err.response?.data?.message ?? `Could not ${bLicenseDisabled ? 'enable' : 'disable'} license!`);
       });
   }, [bLicenseDisabled]);
+
+  const onRemoveUserFromLicense = useCallback(() => {
+    if (!Array.isArray(license.license_users) || license.license_users.length < 1 || (typeof license.license_users[0].id !== 'number')) {
+      toast.error('Unexpected error: Invalid license object!');
+      return;
+    }
+
+    setLoading(true);
+
+    axios.post('/api/licensing/remove-user-from-license/', { licenseId: license.id, userId: license.license_users[0].id })
+      .then(res => {
+        setLoading(false);
+        router.refresh();
+        toast.success(res?.data?.message ?? 'User unassigned');
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(err.response?.data?.message ?? 'Could not remove user from license!');
+      });
+  }, [license]);
 
   let licenseUser = 'Unassigned';
   let bAssigned = false;
@@ -127,7 +149,7 @@ const LicenseItem = ({ license }) => {
             </PushButton>
             <PushButton extraClass={styles.pbXtra}
                         disabled={loading}
-                        onClick={() => { /* TODO: to be implemented*/ }}>
+                        onClick={() => setIsOpen_SelfAssignDialog(true)}>
               Assign to self
             </PushButton>
             {bMailsSent &&
@@ -142,7 +164,7 @@ const LicenseItem = ({ license }) => {
         {bAssigned &&
           <PushButton extraClass={styles.pbXtra}
                       disabled={loading}
-                      onClick={() => { /* TODO: to be implemented*/ }}>
+                      onClick={onRemoveUserFromLicense}>
             Unassign user
           </PushButton>
         }
@@ -160,6 +182,11 @@ const LicenseItem = ({ license }) => {
                            notifyClosed={() => setIsOpen_ManageInvitesDialog(false)}
                            emailList={license.mailsSent}
                            passSuccessMessage={msg => setSuccessMessage(msg)} />
+      <SelfAssignDialog isOpen={isOpen_SelfAssignDialog}
+                        notifyClosed={() => setIsOpen_SelfAssignDialog(false)}
+                        licenseId={license.id}
+                        myEmail={myEmail}
+                        passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );
 };

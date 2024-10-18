@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import zxcvbn from 'zxcvbn';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { validateUnicodeEmail } from '@/utils/validators';
@@ -12,7 +14,6 @@ import PasswordStrength from '@/components/PasswordStrength';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
-import Link from 'next/link';
 
 
 const ID_EMAIL    = 'input-email-4013378082fa-961385';
@@ -33,7 +34,6 @@ const ToastMsg = ({ email }) => {
 // Note: this is a full page, therefore the name ends with Page and not Form
 const AdminRegistrationPage = ({ reglinkEmail }) => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const token = searchParams.get('token');
 
   const [email, setEmail] = useState(() => reglinkEmail);
@@ -43,7 +43,6 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
   const [errPassword, setErrPassword] = useState('');
   const [errConfirm, setErrConfirm] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loader, setLoader] = useState(true);
   const [adminCreated, setAdminCreated] = useState(false);
 
   useEffect(() => {
@@ -82,9 +81,15 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
       setErrEmail('Invalid email');
     }
 
-    if (password.length < 4) {
+    if (password.length < 8) {
       bError = true;
-      setErrPassword('Password must contain at least 4 characters');
+      setErrPassword('Password must contain at least 8 characters');
+    } else {
+      const zxc = zxcvbn(password);
+      if (zxc.score < 3) {
+        bError = true;
+        setErrPassword('Password strength must be at least "Good"');
+      }
     }
 
     if (confirm !== password) {
@@ -140,7 +145,7 @@ const AdminRegistrationPage = ({ reglinkEmail }) => {
             <>
               {loading &&
                 <div className={styles.overlay}>
-                  { loader && <Loading scale={2} /> }
+                  <Loading scale={2} />
                 </div>
               }
               <div className={styles.caption}>Register Admin</div>

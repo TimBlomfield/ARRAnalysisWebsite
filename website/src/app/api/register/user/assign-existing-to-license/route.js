@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { compare } from 'bcrypt';
-import {checkRegToken, RegTokenState} from '@/utils/server/common';
+import { checkRegToken, RegTokenState } from '@/utils/server/common';
 import db from '@/utils/server/db';
-import {Role} from '@prisma/client';
+import { Role } from '@prisma/client';
 import axios from 'axios';
 
 const POST = async req => {

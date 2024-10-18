@@ -8,8 +8,8 @@ import styles from './styles.module.scss';
 
 
 const PasswordStrength = ({password = '', extraClass = ''}) => {
-  let pwdStrength = 'Too short', barStyle = styles.veryWeak, arr = [];
-  if (password.length > 3) {
+  let pwdStrength = '-', barStyle = styles.veryWeak, arr = [];
+  if (password.length > 0) {
     const res = zxcvbn(password);
     switch (res.score) {
       case 0: pwdStrength = 'Very weak'; break;

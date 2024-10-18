@@ -92,7 +92,7 @@ const LicensesPage = async () => {
   return (
     <div className={styles.licenseList}>
       <div className={styles.title}>Licenses for {token.userData.email}</div>
-      {licenseData.results.map(license => <LicenseItem key={license.id} license={license} />)}
+      {licenseData.results.map(license => <LicenseItem key={license.id} license={license} myEmail={token.userData.email} />)}
     </div>
   );
 };

@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import zxcvbn from 'zxcvbn';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
@@ -11,6 +12,7 @@ import { validateUnicodeEmail } from '@/utils/validators';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import MultiToggle from '@/components/MultiToggle';
+import PasswordStrength from '@/components/PasswordStrength';
 import PushButton from '@/components/PushButton';
 import SubscriptionCard from './SubscriptionCard';
 import ValidationError from '@/components/ValidationError';
@@ -119,23 +121,32 @@ const CheckoutClientPageInner = ({ tiers }) => {
         password: password,
         confirm: confirm,
       };
-      let bErrorMissing = false, bErrorInvalidEmail = false, bErrorPassMatch = false, bErrorPassShort = false;
+      let bErrorMissing = false, bErrorInvalidEmail = false, bErrorPassMatch = false, bErrorPassShort = false, bErrorPassWeak = false;
 
       if (userData.firstName.length === 0) { bErrorMissing = true; setErrFirstName(true); }
       if (userData.lastName.length === 0) { bErrorMissing = true; setErrLastName(true); }
       if (userData.email.length === 0) { bErrorMissing = true; setErrEmail(true); }
       if (userData.password.length === 0) { bErrorMissing = true; setErrPassword(true); }
-      if (userData.password.length > 0 && userData.password.length < 4) { bErrorPassShort = true; setErrPassword(true); }
+      if (userData.password.length > 0 && userData.password.length < 8) { bErrorPassShort = true; setErrPassword(true); }
+      if (userData.password.length > 0) {
+        const zxc = zxcvbn(userData.password);
+        if (zxc.score < 3) {
+          bErrorPassWeak = true;
+          setErrPassword(true);
+        }
+      }
       if (userData.email.length > 0 && !validateUnicodeEmail(userData.email)) { bErrorInvalidEmail = true; setErrEmail(true); }
       if (userData.password !== userData.confirm) { bErrorPassMatch = true; setErrPassword(true); setErrConfirm(true); }
-      if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort) {
+      if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort || bErrorPassWeak) {
         let strError = 'Customer validation failed:';
         if (bErrorMissing)
           strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
         if (bErrorInvalidEmail)
           strError += '\n\u00A0\u00A0\u00A0• Invalid email address';
         if (bErrorPassShort)
-          strError += '\n\u00A0\u00A0\u00A0• Password must be at least 4 characters long';
+          strError += '\n\u00A0\u00A0\u00A0• Password must be at least 8 characters long';
+        if (bErrorPassWeak)
+          strError += '\n\u00A0\u00A0\u00A0• Password strength must be at least "Good"';
         if (bErrorPassMatch)
           strError += '\n\u00A0\u00A0\u00A0• Password confirmation does not match';
         throw new Error(strError);
@@ -307,6 +318,7 @@ const CheckoutClientPageInner = ({ tiers }) => {
                      value={confirm}
                      onChange={confirmFn}
                      errorBorder={errConfirm} />
+              <PasswordStrength password={password} extraClass={styles.pwdXtra} />
             </section>
 
             <section className={styles.paymentMethod}>

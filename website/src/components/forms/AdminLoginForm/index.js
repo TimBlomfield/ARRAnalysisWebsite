@@ -54,9 +54,9 @@ const AdminLoginForm = () => {
       setErrEmail('Invalid email');
     }
 
-    if (password.length < 4) {
+    if (password.length < 8) {
       bError = true;
-      setErrPassword('Password must contain at least 4 characters');
+      setErrPassword('Password must contain at least 8 characters');
     }
 
     if (!bError) {
