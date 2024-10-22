@@ -107,6 +107,7 @@ const LicenseItem = ({ license, myEmail }) => {
 
   const dateActivated = DateTime.fromISO(license.time_activated);
   const bMailsSent = Array.isArray(license.mailsSent) && license.mailsSent.length > 0;
+  const bWaitingToAssign = Array.isArray(license.portalUsers) && license.portalUsers.length > 0;
 
   return (
     <div className={styles.licenseBlock}>
@@ -130,12 +131,22 @@ const LicenseItem = ({ license, myEmail }) => {
         }
         <div>Valid until:</div>
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
-        <div>Assigned to:</div>
-        <div className={bAssigned ? styles.user : ''}>{licenseUser}</div>
+        {bAssigned &&
+          <>
+            <div>Assigned to:</div>
+            <div className={styles.user}>{licenseUser}</div>
+          </>
+        }
         {bMailsSent &&
           <>
             <div>Email sent to:</div>
             <div>{license.mailsSent.map(item => item.email).join(', ')}</div>
+          </>
+        }
+        {bWaitingToAssign &&
+          <>
+            <div>Waiting to assign:</div>
+            <div>{license.portalUsers.map(item => item.email).join(', ')}</div>
           </>
         }
       </div>

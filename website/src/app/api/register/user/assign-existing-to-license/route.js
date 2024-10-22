@@ -4,7 +4,7 @@ import { checkRegToken, RegTokenState } from '@/utils/server/common';
 import db from '@/utils/server/db';
 import { Role } from '@prisma/client';
 import axios from 'axios';
-
+// TODO: Delete this file
 const POST = async req => {
   try {
     const body = await req.json();

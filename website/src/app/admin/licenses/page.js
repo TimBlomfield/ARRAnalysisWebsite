@@ -28,6 +28,7 @@ const LicensesPage = async () => {
   try {
     const customer = await db.customer.findUnique({
       where: { id: token.userData.customerId },
+      include: { users: true },
     });
 
     if (customer == null) throw new Error('Customer not found!');
@@ -75,6 +76,26 @@ const LicensesPage = async () => {
       });
       if (regLinks != null) {
         license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id, token: cur.token, f: cur.firstName, l: cur.lastName } ], []);
+      }
+      if (Array.isArray(customer.users)) {
+        // Which customers have this license
+        const usersForThisLicense = customer.users.reduce((acc, cur) => {
+          if (cur.licenseIds.includes(BigInt(license.id)))
+            acc.push(cur.id_UserData);
+          return acc;
+        }, []);
+
+        license.portalUsers = []; // This will contain all users that are assigned in LicenseSpring
+        for (const udId of usersForThisLicense) {
+          const usrData = await db.userData.findUnique({ where: { id: udId }});
+          const bIsAssigned = license.license_users.some(elem => elem.true_email === usrData.email);  // Assigned in license spring
+          if (!bIsAssigned)
+            license.portalUsers.push({
+              firstName: usrData.firstName,
+              lastName: usrData.lastName,
+              email: usrData.email,
+            });
+        }
       }
     }
   } catch (err) {

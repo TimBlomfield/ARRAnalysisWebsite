@@ -2,9 +2,10 @@
 
 import { useCallback, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import Link from 'next/link';
+import axios from 'axios';
+import zxcvbn from 'zxcvbn';
+import { toast } from 'react-toastify';
 // Components
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -46,9 +47,15 @@ const UserRegistrationPage = ({ email, licenseData }) => {
   const onBtnSubmit = useCallback(() => {
     let bError = false;
 
-    if (password.length < 4) {
+    if (password.length < 8) {
       bError = true;
-      setErrPassword('Password must contain at least 4 characters');
+      setErrPassword('Password must contain at least 8 characters');
+    } else {
+      const zxc = zxcvbn(password);
+      if (zxc.score < 3) {
+        bError = true;
+        setErrPassword('Password strength must be at least "Good"');
+      }
     }
 
     if (confirm !== password) {
@@ -99,7 +106,7 @@ const UserRegistrationPage = ({ email, licenseData }) => {
                 </div>
               }
               <div className={styles.caption}>Create User</div>
-              <div className={styles.text}>Create a new user for the following license:</div>
+              <div className={styles.text}>Create a password for your ARR Analysis portal account. Once your account is created, you can log in to the portal and assign yourself to the following license:</div>
               <div className={styles.central}>
                 <RegLicenseDesc licenseData={licenseData} />
               </div>
@@ -145,8 +152,7 @@ const UserRegistrationPage = ({ email, licenseData }) => {
           {userCreated &&
             <>
               <div className={styles.c1}>User created successfully!</div>
-              <div className={styles.t1}>You can now start using the <LogoSvg className={styles.logo} /> Excel Add-in, with your email <span className={styles.mail}>{email}</span> and the password that you have just provided as credentials.</div>
-              <div className={styles.t2}>You can also <Link href="/login">login here</Link> and review your license status using the same credentials.</div>
+              <div className={styles.t1}>You can now <Link href="/login">login here</Link> and assign yourself to an <LogoSvg className={styles.logo} /> Excel Add-in license. You can also review the status of the license(s) you have been assigned to.</div>
             </>
           }
         </div>

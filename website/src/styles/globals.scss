@@ -9,8 +9,12 @@ $font-secondary: var(--font-aspekta-250);
 // Global font styles
 .g_fontPrimary {
   font-family: $font-primary, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
 }
 
 .g_fontSecondary {
   font-family: $font-secondary, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
 }

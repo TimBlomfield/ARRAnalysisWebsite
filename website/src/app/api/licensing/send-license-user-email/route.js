@@ -17,8 +17,21 @@ const POST = async req => {
   if (authToken?.email == null || !isAuthTokenValid(authToken))
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
-  let id = 0;
+  let id = 0, bExisting = false;
   try {
+    // First check if the email exists in the system and if so, what role it is associated with
+    const existingUserData = await db.userData.findUnique({
+      where: { email },
+      include: { user: true, customer: true, admin: true },
+    });
+    if (existingUserData != null) {
+      // Check if this is a stray UserData (not associated with a User or Customer or Admin)
+      if (existingUserData.user == null && existingUserData.customer == null && existingUserData.admin == null)
+        await db.userData.delete({ where: { email }});  // Delete the stray UserData
+      else
+        bExisting = true;
+    }
+
     const token = randomBytes(32).toString('hex');
 
     // We don't want duplicates, so first delete any existing RegistrationLink that contains the email, licenseId, and role=USER
@@ -27,7 +40,9 @@ const POST = async req => {
     });
 
     // Now create the RegistrationLink in the DB
-    const expiresAt = new Date(Date.now() + 1000*60*60*24); // Expires in 24 hours
+    const expiresAt = bExisting
+      ? new Date(Date.now() + 1000*60*60*24*365*5)  // Expires in 5 years
+      : new Date(Date.now() + 1000*60*60*24);       // Expires in 24 hours
     const ret = await db.registrationLink.create({
       data: {
         role: Role.USER,
@@ -45,7 +60,7 @@ const POST = async req => {
 
     const mailgun = new Mailgun(formData);
     const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
-    const regUrl = process.env.REGISTRATION_BASEURL + '?token=' + token;
+    const regUrl = bExisting ? process.env.LOGIN_BASEURL : process.env.REGISTRATION_BASEURL + '?token=' + token;
 
     let hello = '';
     if (firstName || lastName) {
@@ -54,12 +69,19 @@ const POST = async req => {
       fl += lastName;
       hello = `Hello ${fl},`;
     }
+
+    let html;
+    if (bExisting) {
+      html = `${hello}<p>You have been registered for a new ARR Analysis add-in license.</p><p>Please <a href="${regUrl}">login</a> to the portal and register yourself with the new license.</p><p>Sincerely, the ArrAnalysis team.</p>`;
+    } else {
+      html = `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`;
+    }
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `Webmaster <postmaster@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],
       subject: 'User Registration',
       text: 'Ephemeral link',
-      html: `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`,
+      html,
     });
 
   } catch (error) {

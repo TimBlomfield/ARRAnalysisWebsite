@@ -4,7 +4,6 @@ import { Role } from '@prisma/client';
 import { getLicenseData } from '@/utils/server/licenses';
 // Components
 import AdminRegistrationPage from '@/components/forms/AdminRegistrationPage';
-import ExistingUserNewLicensePage from '@/components/forms/ExistingUserNewLicensePage';
 import UserRegistrationPage from '@/components/forms/UserRegistrationPage';
 
 
@@ -20,12 +19,12 @@ const RegistrationPage = async ({ searchParams }) => {
       return <AdminRegistrationPage reglinkEmail={ret.email} />;
 
     case Role.USER:
+      if (ret.userExists)
+        notFound();
       const ld = await getLicenseData(ret.userData?.licenseId);
       if (ld == null)
         notFound();
-      return ret.userExists
-        ? <ExistingUserNewLicensePage email={ret.email} licenseData={ld} />
-        : <UserRegistrationPage email={ret.email} licenseData={ld} />;
+      return <UserRegistrationPage email={ret.email} licenseData={ld} />;
 
     default:
       notFound();

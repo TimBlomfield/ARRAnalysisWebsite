@@ -2,8 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import axios from 'axios';
-import { toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 // Components
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -13,9 +14,8 @@ import RegLicenseDesc from '@/components/RegLicenseDesc';
 import LogoSvg from '@/../public/logo-blue.svg';
 // Styles
 import styles from './styles.module.scss';
-import Link from 'next/link';
 
-
+// TODO: delete this file
 const ID_PASSWORD = 'input-password-AB53-52D339ADD204';
 
 
