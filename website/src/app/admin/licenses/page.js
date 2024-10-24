@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import axios from 'axios';
 import { authOptions } from '@/utils/server/auth';
 import { isAuthTokenValid } from '@/utils/server/common';
+import { encodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
 // Components
 import LicenseItem from '@/components/LicenseItem';
@@ -97,6 +98,8 @@ const LicensesPage = async () => {
             });
         }
       }
+      license.portalCustomerId = customer.id;
+      license.encodedId = encodeLicenseId(license.id);
     }
   } catch (err) {
     console.error(err);
@@ -113,7 +116,7 @@ const LicensesPage = async () => {
   return (
     <div className={styles.licenseList}>
       <div className={styles.title}>Licenses for {token.userData.email}</div>
-      {licenseData.results.map(license => <LicenseItem key={license.id} license={license} myEmail={token.userData.email} />)}
+      {licenseData.results.map(license => <LicenseItem key={license.id} license={license} />)}
     </div>
   );
 };

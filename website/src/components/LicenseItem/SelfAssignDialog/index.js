@@ -19,7 +19,7 @@ import styles from './styles.module.scss';
 const ID_PASSWORD = 'input-password-48a5-bf4b-bafa5a50950e';
 const ID_CONFIRM  = 'input-confirm-489f-9a81-07f8b4b324c6';
 
-
+// TODO: delete this file
 const SelfAssignDialog = ({ isOpen, notifyClosed, licenseId, myEmail, passSuccessMessage }) => {
   const dlgId = useId();
 

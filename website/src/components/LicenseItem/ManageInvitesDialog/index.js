@@ -12,6 +12,7 @@ import PushButton from '@/components/PushButton';
 import styles from './styles.module.scss';
 
 
+// TODO: delete this file
 const ManageInvitesDialog = ({ isOpen, notifyClosed, emailList, passSuccessMessage }) => {
   const dlgId = useId();
 

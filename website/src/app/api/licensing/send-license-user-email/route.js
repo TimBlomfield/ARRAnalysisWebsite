@@ -11,7 +11,7 @@ import { Role } from '@prisma/client';
 
 const POST = async req => {
   const authToken = await getToken({ req });
-  const { licenseId, email, firstName, lastName } = await req.json();
+  const { licenseId, customerId, email, firstName, lastName } = await req.json();
 
   // User must be logged in
   if (authToken?.email == null || !isAuthTokenValid(authToken))
@@ -32,35 +32,59 @@ const POST = async req => {
         bExisting = true;
     }
 
-    const token = randomBytes(32).toString('hex');
-
     // We don't want duplicates, so first delete any existing RegistrationLink that contains the email, licenseId, and role=USER
     await db.registrationLink.deleteMany({
       where: { email, licenseId, role: Role.USER },
     });
 
-    // Now create the RegistrationLink in the DB
-    const expiresAt = bExisting
-      ? new Date(Date.now() + 1000*60*60*24*365*5)  // Expires in 5 years
-      : new Date(Date.now() + 1000*60*60*24);       // Expires in 24 hours
-    const ret = await db.registrationLink.create({
-      data: {
-        role: Role.USER,
-        licenseId,
-        firstName,
-        lastName,
-        customerEmail: authToken.email,
-        token,
-        email,
-        expiresAt,
-      },
-    });
+    let regUrl;
+    if (bExisting) {
+      regUrl =  process.env.LOGIN_BASEURL;
+      if (existingUserData.user == null) {
+        // The existing portal user is either an Administrator or a Customer, so we create the new User.
+        await db.user.create({
+          data: {
+            licenseIds: [licenseId],
+            id_UserData: existingUserData.id,
+            id_Customer: customerId,
+          },
+        });
+      } else {
+        // Add the licenseId to the existing user's licensesIds array, but make sure it's not a duplicate
+        const uniqueLicenseIds = [...new Set([...existingUserData.user.licenseIds, BigInt(licenseId)])];
 
-    id = ret.id;
+        await db.user.update({
+          where: { id: existingUserData.user.id },
+          data: {
+            licenseIds: {
+              set: uniqueLicenseIds,
+            },
+          },
+        });
+      }
+    } else {
+      const token = randomBytes(32).toString('hex');
+
+      // We create the RegistrationLink in the DB for non-existing portal users
+      const ret = await db.registrationLink.create({
+        data: {
+          role: Role.USER,
+          licenseId,
+          firstName,
+          lastName,
+          customerEmail: authToken.email,
+          token,
+          email,
+          expiresAt: new Date(Date.now() + 1000*60*60*24), // Expires in 24 hours
+        },
+      });
+
+      id = ret.id;
+      regUrl = process.env.REGISTRATION_BASEURL + '?token=' + token;
+    }
 
     const mailgun = new Mailgun(formData);
     const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
-    const regUrl = bExisting ? process.env.LOGIN_BASEURL : process.env.REGISTRATION_BASEURL + '?token=' + token;
 
     let hello = '';
     if (firstName || lastName) {
@@ -70,12 +94,10 @@ const POST = async req => {
       hello = `Hello ${fl},`;
     }
 
-    let html;
-    if (bExisting) {
-      html = `${hello}<p>You have been registered for a new ARR Analysis add-in license.</p><p>Please <a href="${regUrl}">login</a> to the portal and register yourself with the new license.</p><p>Sincerely, the ArrAnalysis team.</p>`;
-    } else {
-      html = `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`;
-    }
+    const html = bExisting
+      ? `${hello}<p>You have been registered for a new ARR Analysis add-in license.</p><p>Please <a href="${regUrl}">login</a> to the portal and register yourself with the new license.</p><p>Sincerely, the ArrAnalysis team.</p>`
+      : `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`;
+
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `Webmaster <postmaster@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
-import { ID_TOASTER_DIALOG_ASSIGN_LICENSE } from '@/utils/toast-container-ids';
+import { ID_TOASTER_DIALOG_INVITE_USER } from '@/utils/toast-container-ids';
 // Components
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -20,7 +20,7 @@ const ID_LAST_NAME  = 'input-last-name-bc62-3fe9ad4aaa4e';
 const ID_EMAIL      = 'input-email-ab86-5abcab5a9688';
 
 
-const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessage }) => {
+const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuccessMessage }) => {
   const dlgId = useId();
 
   const [loading, setLoading] = useState(false);
@@ -96,6 +96,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
 
       axios.post('/api/licensing/send-license-user-email', {
         licenseId,
+        customerId,
         email: email.trim(),
         firstName: firstName.trim(),
         lastName: lastName.trim(),
@@ -106,7 +107,7 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
         })
         .catch(err => {
           setLoading(false);
-          toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_ASSIGN_LICENSE });
+          toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_INVITE_USER });
         });
     }
   }, [email]);
@@ -133,8 +134,8 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
     return null;  // Prevents rendering many <dialog> objects in the DOM
 
   return (
-    <dialog id={dlgId} className={styles.assignLicenseDialog}>
-      <div className={styles.title}>Assign License User</div>
+    <dialog id={dlgId} className={styles.inviteUserDialog}>
+      <div className={styles.title}>Invite a User</div>
       <div className={styles.inputs}>
         {loading &&
           <div className={styles.overlay}>
@@ -191,10 +192,10 @@ const AssignLicenseDialog = ({ isOpen, notifyClosed, licenseId, passSuccessMessa
           Cancel
         </PushButton>
       </div>
-      <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_ASSIGN_LICENSE} />
+      <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_INVITE_USER} />
     </dialog>
   );
 };
 
 
-export default AssignLicenseDialog;
+export default InviteUserDialog;

@@ -8,11 +8,9 @@ import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
-import AssignLicenseDialog from './AssignLicenseDialog';
+import InviteUserDialog from './InviteUserDialog';
 import Loading from '@/components/Loading';
-import ManageInvitesDialog from './ManageInvitesDialog';
 import PushButton from '@/components/PushButton';
-import SelfAssignDialog from './SelfAssignDialog';
 // Styles
 import styles from './styles.module.scss';
 
@@ -23,23 +21,21 @@ const LoadingHelper = {
   Disable: 'Disable',
 };
 
-const LicenseItem = ({ license, myEmail }) => {
+const LicenseItem = ({ license }) => {
   const router = useRouter();
 
-  const [isOpen_AssignLicenseDialog, setIsOpen_AssignLicenseDialog] = useState(false);
-  const [isOpen_ManageInvitesDialog, setIsOpen_ManageInvitesDialog] = useState(false);
-  const [isOpen_SelfAssignDialog, setIsOpen_SelfAssignDialog] = useState(false);
+  const [isOpen_InviteUserDialog, setIsOpen_InviteUserDialog] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingHelper, setLoadingHelper] = useState(LoadingHelper.None);
 
   useEffect(() => {
-    if (!isOpen_AssignLicenseDialog && !isOpen_ManageInvitesDialog && !isOpen_SelfAssignDialog && successMessage !== '') {
+    if (!isOpen_InviteUserDialog && successMessage !== '') {
       toast.success(successMessage);
       setSuccessMessage('');
       router.refresh();
     }
-  }, [isOpen_AssignLicenseDialog, isOpen_ManageInvitesDialog, isOpen_SelfAssignDialog, successMessage]);
+  }, [isOpen_InviteUserDialog, successMessage]);
 
   const bLicenseDisabled = license.status.toLowerCase().startsWith('disabled');
   const statusClass = cn(styles.status, {
@@ -89,19 +85,38 @@ const LicenseItem = ({ license, myEmail }) => {
       });
   }, [license]);
 
+  const onAssignSelf = useCallback(() => {
+    setLoading(true);
+
+    axios.post('/api/licensing/assign-self-to-license', { licenseId: license.id })
+      .then(res => {
+        setLoading(false);
+        router.refresh();
+        toast.success(res?.data?.message ?? 'Assigned');
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(err.response?.data?.message ?? 'Could not assign!');
+      });
+  }, [license]);
+
   let licenseUser = 'Unassigned';
   let bAssigned = false;
   if (Array.isArray(license.license_users) && license.license_users.length > 0) {
     bAssigned = true;
-    const u = license.license_users[0];
-    licenseUser = u.true_email;
-    const fn = u.first_name ?? '';
-    const ln = u.last_name ?? '';
-    if (fn || ln) {
-      let fnln = fn;
-      if (fn.length > 0 && ln.length > 0) fnln += ' ';
-      fnln += ln;
-      licenseUser += ` (${fnln})`;
+    licenseUser = '';
+    for (let i = 0; i < license.license_users.length; ++i) {
+      if (i > 0) licenseUser += ', ';
+      const u = license.license_users[i];
+      licenseUser += u.true_email;
+      const fn = u.first_name ?? '';
+      const ln = u.last_name ?? '';
+      if (fn || ln) {
+        let fnln = fn;
+        if (fn.length > 0 && ln.length > 0) fnln += ' ';
+        fnln += ln;
+        licenseUser += ` (${fnln})`;
+      }
     }
   }
 
@@ -131,72 +146,55 @@ const LicenseItem = ({ license, myEmail }) => {
         }
         <div>Valid until:</div>
         <div>{DateTime.fromISO(license.validity_period).toFormat('MMM d yyyy')}</div>
-        {bAssigned &&
-          <>
-            <div>Assigned to:</div>
-            <div className={styles.user}>{licenseUser}</div>
-          </>
-        }
         {bMailsSent &&
           <>
-            <div>Email sent to:</div>
+            <div>Invited by email:</div>
             <div>{license.mailsSent.map(item => item.email).join(', ')}</div>
           </>
         }
         {bWaitingToAssign &&
           <>
-            <div>Waiting to assign:</div>
+            <div>Allowed users ({license.portalUsers.length}):</div>
             <div>{license.portalUsers.map(item => item.email).join(', ')}</div>
+          </>
+        }
+        {bAssigned &&
+          <>
+            <div>Assigned users ({license.license_users.length}):</div>
+            <div className={styles.user}>{licenseUser}</div>
           </>
         }
       </div>
       <div className={styles.actions}>
-        {!bAssigned &&
-          <>
-            <PushButton extraClass={styles.pbXtra}
-                        disabled={loading}
-                        onClick={() => setIsOpen_AssignLicenseDialog(true)}>
-              Assign
-            </PushButton>
-            <PushButton extraClass={styles.pbXtra}
-                        disabled={loading}
-                        onClick={() => setIsOpen_SelfAssignDialog(true)}>
-              Assign to self
-            </PushButton>
-            {bMailsSent &&
-              <PushButton extraClass={styles.pbXtra}
-                          disabled={loading}
-                          onClick={() => setIsOpen_ManageInvitesDialog(true)}>
-                Manage invites
-              </PushButton>
-            }
-          </>
-        }
-        {bAssigned &&
+        <PushButton extraClass={styles.pbXtra}
+                    disabled={loading}
+                    title="Send an invitation email."
+                    onClick={() => setIsOpen_InviteUserDialog(true)}>
+          Invite User
+        </PushButton>
+        <PushButton extraClass={styles.pbXtra}
+                    disabled={loading}
+                    title="Allow this license for yourself. You will then be able to assign yourself to this license and use the add-in."
+                    onClick={onAssignSelf}>
+          Allow for Self
+        </PushButton>
+        {(bMailsSent || bWaitingToAssign || bAssigned) &&
           <PushButton extraClass={styles.pbXtra}
                       disabled={loading}
-                      onClick={onRemoveUserFromLicense}>
-            Unassign user
+                      onClick={() => { router.push(`/admin/licenses/${license.encodedId}/manage-users`); }}>
+            Manage License Users
           </PushButton>
         }
         <PushButton extraClass={styles.pbXtra}
                     disabled={loading}
                     onClick={onEnableDisableLicense}>
-          {bLicenseDisabled ? 'Enable' : 'Disable'}
+          {bLicenseDisabled ? 'Enable' : 'Disable'} License
         </PushButton>
       </div>
-      <AssignLicenseDialog isOpen={isOpen_AssignLicenseDialog}
-                           notifyClosed={() => setIsOpen_AssignLicenseDialog(false)}
-                           licenseId={license.id}
-                           passSuccessMessage={msg => setSuccessMessage(msg)} />
-      <ManageInvitesDialog isOpen={isOpen_ManageInvitesDialog}
-                           notifyClosed={() => setIsOpen_ManageInvitesDialog(false)}
-                           emailList={license.mailsSent}
-                           passSuccessMessage={msg => setSuccessMessage(msg)} />
-      <SelfAssignDialog isOpen={isOpen_SelfAssignDialog}
-                        notifyClosed={() => setIsOpen_SelfAssignDialog(false)}
+      <InviteUserDialog isOpen={isOpen_InviteUserDialog}
+                        notifyClosed={() => setIsOpen_InviteUserDialog(false)}
                         licenseId={license.id}
-                        myEmail={myEmail}
+                        customerId={license.portalCustomerId}
                         passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );
