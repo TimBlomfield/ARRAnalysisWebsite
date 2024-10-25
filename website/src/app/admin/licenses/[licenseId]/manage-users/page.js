@@ -5,6 +5,7 @@ import { authOptions } from '@/utils/server/auth';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { decodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
+import ManageLicenseUsersPage from '@/components/forms/ManageLicenseUsersPage';
 
 
 const ManageUsersPage = async ({ params: { licenseId } }) => {
@@ -20,7 +21,7 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
   if (token.userData.customerId == null)
     notFound();
 
-  let license = null;
+  let license = null, customer = null;
   try {
     const licenseSpringLicenseId = decodeLicenseId(licenseId);
 
@@ -31,7 +32,7 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
     });
     license = { ...data };
 
-    const customer = await db.customer.findUnique({
+    customer = await db.customer.findUnique({
       where: { id: token.userData.customerId },
       include: {
         users: {
@@ -61,24 +62,12 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
       license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id, token: cur.token, f: cur.firstName, l: cur.lastName } ], []);
     }
 
-    /* TODO: no need for this code
-    license.localDbUsers = [];
-    if (Array.isArray(customer.users)) {
-      // Which customers have this license
-      license.localDbUsers = customer.users.reduce((acc, cur) => {
-        if (cur.licenseIds.includes(BigInt(license.id)))
-          acc.push(cur);
-        return acc;
-      }, []);
-    }
-    /**/
-
   } catch (err) {
     console.error(err);
     notFound();
   }
 
-  return (<div>Manage Users Page</div>);  // TODO: Create ManageLicenseUsersPage in /components/forms
+  return <ManageLicenseUsersPage license={license} customer={customer} />;
 };
 
 

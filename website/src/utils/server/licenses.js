@@ -47,6 +47,7 @@ const decodeLicenseId = str => {
   return result;
 };
 
+
 export {
   getLicenseData,
   encodeLicenseId,

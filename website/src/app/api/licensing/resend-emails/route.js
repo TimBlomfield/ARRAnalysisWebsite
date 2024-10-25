@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 import { isAuthTokenValid } from '@/utils/server/common';
 import db from '@/utils/server/db';
 
-
+// TODO: delete this file
 const POST = async req => {
   const authToken = await getToken({ req });
   const { resendList } = await req.json();
