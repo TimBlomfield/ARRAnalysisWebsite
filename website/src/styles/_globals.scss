@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:color";
 
+// Common colors
 $clrHeaderDarkBk: #253551;
 $clrHeaderDarkText: white;
 $clrHeaderDark_Disabled: dimgray;
@@ -15,6 +16,10 @@ $clrError: #CE2C30;
 $clrLoginBk: #F7F8F9;
 $clrLoading: #3B3BEC;
 $clrLoadingLight: #D5D5EF;
+
+$clrAdminBk: #1C5886;
+$clrAdminScrollbar_Track: #10324D;
+$clrAdminScrollbar_Thumb: #69DEF6;
 
 // Button
 $mapLinkButton_Dark: (
@@ -143,21 +148,44 @@ $fontSecondary: var(--font-aspekta-250);
 // Dialogs
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-%focusator {
-  .focusator {
-    max-width: 0;
-    max-height: 0;
-    margin: 0;
-    padding: 0;
+%dialog-common {
+  max-width: 96vw;
+  width: 600px;
+  padding: 20px;
+  border: 1px solid color.adjust($clrAdminBk, $lightness: -20%);
+  border-radius: 10px;
+  background-color: $clrAdminBk;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &::backdrop {
+    background-color: rgba(black, 0.5);
+    backdrop-filter: blur(3px);
+  }
+
+  *::selection {
+    background-color: #09184c;
+    color: #95DBEA;
+  }
+
+  .title {
+    font-size: 20px;
+    color: white;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    .pbtn {
+      height: 48px;
+
+      &:focus-visible {
+        border-color: $clrHeaderLightBk;
+      }
+    }
   }
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Admin section
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-$clrAdminBk: #1C5886;
-$clrAdminScrollbar_Track: #10324D;
-$clrAdminScrollbar_Thumb: #69DEF6;

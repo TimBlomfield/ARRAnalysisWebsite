@@ -180,6 +180,8 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
                errorText={errEmail} />
       </div>
       <div className={styles.buttons}>
+        {/* ToastContainer is placed here to avoid extra gap at the bottom */}
+        <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_INVITE_USER} />
         <PushButton extraClass={styles.pbtn}
                     theme={K_Theme.Light}
                     {...(loading ? { disabled: true } : {})}
@@ -192,7 +194,6 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
           Cancel
         </PushButton>
       </div>
-      <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_INVITE_USER} />
     </dialog>
   );
 };

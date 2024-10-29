@@ -4,7 +4,7 @@ import axios from 'axios';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { revalidatePath } from 'next/cache';
 
-
+// TODO: check if this route is used anywhere, if not delete it
 const POST = async req => {
   const authToken = await getToken({ req });
   const { licenseId, userId } = await req.json();

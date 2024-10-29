@@ -49,6 +49,8 @@
       gap: 5px;
       padding-top: 10px;
 
+      &.padBottom { padding-bottom: 30px; }
+
       .bar {
         width: 100%;
         height: 50px;
@@ -64,9 +66,8 @@
         &:nth-child(even) { background-color: hsl(from silver h s l / 0.1); }
         &:hover { background-color: hsl(from white h s l / 0.25); }
 
-        .invitee {
+        .invitee, .user {
           font-size: 15px;
-          color: #FFC;
 
           .other {
             @extend %fnt-secondary;
@@ -76,6 +77,19 @@
           }
         }
 
+        .invitee { color: #FFC; }
+        .user { color: #FC9; }
+
+        .usingBar {
+          font-size: 14px;
+          color: #10AC84;
+          box-sizing: border-box;
+          padding: 4px 8px;
+          border-radius: 3px;
+          background-color: white;
+          margin-left: 20px;
+        }
+
         .spacer { flex: 1; }
 
         .pbX {
@@ -83,6 +97,41 @@
           .txX { font-size: 15px; }
         }
       }
+    }
+  }
+}
+
+.dlg {
+  display: flex;
+  gap: 10px;
+  color: white;
+  padding: 10px 30px 30px;
+
+  svg.img {
+    width: 60px;
+    min-width: 60px;
+    height: auto;
+    padding: 0;
+  }
+
+  .second {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .t1 {
+      @extend %fnt-secondary;
+
+      text-align: center;
+    }
+
+    .t2 {
+      @extend %fnt-primary;
+
+      color: #FC9;
+      font-size: 18px;
+      text-align: center;
     }
   }
 }

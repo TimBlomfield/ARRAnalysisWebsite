@@ -62,6 +62,14 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
       license.mailsSent = regLinks.reduce((acc, cur) => [...acc, { email: cur.email, id: cur.id, token: cur.token, f: cur.firstName, l: cur.lastName } ], []);
     }
 
+    // Reduce customer users to only users of this license
+    customer.users = customer.users.reduce((acc, cur) => {
+      if (cur.licenseIds.includes(BigInt(license.id))) {
+        cur.using = Array.isArray(license.license_users) && license.license_users.some(elem => elem.true_email === cur.data.email);
+        acc.push(cur);
+      }
+      return acc;
+    }, []);
   } catch (err) {
     console.error(err);
     notFound();

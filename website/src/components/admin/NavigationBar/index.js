@@ -7,7 +7,7 @@ const NavigationBar = () => {
     <div className={styles.navbar}>
       <Link href="/admin/dashboard">Dashboard</Link>
       <div style={{ minHeight: 20 }} />
-      <Link href="/admin/licenses" prefetch={false}>Licenses</Link>
+      <Link href="/admin/licenses" prefetch={false}>Customer Licenses</Link>
     </div>
   );
 };
