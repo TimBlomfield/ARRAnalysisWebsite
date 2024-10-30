@@ -27,8 +27,9 @@ const POST = async req => {
       },
     });
 
-    if (theUser.licenseIds.length > 1)
+    if (terminate && theUser.licenseIds.length > 1)
       return NextResponse.json({ message: 'Cannot delete a user who is allowed to use multiple licenses!' }, { status: 405 });
+
     if (using) {
       // Unassign user from license in License Spring
       const { data: licenseSpringResponse } = await axios.post(

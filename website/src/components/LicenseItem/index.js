@@ -27,7 +27,7 @@ const LicenseItem = ({ license }) => {
   const [isOpen_InviteUserDialog, setIsOpen_InviteUserDialog] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loadingHelper, setLoadingHelper] = useState(LoadingHelper.None);
+  const [loadingHelper, setLoadingHelper] = useState(LoadingHelper.None); // Helps display the loading state until the license was enabled/disabled and page has refreshed
 
   useEffect(() => {
     if (!isOpen_InviteUserDialog && successMessage !== '') {
@@ -54,7 +54,7 @@ const LicenseItem = ({ license }) => {
   const onEnableDisableLicense = useCallback(() => {
     setLoading(true);
 
-    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: license.license_users[0].id })
+    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: bLicenseDisabled })
       .then(res => {
         router.refresh();
         setLoadingHelper(bLicenseDisabled ? LoadingHelper.Enable : LoadingHelper.Disable);
@@ -64,26 +64,6 @@ const LicenseItem = ({ license }) => {
         toast.error(err.response?.data?.message ?? `Could not ${bLicenseDisabled ? 'enable' : 'disable'} license!`);
       });
   }, [bLicenseDisabled]);
-
-  const onRemoveUserFromLicense = useCallback(() => {
-    if (!Array.isArray(license.license_users) || license.license_users.length < 1 || (typeof license.license_users[0].id !== 'number')) {
-      toast.error('Unexpected error: Invalid license object!');
-      return;
-    }
-
-    setLoading(true);
-
-    axios.post('/api/licensing/remove-user-from-license/', { licenseId: license.id, userId: license.license_users[0].id })
-      .then(res => {
-        setLoading(false);
-        router.refresh();
-        toast.success(res?.data?.message ?? 'User unassigned');
-      })
-      .catch(err => {
-        setLoading(false);
-        toast.error(err.response?.data?.message ?? 'Could not remove user from license!');
-      });
-  }, [license]);
 
   const onAssignSelf = useCallback(() => {
     setLoading(true);
