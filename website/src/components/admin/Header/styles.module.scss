@@ -12,4 +12,55 @@
   justify-content: space-between;
   font-size: 22px;
   color: white;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 0;
+    height: 100%;
+    box-sizing: border-box;
+
+    .naming {
+      min-height: 25px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+
+      .name {
+        color: white;
+        font-size: 16px;
+      }
+
+      .email {
+        color: gainsboro;
+        font-size: 18px;
+      }
+    }
+
+    .roleCards {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .desc {
+        @extend %fnt-secondary;
+
+        color: white;
+        margin-right: 10px;
+      }
+
+      .card {
+        padding: 0 20px;
+        display: grid;
+        place-items: center;
+        background: hsl(from silver h s l / 20%) ;
+        color: white;
+        font-size: 15px;
+        border-radius: 4px;
+        height: 28px;
+      }
+    }
+  }
 }

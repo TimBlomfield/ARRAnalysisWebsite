@@ -165,6 +165,22 @@ const CheckoutClientPageInner = ({ tiers }) => {
 
       setProcessing(true);
 
+      const { data: emailCheckData, status: emailCheckStatus } = await axios.get('/api/check-email-exists', {
+        params: { email: userData.email },
+      });
+
+      if (emailCheckStatus != 200) {
+        throw new Error('Could not check if email already exists!');
+      } else {
+        if (emailCheckData.exists) {
+          let arr = [];
+          if (emailCheckData.admin) arr.push('Admin');
+          if (emailCheckData.customer) arr.push('Customer');
+          if (emailCheckData.user) arr.push('User');
+          throw new Error(`"${userData.email}" is already a portal user with the role: ${arr.join(' / ')}.\r\n - Please login and make the purchase in the admin section.`);
+        }
+      }
+
       const { data } = await axios.post('/api/stripe/create-subscription', { tier, t3Licenses, period, userData });
       const { clientSecret, redirectBase, stripeCustomerId, secret } = data;
 
