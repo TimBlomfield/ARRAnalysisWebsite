@@ -9,20 +9,25 @@ const GET = async req => {
     let email = searchParams.get('email');
 
     if (email) {
-      email = email.toLowerCase().trim();
+      email = email.trim();
 
-      const existingUser = await db.userData.findUnique({
-        where: { email },
+      const existingUser = await db.userData.findFirst({
+        where: {
+          email: {
+            equals: email,
+            mode: 'insensitive',
+          },
+        },
         select: {
           id: true, // Only select ID to minimize data transfer
           user: {
-            select: { id: true},
+            select: { id: true },
           },
           customer: {
-            select: { id: true},
+            select: { id: true },
           },
           admin: {
-            select: { id: true},
+            select: { id: true },
           },
         },
       });

@@ -68,7 +68,7 @@ const LicenseItem = ({ license }) => {
   const onAssignSelf = useCallback(() => {
     setLoading(true);
 
-    axios.post('/api/licensing/assign-self-to-license', { licenseId: license.id })
+    axios.post('/api/licensing/allow-self-for-license', { licenseId: license.id })
       .then(res => {
         setLoading(false);
         router.refresh();
