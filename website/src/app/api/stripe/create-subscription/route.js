@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 import { randomBytes } from 'node:crypto';
 import { hash } from 'bcrypt';
 import Stripe from 'stripe';
+import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
 import { validateUnicodeEmail } from '@/utils/validators';
+import { createAuditLog } from '@/utils/server/audit';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -59,6 +61,20 @@ const POST = async req => {
 
     const hashedPassword = await hash(password, 10);
     const secret = randomBytes(32).toString('hex');
+
+    await createAuditLog({
+      type: AuditEvent.CREATE_SUBSCRIPTION,
+      firstName,
+      lastName,
+      email,
+      company,
+      hashedPassword,
+      secret,
+      quantity: tier === 2 ? t3Licenses : 1,
+      tier: tier + 1,
+      period: period === 0 ? 'monthly' : 'yearly',
+    }, req);
+
     await db.userData.create({
       data: {
         firstName,

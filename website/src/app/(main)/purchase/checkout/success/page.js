@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
+import { AuditEvent } from '@prisma/client';
+import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
-// return_url: `${redirectBase}/purchase/checkout/success?scid=${stripeCustomerId}?secret=${secret}`,
   const { scid: id_stripeCustomer, secret, pi } = searchParams;
   let purchaseInfo;
 
@@ -29,6 +30,14 @@ const PaymentSuccessPage = async ({ searchParams }) => {
   } catch {
     notFound();
   }
+
+  await createAuditLog({
+    type: AuditEvent.PAYMENT_SUCCESS_PAGE,
+    tier: purchaseInfo.tier + 1,
+    period: purchaseInfo.period === 0 ? 'monthly' : 'yearly',
+    quantity: (purchaseInfo.tier === 2) ? purchaseInfo.licenses : 1,
+    secret,
+  });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px' }}>

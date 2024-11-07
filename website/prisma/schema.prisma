@@ -40,7 +40,7 @@ model Administrator {
   updatedAt DateTime @updatedAt
 
   id_UserData Int      @unique
-  data        UserData @relation(fields: [id_UserData], references: [id])
+  data        UserData @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
 }
 
 model Customer {
@@ -51,7 +51,7 @@ model Customer {
   updatedAt         DateTime @updatedAt
 
   id_UserData Int      @unique
-  data        UserData @relation(fields: [id_UserData], references: [id])
+  data        UserData @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -60,10 +60,10 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  id_UserData Int      @unique
-  data        UserData @relation(fields: [id_UserData], references: [id])
-  id_Customer Int
-  customer    Customer @relation(fields: [id_Customer], references: [id])
+  id_UserData Int       @unique
+  data        UserData  @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
+  id_Customer Int?
+  customer    Customer? @relation(fields: [id_Customer], references: [id], onDelete: SetNull)
 }
 
 model UserData {
@@ -91,4 +91,56 @@ model UserData {
   admin    Administrator?
   customer Customer?
   user     User?
+}
+
+enum AuditEvent {
+  LOGIN
+  LOGOUT
+  CREATE_SUBSCRIPTION
+  PAYMENT_SUCCESS_PAGE
+  ADMIN_REGISTERED
+  USER_REGISTERED
+  SEND_EMAIL_INVITE
+  ALLOW_USER_FOR_LICENSE
+  DISALLOW_USER_FOR_LICENSE
+  DELETE_USER
+}
+
+model AuditLog {
+  id          Int                @id @default(autoincrement())
+  createdAt   DateTime           @default(now())
+  actorEmail  String
+  eventType   AuditEvent
+  ipAddress   String?
+  userAgent   String?
+  description String?
+  changes     AuditLogChange[]
+  metadata    AuditLogMetadata[]
+
+  @@index([createdAt])
+  @@index([actorEmail])
+  @@index([eventType])
+}
+
+model AuditLogChange {
+  id        Int     @id @default(autoincrement())
+  fieldName String
+  oldValue  String?
+  newValue  String?
+
+  id_AuditLog Int
+  auditLog    AuditLog @relation(fields: [id_AuditLog], references: [id], onDelete: Cascade)
+
+  @@index([id_AuditLog])
+}
+
+model AuditLogMetadata {
+  id    Int    @id @default(autoincrement())
+  key   String
+  value String
+
+  id_AuditLog Int
+  auditLog    AuditLog @relation(fields: [id_AuditLog], references: [id], onDelete: Cascade)
+
+  @@index([id_AuditLog])
 }

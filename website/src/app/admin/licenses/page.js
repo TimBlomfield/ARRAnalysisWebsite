@@ -45,7 +45,10 @@ const LicensesPage = async () => {
     });
 
     if (customerData == null) throw new Error('Null fetch for customer');
-    if (customerData.count !== 1) throw new Error('Multiple customers with the same Stripe CustomerID encountered!');
+    if (customerData.count !== 1) {
+      if (customerData.count === 0) throw new Error('No customers found for the specified Stripe CustomerID');
+      else if (customerData.count > 1) throw new Error('Multiple customers with the same Stripe CustomerID encountered!');
+    }
     const licenseSpringCustomer = customerData.results[0];
 
     const { data } = await axios.get('https://saas.licensespring.com/api/v1/licenses/', {
