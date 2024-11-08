@@ -33,6 +33,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
 
   await createAuditLog({
     type: AuditEvent.PAYMENT_SUCCESS_PAGE,
+    stripeCustomerId: id_stripeCustomer,
     tier: purchaseInfo.tier + 1,
     period: purchaseInfo.period === 0 ? 'monthly' : 'yearly',
     quantity: (purchaseInfo.tier === 2) ? purchaseInfo.licenses : 1,

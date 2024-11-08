@@ -66,7 +66,7 @@ const UserRegistrationPage = ({ email, licenseData }) => {
     if (!bError) {
       setLoading(true);
 
-      axios.post('/api/register/user/new', { email, password, token })
+      axios.post('/api/register/user', { email, password, token })
         .then(res => {
           setUserCreated(true);
           setLoading(false); // Unnecessary, but let it stay here

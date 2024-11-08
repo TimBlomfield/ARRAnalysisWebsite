@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
-import { Role } from '@prisma/client';
+import { AuditEvent, Role } from '@prisma/client';
+import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
 import { checkRegToken, RegTokenState } from '@/utils/server/common';
 
@@ -52,6 +53,11 @@ const POST = async req => {
 
     // Delete the RegistrationLink entry
     await db.registrationLink.delete({ where: { token } });
+
+    await createAuditLog({
+      type: AuditEvent.ADMIN_REGISTERED,
+      email,
+    }, req);
 
     const portalAdmin = {
       id: newPortalAdmin.id,

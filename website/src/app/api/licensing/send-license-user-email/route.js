@@ -3,10 +3,11 @@ import formData from 'form-data';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { getToken } from 'next-auth/jwt';
-import { isAuthTokenValid } from '@/utils/server/common';
 import { randomBytes } from 'node:crypto';
+import { isAuthTokenValid } from '@/utils/server/common';
+import { AuditEvent, Role } from '@prisma/client';
+import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
-import { Role } from '@prisma/client';
 
 
 const POST = async req => {
@@ -106,6 +107,17 @@ const POST = async req => {
       html,
     });
 
+    await createAuditLog({
+      type: AuditEvent.SEND_USER_EMAIL_INVITE,
+      actor: authToken.email,
+      email,
+      licenseId,
+      firstName,
+      lastName,
+      bExisting,
+      regUrl,
+      html,
+    }, req);
   } catch (error) {
 
     if (id > 0) {

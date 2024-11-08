@@ -101,13 +101,91 @@ const createAuditLog = async (evt, req) => {
             actorEmail: meta != null ? meta.auditLog.actorEmail : 'Error',
             eventType: evt.type,
             metadata: {
-              create: {
-                key: 'CreateSubscription_AuditLogId',
-                value: meta != null ? meta.auditLog.id.toString() : 'Error',
+              createMany: {
+                data: [
+                  {
+                    key: 'CreateSubscription_AuditLogId',
+                    value: meta != null ? meta.auditLog.id.toString() : 'Error',
+                  },
+                  {
+                    key: 'stripeCustomerId',
+                    value: evt.stripeCustomerId,
+                  },
+                ],
               },
             },
           },
         });
+      }
+      break;
+
+    case AuditEvent.ADMIN_REGISTERED:
+      {
+        await db.auditLog.create({
+          data: {
+            actorEmail: evt.email,
+            eventType: evt.type,
+            ipAddress,
+            userAgent,
+          },
+        });
+      }
+      break;
+
+    case AuditEvent.SEND_USER_EMAIL_INVITE:
+      {
+        const data = [
+          { key: 'licenseId', value: evt.licenseId.toString() },
+          { key: 'userEmail', value: evt.email },
+          { key: 'registrationUrl', value: evt.regUrl },
+          { key: 'htmlMailContents', value: evt.html },
+        ];
+        if (evt.firstName)
+          data.push({ key: 'firstName', value: evt.firstName });
+        if (evt.lastName)
+          data.push({ key: 'lastName', value: evt.lastName });
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actor,
+            ipAddress,
+            userAgent,
+            description: evt.bExisting ? 'Exists' : 'NewUser',
+            metadata: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        }, req);
+      }
+      break;
+
+    case AuditEvent.USER_REGISTERED:
+      {
+        const data = [
+          { key: 'hashedPassword', value: evt.data.hashedPassword },
+          { key: 'licenseId', value: evt.licenseId.toString() },
+          { key: 'stripeCustomerId', value: evt.stripeCustomerId },
+          { key: 'customerEmail', value: evt.customerEmail },
+        ];
+        if (evt.data.firstName)
+          data.push({ key: 'firstName', value: evt.data.firstName });
+        if (evt.data.lastName)
+          data.push({ key: 'lastName', value: evt.data.lastName });
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.data.email,
+            ipAddress,
+            userAgent,
+            metadata: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        }, req);
       }
       break;
   }
