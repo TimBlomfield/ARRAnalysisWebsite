@@ -15,6 +15,11 @@ const createAuditLog = async (evt, req) => {
     }
   }
 
+  const cond = (d, o, prop) => {
+    if (o[prop])
+      d.push({ key: prop, value: o[prop].toString() });
+  };
+
   switch (evt.type) {
     case AuditEvent.LOGIN:
       {
@@ -182,6 +187,103 @@ const createAuditLog = async (evt, req) => {
             metadata: {
               createMany: {
                 data,
+              },
+            },
+          },
+        }, req);
+      }
+      break;
+
+    case AuditEvent.ALLOW_SELF_FOR_LICENSE:
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.email,
+            ipAddress,
+            userAgent,
+            description: evt.licenseId.toString(),
+          },
+        }, req);
+      }
+      break;
+
+    case AuditEvent.DISALLOW_USER_FOR_LICENSE:
+      {
+        const data = [
+          { key: 'wasUsing', value: evt.using.toString() },
+          { key: 'licenseId', value: evt.licenseId.toString() },
+          { key: 'userEmail', value: evt.email },
+        ];
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail,
+            ipAddress,
+            userAgent,
+            metadata: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        }, req);
+      }
+      break;
+
+    case AuditEvent.DELETE_USER:
+      {
+        const usrData = evt.user.data;
+        const data = [
+          { key: 'userId', value: usrData.id.toString() },
+          { key: 'userEmail', value: usrData.email },
+        ];
+        cond(data, usrData, 'firstName');
+        cond(data, usrData, 'lastName');
+        cond(data, usrData, 'phone');
+        cond(data, usrData, 'company');
+        cond(data, usrData, 'hashedPassword');
+        cond(data, usrData, 'jobTitle');
+        cond(data, usrData, 'address');
+        cond(data, usrData, 'street1');
+        cond(data, usrData, 'street2');
+        cond(data, usrData, 'street3');
+        cond(data, usrData, 'city');
+        cond(data, usrData, 'state');
+        cond(data, usrData, 'postalCode');
+        if (usrData.customer != null) {
+          data.push({ key: 'customerId', value: usrData.customer.id.toString() });
+          data.push({ key: 'stripeCustomerId', value: usrData.customer.id_stripeCustomer.toString() });
+        }
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail,
+            ipAddress,
+            userAgent,
+            metadata: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        }, req);
+      }
+      break;
+
+    case AuditEvent.ENABLE_DISABLE_LICENSE:
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail,
+            ipAddress,
+            userAgent,
+            description: evt.enable ? 'Enable' : 'Disable',
+            metadata: {
+              create: {
+                key: 'licenseId',
+                value: evt.licenseId.toString(),
               },
             },
           },

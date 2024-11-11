@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import axios from 'axios';
-import { isAuthTokenValid } from '@/utils/server/common';
 import { revalidatePath } from 'next/cache';
+import axios from 'axios';
+import { AuditEvent } from '@prisma/client';
+import { createAuditLog } from '@/utils/server/audit';
+import { isAuthTokenValid } from '@/utils/server/common';
 
 
 const POST = async req => {
@@ -27,6 +29,13 @@ const POST = async req => {
     );
 
     message = licenseSpringResponse.message;
+
+    createAuditLog({
+      type: AuditEvent.ENABLE_DISABLE_LICENSE,
+      actorEmail: authToken.email,
+      enable,
+      licenseId,
+    }, req);
   } catch (error) {
     const message = error?.response?.data?.detail ?? 'Something went wrong!';
     return NextResponse.json({ message , error }, { status: 500 });

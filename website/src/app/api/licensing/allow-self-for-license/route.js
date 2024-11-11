@@ -3,6 +3,8 @@ import { revalidatePath } from 'next/cache';
 import { getToken } from 'next-auth/jwt';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { validateUnicodeEmail } from '@/utils/validators';
+import { createAuditLog } from '@/utils/server/audit';
+import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
 
 
@@ -50,6 +52,12 @@ const POST = async req => {
         },
       });
     }
+
+    await createAuditLog({
+      type: AuditEvent.ALLOW_SELF_FOR_LICENSE,
+      email,
+      licenseId,
+    }, req);
   } catch (error) {
     const message = error?.response?.data?.detail ?? 'Something went wrong!';
     return NextResponse.json({ message , error }, { status: 500 });

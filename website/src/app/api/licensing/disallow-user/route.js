@@ -3,6 +3,8 @@ import { revalidatePath } from 'next/cache';
 import { getToken } from 'next-auth/jwt';
 import { isAuthTokenValid } from '@/utils/server/common';
 import axios from 'axios';
+import { createAuditLog } from '@/utils/server/audit';
+import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
 
 
@@ -48,6 +50,12 @@ const POST = async req => {
       if (theUser.data.admin == null && theUser.data.customer == null) {  // Make sure this user isn't an admin or a customer
         await db.userData.delete({ where: { id: theUser.data.id } });
       }
+
+      await createAuditLog({
+        type: AuditEvent.DELETE_USER,
+        actorEmail: authToken.email,
+        user: theUser,
+      }, req);
     } else {
       const bigLid = BigInt(licenseId);
 
@@ -60,6 +68,14 @@ const POST = async req => {
           },
         },
       });
+
+      await createAuditLog({
+        type: AuditEvent.DISALLOW_USER_FOR_LICENSE,
+        actorEmail: authToken.email,
+        using,
+        email,
+        licenseId,
+      }, req);
     }
   } catch (error) {
     const message = error?.response?.data?.detail ?? error?.message ?? 'Something went wrong!';
