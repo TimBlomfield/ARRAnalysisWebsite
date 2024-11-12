@@ -1,0 +1,19 @@
+@use "globals" as *;
+
+.licenseBlock {
+  border: 2px solid gainsboro;
+  border-radius: 40px;
+  box-sizing: border-box;
+  padding: 30px 30px 20px;
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    inset: 10px;
+    border-radius: 20px;
+    background: $clrAdminBk;
+    opacity: .7;
+    display: grid;
+    place-items: center;
+  }
+}
