@@ -1,22 +1,75 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
 import Loading from '@/components/Loading';
 import RegLicenseDesc from '@/components/RegLicenseDesc';
+import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
 
 
-const UserLicenseItem = ({ license }) => {
-  const [licenseData] = useState(() => ({
+const UserLicenseItem = ({ license, email }) => {
+  const router = useRouter();
+
+  const [licenseData, setLicenseData] = useState(() => ({
     status: license.status,
     productName: license.product.product_name,
     type: license.license_type,
     validUntil: license.validity_period,
   }));
-  const [loading, setLoading] = useState(false);
+  const [isAssigned, setIsAssigned] = useState(false);
+  const [initialPassword, setInitialPassword] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLicenseData({
+      status: license.status,
+      productName: license.product.product_name,
+      type: license.license_type,
+      validUntil: license.validity_period,
+    });
+    const arrUsers = license.license_users || [];
+    const user = arrUsers.find(u => u.true_email === email);
+    setIsAssigned(user != null);
+    if (user != null && user.is_initial_password)
+      setInitialPassword(user.initial_password);
+    else
+      setInitialPassword(null);
+    setLoading(false);
+  }, [license]);
+
+  const copyToClipboard = useCallback(code => {
+    const { NativeAndroid } = window;
+
+    if (typeof NativeAndroid !== 'undefined') {
+      NativeAndroid.copyToClipboard(code);
+      toast.success('Password copied to clipboard.');
+    } else {
+      navigator.clipboard.writeText(code)
+        .then(() => toast.success('Password copied to clipboard.'))
+        .catch(error => toast.error('Could not copy password to clipboard.'));
+    }
+  }, []);
+
+  const onAssignSelf = useCallback(() => {
+    setLoading(true);
+
+    axios.post('/api/licensing/assign-user', { licenseId: license.id, email })
+      .then(res => {
+        router.refresh();
+        toast.success(res?.data?.message ?? 'Assigned');
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(err.response?.data?.message ?? 'Could not assign!');
+      });
+  }, [license]);
 
   return (
     <div className={styles.licenseBlock}>
@@ -26,6 +79,35 @@ const UserLicenseItem = ({ license }) => {
         </div>
       }
       <RegLicenseDesc licenseData={licenseData} />
+      <div className={cn(styles.dataBlock, styles.g15)}>
+        {!isAssigned &&
+          <>
+            <div className={styles.txt}>This license is allowed for your usage. Click the <span className={styles.emph}>Assign Self</span> button to assign yourself to this license, after which you will be able to use the ARR Analysis add-in.</div>
+            <PushButton extraClass={styles.btnCntr}
+                        disabled={loading}
+                        onClick={onAssignSelf}>
+              Assing Self
+            </PushButton>
+          </>
+        }
+        {isAssigned &&
+          <>
+            <div className={styles.txt}>You can use the ARR Analysis add-in with your credentials (email and password) for this license.</div>
+            {initialPassword != null &&
+              <div className={styles.initialPwdArea}>
+                <div className={styles.txt}>An initial password has been generated for you. You can use the add-in with this password but we strongly recommend that you change it.</div>
+                <PushButton extraClass={styles.btn48}
+                            onClick={() => copyToClipboard(initialPassword)}>
+                  Copy Initial Password
+                </PushButton>
+              </div>
+            }
+            <PushButton onClick={() => {}}>
+              Change Password
+            </PushButton>
+          </>
+        }
+      </div>
     </div>
   );
 };

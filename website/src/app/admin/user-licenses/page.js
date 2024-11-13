@@ -54,7 +54,7 @@ const UserLicensesPage = async () => {
     <div className={styles.page}>
       <div className={styles.title}>Licenses</div>
       <div className={styles.licenseList}>
-        {licenses.map(license => <UserLicenseItem key={license.id} license={license} />)}
+        {licenses.map(license => <UserLicenseItem key={license.id} license={license} email={userData.email} />)}
       </div>
     </div>
   );

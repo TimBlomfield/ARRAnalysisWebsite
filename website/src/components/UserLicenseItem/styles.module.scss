@@ -1,4 +1,5 @@
 @use "globals" as *;
+@use "sass:color";
 
 .licenseBlock {
   border: 2px solid gainsboro;
@@ -6,6 +7,9 @@
   box-sizing: border-box;
   padding: 30px 30px 20px;
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 
   .overlay {
     position: absolute;
@@ -15,5 +19,37 @@
     opacity: .7;
     display: grid;
     place-items: center;
+  }
+
+  .dataBlock {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    &.g15 { gap: 15px; }
+
+    .txt {
+      @extend %fnt-secondary;
+
+      color: gainsboro;
+
+      span.emph {
+        @extend %fnt-primary;
+
+        color: white;
+      }
+    }
+  }
+
+  .btnCntr { align-self: center; }
+  .btn48 { height: 48px; }
+
+  .initialPwdArea {
+    background: color.adjust($clrAdminBk, $lightness: -5% );
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
   }
 }

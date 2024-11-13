@@ -65,18 +65,18 @@ const LicenseItem = ({ license }) => {
       });
   }, [bLicenseDisabled]);
 
-  const onAssignSelf = useCallback(() => {
+  const onAllowSelf = useCallback(() => {
     setLoading(true);
 
     axios.post('/api/licensing/allow-self-for-license', { licenseId: license.id })
       .then(res => {
         setLoading(false);
         router.refresh();
-        toast.success(res?.data?.message ?? 'Assigned');
+        toast.success(res?.data?.message ?? 'Allowed');
       })
       .catch(err => {
         setLoading(false);
-        toast.error(err.response?.data?.message ?? 'Could not assign!');
+        toast.error(err.response?.data?.message ?? 'Could not allow!');
       });
   }, [license]);
 
@@ -155,7 +155,7 @@ const LicenseItem = ({ license }) => {
         <PushButton extraClass={styles.pbXtra}
                     disabled={loading}
                     title="Allow this license for yourself. You will then be able to assign yourself to this license and use the add-in."
-                    onClick={onAssignSelf}>
+                    onClick={onAllowSelf}>
           Allow for Self
         </PushButton>
         {(bMailsSent || bWaitingToAssign || bAssigned) &&
