@@ -5,7 +5,6 @@ import { isAuthTokenValid } from '@/utils/server/common';
 import axios from 'axios';
 import { createAuditLog } from '@/utils/server/audit';
 import { AuditEvent } from '@prisma/client';
-import db from '@/utils/server/db';
 
 
 const POST = async req => {
@@ -16,7 +15,7 @@ const POST = async req => {
   if (authToken?.email == null || !isAuthTokenValid(authToken))
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
-  let message = "Success";
+  let message = 'Assigned successfully!';
 
   try {
     // Assign user to license in License Spring
@@ -44,7 +43,7 @@ const POST = async req => {
 
   revalidatePath('/admin/user-licenses');
 
-  return NextResponse.json({ message: "Assigned successfully!" }, { status: 200 });
+  return NextResponse.json({ message }, { status: 200 });
 };
 
 

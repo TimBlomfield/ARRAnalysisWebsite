@@ -292,17 +292,17 @@ const createAuditLog = async (evt, req) => {
       break;
 
     case AuditEvent.ASSIGN_USER_TO_LICENSE:
-    {
-      await db.auditLog.create({
-        data: {
-          eventType: evt.type,
-          actorEmail: evt.actorEmail,
-          ipAddress,
-          userAgent,
-          description: evt.licenseId.toString(),
-        },
-      });
-    }
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail,
+            ipAddress,
+            userAgent,
+            description: evt.licenseId.toString(),
+          },
+        });
+      }
       break;
   }
 };
