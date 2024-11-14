@@ -1,7 +1,6 @@
 'use client';
 
-import {useCallback, useEffect, useId} from 'react';
-import cn from 'classnames';
+import { useCallback, useEffect, useId } from 'react';
 import { K_Theme } from '@/utils/common';
 // Components
 import PushButton from '@/components/PushButton';

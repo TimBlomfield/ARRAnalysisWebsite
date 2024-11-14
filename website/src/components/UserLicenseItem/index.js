@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
+import LicensePasswordDialog from '@/components/LicensePasswordDialog';
 import Loading from '@/components/Loading';
 import RegLicenseDesc from '@/components/RegLicenseDesc';
 import PushButton from '@/components/PushButton';
@@ -23,8 +24,10 @@ const UserLicenseItem = ({ license, email }) => {
     type: license.license_type,
     validUntil: license.validity_period,
   }));
+  const [initialLoading, setInitialLoading] = useState(true);
   const [isAssigned, setIsAssigned] = useState(false);
   const [initialPassword, setInitialPassword] = useState(null);
+  const [pwdChangeDlg, setPwdChangeDlg] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,6 +40,7 @@ const UserLicenseItem = ({ license, email }) => {
     const arrUsers = license.license_users || [];
     const user = arrUsers.find(u => u.true_email === email);
     setIsAssigned(user != null);
+    setInitialLoading(false);
     if (user != null && user.is_initial_password)
       setInitialPassword(user.initial_password);
     else
@@ -71,6 +75,21 @@ const UserLicenseItem = ({ license, email }) => {
       });
   }, [license]);
 
+  const onChangePassword = useCallback(password => {
+    setLoading(true);
+
+    axios.post('/api/licensing/change-user-password', { password, email })
+      .then(res => {
+        setLoading(false);
+        router.refresh();
+        toast.success(res?.data?.message ?? 'Password changed.');
+      })
+      .catch(err => {
+        setLoading(false);
+        toast.error(err.response?.data?.message ?? 'Password change failed!');
+      });
+  }, []);
+
   return (
     <div className={styles.licenseBlock}>
       {loading &&
@@ -80,7 +99,7 @@ const UserLicenseItem = ({ license, email }) => {
       }
       <RegLicenseDesc licenseData={licenseData} />
       <div className={cn(styles.dataBlock, styles.g15)}>
-        {!isAssigned &&
+        {(!isAssigned && !initialLoading) &&
           <>
             <div className={styles.txt}>This license is allowed for your usage. Click the <span className={styles.emph}>Assign Self</span> button to assign yourself to this license, after which you will be able to use the ARR Analysis add-in.</div>
             <PushButton extraClass={styles.btnCntr}
@@ -97,17 +116,22 @@ const UserLicenseItem = ({ license, email }) => {
               <div className={styles.initialPwdArea}>
                 <div className={styles.txt}>An initial password has been generated for you. You can use the add-in with this password but we strongly recommend that you change it.</div>
                 <PushButton extraClass={styles.btn48}
+                            disabled={loading}
                             onClick={() => copyToClipboard(initialPassword)}>
                   Copy Initial Password
                 </PushButton>
               </div>
             }
-            <PushButton onClick={() => {}}>
+            <PushButton disabled={loading}
+                        onClick={() => setPwdChangeDlg(true)}>
               Change Password
             </PushButton>
           </>
         }
       </div>
+      <LicensePasswordDialog isOpen={pwdChangeDlg}
+                             notifyClosed={() => setPwdChangeDlg(false)}
+                             onConfirm={onChangePassword} />
     </div>
   );
 };

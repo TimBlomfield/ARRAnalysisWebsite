@@ -304,6 +304,20 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.LICENSE_PASSWORD_CHANGED:
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail, // Who did it
+            ipAddress,
+            userAgent,
+            description: evt.email, // User whose password was changed
+          },
+        });
+      }
+      break;
   }
 };
 

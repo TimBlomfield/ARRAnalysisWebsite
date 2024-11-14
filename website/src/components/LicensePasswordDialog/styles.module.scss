@@ -1,0 +1,22 @@
+@use "globals" as *;
+
+.dialog {
+  @extend %dialog-common;
+
+  .inp {
+    height: 48px;
+    width: 100%;
+    background-color: transparent;
+    color: white;
+
+    &.light {
+      &:focus-visible {
+        &.error { outline-color: #E46; }
+      }
+    }
+  }
+
+  .errorTextXtra {
+    color: #F87A93;
+  }
+}
