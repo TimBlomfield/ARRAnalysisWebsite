@@ -10,6 +10,8 @@ const NavigationBar = () => {
       <Link href="/admin/licenses" prefetch={false}>Customer Licenses</Link>
       <div style={{ minHeight: 20 }} />
       <Link href="/admin/user-licenses" prefetch={false}>User Licenses</Link>
+      <div style={{ minHeight: 20 }} />
+      <Link href="/admin/downloads" prefetch={false}>Downloads</Link>
     </div>
   );
 };
