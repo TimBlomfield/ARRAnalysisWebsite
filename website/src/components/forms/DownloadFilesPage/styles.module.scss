@@ -1,0 +1,72 @@
+@use "globals" as *;
+
+
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  align-items: center;
+
+  .title {
+    font-size: 22px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+  }
+
+  .cardArea {
+    flex: 1;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+
+    .cardWrapper {
+      flex: 0 0 33.333%;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      max-width: 300px;
+      min-height: 190px;
+
+      .card {
+        flex-grow: 1;
+        background: linear-gradient(#EBF5FF, #FFF);
+        box-shadow: 0 18px 18px 0 rgba(31, 44, 78, .06), 0 5px 6px 0 rgba(17, 36, 62, .06);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+
+        .heading {
+          font-size: 26px;
+          color: #11243E;
+        }
+
+        .tier {
+          font-size: 14px;
+          color: #6c7282;
+        }
+
+        .desc {
+          @extend %fnt-secondary;
+
+          margin-top: 16px;
+          font-size: 16px;
+          color: #6c7282;
+        }
+
+        .pbtn {
+          margin-top: 25px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

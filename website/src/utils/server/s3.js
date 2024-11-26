@@ -1,5 +1,6 @@
 import 'server-only';
 import { S3Client, paginateListObjectsV2 } from '@aws-sdk/client-s3';
+import { NextResponse } from 'next/server';
 
 
 const client = new S3Client({
@@ -11,29 +12,90 @@ const client = new S3Client({
 });
 
 
-const ListFiles = async prefix => {
-  try {
-    const paginator = paginateListObjectsV2(
-      { client },
-      {
-       Bucket: process.env.CLOUDCUBE_BUCKET,
-       Prefix: prefix,
-      }
-    );
+const compareVersions = (v1, v2) => { // Descending
+  const v1Parts = v1.split('.').map(Number);
+  const v2Parts = v2.split('.').map(Number);
 
-    const files = [];
-    for await (const page of paginator) {
-      files.push(...page.Contents.map(file => file.Key));
-    }
+  for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+    const part1 = v1Parts[i] || 0; // Default to 0 if undefined
+    const part2 = v2Parts[i] || 0;
 
-    return files;
-  } catch (error) {
-    console.error('Error listing objects: ', error);
-    return null;
+    if (part1 > part2) return -1; // v1 is greater
+    if (part1 < part2) return 1; // v2 is greater
   }
+
+  return 0; // Versions are equal
+}
+
+const listFiles = async prefix => {
+  const paginator = paginateListObjectsV2(
+    { client },
+    {
+      Bucket: process.env.CLOUDCUBE_BUCKET,
+      Prefix: prefix,
+    }
+  );
+
+  const files = [];
+  for await (const page of paginator) {
+    files.push(...page.Contents.map(file => file.Key));
+  }
+
+  if (files.length === 0)
+    throw new Error('No files found on server');
+
+  // Parse the files into a json object
+  const ret = {};
+  for (const file of files) {
+    const parts = file.split('/');
+    const tier = parts[2];
+    const tierLastCh = tier.charAt(tier.length - 1);
+    if (parts.length !== 5 || !tier.startsWith('tier0') || !['1', '2', '3'].includes(tierLastCh))
+      throw new Error(`Unexpected file paths: ${files.join(', ')}`);
+    const version = parts[3];
+    let fileName = parts[4];
+    if (fileName !== `Installer-Tier-${tierLastCh}.rar`)
+      throw new Error(`Bad file name encountered: ${fileName}\r\nFiles: ${files.join(', ')}`);
+    if (!(tier in ret))
+      ret[tier] = { versions: [], fileName };
+    ret[tier].versions = [...ret[tier].versions, version];
+  }
+
+  for (const tier in ret) {
+    ret[tier].versions.sort(compareVersions);
+    if (ret[tier].versions.length > 11)
+      ret[tier].versions.length = 11; // Truncate
+  }
+
+  return ret;
 };
 
 
+const downloadFile = async fileKey => {
+  try {
+    const command = new GetObjectCommand({
+      Bucket: process.env.CLOUDCUBE_BUCKET,
+      Key: fileKey,
+    });
+
+    const response = await client.send(command);
+
+    // Convert the response body to a Buffer
+    const bodyContents = await response.Body.transformToByteArray();
+
+    // Return an object with file metadata and contents
+    return {
+      body: bodyContents,
+      contentType: response.ContentType || 'application/octet-stream',
+      fileName: fileKey.split('/').pop(),
+    };
+  } catch (error) {
+    console.error('Error downloading file:', error);
+    throw error;
+  }
+}
+
 export {
-  ListFiles,
+  listFiles,
+  downloadFile,
 };
