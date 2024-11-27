@@ -15,11 +15,11 @@ const POST = async req => {
   if (authToken?.email == null || !isAuthTokenValid(authToken))
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
-  let message = `Password updated.`;
+  let message = 'Password updated.';
   try {
     // Change password for user (email) for licence (licenseId)
     const { data: licenseSpringResponse } = await axios.post(
-      `https://saas.licensespring.com/api/v1/license-users/set_password/`,
+      'https://saas.licensespring.com/api/v1/license-users/set_password/',
       { password },
       {
         headers: {

@@ -44,6 +44,13 @@
         flex-direction: column;
         padding: 30px;
 
+        .loading {
+          flex: 1;
+          margin-top: 40px;
+          display: flex;
+          justify-content: center;
+        }
+
         .heading {
           font-size: 26px;
           color: #11243E;
@@ -62,9 +69,33 @@
           color: #6c7282;
         }
 
+        .ver {
+          @extend %fnt-secondary;
+
+          margin-top: 30px;
+          font-size: 14px;
+          color: #6c7282;
+
+          span.dk {
+            @extend %fnt-primary;
+
+            color: #11243E;
+          }
+        }
+
         .pbtn {
-          margin-top: 25px;
+          margin-top: 2px;
           width: 100%;
+        }
+
+        .older { margin: 60px 0 8px; }
+
+        a.versionLink {
+          @extend %fnt-secondary;
+
+          font-size: 18px;
+          margin-left: 15px;
+          margin-top: 8px;
         }
       }
     }

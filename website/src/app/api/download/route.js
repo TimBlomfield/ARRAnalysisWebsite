@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { isAuthTokenValid } from '@/utils/server/common';
+import { downloadFile } from '@/utils/server/s3';
 
 
 // Check if an email exists in the system
@@ -12,29 +13,25 @@ const GET = async req => {
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
-  const { file } = searchParams.get('file');
+  const file = searchParams.get('file');
 
-  if (!file) {
+  if (!file)
     return NextResponse.json({ error: 'No file specified for download!' }, { status: 400 });
-  }
 
   try {
-    const fileKey = JSON.parse(atob(file));
+    const fileKey = `${process.env.CLOUDCUBE_TOP_FOLDER}installers/${atob(file)}`;
 
-    const command = new GetObjectCommand({  // TODO: use downloadFile() here
-      Bucket: process.env.CLOUDCUBE_BUCKET,
-      Key: fileKey,
-    });
+    const { bodyContents, contentType } = await downloadFile(fileKey);
 
-    const response = await client.send(command);
-
-    // Convert the response body to a Buffer
-    const bodyContents = await response.Body.transformToByteArray();
+    // Add the version to the filename
+    const arr = fileKey.split('/');
+    const arrF = arr[arr.length - 1].split('.');
+    const fileName = `${arrF[0]} (version ${arr[arr.length - 2]}).${arrF[1]}`;
 
     return new NextResponse(bodyContents, {
       headers: {
-        'Content-Type': response.ContentType || 'application/octet-stream',
-        'Content-Disposition': `attachment; filename="${fileKey.split('/').pop()}"`,
+        'Content-Type': contentType || 'application/octet-stream',
+        'Content-Disposition': `attachment; filename="${fileName}"`,
       },
       status: 200,
     });
@@ -42,10 +39,6 @@ const GET = async req => {
     console.error('Error downloading file:', error);
     return NextResponse.json({ error: 'File not found' }, { status: 404 });
   }
-  /*
-  const { tier, version, fileName } = await req.json();
-  const fileKey = `${process.env.CLOUDCUBE_TOP_FOLDER}installers/${tier}/${version}/${fileName}`;
-  return createFileDownloadResponse(fileKey);*/
 };
 
 

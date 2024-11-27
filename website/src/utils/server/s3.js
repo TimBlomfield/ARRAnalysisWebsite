@@ -1,6 +1,5 @@
 import 'server-only';
-import { S3Client, paginateListObjectsV2 } from '@aws-sdk/client-s3';
-import { NextResponse } from 'next/server';
+import { S3Client, paginateListObjectsV2, GetObjectCommand } from '@aws-sdk/client-s3';
 
 
 const client = new S3Client({
@@ -25,7 +24,8 @@ const compareVersions = (v1, v2) => { // Descending
   }
 
   return 0; // Versions are equal
-}
+};
+
 
 const listFiles = async prefix => {
   const paginator = paginateListObjectsV2(
@@ -83,17 +83,12 @@ const downloadFile = async fileKey => {
     // Convert the response body to a Buffer
     const bodyContents = await response.Body.transformToByteArray();
 
-    // Return an object with file metadata and contents
-    return {
-      body: bodyContents,
-      contentType: response.ContentType || 'application/octet-stream',
-      fileName: fileKey.split('/').pop(),
-    };
+    return { bodyContents, contentType: response.ContentType };
   } catch (error) {
     console.error('Error downloading file:', error);
     throw error;
   }
-}
+};
 
 export {
   listFiles,
