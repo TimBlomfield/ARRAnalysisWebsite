@@ -52,8 +52,8 @@ const metadata = {
   icons: {
     icon: {
       rel: 'icon',
-      url: '/L8-favicon.png',
-      type: 'image/png',
+      url: '/arr-analysis.ico',
+      type: 'image/x-icon',
     },
   },
 };
