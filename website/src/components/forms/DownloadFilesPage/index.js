@@ -15,6 +15,8 @@ const DownloadFilesPage = ({ files }) => {
   const [loading, setLoading] = useState(true);
 
   const fnEncode = useCallback((f, tier) => {
+    if (f[tier] == null)
+      return '';
     const fileName = f[tier].fileName;
     return f[tier].versions.map(ver => window.btoa(`${tier}/${ver}/${fileName}`));
   }, []);
@@ -42,18 +44,22 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Basic</div>
                 <div className={styles.tier}>(Tier 1)</div>
                 <div className={styles.desc}>ARR Analysis Excel Add-in</div>
-                <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
-                <LinkButton extraClass={styles.pbtn}
-                            href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
-                {arrEncoded_Tier01.length > 1 &&
+                {files.tier01 != null &&
                   <>
-                    <div className={styles.older}>Older Versions</div>
-                    {files.tier01.versions.map((ver, idx) => {
-                      if (idx === 0) return null;
-                      return (
-                        <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
-                      );
-                    })}
+                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
+                    <LinkButton extraClass={styles.pbtn}
+                                href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
+                    {arrEncoded_Tier01.length > 1 &&
+                      <>
+                        <div className={styles.older}>Older Versions</div>
+                        {files.tier01.versions.map((ver, idx) => {
+                          if (idx === 0) return null;
+                          return (
+                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
+                          );
+                        })}
+                      </>
+                    }
                   </>
                 }
               </>
@@ -72,18 +78,22 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Intermediate</div>
                 <div className={styles.tier}>(Tier 2)</div>
                 <div className={styles.desc}>ARR Analysis + Segmentation</div>
-                <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
-                <LinkButton extraClass={styles.pbtn}
-                            href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
-                {arrEncoded_Tier02.length > 1 &&
+                {files.tier02 != null &&
                   <>
-                    <div className={styles.older}>Older Versions</div>
-                    {files.tier02.versions.map((ver, idx) => {
-                      if (idx === 0) return null;
-                      return (
-                        <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
-                      );
-                    })}
+                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
+                    <LinkButton extraClass={styles.pbtn}
+                                href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
+                    {arrEncoded_Tier02.length > 1 &&
+                      <>
+                        <div className={styles.older}>Older Versions</div>
+                        {files.tier02.versions.map((ver, idx) => {
+                          if (idx === 0) return null;
+                          return (
+                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
+                          );
+                        })}
+                      </>
+                    }
                   </>
                 }
               </>
@@ -102,18 +112,22 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Advanced</div>
                 <div className={styles.tier}>(Tier 3)</div>
                 <div className={styles.desc}>Enterprise</div>
-                <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
-                <LinkButton extraClass={styles.pbtn}
-                            href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
-                {arrEncoded_Tier03.length > 1 &&
+                {files.tier03 != null &&
                   <>
-                    <div className={styles.older}>Older Versions</div>
-                    {files.tier03.versions.map((ver, idx) => {
-                      if (idx === 0) return null;
-                      return (
-                        <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
-                      );
-                    })}
+                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
+                    <LinkButton extraClass={styles.pbtn}
+                                href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
+                    {arrEncoded_Tier03.length > 1 &&
+                      <>
+                        <div className={styles.older}>Older Versions</div>
+                        {files.tier03.versions.map((ver, idx) => {
+                          if (idx === 0) return null;
+                          return (
+                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
+                          );
+                        })}
+                      </>
+                    }
                   </>
                 }
               </>

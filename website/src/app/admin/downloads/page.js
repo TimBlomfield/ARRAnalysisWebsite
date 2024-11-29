@@ -19,7 +19,7 @@ const DownloadsPage = async () => {
 
   let files;
   try {
-    files = await listFiles(`${process.env.CLOUDCUBE_TOP_FOLDER}installers/`);
+    files = await listFiles(`${process.env.CLOUDCUBE_TOP_FOLDER}${process.env.CLOUDCUBE_INSTALLS_FOLDER}`);
   } catch (err) {
     console.error('Error listing objects: ', err);
     notFound();

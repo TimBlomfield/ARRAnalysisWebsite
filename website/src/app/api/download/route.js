@@ -19,7 +19,7 @@ const GET = async req => {
     return NextResponse.json({ error: 'No file specified for download!' }, { status: 400 });
 
   try {
-    const fileKey = `${process.env.CLOUDCUBE_TOP_FOLDER}installers/${atob(file)}`;
+    const fileKey = `${process.env.CLOUDCUBE_TOP_FOLDER}${process.env.CLOUDCUBE_INSTALLS_FOLDER}${atob(file)}`;
 
     const { bodyContents, contentType } = await downloadFile(fileKey);
 
