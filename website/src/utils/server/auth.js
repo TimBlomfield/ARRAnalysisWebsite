@@ -52,7 +52,6 @@ const authOptions = {
             email,
             adminId: admin?.id,
             customerId: customer?.id,
-            userId: user?.id,
           };
         } catch (err) {
           return null;

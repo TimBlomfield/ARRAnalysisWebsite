@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { isAuthTokenValid } from '@/utils/server/common';
+import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { createAuditLog } from '@/utils/server/audit';
 import { AuditEvent } from '@prisma/client';
 
@@ -12,13 +12,15 @@ const POST = async req => {
   if (authToken?.email == null || !isAuthTokenValid(authToken))
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
+  const acuIds = await getACU_Ids(authToken.email);
+
   try {
     await createAuditLog({
       type: AuditEvent.LOGOUT,
       email: authToken.email,
-      isAdmin: authToken.userData.adminId != null,
-      isCustomer: authToken.userData.customerId != null,
-      isUser: authToken.userData.userId != null,
+      isAdmin: acuIds?.adminId != null,
+      isCustomer: acuIds?.customerId != null,
+      isUser: acuIds?.userId != null,
     }, req);
   } catch (error) {
     const message = error?.response?.data?.detail ?? 'Something went wrong!';

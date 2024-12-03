@@ -55,11 +55,40 @@ const checkRegToken = async token => {
 
 const isAuthTokenValid = authToken => (authToken != null && authToken.email != null && (new Date(authToken.exp * 1000) > new Date()));
 
+// Get AdminID, CustomerID and UserID for email (ACU stands for Admin Customer User)
+const getACU_Ids = async email => {
+  const userData = await db.userData.findUnique({
+    where: { email },
+    select: {
+      id: true, // Only select ID to minimize data transfer
+      admin: {
+        select: { id: true },
+      },
+      customer: {
+        select: { id: true },
+      },
+      user: {
+        select: { id: true },
+      },
+    },
+  });
+
+  if (userData == null)
+    return null;
+
+  return {
+    adminId: userData.admin?.id,
+    customerId: userData.customer?.id,
+    userId: userData.user?.id,
+  };
+};
+
 const debugWait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export {
   RegTokenState,
   checkRegToken,
   isAuthTokenValid,
+  getACU_Ids,
   debugWait,
 };

@@ -2,13 +2,13 @@
 import styles from './styles.module.scss';
 
 
-const DashboardPage = () => {
+const PurchasePage = () => {
   return (
     <div className={styles.main}>
-      <div className={styles.tempText}>Dashboard Page</div>
+      <div className={styles.tempText}>Purchase Page</div>
     </div>
   );
 };
 
 
-export default DashboardPage;
+export default PurchasePage;
