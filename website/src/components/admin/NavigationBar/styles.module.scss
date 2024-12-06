@@ -3,10 +3,10 @@
 .navbar {
   width: 245px;
   box-sizing: border-box;
-  border-right: 1px solid #2D2D65;
+  border-right: 1px solid $clrAdmin_BorderClr;
   display: flex;
   flex-direction: column;
-  color: #EAEAFB;
+  color: $clrAdmin_Txt0;
   font-size: 20px;
   padding-top: 150px;
 }

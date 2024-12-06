@@ -17,12 +17,17 @@ $clrLoginBk: #F7F8F9;
 $clrLoading: #3B3BEC;
 $clrLoadingLight: #D5D5EF;
 
-$clrAdminBk: #1C5886;
+$clrAdminBk: #F3F2F8;
+$clrAdmin_BorderClr: #C1C1CD;
+$clrAdmin_Txt0: black;
+$clrAdmin_Txt1: #21222A;
+$clrAdmin_RoleCard: darkslategray;
+$clrAdmin_TxtLight0: white;
 $clrAdminScrollbar_Track: #10324D;
 $clrAdminScrollbar_Thumb: #69DEF6;
 
 // Button
-$mapLinkButton_Dark: (
+$mapButton_Dark: (
   'background':           $clrHeaderDarkBk,
   'text':                 $clrHeaderDarkText,
   'background-hover':     #515D74,
@@ -30,9 +35,11 @@ $mapLinkButton_Dark: (
   'border-focus':         $clrHeaderDarkBk,
   'background-disabled':  $clrHeaderLight_Disabled,
   'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     $clrHeaderLightBk,
+  'border-inv':           $clrHeaderLightBk,
 );
 
-$mapLinkButton_Light: (
+$mapButton_Light: (
   'background':           $clrHeaderLightBk,
   'text':                 $clrHeaderDarkBk,
   'background-hover':     lightgray,
@@ -40,6 +47,20 @@ $mapLinkButton_Light: (
   'border-focus':         $clrHeaderLightBk,
   'background-disabled':  $clrHeaderLight_Disabled,
   'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     $clrHeaderDarkBk,
+  'border-inv':           $clrHeaderDarkBk,
+);
+
+$mapButton_Red: (
+  'background':           $clrError,
+  'text':                 $clrHeaderDarkText,
+  'background-hover':     color.adjust($clrError, $lightness: 10%),
+  'background-active':    color.adjust($clrError, $lightness: 5%),
+  'border-focus':         $clrError,
+  'background-disabled':  $clrHeaderLight_Disabled,
+  'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     color.adjust($clrError, $lightness: 30%),
+  'border-inv':           none,
 );
 
 $maxHtmlPageWidth: 1400px;
@@ -62,7 +83,7 @@ $maxHtmlPageWidth: 1400px;
   #{$prop}: calc($maxValPx - ($maxWPx - max($measure, $minWPx)) * ($maxVal - $minVal) / ($maxDim - $minDim));
 }
 
-@mixin button($map) {
+@mixin mx-button($map) {
   $clrBackground:           map.get($map, 'background');
   $clrText:                 map.get($map, 'text');
   $clrBackground_Hover:     map.get($map, 'background-hover');
@@ -70,6 +91,8 @@ $maxHtmlPageWidth: 1400px;
   $clrBorder_Focus:         map.get($map, 'border-focus');
   $clrText_Disabled:        map.get($map, 'text-disabled');
   $clrBackground_Disabled:  map.get($map, 'background-disabled');
+  $clrBorder_FocusInv:      map.get($map, 'border-focus-inv');
+  $clrBorder_Inv:           map.get($map, 'border-inv');
 
   background-color: transparent;
   touch-action: none;
@@ -110,6 +133,66 @@ $maxHtmlPageWidth: 1400px;
 
   &:disabled {
     cursor: not-allowed;
+    opacity: .7;
+    .text { color: $clrText_Disabled; }
+    .inner { background-color: $clrBackground_Disabled; }
+  }
+
+
+  &.invertBkTheme {
+    &:focus-visible { border-color: $clrBorder_FocusInv; }
+
+    &:enabled{ .inner { border: 2px solid $clrBorder_Inv; } }
+  }
+}
+
+@mixin mx-link-button($map) {
+  $clrBackground:           map.get($map, 'background');
+  $clrText:                 map.get($map, 'text');
+  $clrBackground_Hover:     map.get($map, 'background-hover');
+  $clrBackground_Active:    map.get($map, 'background-active');
+  $clrBorder_Focus:         map.get($map, 'border-focus');
+  $clrText_Disabled:        map.get($map, 'text-disabled');
+  $clrBackground_Disabled:  map.get($map, 'background-disabled');
+  $clrBorder_FocusInv:      map.get($map, 'border-focus-inv');
+
+  background-color: transparent;
+  touch-action: none;
+  text-decoration: none;
+  outline: none;
+  transition: border 0.2s;
+
+  .text {
+    z-index: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: $clrText;
+  }
+
+  .inner {
+    z-index: 0;
+    position: absolute;
+    inset: 2px;
+    border-radius: 32px;
+    border: none;
+    pointer-events: none;
+    touch-action: none;
+    background-color: $clrBackground;
+    transition: background-color 0.2s;
+  }
+
+  &:hover { .inner { background-color: $clrBackground_Hover; } }
+  &:active { .inner { background-color: $clrBackground_Active; } }
+  &:focus-visible { border-color: $clrBorder_Focus; }
+
+  &.invertBkTheme {
+    &:focus-visible { border-color: $clrBorder_FocusInv; }
+    &:not([aria-disabled="true"]) { .inner { border: 2px solid $clrBorder_FocusInv; } }
+  }
+
+  &[aria-disabled="true"] {
+    cursor: not-allowed;  // Has no effect when pointer-events = none
+    pointer-events: none;
     opacity: .7;
     .text { color: $clrText_Disabled; }
     .inner { background-color: $clrBackground_Disabled; }

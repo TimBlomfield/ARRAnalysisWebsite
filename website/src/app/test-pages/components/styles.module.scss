@@ -30,14 +30,14 @@
 
   .pushButtonGrid {
     display: grid;
-    grid: 20px 100px / 250px 250px;
+    grid: repeat(3, 100px) / repeat(4, 250px);
     gap: 10px 0;
 
     .child {
       display: grid;
       place-items: center;
 
-      &:nth-child(3) { background-color: $clrHeaderDarkBk; }
+      &:nth-child(1), &:nth-child(4), &:nth-child(6), &:nth-child(7), &:nth-child(10), &:nth-child(12) { background-color: $clrHeaderDarkBk; }
     }
   }
 

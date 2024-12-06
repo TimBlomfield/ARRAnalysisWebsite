@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
+import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import LoadingSSR from '@/components/LoadingSSR';
 import PlusMinusButton from '@/components/PlusMinusButton';
@@ -18,7 +19,6 @@ const ComponentsPage = () => {
   const [plusMinusValue, setPlusMinusValue] = useState(0);
 
 
-
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // PushButton Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,13 +26,79 @@ const ComponentsPage = () => {
     <>
       <div className={cn(styles.title, styles.pt)}>&lt;PushButton /&gt;</div>
       <div className={styles.pushButtonGrid}>
-        <div className={styles.child}>Light Theme</div>
-        <div className={styles.child}>Dark Theme</div>
         <div className={styles.child}>
           <PushButton theme={K_Theme.Light} onClick={() => toast('Light!')}>Button Light</PushButton>
         </div>
         <div className={styles.child}>
+          <PushButton theme={K_Theme.Light} invertBkTheme onClick={() => toast('Light!')}>Button Light</PushButton>
+        </div>
+        <div className={styles.child}>
           <PushButton theme={K_Theme.Dark} onClick={() => toast('Dark!')}>Button Dark</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Dark} invertBkTheme onClick={() => toast('Dark!')}>Button Dark</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Light} invertBkTheme onClick={() => toast('Light!')} disabled>Button
+            Light</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Light} onClick={() => toast('Light!')} disabled>Button Light</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Dark} invertBkTheme onClick={() => toast('Dark!')} disabled>Button
+            Dark</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Dark} onClick={() => toast('Dark!')} disabled>Button Dark</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Danger} onClick={() => toast('Danger!')}>Danger</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Danger} invertBkTheme onClick={() => toast('Danger!')}>Danger</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Danger} onClick={() => toast('Danger!')} disabled>Danger</PushButton>
+        </div>
+        <div className={styles.child}>
+          <PushButton theme={K_Theme.Danger} onClick={() => toast('Danger!')} disabled>Danger</PushButton>
+        </div>
+      </div>
+    </>
+  ), []);
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // LinkButton Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const LinkButtonSection_MemoRender = useMemo(() => (
+    <>
+      <div className={cn(styles.title, styles.pt)}>&lt;LinkButton /&gt;</div>
+      <div className={styles.pushButtonGrid}>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Light} href="https://www.google.com/">Button Light</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Light} invertBkTheme href="https://www.google.com/">Button Light</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Dark} href="https://www.google.com/">Button Dark</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Dark} invertBkTheme href="https://www.google.com/">Button Dark</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Light} invertBkTheme href="https://www.google.com/" disabled>Button Light</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Light} href="https://www.google.com/" disabled>Button Light</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Dark} invertBkTheme href="https://www.google.com/" disabled>Button Dark</LinkButton>
+        </div>
+        <div className={styles.child}>
+          <LinkButton theme={K_Theme.Dark} href="https://www.google.com/" disabled>Button Dark</LinkButton>
         </div>
       </div>
     </>
@@ -110,6 +176,7 @@ const ComponentsPage = () => {
       </section>
 
       {PushButtonSection_MemoRender}
+      {LinkButtonSection_MemoRender}
       {PlusMinusButtonSection_MemoRender}
     </main>
   );

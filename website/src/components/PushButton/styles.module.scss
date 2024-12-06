@@ -15,6 +15,7 @@
   border: 2px solid transparent;
   position: relative;
 
-  &.dark { @include button($mapLinkButton_Dark); }
-  &.light { @include button($mapLinkButton_Light); }
+  &.dark { @include mx-button($mapButton_Dark); }
+  &.light { @include mx-button($mapButton_Light); }
+  &.red { @include mx-button($mapButton_Red); }
 }
