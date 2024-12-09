@@ -1,0 +1,63 @@
+@use "globals" as *;
+@use "sass:color";
+
+.navbar {
+  width: 245px;
+  box-sizing: border-box;
+  border-right: 1px solid $clrAdmin_BorderClr;
+  display: flex;
+  flex-direction: column;
+  color: $clrAdmin_Txt0;
+  font-size: 20px;
+  gap: 2px;
+
+  .logoLink {
+    margin: 10px 0 120px;
+    width: fit-content;
+    align-self: center;
+
+    .logo {
+      height: 34px;
+      padding: 5px;
+    }
+  }
+
+  .pageLink {
+    @extend %fnt-secondary;
+
+    height: 50px;
+    outline-offset: -6px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: $clrAdmin_NavbarLinkText;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba(38, 38, 38, .1);
+      color: color.adjust($clrAdmin_NavbarLinkText, $lightness: -20% );;
+    }
+
+    &::before {
+      content: '';
+      background: transparent;
+      width: 6px;
+      border-radius: 3px;
+      height: 100%;
+      display: inline-block;
+      margin-right: 20px;
+      transition: background-color .2s ease;
+    }
+
+    &.active {
+      @extend %fnt-primary;
+
+      background: color.adjust($clrAdminBk, $lightness: -10% );
+      transition: background-color .2s ease;
+      outline-color: color.adjust($clrAdminBk, $lightness: -15% );
+      color: $clrAdmin_NavbarSelectedLinkText;
+
+      &::before { background: color.adjust($clrAdminBk, $lightness: -30% ); }
+    }
+  }
+}

@@ -14,7 +14,7 @@ $clrMenuItemHover: #e6e6e6;
 $clrError: #CE2C30;
 
 $clrLoginBk: #F7F8F9;
-$clrLoading: #3B3BEC;
+$clrLoading: #7A63DF;
 $clrLoadingLight: #D5D5EF;
 
 $clrAdminBk: #F3F2F8;
@@ -23,8 +23,10 @@ $clrAdmin_Txt0: black;
 $clrAdmin_Txt1: #21222A;
 $clrAdmin_RoleCard: darkslategray;
 $clrAdmin_TxtLight0: white;
-$clrAdminScrollbar_Track: #10324D;
-$clrAdminScrollbar_Thumb: #69DEF6;
+$clrAdminScrollbar_Track: color.adjust($clrAdminBk, $lightness: -7% );
+$clrAdminScrollbar_Thumb: color.adjust($clrAdminBk, $lightness: -34% );
+$clrAdmin_NavbarLinkText: #696977;
+$clrAdmin_NavbarSelectedLinkText: color.adjust($clrAdminBk, $lightness: -50% );;
 
 // Button
 $mapButton_Dark: (

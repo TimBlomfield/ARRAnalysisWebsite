@@ -9,7 +9,7 @@ import styles from './layout.module.scss';
 const LoadingPage = () => {
   return (
     <div className={styles.fullScreenLoading}>
-      <LoadingSSR scale={2} theme={K_Theme.Light} />
+      <LoadingSSR scale={2} />
     </div>
   );
 };
