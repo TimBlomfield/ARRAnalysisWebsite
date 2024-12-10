@@ -141,7 +141,7 @@ const ManageLicenseUsersPage = ({ license, customer }) => {
                         {other != null && <span className={styles.other}>{other}</span>}
                       </div>
                       <div className={styles.spacer} />
-                      {bBusy && <Loading theme={K_Theme.Light} />}
+                      {bBusy && <Loading theme={K_Theme.Dark} />}
                       <PushButton extraClass={styles.pbX}
                                   textExtraClass={styles.txX}
                                   disabled={bBusy}
@@ -195,7 +195,8 @@ const ManageLicenseUsersPage = ({ license, customer }) => {
                                   onClick={() => onBtnDisallow(user)}>
                         Disallow
                       </PushButton>
-                      <PushButton extraClass={styles.pbX}
+                      <PushButton theme={K_Theme.Danger}
+                                  extraClass={styles.pbX}
                                   textExtraClass={styles.txX}
                                   disabled={bBusy || bMultipleLicenses}
                                   {...(bMultipleLicenses ? { title: 'This user is allowed for multiple licenses.' } : {})}
@@ -224,6 +225,7 @@ const ManageLicenseUsersPage = ({ license, customer }) => {
         </div>
       </ConfirmationDialog>
       <ConfirmationDialog isOpen={confirmDeleteDlg}
+                          danger
                           notifyClosed={() => setConfirmDeleteDlg(false)}
                           titleText="Please Confirm"
                           button1Text="Delete"

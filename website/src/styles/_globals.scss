@@ -21,12 +21,20 @@ $clrAdminBk: #F3F2F8;
 $clrAdmin_BorderClr: #C1C1CD;
 $clrAdmin_Txt0: black;
 $clrAdmin_Txt1: #21222A;
-$clrAdmin_RoleCard: darkslategray;
+$clrAdmin_RoleCard: color.adjust($clrAdminBk, $lightness: -37% );
 $clrAdmin_TxtLight0: white;
 $clrAdminScrollbar_Track: color.adjust($clrAdminBk, $lightness: -7% );
 $clrAdminScrollbar_Thumb: color.adjust($clrAdminBk, $lightness: -34% );
 $clrAdmin_NavbarLinkText: #696977;
-$clrAdmin_NavbarSelectedLinkText: color.adjust($clrAdminBk, $lightness: -50% );;
+$clrAdmin_NavbarSelectedLinkText: color.adjust($clrAdminBk, $lightness: -50% );
+$clrAdmin_LicenseTextKey: color.adjust($clrAdminBk, $lightness: -40% );
+$clrAdmin_LicenseTextValue: color.adjust($clrAdminBk, $lightness: -65% );
+$clrAdmin_AssignedUserBk: color.adjust($clrAdminBk, $lightness: -5% );
+$clrAdmin_DlgDarkerBk: color.adjust($clrAdminBk, $lightness: -12% );
+$clrAdmin_ManageLicUsersDesc: color.adjust($clrAdminBk, $lightness: -38% );
+$clrAdmin_DlgText: color.adjust($clrAdminBk, $lightness: -65% );
+$clrAdmin_DlgTextDk: color.adjust($clrAdminBk, $lightness: -75% );
+$clrAdmin_10: color.adjust($clrAdminBk, $lightness: -10% );
 
 // Button
 $mapButton_Dark: (
@@ -239,7 +247,7 @@ $fontSecondary: var(--font-aspekta-250);
   padding: 20px;
   border: 1px solid color.adjust($clrAdminBk, $lightness: -20%);
   border-radius: 10px;
-  background-color: $clrAdminBk;
+  background: linear-gradient($clrAdmin_DlgDarkerBk 0, $clrAdminBk 15%, $clrAdminBk 75%, $clrAdmin_DlgDarkerBk);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -257,7 +265,7 @@ $fontSecondary: var(--font-aspekta-250);
 
   .title {
     font-size: 20px;
-    color: white;
+    color: $clrAdmin_LicenseTextValue;
   }
 
   .buttons {
@@ -269,7 +277,8 @@ $fontSecondary: var(--font-aspekta-250);
       height: 48px;
 
       &:focus-visible {
-        border-color: $clrHeaderLightBk;
+        border-color: $clrHeaderDarkBk;
+        &.danger { border-color: $clrError; }
       }
     }
   }

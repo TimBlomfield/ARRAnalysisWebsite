@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId } from 'react';
+import cn from 'classnames';
 import { K_Theme } from '@/utils/common';
 // Components
 import PushButton from '@/components/PushButton';
@@ -8,7 +9,7 @@ import PushButton from '@/components/PushButton';
 import styles from './styles.module.scss';
 
 
-const ConfirmationDialog = ({ isOpen, notifyClosed, titleText = 'Dialog Title', button1Text = 'Confirm',
+const ConfirmationDialog = ({ isOpen, danger = false, notifyClosed, titleText = 'Dialog Title', button1Text = 'Confirm',
   button2Text = 'Cancel', onCancel, onConfirm, children }) => {
   const dlgId = useId();
 
@@ -34,8 +35,9 @@ const ConfirmationDialog = ({ isOpen, notifyClosed, titleText = 'Dialog Title', 
       <div className={styles.title}>{titleText}</div>
       {children}
       <div className={styles.buttons}>
-        <PushButton extraClass={styles.pbtn}
-                    theme={K_Theme.Light}
+        <PushButton extraClass={cn(styles.pbtn, {[styles.danger]: danger})}
+                    theme={danger ? K_Theme.Danger : K_Theme.Light}
+                    invertBkTheme={!danger}
                     onClick={() => {
                       closeDialog();
                       if (onConfirm) onConfirm();

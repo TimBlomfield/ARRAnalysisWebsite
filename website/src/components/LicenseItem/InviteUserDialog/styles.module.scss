@@ -25,17 +25,17 @@ $clrErrorInput: #E46;
       height: 48px;
       width: 100%;
       background-color: transparent;
-      color: white;
+      color: black;
 
       &.light {
         &:focus-visible {
-          &.error { outline-color: #E46; }
+          &.error { outline-color: $clrError; }
         }
       }
     }
   }
 
   .errorTextXtra {
-    color: #F87A93;
+    color: $clrError;
   }
 }

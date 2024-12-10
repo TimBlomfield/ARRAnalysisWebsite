@@ -118,7 +118,7 @@ const LicensesPage = async () => {
 
   return (
     <div className={styles.page}>
-      <div className={styles.title}>Purchased Licenses</div>
+      <div className={styles.title}>Purchased Licenses [{licenseData.results.length}]</div>
       <div className={styles.licenseList}>
         {licenseData.results.map(license => <LicenseItem key={license.id} license={license} />)}
       </div>

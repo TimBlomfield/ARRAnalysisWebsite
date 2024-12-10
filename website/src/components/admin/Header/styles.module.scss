@@ -28,6 +28,8 @@
       gap: 40px;
 
       .name {
+        @extend %fnt-secondary;
+
         color: $clrAdmin_Txt0;
         font-size: 16px;
       }
@@ -47,18 +49,19 @@
       .desc {
         @extend %fnt-secondary;
 
+        font-size: 16px;
         color: $clrAdmin_Txt0;
         margin-right: 10px;
       }
 
       .card {
-        padding: 0 20px;
+        padding: 0 16px;
         display: grid;
         place-items: center;
         background: $clrAdmin_RoleCard;
         color: $clrAdmin_TxtLight0;
         font-size: 15px;
-        border-radius: 4px;
+        border-radius: 16px 4px;
         height: 28px;
       }
     }

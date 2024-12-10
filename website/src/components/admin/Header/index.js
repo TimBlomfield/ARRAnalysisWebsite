@@ -46,7 +46,6 @@ const Header = async () => {
           <div className={styles.email}>{email}</div>
         </div>
         <div className={styles.roleCards}>
-          <div className={styles.desc}>Role:</div>
           {bAdmin && <div className={styles.card}>Admin</div>}
           {bCustomer && <div className={styles.card}>Customer</div>}
           {bUser && <div className={styles.card}>User</div>}

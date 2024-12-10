@@ -108,7 +108,7 @@ const LicenseItem = ({ license }) => {
     <div className={styles.licenseBlock}>
       {loading &&
         <div className={styles.overlay}>
-          <Loading theme={K_Theme.Light} scale={2} />
+          <Loading scale={2} />
         </div>
       }
       <div className={styles.dataList}>
@@ -134,13 +134,13 @@ const LicenseItem = ({ license }) => {
         }
         {bWaitingToAssign &&
           <>
-            <div>Allowed users ({license.portalUsers.length}):</div>
+            <div>Allowed users:</div>
             <div>{license.portalUsers.map(item => item.email).join(', ')}</div>
           </>
         }
         {bAssigned &&
           <>
-            <div>Assigned users ({license.license_users.length}):</div>
+            <div>Assigned users:</div>
             <div className={styles.user}>{licenseUser}</div>
           </>
         }

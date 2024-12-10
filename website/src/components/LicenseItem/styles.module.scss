@@ -24,24 +24,26 @@
     font-size: 15px;
 
     :nth-child(odd) {
-      color: orange;
+      color: $clrAdmin_LicenseTextKey;
       font-weight: bold;
     }
 
     :nth-child(even) {
-      color: white;
+      color: $clrAdmin_LicenseTextValue;
     }
 
     .status {
       font-size: 16px;
 
-      &.active { color: #24B47E; }
-      &.inactive { color: #949E9E; }
-      &.disabled { color: #EA697B; }
+      &.active { color: #0A7E33; }
+      &.inactive { color: #868F8F; }
+      &.disabled { color: #B63E50; }
     }
 
     .user {
-      color: wheat;
+      padding: 2px 6px;
+      width: fit-content;
+      background: $clrAdmin_AssignedUserBk;
     }
   }
 

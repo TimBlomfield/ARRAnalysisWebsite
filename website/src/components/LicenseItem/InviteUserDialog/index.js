@@ -139,10 +139,10 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
       <div className={styles.inputs}>
         {loading &&
           <div className={styles.overlay}>
-            <Loading theme={K_Theme.Light} scale={2} />
+            <Loading theme={K_Theme.Dark} scale={2} />
           </div>
         }
-        <Input theme={K_Theme.Light}
+        <Input theme={K_Theme.Dark}
                id={ID_FIRST_NAME}
                name="first-name"
                type="text"
@@ -153,7 +153,7 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
                value={firstName}
                onChange={firstNameFn}
                onKeyDown={handleInputReturn} />
-        <Input theme={K_Theme.Light}
+        <Input theme={K_Theme.Dark}
                id={ID_LAST_NAME}
                name="last-name"
                type="text"
@@ -164,7 +164,7 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
                value={lastName}
                onChange={lastNameFn}
                onKeyDown={handleInputReturn} />
-        <Input theme={K_Theme.Light}
+        <Input theme={K_Theme.Dark}
                id={ID_EMAIL}
                name="email"
                type="email"
@@ -184,6 +184,7 @@ const InviteUserDialog = ({ isOpen, notifyClosed, licenseId, customerId, passSuc
         <ToastContainer position="bottom-left" stacked containerId={ID_TOASTER_DIALOG_INVITE_USER} />
         <PushButton extraClass={styles.pbtn}
                     theme={K_Theme.Light}
+                    invertBkTheme
                     {...(loading ? { disabled: true } : {})}
                     onClick={onBtnSubmit}>
           Send Email
