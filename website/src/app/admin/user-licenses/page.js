@@ -7,7 +7,7 @@ import { authOptions } from '@/utils/server/auth';
 // Components
 import UserLicenseItem from '@/components/UserLicenseItem';
 // Styles
-import styles from '@/app/admin/licenses/styles.module.scss';
+import styles from './styles.module.scss';
 
 
 const UserLicensesPage = async () => {

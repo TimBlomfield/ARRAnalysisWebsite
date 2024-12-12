@@ -32,12 +32,12 @@
     .txt {
       @extend %fnt-secondary;
 
-      color: gainsboro;
+      color: $clrAdmin_Txt1;
 
       span.emph {
         @extend %fnt-primary;
 
-        color: white;
+        color: black;
       }
     }
   }

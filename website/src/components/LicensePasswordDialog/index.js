@@ -68,8 +68,8 @@ const LicensePasswordDialog = ({ isOpen, notifyClosed, onConfirm }) => {
   return (
     <dialog id={dlgId} className={styles.dialog}>
       <div className={styles.title}>Change Password</div>
-      <Input id={ID_PASSWORD}
-             theme={K_Theme.Light}
+      <Input theme={K_Theme.Dark}
+             id={ID_PASSWORD}
              name="password"
              type="password"
              autoComplete="new-password"
@@ -84,6 +84,7 @@ const LicensePasswordDialog = ({ isOpen, notifyClosed, onConfirm }) => {
       <div className={styles.buttons}>
         <PushButton extraClass={styles.pbtn}
                     theme={K_Theme.Light}
+                    invertBkTheme
                     onClick={onBtnConfirm}>
           Confirm
         </PushButton>

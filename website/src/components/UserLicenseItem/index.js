@@ -94,7 +94,7 @@ const UserLicenseItem = ({ license, email }) => {
     <div className={styles.licenseBlock}>
       {loading &&
         <div className={styles.overlay}>
-          <Loading theme={K_Theme.Light} scale={2} />
+          <Loading theme={K_Theme.Dark} scale={2} />
         </div>
       }
       <RegLicenseDesc licenseData={licenseData} />
