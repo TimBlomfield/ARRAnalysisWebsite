@@ -74,6 +74,42 @@ $mapButton_Red: (
   'border-inv':           none,
 );
 
+$mapButton_Dark_TransparentBk: (
+  'background':           transparent,
+  'text':                 $clrHeaderDarkText,
+  'background-hover':     color.adjust(white, $alpha: -.85),
+  'background-active':    color.adjust(white, $alpha: -.92),
+  'border-focus':         transparent,
+  'background-disabled':  color.adjust($clrHeaderLight_Disabled, $alpha: -.75),
+  'text-disabled':        color.adjust($clrHeaderDark_Disabled, $lightness: 25%),
+  'border-focus-inv':     $clrHeaderLightBk,
+  'border-inv':           transparent,
+);
+
+$mapButton_Light_TransparentBk: (
+  'background':           transparent,
+  'text':                 $clrHeaderDarkBk,
+  'background-hover':     color.adjust(black, $alpha: -.9),
+  'background-active':    color.adjust(black, $alpha: -.95),
+  'border-focus':         transparent,
+  'background-disabled':  color.adjust($clrHeaderDark_Disabled, $alpha: -.75),
+  'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     $clrHeaderDarkBk,
+  'border-inv':           transparent,
+);
+
+$mapButton_Red_TransparentBk: (
+  'background':           transparent,
+  'text':                 $clrError,
+  'background-hover':     color.adjust($clrError, $alpha: -.9),
+  'background-active':    color.adjust($clrError, $alpha: -.95),
+  'border-focus':         transprent,
+  'background-disabled':  color.adjust($clrHeaderDark_Disabled, $alpha: -.75),
+  'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     color.adjust($clrError, $lightness: 30%),
+  'border-inv':           transprent,
+);
+
 $maxHtmlPageWidth: 1400px;
 
 %noselect {
@@ -152,8 +188,7 @@ $maxHtmlPageWidth: 1400px;
 
   &.invertBkTheme {
     &:focus-visible { border-color: $clrBorder_FocusInv; }
-
-    &:enabled{ .inner { border: 2px solid $clrBorder_Inv; } }
+    &:enabled { .inner { border: 2px solid $clrBorder_Inv; } }
   }
 }
 
@@ -207,6 +242,62 @@ $maxHtmlPageWidth: 1400px;
     opacity: .7;
     .text { color: $clrText_Disabled; }
     .inner { background-color: $clrBackground_Disabled; }
+  }
+}
+
+@mixin mx-icon-button($map) {
+  $clrBackground:           map.get($map, 'background');
+  $clrSvg:                  map.get($map, 'text');
+  $clrBackground_Hover:     map.get($map, 'background-hover');
+  $clrBackground_Active:    map.get($map, 'background-active');
+  $clrBorder_Focus:         map.get($map, 'border-focus');
+  $clrSvg_Disabled:         map.get($map, 'text-disabled');
+  $clrBackground_Disabled:  map.get($map, 'background-disabled');
+  $clrBorder_FocusInv:      map.get($map, 'border-focus-inv');
+  $clrBorder_Inv:           map.get($map, 'border-inv');
+
+  background-color: transparent;
+  touch-action: none;
+  text-decoration: none;
+  outline: none;
+  transition: border 0.2s;
+
+  .inner {
+    z-index: 0;
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    border: none;
+    pointer-events: none;
+    touch-action: none;
+    background-color: $clrBackground;
+    transition: background-color 0.2s;
+  }
+
+  svg.image {
+    z-index: 1;
+    fill: $clrSvg;
+    stroke: $clrSvg;
+  }
+
+  &:hover:enabled { .inner { background-color: $clrBackground_Hover; } }
+  &:active:enabled { .inner { background-color: $clrBackground_Active; } }
+  &:focus-visible { border-color: $clrBorder_Focus; }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .7;
+    .inner { background-color: $clrBackground_Disabled; }
+
+    svg.image {
+      fill: $clrSvg_Disabled;
+      stroke: $clrSvg_Disabled;
+    }
+  }
+
+  &.invertBkTheme {
+    &:focus-visible { border-color: $clrBorder_FocusInv; }
+    &:enabled { .inner { border: 2px solid $clrBorder_Inv; } }
   }
 }
 

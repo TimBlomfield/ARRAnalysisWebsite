@@ -5,11 +5,15 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
+import ComboBox from '@/components/ComboBox';
+import IconButton from '@/components/IconButton';
 import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import LoadingSSR from '@/components/LoadingSSR';
 import PlusMinusButton from '@/components/PlusMinusButton';
 import PushButton from '@/components/PushButton';
+// Images
+import PlusSvg from '@/../public/Plus.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -160,6 +164,70 @@ const ComponentsPage = () => {
   }, [plusMinusValue]);
 
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // IconButton Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const IconButtonSection_MemoRender = useMemo(() => {
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;IconButton /&gt;</div>
+        <div className={styles.iconButtonGrid}>
+          {Object.values(K_Theme).map(theme => (
+            <>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} onClick={() => toast('Icon Button!')} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} scale={1.8} invertBkTheme
+                            onClick={() => toast('Icon Button!')} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} scale={1.3} svgScale={1.5}
+                            onClick={() => toast('Icon Button!')} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} scale={1.3} svgScale={1.5} disabled
+                            onClick={() => toast('Icon Button!')} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={theme} svg={PlusSvg} scale={1.3} svgScale={1.5} disabled onClick={() => toast('Icon Button!')} />
+              </div>
+            </>
+          ))}
+          {[false,true].map(d => (
+            <>
+              <div className={styles.child}>
+                <IconButton theme={K_Theme.Light} transparent svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} disabled={d} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={K_Theme.Dark} transparent svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} disabled={d} />
+              </div>
+              <div className={styles.child}>
+                <IconButton theme={K_Theme.Danger} transparent svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} disabled={d} />
+              </div>
+            </>
+          ))}
+        </div>
+      </>
+    );
+  }, []);
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // ComboBox Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const ComboBoxSection_MemoRender = useMemo(() => {
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;ComboBox /&gt;</div>
+        <ComboBox />
+      </>
+    );
+  }, []);
+
   return (
     <main className={styles.main}>
       <div className={styles.title}>&lt;Loading size={'{1}'} text=&quot;Hello&quot; /&gt;</div>
@@ -178,6 +246,8 @@ const ComponentsPage = () => {
       {PushButtonSection_MemoRender}
       {LinkButtonSection_MemoRender}
       {PlusMinusButtonSection_MemoRender}
+      {IconButtonSection_MemoRender}
+      {ComboBoxSection_MemoRender}
     </main>
   );
 };

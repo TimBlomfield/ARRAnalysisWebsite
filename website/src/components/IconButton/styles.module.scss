@@ -1,0 +1,20 @@
+@use "globals" as *;
+
+.iconButton {
+  @extend %noselect;
+
+  border-radius: 50%;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border: 2px solid transparent;
+  position: relative;
+
+  &.dark { @include mx-icon-button($mapButton_Dark); }
+  &.light { @include mx-icon-button($mapButton_Light); }
+  &.red { @include mx-icon-button($mapButton_Red); }
+  &.dark_TransparentBk { @include mx-icon-button($mapButton_Dark_TransparentBk); }
+  &.light_TransparentBk { @include mx-icon-button($mapButton_Light_TransparentBk); }
+  &.red_TransparentBk { @include mx-icon-button($mapButton_Red_TransparentBk); }
+}
