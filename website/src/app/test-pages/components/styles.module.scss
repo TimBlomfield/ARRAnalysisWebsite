@@ -2,6 +2,7 @@
 
 .main {
   padding: 20px;
+  background: $clrAdminBk;
 
   .title {
     font-size: 22px;
@@ -88,6 +89,27 @@
 
       &:nth-child(1), &:nth-child(3), &:nth-child(5), &:nth-child(8), &:nth-child(10), &:nth-child(12), &:nth-child(13),
       &:nth-child(15), &:nth-child(17), &:nth-child(20), &:nth-child(23) { background-color: $clrHeaderDarkBk; }
+    }
+  }
+
+  .multiToggleGrid {
+    width: fit-content;
+    display: grid;
+    grid: 80px 80px / auto auto auto;
+    align-items: center;
+
+    .cell {
+      padding: 15px;
+      &:nth-child(3n) { background-color: $clrHeaderDarkBk; }
+
+      .xtraMT {
+        &.otherBk { // Only when not disabled
+          background-color: $clrAdminBk;
+          border-color: hotpink;
+        }
+
+        height: 32px;
+      }
     }
   }
 }
