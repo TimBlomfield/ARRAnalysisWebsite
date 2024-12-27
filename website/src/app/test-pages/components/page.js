@@ -1,10 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState, useEffect } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
+import { initST } from './utils';
 // Components
+import CheckBox from '@/components/CheckBox';
 import ComboBox from '@/components/ComboBox';
 import IconButton from '@/components/IconButton';
 import LinkButton from '@/components/LinkButton';
@@ -13,6 +15,7 @@ import LoadingSSR from '@/components/LoadingSSR';
 import MultiToggle from '@/components/MultiToggle';
 import PlusMinusButton from '@/components/PlusMinusButton';
 import PushButton from '@/components/PushButton';
+import Slider from '@/components/Slider';
 // Images
 import PlusSvg from '@/../public/Plus.svg';
 // Styles
@@ -21,10 +24,45 @@ import styles from './styles.module.scss';
 
 const ComponentsPage = () => {
 
+  const [defaultLocale, setDefaultLocale] = useState('en-US');
+  // PlusMinusButton Section - local states
   const [plusMinusValue, setPlusMinusValue] = useState(0);
+  // MultiToggle Section - local states
   const [multiToggle_01, setMultiToggle_01] = useState(0);
   const [multiToggle_02, setMultiToggle_02] = useState(0);
   const [multiToggle_03, setMultiToggle_03] = useState(0);
+  // Slider Section - local states
+  const [sliderTicks, setSliderTicks] = useState(() => initST());
+  const [slider_mtgShowValue, setSlider_mtgShowValue] = useState(0);
+  const [slider_mtgValuePos, setSlider_mtgValuePos] = useState(0);
+  const [slider_chkThin, setSlider_chkThin] = useState(false);
+  const [slider_chkDisabled, setSlider_chkDisabled] = useState(false);
+  const [slider_horizontal01, setSlider_horizontal01] = useState(0);
+  const [slider_horizontal02, setSlider_horizontal02] = useState(0);
+  const [slider_horizontal03, setSlider_horizontal03] = useState(0);
+  const [slider_horizontal04, setSlider_horizontal04] = useState(0);
+  const [slider_vertical01, setSlider_vertical01] = useState(0);
+  const [slider_vertical02, setSlider_vertical02] = useState(0);
+  const [slider_vertical03, setSlider_vertical03] = useState(0);
+  // Combobox Section - local states
+  const [cboxsect_chkWithLabel, setCboxsect_chkWithLabel] = useState(false);
+  const [cboxsect_chkDisabled, setCboxsect_chkDisabled] = useState(false);
+  const [cboxsect_chkError, setCboxsect_chkError] = useState(false);
+  const [cboxsect_chkVirtualized, setCboxsect_chkVirtualized] = useState(false);
+  const [cboxsect_chkSearchable, setCboxsect_chkSearchable] = useState(false);
+  const [cboxsect_chkTooltip, setCboxsect_chkTooltip] = useState(false);
+  const [cboxsect_chkDisableClearable, setCboxsect_chkDisableClearable] = useState(false);
+  const [cboxsect_chkDisableListWrap, setCboxsect_chkDisableListWrap] = useState(false);
+  const [cboxsect_chkDisableCloseOnSelect, setCboxsect_chkDisableCloseOnSelect] = useState(false);
+  const [cboxsect_chkClearOnEscape, setCboxsect_chkClearOnEscape] = useState(false);
+  const [cboxsect_chkDebug, setCboxsect_chkDebug] = useState(false);
+  const [cboxsect_chkUseReactPortal, setCboxsect_chkUseReactPortal] = useState(false);
+  const [cboxsect_mtgMenuSize, setCboxsect_mtgMenuSize] = useState(3);
+
+
+  // Effects
+  useEffect(() => { setDefaultLocale(navigator?.language || 'en-US'); }, []);
+  useEffect(() => {  setSliderTicks(initST()); }, [defaultLocale]);
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +235,7 @@ const ComponentsPage = () => {
       <div className={cn(styles.title, styles.pt)}>&lt;IconButton /&gt;</div>
       <div className={styles.iconButtonGrid}>
         {Object.values(K_Theme).map(theme => (
-          <>
+          <Fragment key={theme}>
             <div className={styles.child}>
               <IconButton theme={theme} svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} />
             </div>
@@ -219,10 +257,10 @@ const ComponentsPage = () => {
             <div className={styles.child}>
               <IconButton theme={theme} svg={PlusSvg} scale={1.3} svgScale={1.5} disabled onClick={() => toast('Icon Button!')} />
             </div>
-          </>
+          </Fragment>
         ))}
         {[false,true].map(d => (
-          <>
+          <Fragment key={d.toString()}>
             <div className={styles.child}>
               <IconButton theme={K_Theme.Light} transparent svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} disabled={d} />
             </div>
@@ -232,7 +270,7 @@ const ComponentsPage = () => {
             <div className={styles.child}>
               <IconButton theme={K_Theme.Danger} transparent svg={PlusSvg} invertBkTheme onClick={() => toast('Icon Button!')} disabled={d} />
             </div>
-          </>
+          </Fragment>
         ))}
       </div>
     </>
@@ -289,16 +327,146 @@ const ComponentsPage = () => {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Slider Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const SliderSection_MemoRender = useMemo(() => {
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;Slider /&gt;</div>
+        <div className={styles.tweaker}>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Show value</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={slider_mtgShowValue}
+                         options={['Off', 'On', 'Auto']}
+                         onSelect={setSlider_mtgShowValue} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Show value</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={slider_mtgValuePos}
+                         options={['Above', 'Below', 'Left', 'Right']}
+                         onSelect={setSlider_mtgValuePos} />
+          </div>
+          <CheckBox checked={slider_chkThin} setChecked={setSlider_chkThin} text="Thin" />
+          <CheckBox checked={slider_chkDisabled} setChecked={setSlider_chkDisabled} text="Disabled" />
+        </div>
+        <div className={styles.slider_grid}>
+        <div className={cn(styles.s1, styles.b)}>
+          <Slider ticks={sliderTicks.time}
+                  selected={slider_horizontal01}
+                  onSelect={setSlider_horizontal01}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s2, styles.b)}>
+          <Slider ticks={sliderTicks.deg}
+                  selected={slider_horizontal02}
+                  onSelect={setSlider_horizontal02}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s3, styles.b)}>
+          <Slider min={0}
+                  max={50}
+                  tot={51}
+                  selected={slider_horizontal03}
+                  onSelect={setSlider_horizontal03}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s4, styles.b)}>
+          <Slider min={-20000}
+                  max={50000}
+                  tot={130}
+                  selected={slider_horizontal04}
+                  onSelect={setSlider_horizontal04}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s5, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 1 : 3 }}>
+          <Slider vertical
+                  ticks={sliderTicks.time}
+                  selected={slider_vertical01}
+                  onSelect={setSlider_vertical01}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s6, styles.b)} style={{ zIndex: 2 }}>
+          <Slider vertical
+                  ticks={sliderTicks.deg}
+                  selected={slider_vertical02}
+                  onSelect={setSlider_vertical02}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+        <div className={cn(styles.s7, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 3 : 1 }}>
+          <Slider vertical
+                  min={-5}
+                  max={5}
+                  tot={3}
+                  selected={slider_vertical03}
+                  onSelect={setSlider_vertical03}
+                  small={slider_chkThin}
+                  disabled={slider_chkDisabled}
+                  showValue={slider_mtgShowValue}
+                  valuePos={slider_mtgValuePos} />
+        </div>
+      </div>
+      </>
+    );
+  }, [slider_mtgShowValue, slider_mtgValuePos, slider_chkThin, slider_chkDisabled, slider_horizontal01,
+    slider_horizontal02, slider_horizontal03, slider_horizontal04, slider_vertical01, slider_vertical02,
+    slider_vertical03]);
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // ComboBox Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const ComboBoxSection_MemoRender = useMemo(() => {
     return (
       <>
         <div className={cn(styles.title, styles.pt)}>&lt;ComboBox /&gt;</div>
+        <div className={styles.tweaker}>
+          <CheckBox checked={cboxsect_chkWithLabel} setChecked={setCboxsect_chkWithLabel} text="Label" />
+          <CheckBox checked={cboxsect_chkDisabled} setChecked={setCboxsect_chkDisabled} text="Disabled" />
+          <CheckBox checked={cboxsect_chkError} setChecked={setCboxsect_chkError} text="Error" />
+          <CheckBox checked={cboxsect_chkVirtualized} setChecked={setCboxsect_chkVirtualized} text="Virtualized" />
+          <CheckBox checked={cboxsect_chkSearchable} setChecked={setCboxsect_chkSearchable} text="Searchable" />
+          <CheckBox checked={cboxsect_chkTooltip} setChecked={setCboxsect_chkTooltip} text="Tooltip" />
+          <CheckBox checked={cboxsect_chkDisableClearable} setChecked={setCboxsect_chkDisableClearable} text="Disable clearable" />
+          <CheckBox checked={cboxsect_chkDisableListWrap} setChecked={setCboxsect_chkDisableListWrap} text="Disable list wrap" />
+          <CheckBox checked={cboxsect_chkDisableCloseOnSelect} setChecked={setCboxsect_chkDisableCloseOnSelect} text="Disable close on select" />
+          <CheckBox checked={cboxsect_chkClearOnEscape} setChecked={setCboxsect_chkClearOnEscape} text="Clear on escape" />
+          <CheckBox checked={cboxsect_chkDebug} setChecked={setCboxsect_chkDebug} text="Debug" />
+          <CheckBox checked={cboxsect_chkUseReactPortal} setChecked={setCboxsect_chkUseReactPortal} text="Use React portal" />
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Menu size</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={cboxsect_mtgMenuSize}
+                         options={['2', '3', '4', '5', '6', '7', '8']}
+                         onSelect={x => setCboxsect_mtgMenuSize(x)} />
+          </div>
+        </div>
         <ComboBox />
       </>
     );
-  }, []);
+  }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkSearchable,
+    cboxsect_chkTooltip, cboxsect_chkDisableClearable, cboxsect_chkDisableListWrap, cboxsect_chkDisableCloseOnSelect,
+    cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkUseReactPortal, cboxsect_mtgMenuSize]);
+
 
 
   return (
@@ -309,6 +477,7 @@ const ComponentsPage = () => {
       {PlusMinusButtonSection_MemoRender}
       {IconButtonSection_MemoRender}
       {MultiToggleSection_MemoRender}
+      {SliderSection_MemoRender}
       {ComboBoxSection_MemoRender}
     </main>
   );

@@ -1,0 +1,29 @@
+@use "globals" as *;
+
+
+.checkbox {
+  @extend %noselect;
+
+  cursor: pointer;
+  padding: 4px;
+
+  .inputCb {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+
+    &:focus-visible {
+      outline-color: $clrHeaderDarkBk;
+      outline-offset: 3px;
+    }
+  }
+
+  .textCb {
+    @extend %fnt-secondary;
+
+    float: right;
+    padding-inline-start: 10px;
+    font-size: 14px;
+    margin-top: 3px;
+  }
+}

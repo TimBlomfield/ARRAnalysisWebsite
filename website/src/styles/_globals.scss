@@ -36,6 +36,10 @@ $clrAdmin_DlgText: color.adjust($clrAdminBk, $lightness: -65% );
 $clrAdmin_DlgTextDk: color.adjust($clrAdminBk, $lightness: -75% );
 $clrAdmin_06: color.adjust($clrAdminBk, $lightness: -6% );
 $clrAdmin_10: color.adjust($clrAdminBk, $lightness: -10% );
+$clrSlider_Full: color.adjust($clrAdminBk, $lightness: -40% );
+$clrSlider_Empty: color.adjust($clrAdminBk, $lightness: -5% );
+$clrSlider_DisabledFull: color.adjust($clrHeaderDark_Disabled, $lightness: 15% );
+$clrSlider_DisabledEmpty: $clrHeaderLight_Disabled;
 
 // Button
 $mapButton_Dark: (

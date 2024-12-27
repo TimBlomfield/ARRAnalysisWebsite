@@ -1,0 +1,215 @@
+@use "globals" as *;
+
+
+%tail-common {
+  position: absolute;
+  content: '';
+  width: 8px;
+  height: 8px;
+  transform-origin: center;
+  background-color: inherit;
+}
+
+
+.main {
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  outline: none;
+
+  &:hover,
+  &:focus-visible {
+    .tbox > .thumb { box-shadow: 0 0 0 8px rgba($clrSlider_Full, 0.16); }
+  }
+
+  &.showLabelAuto {
+    &:hover,
+    &:focus-visible {
+      .tbox > .label { transform: scale(1); }
+    }
+  }
+
+  &.showLabelAlways {
+    .tbox > .label { transform: scale(1); }
+  }
+
+  &.horz {
+    width: 100%;
+    height: 44px;
+  }
+
+  &.vert {
+    width: 44px;
+    height: 100%;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    .bkline {
+      background-color: $clrSlider_DisabledEmpty;
+
+      &.track { background-color: $clrSlider_DisabledFull; }
+    }
+
+    .tbox > .thumb {
+      background-color: $clrSlider_DisabledFull;
+      box-shadow: none;
+    }
+  }
+
+  .bkline {
+    position: absolute;
+    border-radius: 3px;
+    background-color: $clrSlider_Empty;
+
+    &.thin { border-radius: 1px; }
+
+    &.horz {
+      left: 0;
+      top: 19px;
+      width: 100%;
+      height: 6px;
+
+      &.thin {
+        top: 21px;
+        height: 2px;
+      }
+    }
+
+    &.vert {
+      bottom: 0;
+      left: 19px;
+      height: 100%;
+      width: 6px;
+
+      &.thin {
+        left: 21px;
+        width: 2px;
+      }
+    }
+
+    &.track {
+      background-color: $clrSlider_Full;
+      transition: width 150ms cubic-bezier(0.4, 0, 0.2, 1), height 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      &.noTransition { transition: none; }
+    }
+  }
+
+  .tbox {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left 150ms cubic-bezier(0.4, 0, 0.2, 1), bottom 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.horz {
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &.vert {
+      left: 50%;
+      transform: translate(-50%, 50%);
+    }
+
+    &.noTransition { transition: none; }
+
+    .thumb {
+      pointer-events: none;
+      width: 20px;
+      height: 20px;
+      box-sizing: border-box;
+      background-color: $clrSlider_Full;
+      border-radius: 50%;
+      transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      &.thin {
+        width: 12px;
+        height: 12px;
+      }
+
+      &.moving {
+        box-shadow: 0 0 0 14px rgba($clrSlider_Full, 0.16);
+      }
+    }
+
+    .label {
+      z-index: 1;
+      position: absolute;
+      transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: $clrSlider_Full;
+      border-radius: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4px 8px;
+      transform: scale(0);
+
+      &.above {
+        bottom: 46px;
+        transform-origin: bottom center;
+
+        &::before {
+          @extend %tail-common;
+
+          bottom: 0;
+          left: 50%;
+          transform: translate(-50%, 50%) rotate(45deg);
+        }
+      }
+
+      &.below {
+        top: 46px;
+        transform-origin: top center;
+
+        &::before {
+          @extend %tail-common;
+
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+      }
+
+      &.left {
+        right: 46px;
+        transform-origin: right center;
+
+        &::before {
+          @extend %tail-common;
+
+          top: 50%;
+          right: 0;
+          transform: translate(50%, -50%) rotate(45deg);
+        }
+      }
+
+      &.right {
+        left: 46px;
+        transform-origin: left center;
+
+        &::before {
+          @extend %tail-common;
+
+          top: 50%;
+          left: 0;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+      }
+
+      .text {
+        @extend %fnt-primary;
+
+        color: white;
+        white-space: nowrap;
+      }
+    }
+  }
+}
