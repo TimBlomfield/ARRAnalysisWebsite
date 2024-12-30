@@ -11,15 +11,17 @@ import styles from './styles.module.scss';
 const Slider = ({ small = false, vertical = false, disabled = false, selected = 0, onSelect, ticks, min = 0, max = 1,
   tot = 3, showValue = Slider.ValueBehavior.Auto, valuePos = Slider.ValuePosition.Above }) => {
   const refGlobal = useRef({ noTransit: true }), refMain = useRef();
-  const defaultLocale = navigator.language || 'en-US';
 
   // Local state
+  const [defaultLocale, setDefaultLocale] = useState('en-US');
   const [bisector] = useState(() => d3.bisector(t => t.offset).center);
   const [moving, setMoving] = useState(false);
   const [positions, setPositions] = useState(null);
 
 
   // Effects
+  useEffect(() => { setDefaultLocale(navigator?.language || 'en-US'); }, []);
+
   useEffect(() => {
     let processed;
     const fmtNum = new Intl.NumberFormat(defaultLocale, { maximumFractionDigits: 2 });
@@ -206,19 +208,6 @@ const Slider = ({ small = false, vertical = false, disabled = false, selected = 
 
 Slider.ValueBehavior = { Off: 0, On: 1, Auto: 2 };
 Slider.ValuePosition = { Above: 0, Below: 1, Left: 2, Right: 3 };
-
-
-Slider.defaultProps = {
-  small: false,
-  vertical: false,
-  disabled: false,
-  selected: 0,
-  min: 0,
-  max: 1,
-  tot: 3,
-  showValue: Slider.ValueBehavior.Auto,
-  valuePos: Slider.ValuePosition.Above,
-};
 
 
 /*

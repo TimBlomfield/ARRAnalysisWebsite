@@ -7,10 +7,18 @@
   cursor: pointer;
   padding: 4px;
 
+  &:has(.inputCb:disabled) {
+    cursor: not-allowed;
+
+    .inputCb { cursor: not-allowed; }
+    .textCb { opacity: .5; }
+  }
+
   .inputCb {
     cursor: pointer;
     width: 18px;
     height: 18px;
+    accent-color: $clrAdmin_40;
 
     &:focus-visible {
       outline-color: $clrHeaderDarkBk;

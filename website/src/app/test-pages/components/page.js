@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useMemo, useState, useEffect } from 'react';
+import { Fragment, useMemo, useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
@@ -14,6 +14,7 @@ import Loading from '@/components/Loading';
 import LoadingSSR from '@/components/LoadingSSR';
 import MultiToggle from '@/components/MultiToggle';
 import PlusMinusButton from '@/components/PlusMinusButton';
+import Popper from '@/components/Popper';
 import PushButton from '@/components/PushButton';
 import Slider from '@/components/Slider';
 // Images
@@ -23,6 +24,7 @@ import styles from './styles.module.scss';
 
 
 const ComponentsPage = () => {
+  const ref_popperButton = useRef(), ref_popperContainer = useRef();
 
   const [defaultLocale, setDefaultLocale] = useState('en-US');
   // PlusMinusButton Section - local states
@@ -44,6 +46,24 @@ const ComponentsPage = () => {
   const [slider_vertical01, setSlider_vertical01] = useState(0);
   const [slider_vertical02, setSlider_vertical02] = useState(0);
   const [slider_vertical03, setSlider_vertical03] = useState(0);
+  // Popper Section - local states
+  const [popper_mtgAnchor, setPopper_mtgAnchor] = useState(3);
+  const [popper_mtgAlignment, setPopper_mtgAlignment] = useState(0);
+  const [popper_chkMatchWidth, setPopper_chkMatchWidth] = useState(false);
+  const [popper_chkAutoFlipAnchor, setPopper_chkAutoFlipAnchor] = useState(true);
+  const [popper_chkNeverCover, setPopper_chkNeverCover] = useState(false);
+  const [popper_sldButtonLeft, setPopper_sldButtonLeft] = useState(50);
+  const [popper_sldButtonTop, setPopper_sldButtonTop] = useState(50);
+  const [popper_chkUseLimiter, setPopper_chkUseLimiter] = useState(false);
+  const [popper_chkClipLeft, setPopper_chkClipLeft] = useState(false);
+  const [popper_chkClipTop, setPopper_chkClipTop] = useState(false);
+  const [popper_chkClipRight, setPopper_chkClipRight] = useState(false);
+  const [popper_chkClipBottom, setPopper_chkClipBottom] = useState(false);
+  const [popper_sldOffsetLeft, setPopper_sldOffsetLeft] = useState(200);
+  const [popper_sldOffsetTop, setPopper_sldOffsetTop] = useState(200);
+  const [popper_sldOffsetRight, setPopper_sldOffsetRight] = useState(200);
+  const [popper_sldOffsetBottom, setPopper_sldOffsetBottom] = useState(200);
+  const [popper_opened, setPopper_opened] = useState(false);
   // Combobox Section - local states
   const [cboxsect_chkWithLabel, setCboxsect_chkWithLabel] = useState(false);
   const [cboxsect_chkDisabled, setCboxsect_chkDisabled] = useState(false);
@@ -433,6 +453,120 @@ const ComponentsPage = () => {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Popper Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const PopperSection_MemoRender = useMemo(() => {
+    const offsetSliders = [
+      { title: 'Offset Left', value: popper_sldOffsetLeft, func: setPopper_sldOffsetLeft },
+      { title: 'Offset Top', value: popper_sldOffsetTop, func: setPopper_sldOffsetTop },
+      { title: 'Offset Right', value: popper_sldOffsetRight, func: setPopper_sldOffsetRight },
+      { title: 'Offset Bottom', value: popper_sldOffsetBottom, func: setPopper_sldOffsetBottom },
+    ];
+
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;Popper /&gt;</div>
+        <div className={styles.tweaker}>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Anchor</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={popper_mtgAnchor}
+                         options={['Left', 'Top', 'Right', 'Bottom']}
+                         onSelect={setPopper_mtgAnchor} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Alignment</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={popper_mtgAlignment}
+                         options={['Start', 'Center', 'End']}
+                         onSelect={setPopper_mtgAlignment} />
+          </div>
+          <CheckBox checked={popper_chkMatchWidth} setChecked={setPopper_chkMatchWidth} text="Match Width" />
+          <CheckBox checked={popper_chkAutoFlipAnchor} setChecked={setPopper_chkAutoFlipAnchor}
+                    text="Auto Flip Anchor" />
+          <CheckBox checked={popper_chkNeverCover} setChecked={setPopper_chkNeverCover} text="Never Cover" />
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Button Left</div>
+            <Slider min={-50}
+                    max={120}
+                    tot={171}
+                    selected={popper_sldButtonLeft}
+                    onSelect={setPopper_sldButtonLeft} />
+          </div>
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Button Top</div>
+            <Slider min={-50}
+                    max={120}
+                    tot={171}
+                    selected={popper_sldButtonTop}
+                    onSelect={setPopper_sldButtonTop} />
+          </div>
+          <div className={styles.break} />
+          <CheckBox checked={popper_chkUseLimiter} setChecked={setPopper_chkUseLimiter} text='Use the "limiter" prop' />
+          <div className={styles.break} />
+          <CheckBox disabled={!popper_chkUseLimiter} checked={popper_chkClipLeft} setChecked={setPopper_chkClipLeft} text="Clip left" />
+          <CheckBox disabled={!popper_chkUseLimiter} checked={popper_chkClipTop} setChecked={setPopper_chkClipTop} text="Clip top" />
+          <CheckBox disabled={!popper_chkUseLimiter} checked={popper_chkClipRight} setChecked={setPopper_chkClipRight} text="Clip right" />
+          <CheckBox disabled={!popper_chkUseLimiter} checked={popper_chkClipBottom} setChecked={setPopper_chkClipBottom} text="Clip bottom" />
+          {offsetSliders.map(slider => (
+            <div className={styles.mtg} style={{minWidth: 150}} key={slider.title}>
+              <div className={styles.titleM}>{slider.title}</div>
+              <Slider min={-200}
+                      max={200}
+                      tot={401}
+                      disabled={!popper_chkUseLimiter}
+                      selected={slider.value}
+                      onSelect={slider.func} />
+            </div>
+          ))}
+        </div>
+        <div className={styles.popper_resizableContainer} ref={ref_popperContainer}>
+          <PushButton extraClass={styles.button}
+                      ref={ref_popperButton}
+                      style={{left: `${popper_sldButtonLeft - 50}%`, top: `${popper_sldButtonTop - 50}%`}}
+                      onClick={() => setPopper_opened(prev => !prev)}>
+            Popper
+          </PushButton>
+          {popper_opened &&
+            <Popper className={styles.popper}
+                    alignment={popper_mtgAlignment}
+                    anchor={popper_mtgAnchor}
+                    matchWidth={popper_chkMatchWidth}
+                    autoFlipAnchor={popper_chkAutoFlipAnchor}
+                    neverCover={popper_chkNeverCover}
+                    anchorEl={ref_popperButton.current}
+                    {...popper_chkUseLimiter
+                      ? {
+                        limiter: ref_popperContainer.current,
+                        limiterOffset: {
+                          left: popper_sldOffsetLeft - 200,
+                          top: popper_sldOffsetTop - 200,
+                          right: popper_sldOffsetRight - 200,
+                          bottom: popper_sldOffsetBottom - 200,
+                        },
+                        limiterClip: 0 | (popper_chkClipLeft ? Popper.Clip.Left : 0)
+                          | (popper_chkClipTop ? Popper.Clip.Top : 0) | (popper_chkClipRight ? Popper.Clip.Right : 0)
+                          | (popper_chkClipBottom ? Popper.Clip.Bottom : 0),
+                      }
+                      : {}
+                    }>
+              <div className={styles.frame}>
+                <div className={styles.contents}>
+                  <div className={styles.txt}>Popper text</div>
+                </div>
+              </div>
+            </Popper>
+          }
+        </div>
+      </>
+    );
+  }, [popper_mtgAnchor, popper_mtgAlignment, popper_chkMatchWidth, popper_chkAutoFlipAnchor, popper_chkNeverCover,
+    popper_sldButtonLeft, popper_sldButtonTop, popper_chkUseLimiter, popper_chkClipLeft, popper_chkClipTop,
+    popper_chkClipRight, popper_chkClipBottom, popper_sldOffsetLeft, popper_sldOffsetTop, popper_sldOffsetRight,
+    popper_sldOffsetBottom, popper_opened]);
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // ComboBox Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const ComboBoxSection_MemoRender = useMemo(() => {
@@ -446,8 +580,10 @@ const ComponentsPage = () => {
           <CheckBox checked={cboxsect_chkVirtualized} setChecked={setCboxsect_chkVirtualized} text="Virtualized" />
           <CheckBox checked={cboxsect_chkSearchable} setChecked={setCboxsect_chkSearchable} text="Searchable" />
           <CheckBox checked={cboxsect_chkTooltip} setChecked={setCboxsect_chkTooltip} text="Tooltip" />
-          <CheckBox checked={cboxsect_chkDisableClearable} setChecked={setCboxsect_chkDisableClearable} text="Disable clearable" />
-          <CheckBox checked={cboxsect_chkDisableListWrap} setChecked={setCboxsect_chkDisableListWrap} text="Disable list wrap" />
+          <CheckBox checked={cboxsect_chkDisableClearable} setChecked={setCboxsect_chkDisableClearable}
+                    text="Disable clearable" />
+          <CheckBox checked={cboxsect_chkDisableListWrap} setChecked={setCboxsect_chkDisableListWrap}
+                    text="Disable list wrap" />
           <CheckBox checked={cboxsect_chkDisableCloseOnSelect} setChecked={setCboxsect_chkDisableCloseOnSelect} text="Disable close on select" />
           <CheckBox checked={cboxsect_chkClearOnEscape} setChecked={setCboxsect_chkClearOnEscape} text="Clear on escape" />
           <CheckBox checked={cboxsect_chkDebug} setChecked={setCboxsect_chkDebug} text="Debug" />
@@ -478,6 +614,7 @@ const ComponentsPage = () => {
       {IconButtonSection_MemoRender}
       {MultiToggleSection_MemoRender}
       {SliderSection_MemoRender}
+      {PopperSection_MemoRender}
       {ComboBoxSection_MemoRender}
     </main>
   );
