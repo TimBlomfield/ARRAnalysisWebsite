@@ -1,0 +1,48 @@
+@use "globals" as *;
+
+.box {
+  box-sizing: border-box;
+  margin: 0 5px 5px 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+  border-radius: 4px;
+  border: 1px solid $clrAdmin_10;
+
+  &.resizable {
+    width: 320px;
+    max-width: 100%;
+    resize: horizontal;
+    overflow: hidden;
+    padding-bottom: 12px;
+  }
+
+  .header {
+    height: 36px;
+    border-bottom: 1px solid $clrAdmin_10;
+    box-sizing: border-box;
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+
+    .tx {
+      @extend %fnt-secondary;
+
+      font-size: 14px;
+      color: fn-admin-color(43);
+
+      @include mx-txt-overflow-hidden;
+    }
+  }
+
+  .body {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 8px;
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

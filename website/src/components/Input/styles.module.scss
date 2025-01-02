@@ -1,4 +1,5 @@
 @use "globals" as *;
+@use "sass:color";
 
 
 .wrapper {
@@ -13,7 +14,12 @@
     font-size: 16px;
     color: $clrHeaderDarkText;
 
-    &.dark { color: $clrHeaderLightText; }
+    &.disabled { color: $clrHeaderDarkText_Disabled; }
+
+    &.dark {
+      color: $clrHeaderLightText;
+      &.disabled { color: $clrHeaderLightText_Disabled; }
+    }
   }
 
   .input {
@@ -24,7 +30,7 @@
     height: 64px;
     padding: 0 24px;
     font-size: 18px;
-    background-color: $clrHeaderLightBk;
+    background-color: color.adjust($clrHeaderLightBk, $alpha: -.03 );
     box-sizing: border-box;
 
     &::placeholder { color: #B2B2B2; }
@@ -32,40 +38,65 @@
     &.light {
       border: 1px solid $clrHeaderLightBk;
 
-      &.errorBorder { border-color: $clrError; }
+      &:hover { border-color: color.adjust($clrHeaderLightBk, $lightness: -30% ); }
+      &.errorBorder { border-color: $clrError_Light; }
 
       &:focus-visible {
         outline: $clrHeaderLightBk solid 2px;
+        border-color: color.adjust($clrHeaderLightBk, $lightness: -60% );
 
-        &.error { outline-color: $clrError; }
+        &.error {
+          outline-color: $clrError_Light;
+          border-color: $clrError_Light;
+        }
       }
 
-      &:disabled { border-color: $clrHeaderDark_Disabled; }
+      &:disabled {
+        border-color: $clrHeaderDark_Disabled;
+        color: color.adjust($clrHeaderDark_Disabled, $lightness: 30% );
+        background: transparent;
+      }
     }
 
     &.dark {
-      border: 1px solid $clrHeaderDarkBk;
+      border: 1px solid color.adjust($clrHeaderDarkBk, $lightness: 60% );
 
+      &:hover { border-color: color.adjust($clrHeaderDarkBk, $lightness: 30% ); }
       &.errorBorder { border-color: $clrError; }
 
       &:focus-visible {
         outline: $clrHeaderDarkBk solid 2px;
+        border-color: $clrHeaderDarkBk;
 
-        &.error { outline-color: $clrError; }
+        &.error {
+          outline-color: $clrError;
+          border-color: $clrError;
+        }
       }
 
-      &:disabled { border-color: $clrHeaderLight_Disabled; }
+      &:disabled {
+        border-color: $clrHeaderLight_Disabled;
+        color: color.adjust($clrHeaderLight_Disabled, $lightness: -20% );
+        background: transparent;
+      }
     }
 
     &:disabled { cursor: not-allowed; }
   }
 
   .errorText {
-    color: $clrError;
     font-size: 14px;
     line-height: 18px;
     min-height: 18px;
 
-    &.none { display: none; }
+    &.dkError {
+      color: $clrError;
+      &.disabled { color: $clrHeaderLightText_Disabled; }
+    }
+
+    &.ltError {
+      color: $clrError_Light;
+      &.disabled { color: $clrHeaderDarkText_Disabled; }
+    }
   }
 }

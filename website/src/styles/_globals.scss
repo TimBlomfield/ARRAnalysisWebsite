@@ -1,17 +1,21 @@
 @use "sass:map";
 @use "sass:color";
+@use "sass:meta";
 
 // Common colors
 $clrHeaderDarkBk: #253551;
 $clrHeaderDarkText: white;
 $clrHeaderDark_Disabled: dimgray;
+$clrHeaderDarkText_Disabled: lightgray;
 
 $clrHeaderLightBk: white;
 $clrHeaderLightText: black;
 $clrHeaderLight_Disabled: lightgray;
+$clrHeaderLightText_Disabled: gray;
 
 $clrMenuItemHover: #e6e6e6;
 $clrError: #CE2C30;
+$clrError_Light: color.adjust($clrError, $lightness: 15% );
 
 $clrLoginBk: #F7F8F9;
 $clrLoading: #7A63DF;
@@ -36,6 +40,7 @@ $clrAdmin_DlgText: color.adjust($clrAdminBk, $lightness: -65% );
 $clrAdmin_DlgTextDk: color.adjust($clrAdminBk, $lightness: -75% );
 $clrAdmin_06: color.adjust($clrAdminBk, $lightness: -6% );
 $clrAdmin_10: color.adjust($clrAdminBk, $lightness: -10% );
+$clrSeparator: $clrAdmin_10;
 $clrAdmin_35: color.adjust($clrAdminBk, $lightness: -35% );
 $clrAdmin_40: color.adjust($clrAdminBk, $lightness: -40% );
 $clrSlider_Full: color.adjust($clrAdminBk, $lightness: -40% );
@@ -44,6 +49,21 @@ $clrSlider_DisabledFull: color.adjust($clrHeaderDark_Disabled, $lightness: 15% )
 $clrSlider_DisabledEmpty: $clrHeaderLight_Disabled;
 $clrPopupMenu_Background: color.adjust($clrAdminBk, $lightness: -5% );
 $shdPopupMenu: 0 0 0 1px rgba(white, 0.5), 0 4px 12px 0 rgba(white, 0.25), inset 0 0 0 1px $clrAdmin_35; // stylelint-disable-line
+
+
+@function fn-admin-color($lightness-adjustment) {
+  // Ensure the input is a number
+  @if meta.type-of($lightness-adjustment) != "number" {
+    @error "Lightness adjustment must be a number, got #{type-of($lightness-adjustment)}";
+  }
+
+  // Convert positive numbers to negative since we're darkening
+  $adjustment: if($lightness-adjustment > 0, -$lightness-adjustment, $lightness-adjustment);
+
+  // Return the adjusted color
+  @return color.adjust($clrAdminBk, $lightness: $adjustment);
+}
+
 
 // Button
 $mapButton_Dark: (

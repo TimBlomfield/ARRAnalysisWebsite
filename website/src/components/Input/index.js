@@ -8,24 +8,31 @@ const Input = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = '', e
   errorBorder = false, errorTextExtraClass = '', label = '', id = '', multiline = false, ...attr}) => {
   const bHasError = !!errorText;
   const bHasLabel = !!label;
+  const bDisabled = attr?.disabled === true;
 
   return (
     <div className={cn(styles.wrapper, wrapperExtraClass)}>
       {bHasLabel &&
-        <label className={cn(styles.label, theme === K_Theme.Dark && styles.dark)} htmlFor={id}>
+        <label className={cn(styles.label, theme === K_Theme.Dark && styles.dark, {[styles.disabled]: bDisabled})} htmlFor={id}>
           {label}
         </label>
       }
       {multiline
         ? <textarea className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError, [styles.errorBorder]: errorBorder}, extraClass)}
-                    id={id}
+                    {...(id ? { id } : {})}
                     {...attr} />
         : <input className={cn(styles.input, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.error]: bHasError, [styles.errorBorder]: errorBorder}, extraClass)}
-                 id={id}
+                 {...(id ? { id } : {})}
                  {...attr} />
       }
-
-      {(bHasError || errorPlaceholder) && <div className={cn(styles.errorText, errorTextExtraClass)}>{errorText}</div>}
+      {(bHasError || errorPlaceholder) &&
+        <div className={cn(styles.errorText,
+                        theme === K_Theme.Dark ? styles.dkError : styles.ltError,
+                        {[styles.disabled]: bDisabled},
+                        errorTextExtraClass)}>
+          {errorText}
+        </div>
+      }
     </div>
   );
 };

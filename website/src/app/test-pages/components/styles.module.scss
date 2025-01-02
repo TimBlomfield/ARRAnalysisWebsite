@@ -3,6 +3,7 @@
 .main {
   padding: 20px;
   background: $clrAdminBk;
+  min-width: fit-content;
 
   .title {
     font-size: 22px;
@@ -252,4 +253,6 @@
       }
     }
   }
+
+  .input_w_100 { width: 100%; }
 }

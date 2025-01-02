@@ -8,7 +8,10 @@
     "font-family-name-quotes": "always-where-recommended",
     "function-no-unknown": null,
     "scss/function-no-unknown": [
-      true
+      true,
+      {
+        "ignoreFunctions": ["fn-admin-color"]
+      }
     ],
     "media-feature-range-notation": null,
     "number-max-precision": null,

@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { initST } from './utils';
 // Components
+import Box from './Box';
 import CheckBox from '@/components/CheckBox';
 import ComboBox from '@/components/ComboBox';
 import IconButton from '@/components/IconButton';
+import Input from '@/components/Input';
 import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import LoadingSSR from '@/components/LoadingSSR';
@@ -64,6 +66,17 @@ const ComponentsPage = () => {
   const [popper_sldOffsetRight, setPopper_sldOffsetRight] = useState(200);
   const [popper_sldOffsetBottom, setPopper_sldOffsetBottom] = useState(200);
   const [popper_opened, setPopper_opened] = useState(false);
+  // Input Section - local states
+  const [input_chkWithLabel, setInput_chkWithLabel] = useState(false);
+  const [input_chkReadOnly, setInput_chkReadOnly] = useState(false);
+  const [input_chkDisabled, setInput_chkDisabled] = useState(false);
+  const [input_chkError, setInput_chkError] = useState(false);
+  const [input_chkPlaceholder, setInput_chkPlaceholder] = useState(false);
+  const [input_chkMultiline, setInput_chkMultiline] = useState(false);
+  const [input_sldHeight, setInput_sldHeight] = useState(32);
+  const [input_sldFontSize, setInput_sldFontSize] = useState(9);
+  const [input_valLight, setInput_valLight] = useState('');
+  const [input_valDark, setInput_valDark] = useState('');
   // Combobox Section - local states
   const [cboxsect_chkWithLabel, setCboxsect_chkWithLabel] = useState(false);
   const [cboxsect_chkDisabled, setCboxsect_chkDisabled] = useState(false);
@@ -567,6 +580,79 @@ const ComponentsPage = () => {
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Input Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const InputSection_MemoRender = useMemo(() => {
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;Input /&gt;</div>
+        <div className={styles.tweaker}>
+          <CheckBox checked={input_chkWithLabel} setChecked={setInput_chkWithLabel} text="Label" />
+          <CheckBox disabled={input_chkDisabled} checked={input_chkReadOnly} setChecked={setInput_chkReadOnly} text="Read-only" />
+          <CheckBox checked={input_chkError} setChecked={setInput_chkError} text="Error" />
+          <CheckBox checked={input_chkDisabled} setChecked={setInput_chkDisabled} text="Disabled" />
+          <CheckBox checked={input_chkPlaceholder} setChecked={setInput_chkPlaceholder} text="Placeholder" />
+          <CheckBox checked={input_chkMultiline} setChecked={setInput_chkMultiline} text="Multiline" />
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Height</div>
+            <Slider min={32}
+                    max={72}
+                    tot={41}
+                    selected={input_sldHeight}
+                    onSelect={setInput_sldHeight} />
+          </div>
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Font Size</div>
+            <Slider min={9}
+                    max={32}
+                    tot={24}
+                    selected={input_sldFontSize}
+                    onSelect={setInput_sldFontSize} />
+          </div>
+        </div>
+        <Box caption="Dark" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+          <Input theme={K_Theme.Dark}
+                 name="light"
+                 type="text"
+                 {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
+                 {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
+                 multiline={input_chkMultiline}
+                 {...(input_chkError ? {
+                   errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                   errorBorder: true,
+                 } : {})}
+                 {...(input_chkReadOnly ? { readOnly: true } : {})}
+                 {...(input_chkDisabled ? { disabled: true } : {})}
+                 extraClass={styles.input_w_100}
+                 style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                 value={input_valDark}
+                 onChange={evt => setInput_valDark(evt.target.value)} />
+        </Box>
+        <Box caption="Light" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+          <Input theme={K_Theme.Light}
+                 name="dark"
+                 type="text"
+                 {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
+                 {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
+                 multiline={input_chkMultiline}
+                 {...(input_chkError ? {
+                   errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                   errorBorder: true,
+                 } : {})}
+                 {...(input_chkReadOnly ? { readOnly: true } : {})}
+                 {...(input_chkDisabled ? { disabled: true } : {})}
+                 extraClass={styles.input_w_100}
+                 style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                 value={input_valLight}
+                 onChange={evt => setInput_valLight(evt.target.value)} />
+        </Box>
+      </>
+    );
+  }, [input_chkWithLabel, input_chkReadOnly, input_chkDisabled, input_chkError, input_chkPlaceholder,
+    input_chkMultiline, input_sldHeight, input_sldFontSize, input_valLight, input_valDark]);
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // ComboBox Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const ComboBoxSection_MemoRender = useMemo(() => {
@@ -596,7 +682,13 @@ const ComponentsPage = () => {
                          onSelect={x => setCboxsect_mtgMenuSize(x)} />
           </div>
         </div>
-        <ComboBox />
+        <Box caption="Movies" resizable bodyStyle={{ minWidth: 220, padding: 15 }} style={{ minWidth: 222 }}>
+          <ComboBox />
+        </Box>
+        <Box caption="Countries" resizable bodyStyle={{ minWidth: 220 }} style={{ minWidth: 222 }}>
+        </Box>
+        <Box caption="People" resizable bodyStyle={{ minWidth: 220 }} style={{ minWidth: 222 }}>
+        </Box>
       </>
     );
   }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkSearchable,
@@ -615,6 +707,7 @@ const ComponentsPage = () => {
       {MultiToggleSection_MemoRender}
       {SliderSection_MemoRender}
       {PopperSection_MemoRender}
+      {InputSection_MemoRender}
       {ComboBoxSection_MemoRender}
     </main>
   );

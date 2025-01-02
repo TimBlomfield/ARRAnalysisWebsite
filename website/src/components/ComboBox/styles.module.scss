@@ -1,5 +1,5 @@
 @use "globals" as *;
-
+@use "sass:color";
 
 .wrapper {
   display: flex;
@@ -16,25 +16,23 @@
     &.dark { color: $clrHeaderLightText; }
   }
 
-  .input {
-    @extend %fnt-secondary;
-
+  .wrapper {
+    display: flex;
+    justify-content: center;
     border-radius: 4px;
     outline-offset: 2px;
-    height: 64px;
-    padding: 0 24px;
-    font-size: 18px;
     background-color: $clrHeaderLightBk;
     box-sizing: border-box;
-
-    &::placeholder { color: #B2B2B2; }
+    outline-color: blue;
+    padding: 0 16px;
+    min-height: 64px;
 
     &.light {
       border: 1px solid $clrHeaderLightBk;
 
       &.errorBorder { border-color: $clrError; }
 
-      &:focus-visible {
+      &:focus-within {
         outline: $clrHeaderLightBk solid 2px;
 
         &.error { outline-color: $clrError; }
@@ -44,12 +42,15 @@
     }
 
     &.dark {
-      border: 1px solid $clrHeaderDarkBk;
+      border: 1px solid fn-admin-color(8);
+
+      &:hover { border-color: fn-admin-color(32); }
 
       &.errorBorder { border-color: $clrError; }
 
-      &:focus-visible {
+      &:focus-within {
         outline: $clrHeaderDarkBk solid 2px;
+        border-color: $clrHeaderDarkBk;
 
         &.error { outline-color: $clrError; }
       }
@@ -58,7 +59,19 @@
     }
 
     &:disabled { cursor: not-allowed; }
+
+    .input {
+      @extend %fnt-secondary;
+
+      padding: 0 8px;
+      font-size: 18px;
+      border: none;
+      outline: none;
+
+      &::placeholder { color: #B2B2B2; }
+    }
   }
+
 
   .errorText {
     color: $clrError;
