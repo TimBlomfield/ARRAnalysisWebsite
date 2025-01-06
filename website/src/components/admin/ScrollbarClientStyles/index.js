@@ -14,7 +14,7 @@ const ScrollbarClientStyles = () => {
 
   useEffect(() => {
     if (!isPhoneOrTablet)
-      document.body.classList.add(styles.ffScroll, styles.chScroll);
+      document.documentElement.classList.add(styles.ffScroll, styles.chScroll);
   }, [isPhoneOrTablet]);
 
   return null;

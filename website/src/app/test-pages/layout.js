@@ -1,6 +1,9 @@
 import localFont from 'next/font/local';
+import dynamic from 'next/dynamic';
 import cn from 'classnames';
 import { ToastContainer } from 'react-toastify';
+// Components
+const ScrollbarClientStyles = dynamic(() => import('@/components/admin/ScrollbarClientStyles'), { ssr: false });
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
@@ -25,6 +28,7 @@ const MainLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary')}>
+        <ScrollbarClientStyles />
         {children}
         <ToastContainer position="bottom-left" stacked />
       </body>

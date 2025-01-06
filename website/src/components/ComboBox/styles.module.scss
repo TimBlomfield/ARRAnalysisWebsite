@@ -1,6 +1,7 @@
 @use "globals" as *;
 @use "sass:color";
 
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -13,72 +14,96 @@
     font-size: 16px;
     color: $clrHeaderDarkText;
 
-    &.dark { color: $clrHeaderLightText; }
+    &.disabled { color: $clrHeaderDarkText_Disabled; }
+
+    &.dark {
+      color: $clrHeaderLightText;
+      &.disabled { color: $clrHeaderLightText_Disabled; }
+    }
   }
 
-  .wrapper {
+  .withAdorn {
     display: flex;
-    justify-content: center;
+    align-items: center;
     border-radius: 4px;
     outline-offset: 2px;
-    background-color: $clrHeaderLightBk;
+    padding: 0;
+    background-color: color.adjust($clrHeaderLightBk, $alpha: -.03 );
     box-sizing: border-box;
-    outline-color: blue;
-    padding: 0 16px;
-    min-height: 64px;
 
     &.light {
       border: 1px solid $clrHeaderLightBk;
 
-      &.errorBorder { border-color: $clrError; }
+      &:hover { border-color: color.adjust($clrHeaderLightBk, $lightness: -30% ); }
+      &.errorBorder { border-color: $clrError_Light; }
 
-      &:focus-within {
+      &:has(input.input:focus-visible) {
         outline: $clrHeaderLightBk solid 2px;
+        border-color: color.adjust($clrHeaderLightBk, $lightness: -60% );
 
-        &.error { outline-color: $clrError; }
+        &.error {
+          outline-color: $clrError_Light;
+          border-color: $clrError_Light;
+        }
       }
 
-      &:disabled { border-color: $clrHeaderDark_Disabled; }
+      &:has(input.input:disabled) {
+        border-color: $clrHeaderDark_Disabled;
+        background: transparent;
+        .input { color: color.adjust($clrHeaderDark_Disabled, $lightness: 30% ); }
+      }
     }
 
     &.dark {
-      border: 1px solid fn-admin-color(8);
+      border: 1px solid color.adjust($clrHeaderDarkBk, $lightness: 60% );
 
-      &:hover { border-color: fn-admin-color(32); }
-
+      &:hover { border-color: color.adjust($clrHeaderDarkBk, $lightness: 30% ); }
       &.errorBorder { border-color: $clrError; }
 
-      &:focus-within {
+      &:has(input.input:focus-visible) {
         outline: $clrHeaderDarkBk solid 2px;
         border-color: $clrHeaderDarkBk;
 
-        &.error { outline-color: $clrError; }
+        &.error {
+          outline-color: $clrError;
+          border-color: $clrError;
+        }
       }
 
-      &:disabled { border-color: $clrHeaderLight_Disabled; }
+      &:has(input.input:disabled) {
+        border-color: $clrHeaderDark_Disabled;
+        background: transparent;
+        .input { color: color.adjust($clrHeaderLight_Disabled, $lightness: -20% ); }
+      }
     }
-
-    &:disabled { cursor: not-allowed; }
 
     .input {
       @extend %fnt-secondary;
 
-      padding: 0 8px;
-      font-size: 18px;
       border: none;
       outline: none;
-
-      &::placeholder { color: #B2B2B2; }
+      background-color: transparent;
+      color: black;
+      flex: 1;
+      min-width: 50px;
+      padding-left: 12px;
+      height: 64px;
     }
   }
 
-
   .errorText {
-    color: $clrError;
     font-size: 14px;
     line-height: 18px;
     min-height: 18px;
 
-    &.none { display: none; }
+    &.dkError {
+      color: $clrError;
+      &.disabled { color: $clrHeaderLightText_Disabled; }
+    }
+
+    &.ltError {
+      color: $clrError_Light;
+      &.disabled { color: $clrHeaderDarkText_Disabled; }
+    }
   }
 }

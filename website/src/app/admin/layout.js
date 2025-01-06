@@ -1,7 +1,7 @@
 import localFont from 'next/font/local';
+import dynamic from 'next/dynamic';
 import cn from 'classnames';
 import { ToastContainer } from 'react-toastify';
-import dynamic from 'next/dynamic';
 // Components
 import Header from '@/components/admin/Header';
 import NavigationBar from '@/components/admin/NavigationBar';
@@ -31,15 +31,15 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary', styles.layoutBody)}>
-      <ScrollbarClientStyles />
-      <NavigationBar />
-      <div className={styles.viewWithHeader}>
-        <Header />
-        <div className={styles.mainView}>
-          {children}
+        <ScrollbarClientStyles />
+        <NavigationBar />
+        <div className={styles.viewWithHeader}>
+          <Header />
+          <div className={styles.mainView}>
+            {children}
+          </div>
         </div>
-      </div>
-      <ToastContainer position="bottom-left" stacked />
+        <ToastContainer position="bottom-left" stacked />
       </body>
     </html>
   );

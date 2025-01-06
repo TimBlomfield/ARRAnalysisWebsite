@@ -2,7 +2,7 @@
 
 // Firefox scrollbar styles (set on <body> if not mobile device)
 .ffScroll {
-  * {
+  &, * {
     scrollbar-color: $clrAdminScrollbar_Thumb $clrAdminScrollbar_Track;
     scrollbar-width: thin;
   }
@@ -11,21 +11,25 @@
 
 // Chrome scrollbar styles (set on <body> if not mobile device)
 .chScroll {
+  &::-webkit-scrollbar,
   *::-webkit-scrollbar {
     width: 10px;
     height: 10px;
     background-color: transparent;
   }
 
+  &::-webkit-scrollbar-corner,
   *::-webkit-scrollbar-corner {
     background-color: $clrAdminBk;
   }
 
+  &::-webkit-scrollbar-track,
   *::-webkit-scrollbar-track {
     border-radius: 4px;
     background-color: $clrAdminScrollbar_Track;
   }
 
+  &::-webkit-scrollbar-thumb,
   *::-webkit-scrollbar-thumb {
     border-radius: 100px;
     background-color: $clrAdminScrollbar_Thumb;

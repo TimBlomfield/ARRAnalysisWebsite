@@ -1,9 +1,11 @@
 @use "globals" as *;
 
 .main {
-  padding: 20px;
+  padding: 20px 20px 400px;
   background: $clrAdminBk;
-  min-width: fit-content;
+  position: fixed;
+  inset: 0;
+  overflow: auto;
 
   .title {
     font-size: 22px;
@@ -255,4 +257,9 @@
   }
 
   .input_w_100 { width: 100%; }
+
+  .combobox_hflex {
+    display: flex;
+    gap: 10px;
+  }
 }

@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { initST } from './utils';
+import { comboboxUsers, comboboxMovies } from './test-data';
 // Components
 import Box from './Box';
 import CheckBox from '@/components/CheckBox';
@@ -82,7 +83,8 @@ const ComponentsPage = () => {
   const [cboxsect_chkDisabled, setCboxsect_chkDisabled] = useState(false);
   const [cboxsect_chkError, setCboxsect_chkError] = useState(false);
   const [cboxsect_chkVirtualized, setCboxsect_chkVirtualized] = useState(false);
-  const [cboxsect_chkSearchable, setCboxsect_chkSearchable] = useState(false);
+  const [cboxsect_chkPlaceholder, setCboxsect_chkPlaceholder] = useState(false);
+  const [cboxsect_chkSearchable, setCboxsect_chkSearchable] = useState(true);
   const [cboxsect_chkTooltip, setCboxsect_chkTooltip] = useState(false);
   const [cboxsect_chkDisableClearable, setCboxsect_chkDisableClearable] = useState(false);
   const [cboxsect_chkDisableListWrap, setCboxsect_chkDisableListWrap] = useState(false);
@@ -90,6 +92,8 @@ const ComponentsPage = () => {
   const [cboxsect_chkClearOnEscape, setCboxsect_chkClearOnEscape] = useState(false);
   const [cboxsect_chkDebug, setCboxsect_chkDebug] = useState(false);
   const [cboxsect_chkUseReactPortal, setCboxsect_chkUseReactPortal] = useState(false);
+  const [cboxsect_sldHeight, setCboxsect_sldHeight] = useState(32);
+  const [cboxsect_sldFontSize, setCboxsect_sldFontSize] = useState(9);
   const [cboxsect_mtgMenuSize, setCboxsect_mtgMenuSize] = useState(3);
 
 
@@ -628,7 +632,7 @@ const ComponentsPage = () => {
                  value={input_valDark}
                  onChange={evt => setInput_valDark(evt.target.value)} />
         </Box>
-        <Box caption="Light" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+        <Box caption="Light" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
           <Input theme={K_Theme.Light}
                  name="dark"
                  type="text"
@@ -661,11 +665,12 @@ const ComponentsPage = () => {
         <div className={cn(styles.title, styles.pt)}>&lt;ComboBox /&gt;</div>
         <div className={styles.tweaker}>
           <CheckBox checked={cboxsect_chkWithLabel} setChecked={setCboxsect_chkWithLabel} text="Label" />
-          <CheckBox checked={cboxsect_chkDisabled} setChecked={setCboxsect_chkDisabled} text="Disabled" />
           <CheckBox checked={cboxsect_chkError} setChecked={setCboxsect_chkError} text="Error" />
+          <CheckBox checked={cboxsect_chkDisabled} setChecked={setCboxsect_chkDisabled} text="Disabled" />
           <CheckBox checked={cboxsect_chkVirtualized} setChecked={setCboxsect_chkVirtualized} text="Virtualized" />
           <CheckBox checked={cboxsect_chkSearchable} setChecked={setCboxsect_chkSearchable} text="Searchable" />
           <CheckBox checked={cboxsect_chkTooltip} setChecked={setCboxsect_chkTooltip} text="Tooltip" />
+          <CheckBox checked={cboxsect_chkPlaceholder} setChecked={setCboxsect_chkPlaceholder} text="Placeholder" />
           <CheckBox checked={cboxsect_chkDisableClearable} setChecked={setCboxsect_chkDisableClearable}
                     text="Disable clearable" />
           <CheckBox checked={cboxsect_chkDisableListWrap} setChecked={setCboxsect_chkDisableListWrap}
@@ -674,6 +679,22 @@ const ComponentsPage = () => {
           <CheckBox checked={cboxsect_chkClearOnEscape} setChecked={setCboxsect_chkClearOnEscape} text="Clear on escape" />
           <CheckBox checked={cboxsect_chkDebug} setChecked={setCboxsect_chkDebug} text="Debug" />
           <CheckBox checked={cboxsect_chkUseReactPortal} setChecked={setCboxsect_chkUseReactPortal} text="Use React portal" />
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Height</div>
+            <Slider min={32}
+                    max={72}
+                    tot={41}
+                    selected={cboxsect_sldHeight}
+                    onSelect={setCboxsect_sldHeight} />
+          </div>
+          <div className={styles.mtg} style={{minWidth: 150}}>
+            <div className={styles.titleM}>Font Size</div>
+            <Slider min={9}
+                    max={32}
+                    tot={24}
+                    selected={cboxsect_sldFontSize}
+                    onSelect={setCboxsect_sldFontSize} />
+          </div>
           <div className={styles.mtg}>
             <div className={styles.titleM}>Menu size</div>
             <MultiToggle extraClass={styles.xtraMT}
@@ -682,23 +703,68 @@ const ComponentsPage = () => {
                          onSelect={x => setCboxsect_mtgMenuSize(x)} />
           </div>
         </div>
-        <Box caption="Movies" resizable bodyStyle={{ minWidth: 220, padding: 15 }} style={{ minWidth: 222 }}>
-          <ComboBox />
-        </Box>
-        <Box caption="Countries" resizable bodyStyle={{ minWidth: 220 }} style={{ minWidth: 222 }}>
-        </Box>
-        <Box caption="People" resizable bodyStyle={{ minWidth: 220 }} style={{ minWidth: 222 }}>
-        </Box>
+        <div className={styles.combobox_hflex}>
+          <Box caption="Movies&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+            <ComboBox theme={K_Theme.Dark}
+                      name="dark"
+                      type="text"
+                      {...(cboxsect_chkWithLabel ? { label: 'Movies:' } : {})}
+                      {...(cboxsect_chkPlaceholder ? { placeholder: 'Movies Placeholder' } : {})}
+                      {...(cboxsect_chkError ? {
+                        errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                        errorBorder: true,
+                      } : {})}
+                      {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                      tooltipOnInput={cboxsect_chkTooltip}
+                      searchable={cboxsect_chkSearchable}
+                      options={comboboxMovies}
+                      getOptionLabel={o => o.title}
+                      wrapperExtraClass={styles.input_w_100}
+                      style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+          </Box>
+          <Box caption="Movies&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+            <ComboBox theme={K_Theme.Light}
+                      name="light"
+                      type="text"
+                      {...(cboxsect_chkWithLabel ? { label: 'Movies:' } : {})}
+                      {...(cboxsect_chkPlaceholder ? { placeholder: 'Movies Placeholder' } : {})}
+                      {...(cboxsect_chkError ? {
+                        errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                        errorBorder: true,
+                      } : {})}
+                      {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                      tooltipOnInput={cboxsect_chkTooltip}
+                      searchable={cboxsect_chkSearchable}
+                      options={comboboxMovies}
+                      getOptionLabel={o => o.title}
+                      wrapperExtraClass={styles.input_w_100}
+                      style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+          </Box>
+        </div>
+        <div className={styles.combobox_hflex}>
+          <Box caption="Countries&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+          </Box>
+          <Box caption="Countries&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+          </Box>
+        </div>
+        <div className={styles.combobox_hflex}>
+          <Box caption="People&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+          </Box>
+          <Box caption="People&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+          </Box>
+        </div>
       </>
     );
-  }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkSearchable,
-    cboxsect_chkTooltip, cboxsect_chkDisableClearable, cboxsect_chkDisableListWrap, cboxsect_chkDisableCloseOnSelect,
-    cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkUseReactPortal, cboxsect_mtgMenuSize]);
+  }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkPlaceholder,
+    cboxsect_chkSearchable, cboxsect_chkTooltip, cboxsect_chkDisableClearable, cboxsect_chkDisableListWrap,
+    cboxsect_chkDisableCloseOnSelect, cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkUseReactPortal,
+    cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize]);
 
 
 
   return (
     <main className={styles.main}>
+      {/**/}
       {LoadingSection_MemoRender}
       {PushButtonSection_MemoRender}
       {LinkButtonSection_MemoRender}
@@ -708,6 +774,7 @@ const ComponentsPage = () => {
       {SliderSection_MemoRender}
       {PopperSection_MemoRender}
       {InputSection_MemoRender}
+      {/**/}
       {ComboBoxSection_MemoRender}
     </main>
   );
