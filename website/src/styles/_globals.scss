@@ -49,6 +49,12 @@ $clrSlider_DisabledFull: color.adjust($clrHeaderDark_Disabled, $lightness: 15% )
 $clrSlider_DisabledEmpty: $clrHeaderLight_Disabled;
 $clrPopupMenu_Background: color.adjust($clrAdminBk, $lightness: -5% );
 $shdPopupMenu: 0 0 0 1px rgba(white, 0.5), 0 4px 12px 0 rgba(white, 0.25), inset 0 0 0 1px $clrAdmin_35; // stylelint-disable-line
+$clrPopupMenu_ItemHover: color.adjust($clrAdminBk, $lightness: -7.5% );
+$clrPopupMenu_ItemPressed: color.adjust($clrAdminBk, $lightness: -10% );
+$clrPopupMenu_ItemSelected: color.adjust($clrAdminBk, $lightness: -15% );
+$clrPopupMenu_ItemSelectedHover: color.adjust($clrAdminBk, $lightness: -18% );
+$clrPopupMenu_ItemHltBorder: color.adjust($clrAdminBk, $lightness: -35% );
+
 
 
 @function fn-admin-color($lightness-adjustment) {

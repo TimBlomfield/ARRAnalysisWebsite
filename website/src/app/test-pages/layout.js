@@ -2,6 +2,7 @@ import localFont from 'next/font/local';
 import dynamic from 'next/dynamic';
 import cn from 'classnames';
 import { ToastContainer } from 'react-toastify';
+import { PORTAL_ID_MENU } from '@/utils/common';
 // Components
 const ScrollbarClientStyles = dynamic(() => import('@/components/admin/ScrollbarClientStyles'), { ssr: false });
 // Styles
@@ -31,6 +32,7 @@ const MainLayout = ({ children }) => {
         <ScrollbarClientStyles />
         {children}
         <ToastContainer position="bottom-left" stacked />
+        <div style={{ width: 0, height: 0 }} id={PORTAL_ID_MENU} />
       </body>
     </html>
   );

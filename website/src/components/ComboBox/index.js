@@ -14,6 +14,7 @@ import Gateway from '@/components/Gateway';
 import Option from './Option';
 import Popper from '@/components/Popper';
 // Images
+import CloseSvg from '@/../public/Close.svg';
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
 // Styles
 import styles from './styles.module.scss';
@@ -48,6 +49,15 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   // Utility functions
   const prepare = val => stripDiacritics( val.trim().toLowerCase() );
   const initInputVal = () => (selected >= 0) ? getOptionLabel(options[selected]) : '';
+
+  // Function to avoid server error (because CSS.number() is not available on the server)
+  const getNumber = (value) => {
+    if (typeof window !== 'undefined') {
+      return CSS.number(value)
+    }
+    // Fallback for server-side
+    return parseFloat(value)
+  }
 
   // In case options change dynamically:
   useEffect(() => {
@@ -95,13 +105,21 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
 
   useEffect(() => {
     if (listOptimized) {
-      if (!collapsed && hiliteIdx >= 0 && refList && refList.current)
-        refList.current.scrollToItem(hiliteIdx);
+      if (!collapsed && hiliteIdx >= 0) {
+        setTimeout(() => {
+         if (refList && refList.current)
+           refList.current.scrollToItem(hiliteIdx);
+        }, 10);
+      }
     } else {
-      if (!collapsed && hiliteIdx >= 0 && refPopBody.current?.children) {
-        const elemHlt = refPopBody.current.children.item(hiliteIdx);
-        if (elemHlt)
-          elemHlt.scrollIntoView({block: 'nearest', scrollMode: 'if-needed'});
+      if (!collapsed && hiliteIdx >= 0) {
+        setTimeout(() => {
+          if (refPopBody.current != null) {
+            const elemHlt = refPopBody.current.children.item(hiliteIdx);
+            if (elemHlt)
+              elemHlt.scrollIntoView({block: 'nearest', scrollMode: 'if-needed'});
+          }
+        }, 0);
       }
     }
   }, [hiliteIdx, collapsed]);
@@ -148,6 +166,10 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
       setCollapsed(true);
       setFilteredOptions([...extendedOptions]);
       setHiliteIdx(calcHiliteFromSelected(-1));
+      console.log('Blur');
+      if (listOptimized) {
+        console.log(refList.current);
+      }
     }
   };
 
@@ -162,8 +184,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   };
 
   const onArrowButtonClick = () => {
-    console.log(refInput.current);
-    if (refInput.current && document.activeElement !== refInput.current) {refInput.current.focus();console.log('fokuspokus');}
+    if (refInput.current && document.activeElement !== refInput.current) refInput.current.focus();
     setCollapsed(prev => !prev);
   };
 
@@ -186,6 +207,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   };
 
   const onItemClick = useCallback(opt => {
+    console.log('item click!');
     setFilteredOptions([...extendedOptions]);
     if (!debug && !disableCloseOnSelect) setCollapsed(true);
 
@@ -330,12 +352,13 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
 
   let iconButtonScale = 1;
   if (attr?.style?.height != null) {
-    const x = CSS.number(attr.style.height);
+    const x = getNumber(attr.style.height);
     if (!isNaN(x))
       iconButtonScale = x / 48;
   }
 
   const bClearButton = !disableClearable && !bDisabled && selected >= 0;
+  const clearButtonScale = Math.min(1, iconButtonScale);
 
   return (
     <>
@@ -355,16 +378,32 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
                  {...(searchable ? {} : { readOnly: true })}
                  value={inputVal}
                  onChange={evt => onInputTextChange(evt.target.value)}
+                 onBlur={onInputBlur}
+                 onClick={onInputClick}
+                 onKeyDown={onInputKeyDown}
                  {...attr} />
+          {bClearButton &&
+            <IconButton theme={K_Theme.Light}
+                        extraClass={styles.clearButton}
+                        transparent
+                        scale={clearButtonScale * .93}
+                        svgScale={clearButtonScale}
+                        svg={CloseSvg}
+                        invertBkTheme
+                        tabIndex={-1}
+                        onMouseDown={evt => evt.preventDefault()}
+                        onClick={onClearButtonClick} />
+          }
           <IconButton theme={K_Theme.Light}
                       transparent
-                      scale={iconButtonScale}
+                      scale={iconButtonScale * .91}
                       svgScale={collapsed ? iconButtonScale : -iconButtonScale}
                       svg={TriangleSvg}
                       invertBkTheme
+                      tabIndex={-1}
                       onMouseDown={evt => evt.preventDefault()}
                       onClick={onArrowButtonClick}
-                      noBkWhenDisabled
+                      noBkgnd={bDisabled} // Don't render the background circle when disabled
                       disabled={bDisabled} />
         </div>
         {(bHasError || errorPlaceholder) &&
@@ -387,7 +426,9 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
                   limiterOffset={pop_LimiterOffset}
                   limiterClip={pop_LimiterClip}
                   anchorEl={refInputWrapper.current}>
-            <div className={styles.popperMain} style={{ maxHeight: pageSize*36 + 18 }}>
+            <div className={styles.popperMain}
+                 style={{ maxHeight: pageSize*36 + 18 }}
+                 onMouseDown={evt => evt.preventDefault()}>
               <div className={styles.popperContents}>
                 {renderDropdown()}
               </div>

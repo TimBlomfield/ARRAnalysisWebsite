@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 
 
 const IconButton = ({theme = K_Theme.Dark, transparent = false, invertBkTheme = false, scale = 1, svgScale = 1,
-  extraClass = '', svg = '', svgClassName = '', svgStyle = {}, noBkWhenDisabled = false, ...attr}) => {
+  extraClass = '', svg = '', svgClassName = '', svgStyle = {}, noBkgnd = false, ...attr}) => {
   const Img = svg;
   const classImg = cn(svgClassName || styles.image);
 
@@ -36,7 +36,7 @@ const IconButton = ({theme = K_Theme.Dark, transparent = false, invertBkTheme = 
             style={btnStyle}>
       <Img className={classImg} style={imgStyle} />
       <div className={styles.inner}
-           {...(noBkWhenDisabled ? { style: { backgroundColor: 'transparent' } } : {})} />
+           {...(noBkgnd ? { style: { backgroundColor: 'transparent' } } : {})} />
     </button>
   );
 };

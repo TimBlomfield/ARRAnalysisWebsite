@@ -89,6 +89,9 @@
       padding-left: 12px;
       height: 64px;
     }
+
+    .clearButton { visibility: hidden; }
+    &:hover { .clearButton { visibility: visible; } }
   }
 
   .errorText {
@@ -104,6 +107,111 @@
     &.ltError {
       color: $clrError_Light;
       &.disabled { color: $clrHeaderDarkText_Disabled; }
+    }
+  }
+}
+
+
+.popper {
+  z-index: 200;
+
+  .popperMain {
+    margin: 2px 0;
+    padding: 8px;
+    border: 1px solid $clrSeparator;
+    border-radius: 8px;
+    background-color: $clrPopupMenu_Background;
+    box-shadow: $shdPopupMenu;
+    display: flex;
+    box-sizing: border-box;
+
+    .popperContents {
+      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+
+      .item {
+        width: 100%;
+        height: 36px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0 15px;
+        box-sizing: border-box;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 1px solid transparent;
+
+        &.padL0 { padding-left: 0; }
+
+        .wrap {
+          min-width: 48px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          padding-left: 5px;
+
+          &.avatar {
+            position: relative;
+
+            .outline {
+              position: absolute;
+              z-index: 0;
+              box-sizing: border-box;
+              width: 24px;
+              height: 24px;
+              border: 1px solid $clrSeparator;
+              border-radius: 16px;
+            }
+
+            .avatar {
+              position: absolute;
+              z-index: 1;
+              width: 24px;
+              height: 24px;
+              max-width: 24px;
+              max-height: 24px;
+              border-radius: 16px;
+            }
+          }
+        }
+
+        .txt {
+          @extend %fnt-secondary;
+          @include mx-txt-overflow-hidden;
+        }
+
+        &:hover { background-color: $clrPopupMenu_ItemHover; }
+        &:active { background-color: $clrPopupMenu_ItemPressed; }
+        &.hilite { border-color: $clrPopupMenu_ItemHltBorder; }
+
+        &.sel {
+          background-color: $clrPopupMenu_ItemSelected;
+          &:hover { background-color: $clrPopupMenu_ItemSelectedHover; }
+          &:active { background-color: $clrPopupMenu_ItemPressed; }
+        }
+      }
+
+      .noOptions {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 16px;
+        box-sizing: border-box;
+
+        .txt {
+          @extend %fnt-primary;
+
+          font-style: italic;
+          color: fn-admin-color(32);
+        }
+      }
     }
   }
 }

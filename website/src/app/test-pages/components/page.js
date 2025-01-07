@@ -3,7 +3,7 @@
 import { Fragment, useMemo, useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
-import { K_Theme } from '@/utils/common';
+import { K_Theme, PORTAL_ID_MENU } from '@/utils/common';
 import { initST } from './utils';
 import { comboboxUsers, comboboxMovies } from './test-data';
 // Components
@@ -91,10 +91,13 @@ const ComponentsPage = () => {
   const [cboxsect_chkDisableCloseOnSelect, setCboxsect_chkDisableCloseOnSelect] = useState(false);
   const [cboxsect_chkClearOnEscape, setCboxsect_chkClearOnEscape] = useState(false);
   const [cboxsect_chkDebug, setCboxsect_chkDebug] = useState(false);
+  const [cboxsect_chkPopMatchWidth, setCboxsect_chkPopMatchWidth] = useState(false);
   const [cboxsect_chkUseReactPortal, setCboxsect_chkUseReactPortal] = useState(false);
-  const [cboxsect_sldHeight, setCboxsect_sldHeight] = useState(32);
+  const [cboxsect_sldHeight, setCboxsect_sldHeight] = useState(16);
   const [cboxsect_sldFontSize, setCboxsect_sldFontSize] = useState(9);
   const [cboxsect_mtgMenuSize, setCboxsect_mtgMenuSize] = useState(3);
+  const [cboxsect_comboMoviesDk, setCboxsect_comboMoviesDk] = useState(-1);
+  const [cboxsect_comboMoviesLt, setCboxsect_comboMoviesLt] = useState(20);
 
 
   // Effects
@@ -678,6 +681,7 @@ const ComponentsPage = () => {
           <CheckBox checked={cboxsect_chkDisableCloseOnSelect} setChecked={setCboxsect_chkDisableCloseOnSelect} text="Disable close on select" />
           <CheckBox checked={cboxsect_chkClearOnEscape} setChecked={setCboxsect_chkClearOnEscape} text="Clear on escape" />
           <CheckBox checked={cboxsect_chkDebug} setChecked={setCboxsect_chkDebug} text="Debug" />
+          <CheckBox checked={cboxsect_chkPopMatchWidth} setChecked={setCboxsect_chkPopMatchWidth} text="Popper match width" />
           <CheckBox checked={cboxsect_chkUseReactPortal} setChecked={setCboxsect_chkUseReactPortal} text="Use React portal" />
           <div className={styles.mtg} style={{minWidth: 150}}>
             <div className={styles.titleM}>Height</div>
@@ -715,10 +719,21 @@ const ComponentsPage = () => {
                         errorBorder: true,
                       } : {})}
                       {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                      listOptimized={cboxsect_chkVirtualized}
                       tooltipOnInput={cboxsect_chkTooltip}
                       searchable={cboxsect_chkSearchable}
+                      disableClearable={cboxsect_chkDisableClearable}
+                      disableListWrap={cboxsect_chkDisableListWrap}
+                      disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                      clearOnEscape={cboxsect_chkClearOnEscape}
+                      {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                      debug={cboxsect_chkDebug}
+                      pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                      pageSize={cboxsect_mtgMenuSize + 2}
                       options={comboboxMovies}
                       getOptionLabel={o => o.title}
+                      selected={cboxsect_comboMoviesDk}
+                      onSelect={setCboxsect_comboMoviesDk}
                       wrapperExtraClass={styles.input_w_100}
                       style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
           </Box>
@@ -733,10 +748,21 @@ const ComponentsPage = () => {
                         errorBorder: true,
                       } : {})}
                       {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                      listOptimized={cboxsect_chkVirtualized}
                       tooltipOnInput={cboxsect_chkTooltip}
                       searchable={cboxsect_chkSearchable}
+                      disableClearable={cboxsect_chkDisableClearable}
+                      disableListWrap={cboxsect_chkDisableListWrap}
+                      disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                      clearOnEscape={cboxsect_chkClearOnEscape}
+                      {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                      debug={cboxsect_chkDebug}
+                      pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                      pageSize={cboxsect_mtgMenuSize + 2}
                       options={comboboxMovies}
                       getOptionLabel={o => o.title}
+                      selected={cboxsect_comboMoviesLt}
+                      onSelect={setCboxsect_comboMoviesLt}
                       wrapperExtraClass={styles.input_w_100}
                       style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
           </Box>
@@ -757,14 +783,15 @@ const ComponentsPage = () => {
     );
   }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkPlaceholder,
     cboxsect_chkSearchable, cboxsect_chkTooltip, cboxsect_chkDisableClearable, cboxsect_chkDisableListWrap,
-    cboxsect_chkDisableCloseOnSelect, cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkUseReactPortal,
-    cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize]);
+    cboxsect_chkDisableCloseOnSelect, cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkPopMatchWidth,
+    cboxsect_chkUseReactPortal, cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize, cboxsect_comboMoviesDk,
+    cboxsect_comboMoviesLt]);
 
 
 
   return (
     <main className={styles.main}>
-      {/**/}
+      {/*
       {LoadingSection_MemoRender}
       {PushButtonSection_MemoRender}
       {LinkButtonSection_MemoRender}
