@@ -53,11 +53,11 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   // Function to avoid server error (because CSS.number() is not available on the server)
   const getNumber = (value) => {
     if (typeof window !== 'undefined') {
-      return CSS.number(value)
+      return CSS.number(value);
     }
     // Fallback for server-side
-    return parseFloat(value)
-  }
+    return parseFloat(value);
+  };
 
   // In case options change dynamically:
   useEffect(() => {
@@ -107,9 +107,9 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
     if (listOptimized) {
       if (!collapsed && hiliteIdx >= 0) {
         setTimeout(() => {
-         if (refList && refList.current)
-           refList.current.scrollToItem(hiliteIdx);
-        }, 10);
+          if (refList && refList.current)
+            refList.current.scrollToItem(hiliteIdx);
+        }, 0);
       }
     } else {
       if (!collapsed && hiliteIdx >= 0) {
