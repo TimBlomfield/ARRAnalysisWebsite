@@ -7,9 +7,11 @@ const getFunction_StripDiacritics = () =>  typeof ''.normalize === 'function'
   ? string => string.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   : string => string;
 
+const mkFix = name => name.toLowerCase().includes('macedonia') ? 'Macedonia' : name;
 
 export {
   generateUniqueId,
   convertToSuburrency,
   getFunction_StripDiacritics,
+  mkFix,
 };

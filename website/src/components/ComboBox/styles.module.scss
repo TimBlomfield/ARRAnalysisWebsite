@@ -85,7 +85,7 @@
       background-color: transparent;
       color: black;
       flex: 1;
-      min-width: 50px;
+      min-width: 25px;
       padding-left: 12px;
       height: 64px;
     }
@@ -214,4 +214,9 @@
       }
     }
   }
+}
+
+.rcflag {
+  width: 24px;
+  height: 16px;
 }

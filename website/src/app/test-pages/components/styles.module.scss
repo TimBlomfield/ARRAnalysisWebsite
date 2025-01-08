@@ -258,6 +258,39 @@
 
   .input_w_100 { width: 100%; }
 
+  .withLAdorn {
+    display: grid;
+    grid: 1fr / 36px calc(100% - 44px);
+    gap: 8px;
+    width: 100%;
+
+    .flag {
+      width: 36px;
+      min-width: 30px;
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+
+      .out {
+        border: 2px solid rgba($clrAdmin_35, .4);
+        border-radius: 50%;
+      }
+
+      .rcflag {
+        width: 30px;
+        height: 20px;
+        box-shadow: 2px 2px 2px 1px rgba($clrAdmin_35, .4);
+      }
+
+      .disabled {
+        filter: grayscale(1);
+        opacity: .4;
+      }
+    }
+
+    .input_flex_1 { flex: 1; }
+  }
+
   .combobox_hflex {
     display: flex;
     gap: 10px;

@@ -3,7 +3,11 @@
 import { Fragment, useMemo, useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
+import { countries } from 'country-flag-icons';
+import { CircleFlag } from 'react-circle-flags';
+import Flags from 'country-flag-icons/react/3x2';
 import { K_Theme, PORTAL_ID_MENU } from '@/utils/common';
+import { mkFix } from '@/utils/func';
 import { initST } from './utils';
 import { comboboxUsers, comboboxMovies } from './test-data';
 // Components
@@ -93,16 +97,31 @@ const ComponentsPage = () => {
   const [cboxsect_chkDebug, setCboxsect_chkDebug] = useState(false);
   const [cboxsect_chkPopMatchWidth, setCboxsect_chkPopMatchWidth] = useState(false);
   const [cboxsect_chkUseReactPortal, setCboxsect_chkUseReactPortal] = useState(false);
+  const [cboxsect_chkRoundFlags, setCboxsect_chkRoundFlags] = useState(true);
   const [cboxsect_sldHeight, setCboxsect_sldHeight] = useState(16);
   const [cboxsect_sldFontSize, setCboxsect_sldFontSize] = useState(9);
   const [cboxsect_mtgMenuSize, setCboxsect_mtgMenuSize] = useState(3);
   const [cboxsect_comboMoviesDk, setCboxsect_comboMoviesDk] = useState(-1);
   const [cboxsect_comboMoviesLt, setCboxsect_comboMoviesLt] = useState(20);
+  const [cboxsect_countries, setCboxsect_countries] = useState([]);
+  const [cboxsect_comboCountriesDk, setCboxsect_comboCountriesDk] = useState(-1);
+  const [cboxsect_comboCountriesLt, setCboxsect_comboCountriesLt] = useState(-1);
 
 
   // Effects
   useEffect(() => { setDefaultLocale(navigator?.language || 'en-US'); }, []);
-  useEffect(() => {  setSliderTicks(initST()); }, [defaultLocale]);
+  useEffect(() => {
+    setSliderTicks(initST());
+
+    const regionNamesLocalized = new Intl.DisplayNames([defaultLocale], { type: 'region' });
+    setCboxsect_countries(
+      countries.map(code => ({
+        name: mkFix(regionNamesLocalized.of(code)),
+        flag: code.toLowerCase(),
+      }))
+    );
+    setCboxsect_comboCountriesLt(80);
+  }, [defaultLocale]);
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -663,6 +682,16 @@ const ComponentsPage = () => {
   // ComboBox Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const ComboBoxSection_MemoRender = useMemo(() => {
+    let FlagDk = null, FlagLt = null;
+    if (cboxsect_comboCountriesDk >= 0 && !cboxsect_chkRoundFlags) {
+      const data = cboxsect_countries[cboxsect_comboCountriesDk];
+      FlagDk = Flags[data.flag.toUpperCase()];
+    }
+    if (cboxsect_comboCountriesLt >= 0 && !cboxsect_chkRoundFlags) {
+      const data = cboxsect_countries[cboxsect_comboCountriesLt];
+      FlagLt = Flags[data.flag.toUpperCase()];
+    }
+
     return (
       <>
         <div className={cn(styles.title, styles.pt)}>&lt;ComboBox /&gt;</div>
@@ -683,6 +712,7 @@ const ComponentsPage = () => {
           <CheckBox checked={cboxsect_chkDebug} setChecked={setCboxsect_chkDebug} text="Debug" />
           <CheckBox checked={cboxsect_chkPopMatchWidth} setChecked={setCboxsect_chkPopMatchWidth} text="Popper match width" />
           <CheckBox checked={cboxsect_chkUseReactPortal} setChecked={setCboxsect_chkUseReactPortal} text="Use React portal" />
+          <CheckBox checked={cboxsect_chkRoundFlags} setChecked={setCboxsect_chkRoundFlags} text="Round flags" />
           <div className={styles.mtg} style={{minWidth: 150}}>
             <div className={styles.titleM}>Height</div>
             <Slider min={32}
@@ -710,7 +740,7 @@ const ComponentsPage = () => {
         <div className={styles.combobox_hflex}>
           <Box caption="Movies&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
             <ComboBox theme={K_Theme.Dark}
-                      name="dark"
+                      name="dark-movies"
                       type="text"
                       {...(cboxsect_chkWithLabel ? { label: 'Movies:' } : {})}
                       {...(cboxsect_chkPlaceholder ? { placeholder: 'Movies Placeholder' } : {})}
@@ -739,7 +769,7 @@ const ComponentsPage = () => {
           </Box>
           <Box caption="Movies&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
             <ComboBox theme={K_Theme.Light}
-                      name="light"
+                      name="light-movies"
                       type="text"
                       {...(cboxsect_chkWithLabel ? { label: 'Movies:' } : {})}
                       {...(cboxsect_chkPlaceholder ? { placeholder: 'Movies Placeholder' } : {})}
@@ -769,14 +799,90 @@ const ComponentsPage = () => {
         </div>
         <div className={styles.combobox_hflex}>
           <Box caption="Countries&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag}>
+                {cboxsect_comboCountriesDk >= 0 &&
+                  (cboxsect_chkRoundFlags
+                     ? <CircleFlag countryCode={cboxsect_countries[cboxsect_comboCountriesDk].flag} height={28} className={cn(styles.out, {[styles.disabled]: cboxsect_chkDisabled})} />
+                     : <FlagDk className={cn(styles.rcflag, {[styles.disabled]: cboxsect_chkDisabled})} />)
+                }
+              </div>
+              <ComboBox theme={K_Theme.Dark}
+                        name="dark-countries"
+                        type="text"
+                        {...(cboxsect_chkWithLabel ? { label: 'Countries:' } : {})}
+                        {...(cboxsect_chkPlaceholder ? { placeholder: 'Countries Placeholder' } : {})}
+                        {...(cboxsect_chkError ? {
+                          errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                          errorBorder: true,
+                        } : {})}
+                        {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                        listOptimized={cboxsect_chkVirtualized}
+                        tooltipOnInput={cboxsect_chkTooltip}
+                        searchable={cboxsect_chkSearchable}
+                        disableClearable={cboxsect_chkDisableClearable}
+                        disableListWrap={cboxsect_chkDisableListWrap}
+                        disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                        clearOnEscape={cboxsect_chkClearOnEscape}
+                        {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                        debug={cboxsect_chkDebug}
+                        pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                        pageSize={cboxsect_mtgMenuSize + 2}
+                        roundFlags={cboxsect_chkRoundFlags}
+                        options={cboxsect_countries}
+                        getOptionLabel={o => o.name}
+                        getOptionData={o => o}
+                        selected={cboxsect_comboCountriesDk}
+                        onSelect={setCboxsect_comboCountriesDk}
+                        wrapperExtraClass={styles.input_w_100}
+                        style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+            </div>
           </Box>
-          <Box caption="Countries&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+          <Box caption="Countries&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag}>
+                {cboxsect_comboCountriesLt >= 0 &&
+                  (cboxsect_chkRoundFlags
+                     ? <CircleFlag countryCode={cboxsect_countries[cboxsect_comboCountriesLt].flag} height={28} className={cn(styles.out, {[styles.disabled]: cboxsect_chkDisabled})} />
+                     : <FlagLt className={cn(styles.rcflag, {[styles.disabled]: cboxsect_chkDisabled})} />)
+                }
+              </div>
+              <ComboBox theme={K_Theme.Light}
+                        name="light-countries"
+                        type="text"
+                        {...(cboxsect_chkWithLabel ? { label: 'Countries:' } : {})}
+                        {...(cboxsect_chkPlaceholder ? { placeholder: 'Kountries Placeholder' } : {})}
+                        {...(cboxsect_chkError ? {
+                          errorText: 'Phasellus cursus libero ante, eget ornare.',
+                          errorBorder: true,
+                        } : {})}
+                        {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                        listOptimized={cboxsect_chkVirtualized}
+                        tooltipOnInput={cboxsect_chkTooltip}
+                        searchable={cboxsect_chkSearchable}
+                        disableClearable={cboxsect_chkDisableClearable}
+                        disableListWrap={cboxsect_chkDisableListWrap}
+                        disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                        clearOnEscape={cboxsect_chkClearOnEscape}
+                        {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                        debug={cboxsect_chkDebug}
+                        pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                        pageSize={cboxsect_mtgMenuSize + 2}
+                        roundFlags={cboxsect_chkRoundFlags}
+                        options={cboxsect_countries}
+                        getOptionLabel={o => o.name}
+                        getOptionData={o => o}
+                        selected={cboxsect_comboCountriesLt}
+                        onSelect={setCboxsect_comboCountriesLt}
+                        wrapperExtraClass={styles.input_w_100}
+                        style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+            </div>
           </Box>
         </div>
         <div className={styles.combobox_hflex}>
           <Box caption="People&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
           </Box>
-          <Box caption="People&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+          <Box caption="People&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
           </Box>
         </div>
       </>
@@ -784,14 +890,15 @@ const ComponentsPage = () => {
   }, [cboxsect_chkWithLabel, cboxsect_chkDisabled, cboxsect_chkError, cboxsect_chkVirtualized, cboxsect_chkPlaceholder,
     cboxsect_chkSearchable, cboxsect_chkTooltip, cboxsect_chkDisableClearable, cboxsect_chkDisableListWrap,
     cboxsect_chkDisableCloseOnSelect, cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkPopMatchWidth,
-    cboxsect_chkUseReactPortal, cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize, cboxsect_comboMoviesDk,
-    cboxsect_comboMoviesLt]);
+    cboxsect_chkUseReactPortal, cboxsect_chkRoundFlags, cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize,
+    cboxsect_comboMoviesDk, cboxsect_comboMoviesLt, cboxsect_countries, cboxsect_comboCountriesDk,
+    cboxsect_comboCountriesLt]);
 
 
 
   return (
     <main className={styles.main}>
-      {/*
+      {/**/}
       {LoadingSection_MemoRender}
       {PushButtonSection_MemoRender}
       {LinkButtonSection_MemoRender}

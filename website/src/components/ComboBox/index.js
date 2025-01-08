@@ -3,6 +3,7 @@
 import { forwardRef, useImperativeHandle, useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { CircleFlag } from 'react-circle-flags';
+import Flags from 'country-flag-icons/react/3x2';
 import { FixedSizeList as List } from 'react-window';
 import { K_Theme } from '@/utils/common';
 import { getFunction_StripDiacritics } from '@/utils/func';
@@ -24,9 +25,9 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   errorText = '', errorPlaceholder = false, errorBorder = false, errorTextExtraClass = '', label = '', id = '',
   tooltipOnInput = false, searchable = true, options = C.emptyArr, getOptionLabel = C.getOptLabel,
   getOptionData = C.getOpdData, selected, onSelect, pageSize = 5, disableListWrap = true, disableClearable = false,
-  disableCloseOnSelect = false, clearOnEscape = false, debug = false, portalId = '', pop_MatchWidth = false,
-  pop_ForceLimits = false, pop_AutoFlipAnchor = true, pop_NeverCover = false, pop_Limiter, pop_LimiterOffset,
-  pop_LimiterClip = 0, listOptimized = false, lopt_Width = '100%', lopt_ItemSize = 36, ...attr}, ref) => {
+  disableCloseOnSelect = false, clearOnEscape = false, debug = false, portalId = '', roundFlags = true,
+  pop_MatchWidth = false, pop_ForceLimits = false, pop_AutoFlipAnchor = true, pop_NeverCover = false, pop_Limiter,
+  pop_LimiterOffset, pop_LimiterClip = 0, listOptimized = false, lopt_Width = '100%', lopt_ItemSize = 36, ...attr}, ref) => {
   const refInput = useRef(), refInputWrapper = useRef(), refList = useRef(), refPopBody = useRef();
 
   const bHasError = !!errorText;
@@ -45,6 +46,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   const [inputValPrepared, setInputValPrepared] = useState('');
   const [extendedOptions, setExtendedOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
+  const [popWidth, setPopWidth] = useState(-1);
 
   // Utility functions
   const prepare = val => stripDiacritics( val.trim().toLowerCase() );
@@ -124,6 +126,25 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
     }
   }, [hiliteIdx, collapsed]);
 
+  useEffect(() => {
+    const inpWrp_onResize = () => {
+      if (pop_MatchWidth) {
+        if (refInputWrapper.current != null) {
+          const rcWrp = refInputWrapper.current.getBoundingClientRect();
+          setPopWidth(rcWrp.width);
+        }
+      } else
+        setPopWidth(-1);
+    };
+
+    inpWrp_onResize();
+
+    const resizeObserver = new ResizeObserver(inpWrp_onResize);
+    resizeObserver.observe(refInputWrapper.current);
+
+    return () => { if (refInputWrapper.current) resizeObserver.unobserve(refInputWrapper.current); };
+  }, [pop_MatchWidth]);
+
   const calcHiliteFromSelected = _default => selected < 0 ? _default : selected;
 
 
@@ -166,10 +187,6 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
       setCollapsed(true);
       setFilteredOptions([...extendedOptions]);
       setHiliteIdx(calcHiliteFromSelected(-1));
-      console.log('Blur');
-      if (listOptimized) {
-        console.log(refList.current);
-      }
     }
   };
 
@@ -207,7 +224,6 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
   };
 
   const onItemClick = useCallback(opt => {
-    console.log('item click!');
     setFilteredOptions([...extendedOptions]);
     if (!debug && !disableCloseOnSelect) setCollapsed(true);
 
@@ -289,6 +305,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
     const bHilited = opt.idxFiltered === hiliteIdx;
     const bSelected = selected === opt.idxOriginal;
     const label = getOptionLabel(opt.item);
+    const Flag = (data?.flag && !roundFlags) ? Flags[data.flag.toUpperCase()] : null;
 
     return (
       <div key={opt.idxOriginal}
@@ -305,7 +322,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
         }
         {data?.flag &&
           <div className={styles.wrap}>
-            <CircleFlag countryCode={data.flag} height={24} />
+            {roundFlags ? <CircleFlag countryCode={data.flag} height={24} /> : <Flag className={styles.rcflag} />}
           </div>
         }
         <div className={cn(opt.textClass || styles.txt)}>{label}</div>
@@ -419,13 +436,14 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
         <Gateway portalId={portalId}>
           <Popper className={styles.popper}
                   autoFlipAnchor={pop_AutoFlipAnchor}
-                  matchWidth={pop_MatchWidth}
+                  {...((pop_MatchWidth && popWidth >= 0) ? { style: { width: popWidth } } : {})}
+                  // matchWidth={pop_MatchWidth}
                   bForceLimits={pop_ForceLimits}
                   neverCover={pop_NeverCover}
                   limiter={pop_Limiter}
                   limiterOffset={pop_LimiterOffset}
                   limiterClip={pop_LimiterClip}
-                  anchorEl={refInputWrapper.current}>
+                  anchorEl={refInput.current}>
             <div className={styles.popperMain}
                  style={{ maxHeight: pageSize*36 + 18 }}
                  onMouseDown={evt => evt.preventDefault()}>
