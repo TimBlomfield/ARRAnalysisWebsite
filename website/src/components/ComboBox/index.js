@@ -315,7 +315,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
            onMouseDown={evt => evt.preventDefault()}
            onClick={() => onItemClick(opt)}>
         {data?.avatar &&
-          <div className={cn(styles.wrap, styles.avatar)}>
+          <div className={cn(styles.wrap, styles.avtrWrap)}>
             <div className={styles.outline} />
             <Avatar className={styles.avatar} url={data.avatar} />
           </div>
@@ -401,10 +401,10 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
                  {...attr} />
           {bClearButton &&
             <IconButton theme={K_Theme.Light}
-                        extraClass={styles.clearButton}
+                        extraClass={cn(styles.clearButton, styles.padZero)}
                         transparent
                         scale={clearButtonScale * .93}
-                        svgScale={clearButtonScale}
+                        svgScale={clearButtonScale * .9}
                         svg={CloseSvg}
                         invertBkTheme
                         tabIndex={-1}
@@ -412,6 +412,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
                         onClick={onClearButtonClick} />
           }
           <IconButton theme={K_Theme.Light}
+                      extraClass={styles.padZero}
                       transparent
                       scale={iconButtonScale * .91}
                       svgScale={collapsed ? iconButtonScale : -iconButtonScale}

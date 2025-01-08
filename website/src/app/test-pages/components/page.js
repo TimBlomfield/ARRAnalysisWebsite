@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @next/next/no-img-element */
 
 import { Fragment, useMemo, useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
@@ -26,6 +27,7 @@ import PushButton from '@/components/PushButton';
 import Slider from '@/components/Slider';
 // Images
 import PlusSvg from '@/../public/Plus.svg';
+import blankAvatar from '@/../public/BlankAvatar.png';
 // Styles
 import styles from './styles.module.scss';
 
@@ -106,6 +108,8 @@ const ComponentsPage = () => {
   const [cboxsect_countries, setCboxsect_countries] = useState([]);
   const [cboxsect_comboCountriesDk, setCboxsect_comboCountriesDk] = useState(-1);
   const [cboxsect_comboCountriesLt, setCboxsect_comboCountriesLt] = useState(-1);
+  const [cboxsect_comboUsersDk, setCboxsect_comboUsersDk] = useState(-1);
+  const [cboxsect_comboUsersLt, setCboxsect_comboUsersLt] = useState(6);
 
 
   // Effects
@@ -881,8 +885,82 @@ const ComponentsPage = () => {
         </div>
         <div className={styles.combobox_hflex}>
           <Box caption="People&nbsp;&nbsp;&nbsp;(Dark theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag}>
+                {cboxsect_comboUsersDk >= 0 &&
+                  <img className={cn(styles.avatar, {[styles.disabled]: cboxsect_chkDisabled})}
+                       src={comboboxUsers[cboxsect_comboUsersDk].avatar === '-' ? blankAvatar.src : comboboxUsers[cboxsect_comboUsersDk].avatar}
+                       alt="user" />
+                }
+              </div>
+              <ComboBox theme={K_Theme.Dark}
+                        name="dark-users"
+                        type="text"
+                        {...(cboxsect_chkWithLabel ? { label: 'Users:' } : {})}
+                        {...(cboxsect_chkPlaceholder ? { placeholder: 'Users Placeholder' } : {})}
+                        {...(cboxsect_chkError ? {
+                          errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et lorem ipsum dolor.',
+                          errorBorder: true,
+                        } : {})}
+                        {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                        listOptimized={cboxsect_chkVirtualized}
+                        tooltipOnInput={cboxsect_chkTooltip}
+                        searchable={cboxsect_chkSearchable}
+                        disableClearable={cboxsect_chkDisableClearable}
+                        disableListWrap={cboxsect_chkDisableListWrap}
+                        disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                        clearOnEscape={cboxsect_chkClearOnEscape}
+                        {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                        debug={cboxsect_chkDebug}
+                        pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                        pageSize={cboxsect_mtgMenuSize + 2}
+                        options={comboboxUsers}
+                        getOptionLabel={o => o.name}
+                        getOptionData={o => o}
+                        selected={cboxsect_comboUsersDk}
+                        onSelect={setCboxsect_comboUsersDk}
+                        wrapperExtraClass={styles.input_w_100}
+                        style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+            </div>
           </Box>
           <Box caption="People&nbsp;&nbsp;&nbsp;(Light theme)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag}>
+                {cboxsect_comboUsersLt >= 0 &&
+                  <img className={cn(styles.avatar, {[styles.disabled]: cboxsect_chkDisabled})}
+                       src={comboboxUsers[cboxsect_comboUsersLt].avatar === '-' ? blankAvatar.src : comboboxUsers[cboxsect_comboUsersLt].avatar}
+                       alt="user" />
+                }
+              </div>
+              <ComboBox theme={K_Theme.Light}
+                        name="light-users"
+                        type="text"
+                        {...(cboxsect_chkWithLabel ? { label: 'Users Lt:' } : {})}
+                        {...(cboxsect_chkPlaceholder ? { placeholder: 'Users Light' } : {})}
+                        {...(cboxsect_chkError ? {
+                          errorText: 'Phallus cursus libero ante, eget ornare ex tempus et lorem ipsum dolor.',
+                          errorBorder: true,
+                        } : {})}
+                        {...(cboxsect_chkDisabled ? { disabled: true } : {})}
+                        listOptimized={cboxsect_chkVirtualized}
+                        tooltipOnInput={cboxsect_chkTooltip}
+                        searchable={cboxsect_chkSearchable}
+                        disableClearable={cboxsect_chkDisableClearable}
+                        disableListWrap={cboxsect_chkDisableListWrap}
+                        disableCloseOnSelect={cboxsect_chkDisableCloseOnSelect}
+                        clearOnEscape={cboxsect_chkClearOnEscape}
+                        {...(cboxsect_chkUseReactPortal ? { portalId: PORTAL_ID_MENU } : {})}
+                        debug={cboxsect_chkDebug}
+                        pop_MatchWidth={cboxsect_chkPopMatchWidth}
+                        pageSize={cboxsect_mtgMenuSize + 2}
+                        options={comboboxUsers}
+                        getOptionLabel={o => o.name}
+                        getOptionData={o => o}
+                        selected={cboxsect_comboUsersLt}
+                        onSelect={setCboxsect_comboUsersLt}
+                        wrapperExtraClass={styles.input_w_100}
+                        style={{ height: cboxsect_sldHeight + 32, fontSize: cboxsect_sldFontSize + 9 }} />
+            </div>
           </Box>
         </div>
       </>
@@ -892,7 +970,7 @@ const ComponentsPage = () => {
     cboxsect_chkDisableCloseOnSelect, cboxsect_chkClearOnEscape, cboxsect_chkDebug, cboxsect_chkPopMatchWidth,
     cboxsect_chkUseReactPortal, cboxsect_chkRoundFlags, cboxsect_sldHeight, cboxsect_sldFontSize, cboxsect_mtgMenuSize,
     cboxsect_comboMoviesDk, cboxsect_comboMoviesLt, cboxsect_countries, cboxsect_comboCountriesDk,
-    cboxsect_comboCountriesLt]);
+    cboxsect_comboCountriesLt, cboxsect_comboUsersDk, cboxsect_comboUsersLt]);
 
 
 

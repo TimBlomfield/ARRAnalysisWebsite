@@ -91,6 +91,7 @@
     }
 
     .clearButton { visibility: hidden; }
+    .padZero { padding: 0; }
     &:hover { .clearButton { visibility: visible; } }
   }
 
@@ -154,7 +155,7 @@
           box-sizing: border-box;
           padding-left: 5px;
 
-          &.avatar {
+          &.avtrWrap {
             position: relative;
 
             .outline {

@@ -286,6 +286,14 @@
         filter: grayscale(1);
         opacity: .4;
       }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        max-width: 34px;
+        max-height: 34px;
+        border: 1px solid green;
+      }
     }
 
     .input_flex_1 { flex: 1; }
