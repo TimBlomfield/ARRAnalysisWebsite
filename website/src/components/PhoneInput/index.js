@@ -25,6 +25,8 @@ const PhoneInput = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = 
       refTemp.current.count = nCount;
     };
 
+    const functionKeys = [ 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12' ];
+
     // Handle special cases like selecting all text with Ctrl+A
     if (evt.ctrlKey || evt.metaKey) return;
 
@@ -96,7 +98,7 @@ const PhoneInput = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = 
     }
 
     // Only allow numbers, backspace, delete, arrow keys, etc.
-    if (!bIsNumeric && !['ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'].includes(evt.key)) {
+    if (!bIsNumeric && !['ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End', ...functionKeys].includes(evt.key)) {
       evt.preventDefault();
     }
   }, []);
@@ -107,7 +109,7 @@ const PhoneInput = ({theme = K_Theme.Dark, extraClass = '', wrapperExtraClass = 
     const input = evt.target;
 
     let str = refTemp.current.value != null ? refTemp.current.value : input.value;
-    refTemp.current.valuej = null;
+    refTemp.current.value = null;
 
 
     if (str.length > 0) {
