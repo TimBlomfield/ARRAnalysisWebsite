@@ -9,6 +9,7 @@ const getFunction_StripDiacritics = () =>  typeof ''.normalize === 'function'
 
 const mkFix = name => name.toLowerCase().includes('macedonia') ? 'Macedonia' : name;
 
+
 export {
   generateUniqueId,
   convertToSuburrency,

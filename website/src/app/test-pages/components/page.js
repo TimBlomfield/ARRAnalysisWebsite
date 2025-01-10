@@ -11,6 +11,7 @@ import { K_Theme, PORTAL_ID_MENU } from '@/utils/common';
 import { mkFix } from '@/utils/func';
 import { initST } from './utils';
 import { comboboxUsers, comboboxMovies } from './test-data';
+import { getCountryCodeFromNumber } from '@/utils/phone';
 // Components
 import Box from './Box';
 import CheckBox from '@/components/CheckBox';
@@ -21,13 +22,15 @@ import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import LoadingSSR from '@/components/LoadingSSR';
 import MultiToggle from '@/components/MultiToggle';
+import PhoneInput from '@/components/PhoneInput';
 import PlusMinusButton from '@/components/PlusMinusButton';
 import Popper from '@/components/Popper';
 import PushButton from '@/components/PushButton';
 import Slider from '@/components/Slider';
 // Images
-import PlusSvg from '@/../public/Plus.svg';
 import blankAvatar from '@/../public/BlankAvatar.png';
+import InterphoneSvg from '@/../public/international-call.svg';
+import PlusSvg from '@/../public/Plus.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -82,8 +85,10 @@ const ComponentsPage = () => {
   const [input_chkMultiline, setInput_chkMultiline] = useState(false);
   const [input_sldHeight, setInput_sldHeight] = useState(32);
   const [input_sldFontSize, setInput_sldFontSize] = useState(9);
-  const [input_valLight, setInput_valLight] = useState('');
   const [input_valDark, setInput_valDark] = useState('');
+  const [input_valLight, setInput_valLight] = useState('');
+  const [input_valPhoneDark, setInput_valPhoneDark] = useState('');
+  const [input_valPhoneLight, setInput_valPhoneLight] = useState('');
   // Combobox Section - local states
   const [cboxsect_chkWithLabel, setCboxsect_chkWithLabel] = useState(false);
   const [cboxsect_chkDisabled, setCboxsect_chkDisabled] = useState(false);
@@ -613,6 +618,22 @@ const ComponentsPage = () => {
   // Input Section
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const InputSection_MemoRender = useMemo(() => {
+    const regionNamesLocalized = new Intl.DisplayNames([defaultLocale], { type: 'region' });
+
+    let FlagDk = null, titleDk = '';
+    const countryCodeDk = getCountryCodeFromNumber(input_valPhoneDark);
+    if (countryCodeDk != null && Flags[countryCodeDk] != null) {
+      FlagDk = Flags[countryCodeDk];
+      titleDk = mkFix(regionNamesLocalized.of(countryCodeDk));
+    }
+
+    let FlagLt = null, titleLt = '';
+    const countryCodeLt = getCountryCodeFromNumber(input_valPhoneLight);
+    if (countryCodeLt != null && Flags[countryCodeLt] != null) {
+      FlagLt = Flags[countryCodeLt];
+      titleLt = mkFix(regionNamesLocalized.of(countryCodeLt));
+    }
+
     return (
       <>
         <div className={cn(styles.title, styles.pt)}>&lt;Input /&gt;</div>
@@ -640,46 +661,101 @@ const ComponentsPage = () => {
                     onSelect={setInput_sldFontSize} />
           </div>
         </div>
-        <Box caption="Dark" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
-          <Input theme={K_Theme.Dark}
-                 name="light"
-                 type="text"
-                 {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
-                 {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
-                 multiline={input_chkMultiline}
-                 {...(input_chkError ? {
-                   errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
-                   errorBorder: true,
-                 } : {})}
-                 {...(input_chkReadOnly ? { readOnly: true } : {})}
-                 {...(input_chkDisabled ? { disabled: true } : {})}
-                 extraClass={styles.input_w_100}
-                 style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
-                 value={input_valDark}
-                 onChange={evt => setInput_valDark(evt.target.value)} />
-        </Box>
-        <Box caption="Light" resizable bodyStyle={{ minWidth: 220, paddings: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
-          <Input theme={K_Theme.Light}
-                 name="dark"
-                 type="text"
-                 {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
-                 {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
-                 multiline={input_chkMultiline}
-                 {...(input_chkError ? {
-                   errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
-                   errorBorder: true,
-                 } : {})}
-                 {...(input_chkReadOnly ? { readOnly: true } : {})}
-                 {...(input_chkDisabled ? { disabled: true } : {})}
-                 extraClass={styles.input_w_100}
-                 style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
-                 value={input_valLight}
-                 onChange={evt => setInput_valLight(evt.target.value)} />
-        </Box>
+        <div className={styles.combobox_hflex}>
+          <Box caption="Dark" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+            <Input theme={K_Theme.Dark}
+                   name="dark"
+                   type="text"
+                   {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
+                   {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
+                   multiline={input_chkMultiline}
+                   {...(input_chkError ? {
+                     errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                     errorBorder: true,
+                   } : {})}
+                   {...(input_chkReadOnly ? { readOnly: true } : {})}
+                   {...(input_chkDisabled ? { disabled: true } : {})}
+                   extraClass={styles.input_w_100}
+                   style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                   value={input_valDark}
+                   onChange={evt => setInput_valDark(evt.target.value)} />
+          </Box>
+          <Box caption="Light" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+            <Input theme={K_Theme.Light}
+                   name="light"
+                   type="text"
+                   {...(input_chkWithLabel ? { label: 'Sample label:' } : {})}
+                   {...(input_chkPlaceholder ? { placeholder: 'Sample Placeholder' } : {})}
+                   multiline={input_chkMultiline}
+                   {...(input_chkError ? {
+                     errorText: 'Phasellus cursus libero ante, eget ornare ex tempus et.',
+                     errorBorder: true,
+                   } : {})}
+                   {...(input_chkReadOnly ? { readOnly: true } : {})}
+                   {...(input_chkDisabled ? { disabled: true } : {})}
+                   extraClass={styles.input_w_100}
+                   style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                   value={input_valLight}
+                   onChange={evt => setInput_valLight(evt.target.value)} />
+          </Box>
+        </div>
+        <div className={styles.combobox_hflex}>
+          <Box caption="Dark (PhoneInput)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag} title={titleDk}>
+                {FlagDk != null
+                  ? <FlagDk className={cn(styles.rcflag, {[styles.disabled]: input_chkDisabled})} />
+                  : <InterphoneSvg className={cn(styles.interphone, {[styles.disabled]: input_chkDisabled})} />
+                }
+              </div>
+              <PhoneInput theme={K_Theme.Dark}
+                          name="dark-phone"
+                          type="text"
+                          {...(input_chkWithLabel ? { label: 'Phone label:' } : {})}
+                          {...(input_chkPlaceholder ? { placeholder: '+1 234 567 8988' } : {})}
+                          {...(input_chkError ? {
+                            errorText: 'Invalid phone number.',
+                            errorBorder: true,
+                          } : {})}
+                          {...(input_chkReadOnly ? { readOnly: true } : {})}
+                          {...(input_chkDisabled ? { disabled: true } : {})}
+                          extraClass={styles.input_w_100}
+                          style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                          value={input_valPhoneDark}
+                          changeFn={setInput_valPhoneDark} />
+            </div>
+          </Box>
+          <Box caption="Light (PhoneInput)" resizable bodyStyle={{ minWidth: 220, padding: '25px 25px 15px', backgroundColor: '#253551' }} style={{ minWidth: 222 }}>
+            <div className={styles.withLAdorn}>
+              <div className={styles.flag} title={titleLt}>
+                {FlagLt != null
+                  ? <FlagLt className={cn(styles.rcflag, {[styles.disabled]: input_chkDisabled})} />
+                  : <InterphoneSvg className={cn(styles.interphone, {[styles.disabled]: input_chkDisabled})} />
+                }
+              </div>
+              <PhoneInput theme={K_Theme.Light}
+                          name="light-phone"
+                          type="text"
+                          {...(input_chkWithLabel ? { label: 'Phone label:' } : {})}
+                          {...(input_chkPlaceholder ? { placeholder: '+1 880 555 0123' } : {})}
+                          {...(input_chkError ? {
+                            errorText: 'Invalid phone number.',
+                            errorBorder: true,
+                          } : {})}
+                          {...(input_chkReadOnly ? { readOnly: true } : {})}
+                          {...(input_chkDisabled ? { disabled: true } : {})}
+                          extraClass={styles.input_w_100}
+                          style={{ height: input_sldHeight + 32, fontSize: input_sldFontSize + 9 }}
+                          value={input_valPhoneLight}
+                          changeFn={setInput_valPhoneLight} />
+            </div>
+          </Box>
+        </div>
       </>
     );
-  }, [input_chkWithLabel, input_chkReadOnly, input_chkDisabled, input_chkError, input_chkPlaceholder,
-    input_chkMultiline, input_sldHeight, input_sldFontSize, input_valLight, input_valDark]);
+  }, [defaultLocale, input_chkWithLabel, input_chkReadOnly, input_chkDisabled, input_chkError, input_chkPlaceholder,
+    input_chkMultiline, input_sldHeight, input_sldFontSize, input_valDark, input_valLight, input_valPhoneDark,
+    input_valPhoneLight]);
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -973,10 +1049,8 @@ const ComponentsPage = () => {
     cboxsect_comboCountriesLt, cboxsect_comboUsersDk, cboxsect_comboUsersLt]);
 
 
-
   return (
     <main className={styles.main}>
-      {/**/}
       {LoadingSection_MemoRender}
       {PushButtonSection_MemoRender}
       {LinkButtonSection_MemoRender}
@@ -986,7 +1060,6 @@ const ComponentsPage = () => {
       {SliderSection_MemoRender}
       {PopperSection_MemoRender}
       {InputSection_MemoRender}
-      {/**/}
       {ComboBoxSection_MemoRender}
     </main>
   );
