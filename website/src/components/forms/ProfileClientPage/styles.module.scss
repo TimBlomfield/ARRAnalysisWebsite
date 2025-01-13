@@ -1,8 +1,87 @@
 @use "globals" as *;
 
 .main {
-  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 40px 20px 20px 80px;
+
+  .sectionTitle {
+    @extend %fnt-primary;
+
+    font-size: 20px;
+    color: $clrAdmin_Txt1;
+    padding-bottom: 20px;
+  }
+
+  .sectionForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    padding: 15px;
+    border: 1px solid $clrSeparator;
+    border-radius: 5px;
+
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      inset: 5px;
+      background-color: rgba($clrAdminBk, 75%);
+      display: grid;
+      place-items: center;
+    }
+
+    .input {
+      height: 48px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .phoneLine {
+      display: flex;
+      gap: 8px;
+
+      .wrapperPhone {
+        flex: none;
+        width: fit-content;
+      }
+
+      .phoneInput {
+        height: 48px;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .flag {
+        width: 36px;
+        min-width: 30px;
+        box-sizing: border-box;
+        display: grid;
+        place-items: center;
+        padding-top: 28px;
+
+        .rcflag {
+          width: 30px;
+          height: 20px;
+          box-shadow: 2px 2px 2px 1px rgba($clrAdmin_35, .4);
+        }
+
+        .disabled {
+          filter: grayscale(1);
+          opacity: .4;
+        }
+
+        .interphone { scale: 1.75; }
+      }
+
+      .txtCountry {
+        @extend %fnt-secondary;
+
+        font-size: 16px;
+        color: fn-admin-color(33);
+        align-self: center;
+        padding: 28px 0 0 8px;
+      }
+    }
+  }
 }
