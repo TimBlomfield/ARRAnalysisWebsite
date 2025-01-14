@@ -2,6 +2,8 @@
 
 import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import Flags from 'country-flag-icons/react/3x2';
 import { getCountryCodeFromNumber } from '@/utils/phone';
@@ -10,6 +12,7 @@ import { mkFix } from '@/utils/func';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PhoneInput from '@/components/PhoneInput';
+import PushButton from '@/components/PushButton';
 // Images
 import InterphoneSvg from '@/../public/international-call.svg';
 // Styles
@@ -61,6 +64,21 @@ const ProfileClientPage = ({ user }) => {
       Flag = Flags[countryCode];
       flagTitle = mkFix(regionNamesLocalized.of(countryCode));
     }
+
+    const onBtnSubmit = () => {
+      setProcessing_formContactDetails(true);
+
+      axios.post('/api/profile/update-contact-details', { firstName, lastName, phone, jobTitle })
+        .then(res => {
+          setProcessing_formContactDetails(false);
+          setChanged_formContactDetails(false);
+          toast.success(res.data?.message ?? 'Contact details updated!');
+        })
+        .catch(err => {
+          setProcessing_formContactDetails(false);
+          toast.error(err.response?.data?.message ?? 'Could not update contact details!');
+        });
+    };
 
     return (
       <>
@@ -119,9 +137,15 @@ const ProfileClientPage = ({ user }) => {
                  extraClass={styles.input}
                  value={jobTitle}
                  onChange={jobTitleFn} />
+          <PushButton extraClass={styles.pbtn}
+                      theme={K_Theme.Dark}
+                      {...((processing_formContactDetails || !changed_formContactDetails) ? { disabled: true } : {})}
+                      onClick={onBtnSubmit}>
+            Update
+          </PushButton>
         </section>
       </>
-  );
+    );
   }, [defaultLocale, changed_formContactDetails, processing_formContactDetails, firstName, lastName, phone, jobTitle]);
 
   return (

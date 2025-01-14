@@ -318,6 +318,30 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.UPDATE_CONTACT_DETAILS:
+      {
+        const data = [];
+
+        for (const key in evt.changes.new)
+          if (evt.changes.new[key] !== evt.changes.old[key])
+            data.push({ fieldName: key, oldValue: evt.changes.old[key], newValue: evt.changes.new[key] });
+
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail, // Who did it
+            ipAddress,
+            userAgent,
+            changes: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        });
+      }
+      break;
   }
 };
 
