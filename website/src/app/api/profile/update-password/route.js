@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { hash } from 'bcrypt';
 import { AuditEvent } from '@prisma/client';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { createAuditLog } from '@/utils/server/audit';
@@ -14,46 +15,25 @@ const POST = async req => {
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
   try {
-    const { firstName, lastName, phone, jobTitle, company } = await req.json();
+    const { newPassword } = await req.json();
 
-    const userData = await db.userData.findUnique({
-      where: { email: authToken.email },
-    });
-
-    const old = {
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      phone: userData.phone,
-      jobTitle: userData.jobTitle,
-      company: userData.company,
-    };
+    const hashedPassword = await hash(newPassword, 10);
 
     await db.userData.update({
       where: { email: authToken.email },
-      data: { firstName, lastName, phone, jobTitle, company },
+      data: { hashedPassword },
     });
 
     await createAuditLog({
-      type: AuditEvent.UPDATE_CONTACT_DETAILS,
+      type: AuditEvent.UPDATE_PASSWORD,
       actorEmail: authToken.email,
-      changes: {
-        old,
-        new: {
-          firstName,
-          lastName,
-          phone,
-          jobTitle,
-          company,
-        },
-      },
     }, req);
-
   } catch (error) {
     const message = error?.response?.data?.detail ?? 'Something went wrong!';
     return NextResponse.json({ message , error }, { status: 500 });
   }
 
-  return NextResponse.json({ message: 'Your contact details were updated!' }, { status: 200 });
+  return NextResponse.json({ message: 'Your password was updated!' }, { status: 200 });
 };
 
 

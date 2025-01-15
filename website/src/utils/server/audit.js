@@ -342,6 +342,19 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.UPDATE_PASSWORD:
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail, // Who did it
+            ipAddress,
+            userAgent,
+          },
+        });
+      }
+      break;
   }
 };
 
