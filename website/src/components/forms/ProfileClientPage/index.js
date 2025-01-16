@@ -3,13 +3,16 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import { State }  from 'country-state-city';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
+import { countries } from 'country-flag-icons';
 import Flags from 'country-flag-icons/react/3x2';
 import { getCountryCodeFromNumber } from '@/utils/phone';
 import { mkFix } from '@/utils/func';
 // Components
+import ComboBox from '@/components/ComboBox';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PasswordStrength from '@/components/PasswordStrength';
@@ -39,6 +42,19 @@ const ProfileClientPage = ({ user }) => {
   const [errNewPassword, setErrNewPassword] = useState('');
   const [pwdConfirmation, setPwdConfirmation] = useState('');
   const [errConfirmPassword, setErrConfirmPassword] = useState('');
+  //// Account details
+  const [changed_formAccountDetails, setChanged_formAccountDetails] = useState(false);
+  const [processing_formAccountDetails, setProcessing_formAccountDetails] = useState(false);
+  const [allCountries, setAllCountries] = useState([]);
+  const [allStates, setAllStates] = useState([]);
+  const [addressName, setAddressName] = useState(user.address);
+  const [street1, setStreet1] = useState(user.street1);
+  const [street2, setStreet2] = useState(user.street2);
+  const [street3, setStreet3] = useState(user.street3);
+  const [city, setCity] = useState(user.city);
+  const [country, setCountry] = useState(-1);
+  const [stateProv, setStateProv] = useState(-1);
+  const [postalCode, setPostalCode] = useState(user.postalCode);
 
   const handleInputChange = useCallback((val, fn, errFn = null, sectChgFn = null) => {
     return evt => {
@@ -67,8 +83,49 @@ const ProfileClientPage = ({ user }) => {
   const newPasswordFn = handleInputChange(newPassword, setNewPassword, setErrNewPassword, setChanged_formPassword);
   const confirmationFn = handleInputChange(pwdConfirmation, setPwdConfirmation, setErrConfirmPassword, setChanged_formPassword);
 
+  const addressNameFn = handleInputChange(addressName, setAddressName, null, setChanged_formAccountDetails);
+  const street1Fn = handleInputChange(street1, setStreet1, null, setChanged_formAccountDetails);
+  const street2Fn = handleInputChange(street2, setStreet2, null, setChanged_formAccountDetails);
+  const street3Fn = handleInputChange(street3, setStreet3, null, setChanged_formAccountDetails);
+  const cityFn = handleInputChange(city, setCity, null, setChanged_formAccountDetails);
+  const postalCodeFn = handleInputChange(postalCode, setPostalCode, null, setChanged_formAccountDetails);
+  const countryFn = value => {
+    if (value !== country) {
+      setCountry(value);
+      setStateProv(-1);
+      setChanged_formAccountDetails(true);
+
+      if (value < 0)
+        setAllStates([]);
+      else {
+        setAllStates(State.getStatesOfCountry(countries[value]));
+        console.log(State.getStatesOfCountry(countries[value]));
+      }
+    }
+  };
+  const stateProvFn = handleValueChange(stateProv, setStateProv, null, setChanged_formAccountDetails);
+
   // Effects
   useEffect(() => { setDefaultLocale(navigator?.language || 'en-US'); }, []);
+
+  useEffect(() => {
+    const regionNamesLocalized = new Intl.DisplayNames([defaultLocale], { type: 'region' });
+
+    setAllCountries(countries.map(code => ({
+      name: mkFix(regionNamesLocalized.of(code)),
+      flag: code.toLowerCase(),
+    })));
+
+    const countryIdx = countries.findIndex(c => c === user.country);
+    setCountry(countryIdx);
+
+    if (countryIdx >= 0) {
+      const states = State.getStatesOfCountry(user.country);
+      setAllStates(states);
+
+      setStateProv(states.findIndex(s => s.isoCode === user.state));
+    }
+  }, [defaultLocale]);
 
   // Memo render functions
   const contactDetails_memoRender = useMemo(() => {
@@ -105,8 +162,8 @@ const ProfileClientPage = ({ user }) => {
                  maxLength={100}
                  name="first-name"
                  type="text"
-                 label="First Name"
-                 placeholder="First Name"
+                 label="First name"
+                 placeholder="First name"
                  autoComplete="given-name"
                  disabled={processing_formContactDetails}
                  extraClass={styles.input}
@@ -116,14 +173,14 @@ const ProfileClientPage = ({ user }) => {
                  maxLength={100}
                  name="last-name"
                  type="text"
-                 label="Last Name"
-                 placeholder="Last Name"
+                 label="Last name"
+                 placeholder="Last name"
                  autoComplete="family-name"
                  disabled={processing_formContactDetails}
                  extraClass={styles.input}
                  value={lastName}
                  onChange={lastNameFn} />
-          <div className={styles.phoneLine}>
+          <div className={styles.lineWithFlag}>
             <PhoneInput theme={K_Theme.Dark}
                         name="telephone"
                         type="text"
@@ -146,8 +203,8 @@ const ProfileClientPage = ({ user }) => {
                  maxLength={100}
                  name="job-title"
                  type="text"
-                 label="Job Title"
-                 placeholder="Job Title"
+                 label="Job title"
+                 placeholder="Your job title"
                  autoComplete="organization-title"
                  disabled={processing_formContactDetails}
                  extraClass={styles.input}
@@ -262,10 +319,140 @@ const ProfileClientPage = ({ user }) => {
     );
   }, [changed_formPassword, processing_formPassword, newPassword, pwdConfirmation, errNewPassword, errConfirmPassword]);
 
+  const accountDetails_memoRender = useMemo(() => {
+    const onBtnSubmit = () => {};
+
+    const Flag = country >= 0 ? Flags[countries[country]] : null;
+    const flagTitle = country >= 0 ? allCountries[country].name : '';
+
+    return (
+      <>
+        <div className={cn(styles.sectionTitle, styles.mt)}>Your account details</div>
+        <section className={styles.sectionForm}>
+          {processing_formAccountDetails && <div className={styles.overlay}><Loading scale={2} text="Updating Account Details" /></div>}
+          <Input theme={K_Theme.Dark}
+                 maxLength={150}
+                 name="address-name"
+                 type="text"
+                 label="Address name"
+                 placeholder="Address name"
+                 autoComplete="name"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.address)}
+                 value={addressName}
+                 onChange={addressNameFn} />
+          <Input theme={K_Theme.Dark}
+                 maxLength={150}
+                 name="street-1"
+                 type="text"
+                 label="Street 1"
+                 placeholder="Street 1"
+                 autoComplete="address-line1"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.address)}
+                 value={street1}
+                 onChange={street1Fn} />
+          <Input theme={K_Theme.Dark}
+                 maxLength={150}
+                 name="street-2"
+                 type="text"
+                 label="Street 2"
+                 placeholder="Street 2"
+                 autoComplete="address-line2"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.address)}
+                 value={street2}
+                 onChange={street2Fn} />
+          <Input theme={K_Theme.Dark}
+                 maxLength={150}
+                 name="street-3"
+                 type="text"
+                 label="Street 3"
+                 placeholder="Street 3"
+                 autoComplete="address-line3"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.address)}
+                 value={street3}
+                 onChange={street3Fn} />
+          <Input theme={K_Theme.Dark}
+                 maxLength={150}
+                 name="city"
+                 type="text"
+                 label="City"
+                 placeholder="City"
+                 autoComplete="address-level2"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.address)}
+                 value={city}
+                 onChange={cityFn} />
+          <div className={styles.lineWithFlag}>
+            <ComboBox theme={K_Theme.Dark}
+                      name="countries"
+                      type="text"
+                      label="Country"
+                      placeholder="Your country"
+                      autoComplete="country-name"
+                      disabled={processing_formAccountDetails}
+                      listOptimized
+                      searchable
+                      pop_MatchWidth
+                      roundFlags={false}
+                      pageSize={8}
+                      options={allCountries}
+                      getOptionLabel={o => o.name}
+                      getOptionData={o => o}
+                      selected={country}
+                      onSelect={countryFn}
+                      wrapperExtraClass={styles.comboCountries}
+                      style={{ height: 36, fontSize: 16 }} />
+            <div className={styles.flag} title={flagTitle}>
+              {Flag && <Flag className={cn(styles.rcflag, {[styles.disabled]: processing_formAccountDetails})} />}
+            </div>
+          </div>
+          <ComboBox theme={K_Theme.Dark}
+                    name="states"
+                    type="text"
+                    label="State / Province"
+                    placeholder="State or province"
+                    autoComplete="address-level1"
+                    disabled={processing_formAccountDetails || (allStates.length === 0)}
+                    searchable
+                    pop_MatchWidth
+                    pageSize={6}
+                    options={allStates}
+                    getOptionLabel={o => o.name}
+                    selected={stateProv}
+                    onSelect={stateProvFn}
+                    adornExtraClass={styles.comboCountries}
+                    style={{ height: 36, fontSize: 16 }} />
+          <Input theme={K_Theme.Dark}
+                 maxLength={50}
+                 name="postal-code"
+                 type="text"
+                 label="Postal code"
+                 placeholder="Postal code"
+                 autoComplete="postal-code"
+                 disabled={processing_formAccountDetails}
+                 extraClass={cn(styles.input, styles.pwd)}
+                 value={postalCode}
+                 onChange={postalCodeFn} />
+          <PushButton extraClass={styles.pbtn}
+                      theme={K_Theme.Dark}
+                      {...((processing_formAccountDetails || !changed_formAccountDetails) ? { disabled: true } : {})}
+                      onClick={onBtnSubmit}>
+            Update
+          </PushButton>
+        </section>
+      </>
+    );
+  }, [changed_formAccountDetails, processing_formAccountDetails, addressName, street1, street2, street3, city,
+    postalCode, allCountries, country, allStates, stateProv]);
+
   return (
     <div className={styles.main}>
       {contactDetails_memoRender}
       {password_memoRender}
+      {accountDetails_memoRender}
     </div>
   );
 };

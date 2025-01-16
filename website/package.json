@@ -24,6 +24,7 @@
     "classnames": "^2.5.1",
     "client-only": "^0.0.1",
     "country-flag-icons": "^1.5.13",
+    "country-state-city": "^3.2.1",
     "d3": "^7.9.0",
     "gsap": "^3.12.5",
     "libphonenumber-js": "^1.11.17",
