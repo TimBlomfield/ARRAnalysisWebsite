@@ -2,6 +2,7 @@
 
 import cn from 'classnames';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import zxcvbn from 'zxcvbn';
 import { State }  from 'country-state-city';
 import axios from 'axios';
@@ -25,6 +26,8 @@ import styles from './styles.module.scss';
 
 
 const ProfileClientPage = ({ user }) => {
+  const router = useRouter();
+
   // Local state
   const [defaultLocale, setDefaultLocale] = useState('en-US');
   //// Contact details
@@ -97,10 +100,8 @@ const ProfileClientPage = ({ user }) => {
 
       if (value < 0)
         setAllStates([]);
-      else {
+      else
         setAllStates(State.getStatesOfCountry(countries[value]));
-        console.log(State.getStatesOfCountry(countries[value]));
-      }
     }
   };
   const stateProvFn = handleValueChange(stateProv, setStateProv, null, setChanged_formAccountDetails);
@@ -146,6 +147,7 @@ const ProfileClientPage = ({ user }) => {
           setProcessing_formContactDetails(false);
           setChanged_formContactDetails(false);
           toast.success(res.data?.message ?? 'Your contact details were updated!');
+          router.refresh();
         })
         .catch(err => {
           setProcessing_formContactDetails(false);
@@ -264,6 +266,7 @@ const ProfileClientPage = ({ user }) => {
             setPwdConfirmation('');
             setErrConfirmPassword('');
             toast.success(res.data?.message ?? 'Your password was updated!');
+            router.refresh();
           })
           .catch(err => {
             setProcessing_formPassword(false);
@@ -275,8 +278,14 @@ const ProfileClientPage = ({ user }) => {
     return (
       <>
         <div className={cn(styles.sectionTitle, styles.mt)}>Your password</div>
-        <section className={styles.sectionForm}>
+        <form className={styles.sectionForm}> {/* NOTE: using <form> to prevent Chrome warnings */}
           {processing_formPassword && <div className={styles.overlay}><Loading scale={2} text="Updating Password" /></div>}
+          <input type="text"  // NOTE: Had to add this <input> to prevent Chrome warnings
+                 name="email"
+                 value={user.email}
+                 disabled
+                 autoComplete="username email"
+                 style={{ display: 'none' }} />
           <Input theme={K_Theme.Dark}
                  maxLength={30}
                  name="new-password"
@@ -314,13 +323,29 @@ const ProfileClientPage = ({ user }) => {
                       onClick={onBtnSubmit}>
             Update
           </PushButton>
-        </section>
+        </form>
       </>
     );
   }, [changed_formPassword, processing_formPassword, newPassword, pwdConfirmation, errNewPassword, errConfirmPassword]);
 
   const accountDetails_memoRender = useMemo(() => {
-    const onBtnSubmit = () => {};
+    const onBtnSubmit = () => {
+      setProcessing_formAccountDetails(true);
+
+      const countryCode = (country >= 0 && country < countries.length) ? countries[country] : '';
+      const stateCode = (stateProv >= 0 && stateProv < allStates.length) ? allStates[stateProv].isoCode : '';
+      axios.post('/api/profile/update-account-details', { address: addressName, street1, street2, street3, city, postalCode, country: countryCode, state: stateCode })
+        .then(res => {
+          setProcessing_formAccountDetails(false);
+          setChanged_formAccountDetails(false);
+          toast.success(res.data?.message ?? 'Your account details were updated!');
+          router.refresh();
+        })
+        .catch(err => {
+          setProcessing_formAccountDetails(false);
+          toast.error(err.response?.data?.message ?? 'Could not update your account details!');
+        });
+    };
 
     const Flag = country >= 0 ? Flags[countries[country]] : null;
     const flagTitle = country >= 0 ? allCountries[country].name : '';

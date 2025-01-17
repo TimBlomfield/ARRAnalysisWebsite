@@ -320,6 +320,7 @@ const createAuditLog = async (evt, req) => {
       break;
 
     case AuditEvent.UPDATE_CONTACT_DETAILS:
+    case AuditEvent.UPDATE_ACCOUNT_DETAILS:
       {
         const data = [];
 
