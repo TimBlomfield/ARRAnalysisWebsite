@@ -54,7 +54,7 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
 
   // Function to avoid server error (because CSS.number() is not available on the server)
   const getNumber = (value) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window.CSS?.number != null && typeof window.CSS.number === 'function') {
       return CSS.number(value);
     }
     // Fallback for server-side

@@ -30,7 +30,7 @@
     "libphonenumber-js": "^1.11.17",
     "luxon": "^3.5.0",
     "mailgun.js": "^10.2.3",
-    "next": "14.2.22",
+    "next": "14.2.23",
     "next-auth": "^4.24.7",
     "normalize-css": "^2.3.1",
     "react": "^18",
