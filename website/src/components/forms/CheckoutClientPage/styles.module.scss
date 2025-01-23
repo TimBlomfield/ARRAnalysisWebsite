@@ -130,6 +130,15 @@
         padding: 0 18px;
       }
 
+      .alreadyMember {
+        @extend %fnt-secondary;
+
+        font-size: 12px;
+        color: black;
+        display: grid;
+        grid: repeat(2, 1fr) / 1fr;
+      }
+
       .pwdXtra {
         @extend %fnt-secondary;
 
@@ -142,6 +151,7 @@
         grid: 50px repeat(6, 1fr) 30px / 1fr;
 
         .title, .pwdXtra { grid-area: auto; }
+        .alreadyMember { grid-area: 9 / 1 / 10 / 2; }
       }
     }
 

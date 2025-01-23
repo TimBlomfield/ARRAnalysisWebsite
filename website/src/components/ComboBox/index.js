@@ -438,7 +438,6 @@ const ComboBox = forwardRef(({theme = K_Theme.Dark, inputExtraClass = '', adornE
           <Popper className={styles.popper}
                   autoFlipAnchor={pop_AutoFlipAnchor}
                   {...((pop_MatchWidth && popWidth >= 0) ? { style: { width: popWidth } } : {})}
-                  // matchWidth={pop_MatchWidth}
                   bForceLimits={pop_ForceLimits}
                   neverCover={pop_NeverCover}
                   limiter={pop_Limiter}

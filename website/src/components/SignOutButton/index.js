@@ -13,7 +13,7 @@ const SignOutButton = () => {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <PushButton extraClass={styles.btn}
+    <PushButton extraClass={styles.btnSignOut}
                 disabled={disabled}
                 onClick={() => {
                   setDisabled(true);

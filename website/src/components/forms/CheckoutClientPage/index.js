@@ -3,6 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import zxcvbn from 'zxcvbn';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
@@ -334,6 +335,10 @@ const CheckoutClientPageInner = ({ tiers }) => {
                      value={confirm}
                      onChange={confirmFn}
                      errorBorder={errConfirm} />
+              <div className={styles.alreadyMember}>
+                <div>Already have an account?</div>
+                <div><Link href="/login">Sign in</Link> to add more seats.</div>
+              </div>
               <PasswordStrength password={password} extraClass={styles.pwdXtra} />
             </section>
 
