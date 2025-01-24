@@ -51,8 +51,8 @@
 
     section.subscription {
       @extend %card-common;
-      padding-top: 20px;
 
+      padding-top: 20px;
       display: grid;
       grid: 126px 60px / repeat(3, 1fr);
 
@@ -92,6 +92,39 @@
           justify-content: center;
         }
       }
+    }
+
+    section.paymentMethod {
+      @extend %card-common;
+
+      padding: 0 20px 20px;
+      display: grid;
+      grid: 70px 1fr / 1fr;
+      position: relative;
+
+      .overlay {
+        position: absolute;
+        z-index: 10;
+        inset: 5px;
+        background-color: rgb(255 255 255 / 75%);
+        display: grid;
+        place-items: center;
+      }
+
+      .title {
+        display: grid;
+        place-items: center;
+        padding-bottom: 20px;
+        font-size: 24px;
+        color: fn-admin-color(38);
+      }
+    }
+
+    .btnPayXtra {
+      width: 100%;
+      max-width: 400px;
+      align-self: center;
+      margin-bottom: 30px;
     }
   }
 }
