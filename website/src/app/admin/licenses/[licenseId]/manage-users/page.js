@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import { notFound, redirect } from 'next/navigation';
 import axios from 'axios';
 import { authOptions } from '@/utils/server/auth';
-import { isAuthTokenValid } from '@/utils/server/common';
+import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { decodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
 import ManageLicenseUsersPage from '@/components/forms/ManageLicenseUsersPage';
@@ -18,7 +18,8 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
   if (!isAuthTokenValid(token))
     redirect('/login');
 
-  if (token.userData.customerId == null)
+  const acuIds = await getACU_Ids(token.email);
+  if (acuIds?.customerId == null)
     notFound();
 
   let license = null, customer = null;
@@ -33,7 +34,7 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
     license = { ...data };
 
     customer = await db.customer.findUnique({
-      where: { id: token.userData.customerId },
+      where: { id: acuIds.customerId },
       include: {
         users: {
           include: { data: true },

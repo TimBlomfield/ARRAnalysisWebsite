@@ -1,0 +1,26 @@
+@use "globals" as *;
+
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    @extend %fnt-primary;
+
+    font-size: 28px;
+    color: $clrAdmin_Txt0;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .desc {
+    @extend %fnt-secondary;
+
+    font-size: 22px;
+    color: $clrAdmin_Txt1;
+    text-align: center;
+  }
+}

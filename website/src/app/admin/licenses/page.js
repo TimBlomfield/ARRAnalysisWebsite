@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import axios from 'axios';
 import { authOptions } from '@/utils/server/auth';
-import { isAuthTokenValid } from '@/utils/server/common';
+import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { encodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
 // Components
@@ -21,14 +21,15 @@ const LicensesPage = async () => {
   if (!isAuthTokenValid(token))
     redirect('/login');
 
-  if (token.userData.customerId == null)
+  const acuIds = await getACU_Ids(token.email);
+  if (acuIds?.customerId == null)
     notFound();
 
   let licenseData;
 
   try {
     const customer = await db.customer.findUnique({
-      where: { id: token.userData.customerId },
+      where: { id: acuIds.customerId },
       include: { users: true },
     });
 

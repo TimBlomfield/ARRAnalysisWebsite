@@ -62,22 +62,28 @@ const createAuditLog = async (evt, req) => {
     case AuditEvent.CREATE_SUBSCRIPTION:
       {
         const data = [
-          { key: 'firstName', value: evt.firstName },
-          { key: 'lastName', value: evt.lastName },
-          { key: 'hashedPassword', value: evt.hashedPassword },
-          { key: 'secret', value: evt.secret },
           { key: 'quantity', value: evt.quantity.toString() },
           { key: 'tier', value: evt.tier.toString() },
           { key: 'period', value: evt.period },
         ];
-        if (evt.company != null)
-          data.push({ key: 'company', value: evt.company });
+        let description = null;
+        if (evt.existingUser === true) {
+          description = 'Existing user';
+        } else {
+          data.push({ key: 'firstName', value: evt.firstName });
+          data.push({ key: 'lastName', value: evt.lastName });
+          data.push({ key: 'hashedPassword', value: evt.hashedPassword });
+          data.push({ key: 'secret', value: evt.secret });
+          if (evt.company != null)
+            data.push({ key: 'company', value: evt.company });
+        }
         await db.auditLog.create({
           data: {
             actorEmail: evt.email,
             eventType: evt.type,
             ipAddress,
             userAgent,
+            description,
             metadata: {
               createMany: {
                 data,
