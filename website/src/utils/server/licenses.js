@@ -10,13 +10,14 @@ const getLicenseData = async licenseId => {
       },
     });
 
-    const { id, status, license_type, product, validity_period } = data;
+    const { id, status, license_type, product, validity_period, customer } = data;
     return {
       id,
       status,
       type: license_type,
       productName: product?.product_name,
       validUntil: validity_period,
+      customer,
     };
   } catch (error) {
     console.error(error);

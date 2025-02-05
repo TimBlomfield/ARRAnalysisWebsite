@@ -362,6 +362,20 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.DOWNLOAD_FILE:
+      {
+        await db.auditLog.create({
+          data: {
+            eventType: evt.type,
+            actorEmail: evt.actorEmail, // Who did it
+            ipAddress,
+            userAgent,
+            description: evt.desc,
+          },
+        });
+      }
+      break;
   }
 };
 

@@ -19,6 +19,7 @@ const UserLicenseItem = ({ license, email }) => {
   const router = useRouter();
 
   const [licenseData, setLicenseData] = useState(() => ({
+    customer: license.customer,
     status: license.status,
     productName: license.product.product_name,
     type: license.license_type,
@@ -32,6 +33,7 @@ const UserLicenseItem = ({ license, email }) => {
 
   useEffect(() => {
     setLicenseData({
+      customer: license.customer,
       status: license.status,
       productName: license.product.product_name,
       type: license.license_type,

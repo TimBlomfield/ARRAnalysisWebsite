@@ -36,7 +36,13 @@ const POST = async req => {
         data: {
           licenseIds: [licenseId],
           id_UserData: userData.id,
-          id_Customer: userData.customer.id,
+          userCustomer: {
+            create: {
+              customer: {
+                connect: { id: userData.customer.id },
+              },
+            },
+          },
         },
       });
     } else {
@@ -48,6 +54,21 @@ const POST = async req => {
         data: {
           licenseIds: {
             set: uniqueLicenseIds,
+          },
+          userCustomer: {
+            connectOrCreate: {
+              where: {
+                id_User_id_Customer: {
+                  id_User: userData.user.id,
+                  id_Customer: userData.customer.id,
+                },
+              },
+              create: {
+                customer: {
+                  connect: { id: userData.customer.id },
+                },
+              },
+            },
           },
         },
       });

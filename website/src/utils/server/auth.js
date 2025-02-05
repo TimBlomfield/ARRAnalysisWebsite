@@ -34,6 +34,12 @@ const authOptions = {
           if (!existingUserData)
             return null;
 
+          // Check if this is a stray userData and if so delete it
+          if (existingUserData.admin == null && existingUserData.customer == null && existingUserData.user == null) {
+            await db.userData.delete({ where: { email: credentials.email }});
+            return null;
+          }
+
           const passwordMatch = await compare(credentials.password, existingUserData.hashedPassword);
           if (!passwordMatch)
             return null;

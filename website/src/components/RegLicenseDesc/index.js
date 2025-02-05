@@ -17,6 +17,8 @@ const RegLicenseDesc = ({ licenseData }) => {
 
   const date = DateTime.fromISO(licenseData.validUntil).toLocaleString(DateTime.DATE_FULL);
 
+  const customerText = licenseData.customer?.email ?? '';
+
   return (
     <div className={styles.license}>
       <div className={styles.header}>
@@ -24,6 +26,12 @@ const RegLicenseDesc = ({ licenseData }) => {
         <div className={styles.headerText}>LICENSE</div>
       </div>
       <div className={styles.body}>
+        {customerText !== '' &&
+          <>
+            <div className={styles.meta}>Purchased by:</div>
+            <div title={customerText} className={styles.customer}>{customerText}</div>
+          </>
+        }
         <div className={styles.meta}>Product:</div>
         <div title={licenseData.productName}>{licenseData.productName}</div>
         <div className={styles.meta}>License Type:</div>

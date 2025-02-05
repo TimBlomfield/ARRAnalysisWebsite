@@ -62,7 +62,13 @@ const POST = async req => {
       data: {
         licenseIds: [ tokenState.userData.licenseId ],
         id_UserData: newUserData.id,
-        id_Customer: udCustomer.customer.id,
+        userCustomer: {
+          create: {
+            customer: {
+              connect: { id: udCustomer.customer.id },
+            },
+          },
+        },
       },
     });
 

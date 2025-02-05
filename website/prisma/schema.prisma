@@ -46,12 +46,13 @@ model Administrator {
 model Customer {
   id                Int      @id @default(autoincrement())
   id_stripeCustomer String   @unique
-  users             User[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
   id_UserData Int      @unique
   data        UserData @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
+
+  userCustomer UserCustomer[]
 }
 
 model User {
@@ -60,10 +61,20 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  id_UserData Int       @unique
-  data        UserData  @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
-  id_Customer Int?
-  customer    Customer? @relation(fields: [id_Customer], references: [id], onDelete: SetNull)
+  id_UserData Int      @unique
+  data        UserData @relation(fields: [id_UserData], references: [id], onDelete: Cascade)
+
+  userCustomer UserCustomer[]
+}
+
+model UserCustomer {
+  user        User     @relation(fields: [id_User], references: [id], onDelete: Cascade)
+  id_User     Int
+  customer    Customer @relation(fields: [id_Customer], references: [id], onDelete: Cascade)
+  id_Customer Int
+  createdAt   DateTime @default(now())
+
+  @@id([id_User, id_Customer])
 }
 
 model UserData {
@@ -110,6 +121,7 @@ enum AuditEvent {
   UPDATE_CONTACT_DETAILS
   UPDATE_PASSWORD
   UPDATE_ACCOUNT_DETAILS
+  DOWNLOAD_FILE
 }
 
 model AuditLog {

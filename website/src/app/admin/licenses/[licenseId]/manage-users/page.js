@@ -5,6 +5,7 @@ import { authOptions } from '@/utils/server/auth';
 import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { decodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
+// Components
 import ManageLicenseUsersPage from '@/components/forms/ManageLicenseUsersPage';
 
 
@@ -36,8 +37,12 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
     customer = await db.customer.findUnique({
       where: { id: acuIds.customerId },
       include: {
-        users: {
-          include: { data: true },
+        userCustomer: {
+          include: {
+            user: {
+              include: { data: true },
+            },
+          },
         },
         data: true,
       },
@@ -64,10 +69,11 @@ const ManageUsersPage = async ({ params: { licenseId } }) => {
     }
 
     // Reduce customer users to only users of this license
-    customer.users = customer.users.reduce((acc, cur) => {
-      if (cur.licenseIds.includes(BigInt(license.id))) {
-        cur.using = Array.isArray(license.license_users) && license.license_users.some(elem => elem.true_email === cur.data.email);
-        acc.push(cur);
+    customer.users = customer.userCustomer.reduce((acc, cur) => {
+      const { user } = cur;
+      if (user.licenseIds.includes(BigInt(license.id))) {
+        user.using = Array.isArray(license.license_users) && license.license_users.some(elem => elem.true_email === user.data.email);
+        acc.push(user);
       }
       return acc;
     }, []);

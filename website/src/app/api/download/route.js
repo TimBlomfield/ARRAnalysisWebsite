@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { AuditEvent } from '@prisma/client';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { downloadFile } from '@/utils/server/s3';
+import { createAuditLog } from '@/utils/server/audit';
 
 
 // Check if an email exists in the system
@@ -27,6 +29,12 @@ const GET = async req => {
     const arr = fileKey.split('/');
     const arrF = arr[arr.length - 1].split('.');
     const fileName = `${arrF[0]} (version ${arr[arr.length - 2]}).${arrF[1]}`;
+
+    await createAuditLog({
+      type: AuditEvent.DOWNLOAD_FILE,
+      actorEmail: authToken.email,
+      desc: fileName,
+    }, req);
 
     return new NextResponse(bodyContents, {
       headers: {
