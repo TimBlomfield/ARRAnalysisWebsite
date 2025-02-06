@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
+import { cookies  } from 'next/headers';
 import { getToken } from 'next-auth/jwt';
+import axios from 'axios';
 import { isAuthTokenValid } from '@/utils/server/common';
 
 
@@ -22,8 +24,24 @@ export const middleware = async request => {
   // Redirect to /admin if logged in
   if (pathname === '/login') {
     const token = await getToken({ req: request });
-    if (isAuthTokenValid(token))
+    if (isAuthTokenValid(token)) {
+
+      // Check if the token email exists in the database. This prevents infinite redirects which can happen if the auth-token is valid but the user has been manually deleted from the db.
+      try {
+        await axios.get(`${process.env.NEXTAUTH_URL}/api/middleware/user-check`, {
+          params: { email: token.email },
+        });
+      } catch (error) {
+        // Delete the cookies (invalidates the token)
+        const response = NextResponse.next();
+        const cookieStore = (await cookies()).getAll();
+        for (const cookie of cookieStore)
+          response.cookies.delete(cookie.name);
+        return response;
+      }
+
       return NextResponse.redirect(new URL('/admin', request.url));
+    }
   }
 
   return NextResponse.next();
