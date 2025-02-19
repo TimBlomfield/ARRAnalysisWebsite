@@ -26,7 +26,7 @@ const sendEmail = async (id, to, token) => {
     const regUrl = process.env.REGISTRATION_BASEURL + '?token=' + token;
 
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-      from: `Webmaster <postmaster@${process.env.MAILGUN_DOMAIN}>`,
+      from: `ARR Analysis Webmaster <postmaster@${process.env.MAILGUN_DOMAIN}>`,
       to: [to],
       subject: 'Admin Registration',
       text: 'Ephemeral link',
