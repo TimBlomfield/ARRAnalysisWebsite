@@ -16,6 +16,7 @@ import { getCountryCodeFromNumber } from '@/utils/phone';
 import Box from './Box';
 import CheckBox from '@/components/CheckBox';
 import ComboBox from '@/components/ComboBox';
+import Drawer from '@/components/Drawer';
 import IconButton from '@/components/IconButton';
 import Input from '@/components/Input';
 import LinkButton from '@/components/LinkButton';
@@ -31,6 +32,7 @@ import Slider from '@/components/Slider';
 import blankAvatar from '@/../public/BlankAvatar.png';
 import InterphoneSvg from '@/../public/international-call.svg';
 import PlusSvg from '@/../public/Plus.svg';
+import TriangleSvg from '@/../public/DropdownTriangle.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -1049,6 +1051,32 @@ const ComponentsPage = () => {
     cboxsect_comboCountriesLt, cboxsect_comboUsersDk, cboxsect_comboUsersLt]);
 
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Drawer Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const DrawerSection_MemoRender = useMemo(() => {
+    const DrawerHeader = ({ collapsed, expandCollapse }) => (
+      <div className={styles.drawerHeader}>
+        <IconButton theme={K_Theme.Light} transparent invertBkTheme svg={TriangleSvg} svgClassName={cn(styles.triangle, {[styles.expanded]: !collapsed})} onClick={expandCollapse} />
+        <div className={styles.txtHdr}>{collapsed ? 'Collapsed' : 'Expanded'}</div>
+      </div>
+    );
+
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;Drawer header=&quot;&lt;Header /&gt;&quot;&gt; children &lt;/Drawer&gt;</div>
+        <Drawer header={<DrawerHeader />}>
+          <div className={styles.drawerContents}>
+            <PushButton theme={K_Theme.Dark} onClick={() => toast('Button #1 clicked!')} style={{ alignSelf: 'flex-end', maxHeight: 48 }}>Button #1</PushButton>
+            <div className={styles.rc} />
+            <PushButton theme={K_Theme.Dark} onClick={() => toast('Button #2 clicked!')} style={{ maxHeight: 48 }}>Button #2</PushButton>
+          </div>
+        </Drawer>
+      </>
+    );
+  }, []);
+
+
   return (
     <main className={styles.main}>
       {LoadingSection_MemoRender}
@@ -1061,6 +1089,7 @@ const ComponentsPage = () => {
       {PopperSection_MemoRender}
       {InputSection_MemoRender}
       {ComboBoxSection_MemoRender}
+      {DrawerSection_MemoRender}
     </main>
   );
 };

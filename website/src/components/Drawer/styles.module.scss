@@ -1,0 +1,21 @@
+@use "globals" as *;
+
+.wrap {
+  width: 100%;
+
+  .contentArea {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms;
+
+    .cell {
+      overflow: hidden;
+
+      &.hide { display: none; }
+    }
+
+    &.expanded {
+      grid-template-rows: 1fr;
+    }
+  }
+}

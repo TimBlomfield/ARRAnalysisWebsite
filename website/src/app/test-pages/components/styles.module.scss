@@ -305,4 +305,43 @@
     display: flex;
     gap: 10px;
   }
+
+  .drawerHeader {
+    width: 100%;
+    background: thistle;
+    display: flex;
+    gap: 20px;
+    padding: 5px;
+    align-items: center;
+    box-sizing: border-box;
+
+    .triangle {
+      rotate: -90deg;
+      transition: rotate 300ms;
+
+      &.expanded { rotate: 0deg; }
+    }
+
+    .txtHdr {
+      @extend %fnt-primary;
+
+      color: fn-admin-color(40);
+      font-size: 24px;
+    }
+  }
+
+  .drawerContents {
+    border: 2px solid fn-admin-color(45);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .rc {
+      width: 200px;
+      height: 140px;
+      border: 10px solid blue;
+      box-sizing: border-box;
+    }
+  }
 }
