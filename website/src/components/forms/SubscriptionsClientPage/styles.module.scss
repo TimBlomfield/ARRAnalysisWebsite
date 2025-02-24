@@ -1,5 +1,81 @@
 @use "globals" as *;
 
-.temp {
-  color: green;
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  max-height: 100%;
+
+  .title {
+    font-size: 22px;
+    color: $clrAdmin_Txt1;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .licenseList {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+
+    .hdr {
+      width: 100%;
+      background: fn-admin-color(5);
+      display: flex;
+      gap: 20px;
+      padding: 5px;
+      align-items: center;
+      box-sizing: border-box;
+
+      .triangle {
+        rotate: -90deg;
+        transition: rotate 300ms;
+        fill: fn-admin-color(45);
+
+        &.expanded { rotate: 0deg; }
+      }
+
+      .planName {
+        @extend %fnt-primary;
+
+        font-size: 18px;
+        color: $clrAdmin_Txt1;
+      }
+
+      .billing {
+        @extend %fnt-secondary;
+
+        font-size: 14px;
+        color: $clrAdmin_Txt1;
+      }
+
+      .spacer { flex: 1; }
+
+      .activeBar {
+        margin-right: 20px;
+        font-size: 14px;
+        color: #317D15;
+        background-color: #D0F9B2;
+        box-sizing: border-box;
+        padding: 6px 14px;
+        border-radius: 16px 4px;
+        box-shadow: 1px 1px 3px 1px #A7F070;
+        margin-left: 20px;
+      }
+    }
+
+    .body {
+      width: 100%;
+      background: white;
+      border: 1px solid fn-admin-color(5);
+      border-top-width: 0;
+      border-radius: 0 0 20px 20px;
+      padding: 50px;
+      box-sizing: border-box;
+    }
+  }
 }

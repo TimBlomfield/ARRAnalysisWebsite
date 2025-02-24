@@ -43,7 +43,23 @@ const SubscriptionsPage = async () => {
       status: 'ended',
     });
 
-    subscriptions = { active, ended };
+    const products = await stripe.products.list({ limit: 50 });
+
+    if (active.object !== 'list' || !Array.isArray(active.data) || ended.object !== 'list' || !Array.isArray(ended.data)) {
+      console.error('Active subscriptions:');
+      console.error(active);
+      console.error('Ended subscriptions:');
+      console.error(ended);
+      throw new Error('Invalid subscriptions retrieved!');
+    }
+    if (products.object !== 'list' || !Array.isArray(products.data)) {
+      console.error(products);
+      throw new Error('Invalid products retrieved!');
+    }
+
+    subscriptions = { active: active.data, ended: ended.data };
+    for (const sub of [...subscriptions.active, ...subscriptions.ended])
+      sub.kProduct = products.data.find(prod => prod.id === sub?.plan?.product);
   } catch (err) {
     console.error(err);
     notFound();
