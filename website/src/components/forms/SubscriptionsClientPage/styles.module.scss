@@ -74,8 +74,96 @@
       border: 1px solid fn-admin-color(5);
       border-top-width: 0;
       border-radius: 0 0 20px 20px;
-      padding: 50px;
+      padding: 50px 30px 30px;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .btnCancel {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        max-height: 48px;
+      }
+
+      .txtDetails {
+        @extend %fnt-primary;
+
+        font-size: 20px;
+        color: black;
+
+        &.mt50 { margin-top: 50px; }
+      }
+
+      .hr {
+        background-color: fn-admin-color(5);
+        height: 1px;
+        width: 100%;
+        margin: 5px 0;
+      }
+
+      .detailsGrid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: minmax(180px, auto) 1fr;
+        grid-auto-rows: 20px;
+        gap: 5px;
+
+        .cell {
+          @extend %fnt-secondary;
+
+          font-size: 14px;
+          color: #687385;
+
+          &.dk { color: #414552; }
+
+          span.u { text-decoration: underline; }
+        }
+      }
+
+      .invoiceGrid {
+        display: grid;
+        grid-template-columns: 1fr 75px 160px 150px;
+        margin-top: 10px;
+        position: relative;
+
+        .fullUnderline {
+          grid-column: 1 / -1;
+          height: 1px;
+          background-color: #EAEDF0;
+        }
+
+        .headerCell {
+          @extend %fnt-primary;
+
+          padding: 8px 24px 8px 4px;
+          font-size: 12px;
+          color: #353A44;
+          text-align: end;
+
+          &.first { text-align: start; }
+        }
+
+        .lineCell {
+          @extend %fnt-secondary;
+
+          padding: 8px 24px 8px 4px;
+          font-size: 14px;
+          color: #353A44;
+          text-align: end;
+
+          &.first {
+            @extend %fnt-primary;
+
+            text-align: start;
+          }
+
+          &.stretch { grid-column: 1 / -1; }
+          &.start2 { grid-column-start: 3; }
+          &.prim { @extend %fnt-primary; }
+        }
+      }
     }
   }
 }

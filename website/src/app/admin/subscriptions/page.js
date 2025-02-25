@@ -32,6 +32,7 @@ const SubscriptionsPage = async () => {
       select: { id_stripeCustomer: true },
     });
 
+    // Get the subscriptions
     const active = await stripe.subscriptions.list({
       customer: customer.id_stripeCustomer,
       limit: 50,  // Just a big number (fetching virtually all subscriptions for this customer)
@@ -43,8 +44,6 @@ const SubscriptionsPage = async () => {
       status: 'ended',
     });
 
-    const products = await stripe.products.list({ limit: 50 });
-
     if (active.object !== 'list' || !Array.isArray(active.data) || ended.object !== 'list' || !Array.isArray(ended.data)) {
       console.error('Active subscriptions:');
       console.error(active);
@@ -52,12 +51,25 @@ const SubscriptionsPage = async () => {
       console.error(ended);
       throw new Error('Invalid subscriptions retrieved!');
     }
+
+    // Get products
+    const products = await stripe.products.list({ limit: 50 });
+
     if (products.object !== 'list' || !Array.isArray(products.data)) {
       console.error(products);
       throw new Error('Invalid products retrieved!');
     }
 
     subscriptions = { active: active.data, ended: ended.data };
+
+    // Get the upcoming invoice
+    for (const sub of subscriptions.active) {
+      sub.kUpcoming = await stripe.invoices.retrieveUpcoming({
+        customer: customer.id_stripeCustomer,
+        subscription: sub.id,
+      });
+    }
+
     for (const sub of [...subscriptions.active, ...subscriptions.ended])
       sub.kProduct = products.data.find(prod => prod.id === sub?.plan?.product);
   } catch (err) {
