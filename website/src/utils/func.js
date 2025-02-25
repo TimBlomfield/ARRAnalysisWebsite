@@ -9,10 +9,12 @@ const getFunction_StripDiacritics = () =>  typeof ''.normalize === 'function'
 
 const mkFix = name => name.toLowerCase().includes('macedonia') ? 'Macedonia' : name;
 
+const capitalizeFirstLetter = val => String(val).charAt(0).toUpperCase() + String(val).slice(1);
 
 export {
   generateUniqueId,
   convertToSuburrency,
   getFunction_StripDiacritics,
   mkFix,
+  capitalizeFirstLetter,
 };

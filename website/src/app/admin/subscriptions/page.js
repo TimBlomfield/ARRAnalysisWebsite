@@ -62,8 +62,14 @@ const SubscriptionsPage = async () => {
 
     subscriptions = { active: active.data, ended: ended.data };
 
-    // Get the upcoming invoice
+    // Get the invoices and the upcoming invoice
     for (const sub of subscriptions.active) {
+      sub.kInvoices = await stripe.invoices.list({
+        customer: customer.id_stripeCustomer,
+        subscription: sub.id,
+        limit: 10,
+      });
+
       sub.kUpcoming = await stripe.invoices.retrieveUpcoming({
         customer: customer.id_stripeCustomer,
         subscription: sub.id,

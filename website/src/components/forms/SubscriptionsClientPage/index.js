@@ -4,17 +4,20 @@ import { Fragment } from 'react';
 import cn from 'classnames';
 import { DateTime } from 'luxon';
 import { K_Theme } from '@/utils/common';
+import { capitalizeFirstLetter } from '@/utils/func';
 // Components
 import Drawer from '@/components/Drawer';
 import IconButton from '@/components/IconButton';
 import PushButton from '@/components/PushButton';
 // Images
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
+import RecurringSvg from '@/../public/Recurring.svg';
 // Styles
 import styles from './styles.module.scss';
 
 
 const SubscriptionsClientPage = ({ subscriptions }) => {
+
   const SubscriptionHeader = ({ sub, collapsed, expandCollapse }) => (
     <header className={styles.hdr}>
       <IconButton theme={K_Theme.Light}
@@ -29,6 +32,16 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
       <div className={styles.spacer} />
       {sub.status === 'active' && <div className={styles.activeBar}>Active</div>}
     </header>
+  );
+
+  const InvoiceStatus = ({ status }) => (
+    <div className={cn(styles.cell, styles.f12, styles.fntPrim)}>
+      <div className={cn(styles.status, {
+        [styles.paid]: status === 'paid',
+        [styles.open]: status === 'open',
+        [styles.draft]: status !== 'paid' && status !== 'open',
+      })}>{capitalizeFirstLetter(status)}</div>
+    </div>
   );
 
   const fnUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
@@ -94,8 +107,36 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                   <div className={styles.hr} />
                 </>
               }
-              <div className={cn(styles.txtDetails, styles.mt50)}>Invoices</div>
-              <div className={styles.hr} />
+              {sub.kInvoices != null &&
+                <>
+                  <div className={cn(styles.txtDetails, styles.mt50)}>Invoices</div>
+                  <div className={styles.hr} />
+                  <div className={styles.invoiceListGrid}>
+                    <div className={cn(styles.cell, styles.first, styles.fntPrim, styles.f12)}>Amount</div>
+                    <div></div>
+                    <div></div>
+                    <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Frequency</div>
+                    <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Invoice number</div>
+                    <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Customer email</div>
+                    <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Due</div>
+                    <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Created</div>
+                    <div className={styles.fullUnderline} />
+                    {sub.kInvoices.data.map(invoice => (
+                      <Fragment key={invoice.id}>
+                        <div className={cn(styles.cell, styles.fntPrim, styles.first)}>{fnUSD.format(invoice.amount_paid / 100)}</div>
+                        <div className={cn(styles.cell, styles.fntSec)}>{invoice.currency.toUpperCase()}</div>
+                        <InvoiceStatus status={invoice.status} />
+                        <div className={cn(styles.cell, styles.fntSec, styles.fh)}><RecurringSvg className={styles.recur}/>{sub.plan.interval === 'month' ? 'Monthly' : 'Yearly'}</div>
+                        <div className={cn(styles.cell, styles.fntSec)}>{invoice.number}</div>
+                        <div className={cn(styles.cell, styles.fntSec)}>{invoice.customer_email}</div>
+                        <div className={cn(styles.cell, styles.fntSec)}>—</div>
+                        <div className={cn(styles.cell, styles.fntSec)}>{DateTime.fromSeconds(invoice.created).toFormat('MMM d yyyy, h:mm a')}</div>
+                        <div className={styles.fullUnderline} />
+                      </Fragment>
+                    ))}
+                  </div>
+                </>
+              }
             </section>
           </Drawer>
         ))}
