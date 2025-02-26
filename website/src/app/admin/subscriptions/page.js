@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import { authOptions } from '@/utils/server/auth';
 import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import db from '@/utils/server/db';
+import heavilyReduce from './utils';
 // Components
 import SubscriptionsClientPage from '@/components/forms/SubscriptionsClientPage';
 
@@ -78,6 +79,8 @@ const SubscriptionsPage = async () => {
 
     for (const sub of [...subscriptions.active, ...subscriptions.ended])
       sub.kProduct = products.data.find(prod => prod.id === sub?.plan?.product);
+
+    subscriptions = heavilyReduce(subscriptions);
   } catch (err) {
     console.error(err);
     notFound();

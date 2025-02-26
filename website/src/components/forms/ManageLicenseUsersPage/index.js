@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
-import ConfirmationDialog from '@/components/ConfirmationDialog';
+import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog';
 import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
 // Components
-import InviteUserDialog from './InviteUserDialog';
+import InviteUserDialog from '@/components/dialogs/InviteUserDialog';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
 // Styles

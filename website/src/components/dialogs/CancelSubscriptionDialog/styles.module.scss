@@ -1,0 +1,19 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.cancelSubscriptionDialog {
+  @extend %dialog-common;
+
+  .body {
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      background-color: $clrAdminBk;
+      opacity: .75;
+      display: grid;
+      place-items: center;
+    }
+  }
+}

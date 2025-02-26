@@ -7,7 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
-import LicensePasswordDialog from '@/components/LicensePasswordDialog';
+import LicensePasswordDialog from '@/components/dialogs/LicensePasswordDialog';
 import Loading from '@/components/Loading';
 import RegLicenseDesc from '@/components/RegLicenseDesc';
 import PushButton from '@/components/PushButton';

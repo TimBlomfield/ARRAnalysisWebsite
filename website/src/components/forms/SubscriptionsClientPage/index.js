@@ -1,11 +1,12 @@
 'use client';
 
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import cn from 'classnames';
 import { DateTime } from 'luxon';
 import { K_Theme } from '@/utils/common';
 import { capitalizeFirstLetter } from '@/utils/func';
 // Components
+import CancelSubscriptionDialog from '@/components/dialogs/CancelSubscriptionDialog';
 import Drawer from '@/components/Drawer';
 import IconButton from '@/components/IconButton';
 import PushButton from '@/components/PushButton';
@@ -17,6 +18,9 @@ import styles from './styles.module.scss';
 
 
 const SubscriptionsClientPage = ({ subscriptions }) => {
+
+  const [isOpen_CancelSubscriptionDialog, setIsOpen_CancelSubscriptionDialog] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const SubscriptionHeader = ({ sub, collapsed, expandCollapse }) => (
     <header className={styles.hdr}>
@@ -53,8 +57,9 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
         {subscriptions.active.map(sub => (
           <Drawer header={<SubscriptionHeader sub={sub} />} key={sub.id} initiallyCollapsed={false}>
             <section className={styles.body}>
-              <PushButton extraClass={styles.btnCancel}
-                          onClick={() => console.log('Cancel Subscription!')}>
+              <PushButton theme={K_Theme.Danger}
+                          extraClass={styles.btnCancel}
+                          onClick={() => setIsOpen_CancelSubscriptionDialog(true)}>
                 Cancel Subscription
               </PushButton>
               <div className={styles.txtDetails}>Subscription details</div>
@@ -77,7 +82,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                     <div className={styles.headerCell}>Unit price</div>
                     <div className={styles.headerCell}>Amount</div>
                     <div className={styles.fullUnderline} />
-                    {sub.kUpcoming.lines.data.map(line => (
+                    {sub.kUpcoming.lines.map(line => (
                       <Fragment key={line.id}>
                         <div className={cn(styles.lineCell, styles.first, styles.underline, styles.stretch)}>
                           {DateTime.fromSeconds(line.period.start).toFormat('MMM, d yyyy')} - {DateTime.fromSeconds(line.period.end).toFormat('MMM, d yyyy')}
@@ -121,7 +126,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                     <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Due</div>
                     <div className={cn(styles.cell, styles.fntPrim, styles.f12)}>Created</div>
                     <div className={styles.fullUnderline} />
-                    {sub.kInvoices.data.map(invoice => (
+                    {sub.kInvoices.map(invoice => (
                       <Fragment key={invoice.id}>
                         <div className={cn(styles.cell, styles.fntPrim, styles.first)}>{fnUSD.format(invoice.amount_paid / 100)}</div>
                         <div className={cn(styles.cell, styles.fntSec)}>{invoice.currency.toUpperCase()}</div>
@@ -141,6 +146,10 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
           </Drawer>
         ))}
         </div>
+      <CancelSubscriptionDialog isOpen={isOpen_CancelSubscriptionDialog}
+                                notifyClosed={() => setIsOpen_CancelSubscriptionDialog(false)}
+                                subscription={1}
+                                passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );
 };
