@@ -7,10 +7,16 @@ import db from '@/utils/server/db';
 import { createAuditLog } from '@/utils/server/audit';
 
 
+const K_THIRTY_DAYS = 30 * 24 * 60 * 60; // One week in seconds
+
 const authOptions = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
+    maxAge: K_THIRTY_DAYS,
+  },
+  jwt: {
+    maxAge: K_THIRTY_DAYS,
   },
   pages: {
     signIn: '/login',
@@ -70,8 +76,13 @@ const authOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      if (user)
+      if (user) {
+        // Initial login
         token.userData = user;
+      } else {
+        // Subsequent calls (e.g. session checks)
+      }
+
       return token;
     },
   },

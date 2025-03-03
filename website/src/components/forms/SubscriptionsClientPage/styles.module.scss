@@ -14,12 +14,12 @@
     text-align: center;
   }
 
-  .licenseList {
+  .subscriptionList {
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
     overflow-y: auto;
 
     .hdr {
@@ -27,7 +27,7 @@
       background: fn-admin-color(5);
       display: flex;
       gap: 20px;
-      padding: 5px;
+      padding: 5px 25px 5px 5px;
       align-items: center;
       box-sizing: border-box;
 
@@ -56,7 +56,6 @@
       .spacer { flex: 1; }
 
       .activeBar {
-        margin-right: 20px;
         font-size: 14px;
         color: #317D15;
         background-color: #D0F9B2;
@@ -64,7 +63,32 @@
         padding: 6px 14px;
         border-radius: 16px 4px;
         box-shadow: 1px 1px 3px 1px #A7F070;
-        margin-left: 20px;
+      }
+
+      .cancelBar {
+        font-size: 14px;
+        background-color: #EAEDF0;
+        color: #5D6575;
+        box-sizing: border-box;
+        padding: 6px 14px;
+        border-radius: 16px 4px;
+        box-shadow: 1px 1px 3px 1px #D7DDE3;
+
+        &.dk {
+          background-color: #CBCED0;
+          color: #3D424D;
+          box-shadow: 1px 1px 3px 1px #92969A;
+        }
+
+        .clock {
+          width: 15px;
+          min-width: 15px;
+          height: auto;
+          margin-left: 8px;
+          margin-bottom: -2px;
+
+          [data-g1] { fill: #596171; }
+        }
       }
     }
 

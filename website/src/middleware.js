@@ -25,7 +25,6 @@ export const middleware = async request => {
   if (pathname === '/login') {
     const token = await getToken({ req: request });
     if (isAuthTokenValid(token)) {
-
       // Check if the token email exists in the database. This prevents infinite redirects which can happen if the auth-token is valid but the user has been manually deleted from the db.
       try {
         await axios.get(`${process.env.NEXTAUTH_URL}/api/middleware/user-check`, {

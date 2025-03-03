@@ -20,7 +20,7 @@ const LoadingHelper = {
   Disable: 'Disable',
 };
 
-const LicenseItem = ({ license }) => {
+const LicenseItem = ({ license, isAdmin }) => {
   const router = useRouter();
 
   const [isOpen_InviteUserDialog, setIsOpen_InviteUserDialog] = useState(false);
@@ -164,11 +164,13 @@ const LicenseItem = ({ license }) => {
             Manage License Users
           </PushButton>
         }
-        <PushButton extraClass={styles.pbXtra}
-                    disabled={loading}
-                    onClick={onEnableDisableLicense}>
-          {bLicenseDisabled ? 'Enable' : 'Disable'} License
-        </PushButton>
+        {isAdmin &&
+          <PushButton extraClass={styles.pbXtra}
+                      disabled={loading}
+                      onClick={onEnableDisableLicense}>
+            {bLicenseDisabled ? 'Enable' : 'Disable'} License
+          </PushButton>
+        }
       </div>
       <InviteUserDialog isOpen={isOpen_InviteUserDialog}
                         notifyClosed={() => setIsOpen_InviteUserDialog(false)}

@@ -11,8 +11,8 @@ const POST = async req => {
   const authToken = await getToken({ req });
   const { licenseId, enable } = await req.json();
 
-  // User must be logged in
-  if (authToken?.email == null || !isAuthTokenValid(authToken))
+  // User must be logged in, and must be an admin for this action
+  if (authToken?.email == null || authToken?.userData?.adminId == null || !isAuthTokenValid(authToken))
     return NextResponse.json({ message: 'Not authorized!' }, { status: 401 });
 
   let message = `License ${enable ? 'enabled' : 'disabled'}.`;

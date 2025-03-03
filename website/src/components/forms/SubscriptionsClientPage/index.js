@@ -13,6 +13,7 @@ import PushButton from '@/components/PushButton';
 // Images
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
 import RecurringSvg from '@/../public/Recurring.svg';
+import ClockSvg from '@/../public/Clock.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -35,6 +36,13 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
       <div className={styles.billing}>{sub.plan.interval === 'year' ? 'Billing yearly' : 'Billing monthly'}</div>
       <div className={styles.spacer} />
       {sub.status === 'active' && <div className={styles.activeBar}>Active</div>}
+      {sub.kCancel.cancel_at != null &&
+        <div className={styles.cancelBar}>
+          <span>Cancels {DateTime.fromSeconds(sub.kCancel.cancel_at).toFormat('MMM d yyyy')}</span>
+          <ClockSvg className={styles.clock} />
+        </div>
+      }
+      {sub.status === 'canceled' && <div className={cn(styles.cancelBar, styles.dk)}>Canceled</div>}
     </header>
   );
 
@@ -52,25 +60,49 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.title}>Subscriptions [{subscriptions.active.length + subscriptions.ended.length}]</div>
-      <div className={styles.licenseList}>
-        {subscriptions.active.map(sub => (
+      <div className={styles.title}>Subscriptions [{subscriptions.length}]</div>
+      <div className={styles.subscriptionList}>
+        {subscriptions.map(sub => (
           <Drawer header={<SubscriptionHeader sub={sub} />} key={sub.id} initiallyCollapsed={false}>
             <section className={styles.body}>
-              <PushButton theme={K_Theme.Danger}
-                          extraClass={styles.btnCancel}
-                          onClick={() => setIsOpen_CancelSubscriptionDialog(true)}>
-                Cancel Subscription
-              </PushButton>
+              {(sub.status === 'active' && sub.kCancel.cancel_at == null) &&
+                <PushButton theme={K_Theme.Danger}
+                            extraClass={styles.btnCancel}
+                            onClick={() => setIsOpen_CancelSubscriptionDialog(true)}>
+                  Cancel Subscription
+                </PushButton>
+              }
+              {sub.kCancel.cancel_at != null &&
+                <PushButton theme={K_Theme.Light}
+                            invertBkTheme
+                            extraClass={styles.btnCancel}
+                            onClick={() => {}}>
+                  Revoke Cancellation
+                </PushButton>
+              }
               <div className={styles.txtDetails}>Subscription details</div>
               <div className={styles.hr} />
               <div className={styles.detailsGrid}>
-                <div className={styles.cell}>Started</div>
-                <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(sub.start_date).toFormat('MMM d yyyy')}</div>
+                {sub.status === 'active' &&
+                  <>
+                    <div className={styles.cell}>Started</div>
+                    <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(sub.start_date).toFormat('MMM d yyyy')}</div>
+                  </>
+                }
                 <div className={styles.cell}>Created</div>
                 <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(sub.created).toFormat('MMM d yyyy, h:mm a')}</div>
-                <div className={styles.cell}>Current period</div>
-                <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(sub.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(sub.current_period_end).toFormat('MMM d yyyy')}</span></div>
+                {sub.ended_at != null &&
+                  <>
+                    <div className={styles.cell}>Ended at</div>
+                    <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(sub.ended_at).toFormat('MMM d yyyy, h:mm a')}</div>
+                  </>
+                }
+                {sub.status === 'active' &&
+                  <>
+                    <div className={styles.cell}>Current period</div>
+                    <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(sub.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(sub.current_period_end).toFormat('MMM d yyyy')}</span></div>
+                  </>
+                }
               </div>
               {sub.kUpcoming != null &&
                 <>
@@ -112,6 +144,16 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                   <div className={styles.hr} />
                 </>
               }
+              {sub.kCancel.cancel_at != null &&
+                <>
+                  <div className={cn(styles.txtDetails, styles.mt50)}>Cancellation Details</div>
+                  <div className={styles.hr} />
+                  <div className={styles.detailsGrid}>
+                    <div className={styles.cell}>Scheduled to cancel on</div>
+                    <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(sub.kCancel.cancel_at).toFormat('MMM d yyyy, h:mm a')}</div>
+                  </div>
+                </>
+              }
               {sub.kInvoices != null &&
                 <>
                   <div className={cn(styles.txtDetails, styles.mt50)}>Invoices</div>
@@ -131,7 +173,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                         <div className={cn(styles.cell, styles.fntPrim, styles.first)}>{fnUSD.format(invoice.amount_paid / 100)}</div>
                         <div className={cn(styles.cell, styles.fntSec)}>{invoice.currency.toUpperCase()}</div>
                         <InvoiceStatus status={invoice.status} />
-                        <div className={cn(styles.cell, styles.fntSec, styles.fh)}><RecurringSvg className={styles.recur}/>{sub.plan.interval === 'month' ? 'Monthly' : 'Yearly'}</div>
+                        <div className={cn(styles.cell, styles.fntSec, styles.fh)}><RecurringSvg className={styles.recur} />{sub.plan.interval === 'month' ? 'Monthly' : 'Yearly'}</div>
                         <div className={cn(styles.cell, styles.fntSec)}>{invoice.number}</div>
                         <div className={cn(styles.cell, styles.fntSec)}>{invoice.customer_email}</div>
                         <div className={cn(styles.cell, styles.fntSec)}>—</div>

@@ -123,7 +123,7 @@ const LicensesPage = async () => {
     <div className={styles.page}>
       <div className={styles.title}>Purchased Licenses [{licenseData.results.length}]</div>
       <div className={styles.licenseList}>
-        {licenseData.results.map(license => <LicenseItem key={license.id} license={license} />)}
+        {licenseData.results.map(license => <LicenseItem key={license.id} license={license} isAdmin={acuIds.adminId != null} />)}
       </div>
     </div>
   );
