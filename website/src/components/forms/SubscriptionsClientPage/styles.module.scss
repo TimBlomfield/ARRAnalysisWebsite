@@ -21,6 +21,21 @@
     flex-direction: column;
     gap: 30px;
     overflow-y: auto;
+    position: relative;
+
+    &:has(> .overlay) {
+      overflow-y: hidden;
+    }
+
+    .overlay {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      background-color: $clrAdminBk;
+      opacity: .75;
+      display: grid;
+      place-items: center;
+    }
 
     .hdr {
       width: 100%;

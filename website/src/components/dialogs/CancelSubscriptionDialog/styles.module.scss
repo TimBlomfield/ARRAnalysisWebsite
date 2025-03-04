@@ -6,6 +6,12 @@
   @extend %dialog-common;
 
   .body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px 0;
+    gap: 8px;
+
     .overlay {
       position: absolute;
       z-index: 10;
@@ -14,6 +20,39 @@
       opacity: .75;
       display: grid;
       place-items: center;
+    }
+
+    .product {
+      @extend %fnt-primary;
+
+      font-size: 18px;
+      color: $clrAdmin_Txt1;
+      text-align: center;
+    }
+
+    .billing {
+      @extend %fnt-secondary;
+
+      font-size: 14px;
+      color: fn-admin-color(60);
+      text-align: center;
+    }
+
+    .detailsGrid {
+      margin: 30px 70px 10px 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 20px;
+      gap: 5px;
+
+      .cell {
+        @extend %fnt-secondary;
+
+        font-size: 14px;
+        color: #687385;
+
+        span.u { text-decoration: underline; }
+      }
     }
   }
 }

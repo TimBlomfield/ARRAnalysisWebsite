@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 import cn from 'classnames';
 import axios from 'axios';
+import { DateTime } from 'luxon';
 import { toast, ToastContainer } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
@@ -62,24 +63,21 @@ const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSucc
   const onBtnSubmit = useCallback(() => {
     setLoading(true);
 
-    /*
-    axios.post('/api/licensing/send-license-user-email', {
-      licenseId,
-      customerId,
-      email: email.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-    })
-      .then(res => {
-        closeDialog();
-        passSuccessMessage(res.data.message);
-      })
-      .catch(err => {
-        setLoading(false);
-        toast.error(err.response?.data?.message ?? 'Could not assign user!', { containerId: ID_TOASTER_DIALOG_INVITE_USER });
-      });
-     */
-  }, []);
+    try {
+      axios.post('/api/stripe/cancel-subscription', { subscriptionId: subscription.id })
+        .then(res => {
+          closeDialog();
+          passSuccessMessage(res.data.message);
+        })
+        .catch(err => {
+          setLoading(false);
+          toast.error(err.response?.data?.message ?? 'Could not cancel subscription!', { containerId: ID_TOASTER_DIALOG_CANCEL_SUBSCRIPTION });
+        });
+    } catch (err) {
+      closeDialog();
+      console.error(err);
+    }
+  }, [subscription]);
 
   if (!isOpen)
     return null;  // Prevents rendering many <dialog> objects in the DOM
@@ -93,6 +91,16 @@ const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSucc
             <Loading theme={K_Theme.Dark} scale={2} />
           </div>
         }
+        <div className={styles.product}>{subscription.kProduct.name}</div>
+        <div className={styles.billing}>(billing {subscription.plan.interval === 'year' ? 'yearly' : 'monthly'})</div>
+        <div className={styles.detailsGrid}>
+          <div className={styles.cell}>Started</div>
+          <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.start_date).toFormat('MMM d yyyy')}</div>
+          <div className={styles.cell}>Created</div>
+          <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.created).toFormat('MMM d yyyy, h:mm a')}</div>
+          <div className={styles.cell}>Current period</div>
+          <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_end).toFormat('MMM d yyyy')}</span></div>
+        </div>
       </div>
       <div className={styles.buttons}>
         {/* ToastContainer is placed here to avoid extra gap at the bottom */}

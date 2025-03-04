@@ -376,6 +376,37 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.CANCEL_SUBSCRIPTION:
+      {
+        const data = [
+          { key: 'subscriptionId', value: evt.subscriptionId },
+          { key: 'customerId', value: evt.customerId },
+          { key: 'created', value: evt.created.toString() },
+          { key: 'startDate', value: evt.start_date.toString() },
+          { key: 'currentPeriodStart', value: evt.current_period_start.toString() },
+          { key: 'currentPeriodEnd', value: evt.current_period_end.toString() },
+          { key: 'cancelAt', value: evt.cancel_at.toString() },
+          { key: 'interval', value: evt.interval },
+          { key: 'quantity', value: evt.quantity.toString() },
+          { key: 'planNickname', value: evt.plan_nickname },
+        ];
+
+        await db.auditLog.create({
+          data: {
+            actorEmail: evt.email,
+            eventType: evt.type,
+            ipAddress,
+            userAgent,
+            metadata: {
+              createMany: {
+                data,
+              },
+            },
+          },
+        });
+      }
+      break;
   }
 };
 

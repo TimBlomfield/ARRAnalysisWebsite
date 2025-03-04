@@ -1,14 +1,17 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
+import { useRouter } from 'next/navigation';
 import { DateTime } from 'luxon';
+import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { capitalizeFirstLetter } from '@/utils/func';
 // Components
 import CancelSubscriptionDialog from '@/components/dialogs/CancelSubscriptionDialog';
 import Drawer from '@/components/Drawer';
 import IconButton from '@/components/IconButton';
+import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
 // Images
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
@@ -19,9 +22,28 @@ import styles from './styles.module.scss';
 
 
 const SubscriptionsClientPage = ({ subscriptions }) => {
+  const refPrevSub = useRef(subscriptions);
+  const router = useRouter();
 
-  const [isOpen_CancelSubscriptionDialog, setIsOpen_CancelSubscriptionDialog] = useState(false);
+  const [isOpen_CancelSubscriptionDialog, setIsOpen_CancelSubscriptionDialog] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen_CancelSubscriptionDialog == null && successMessage !== '') {
+      toast.success(successMessage);
+      setSuccessMessage('');
+      router.refresh();
+      setLoading(true);
+    }
+  }, [isOpen_CancelSubscriptionDialog, successMessage]);
+
+  useEffect(() => {
+    if (loading && refPrevSub.current !== subscriptions) {
+      setLoading(false);
+      refPrevSub.current = subscriptions;
+    }
+  }, [loading, subscriptions]);
 
   const SubscriptionHeader = ({ sub, collapsed, expandCollapse }) => (
     <header className={styles.hdr}>
@@ -62,13 +84,18 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
     <div className={styles.main}>
       <div className={styles.title}>Subscriptions [{subscriptions.length}]</div>
       <div className={styles.subscriptionList}>
+        {loading &&
+          <div className={styles.overlay}>
+            <Loading theme={K_Theme.Dark} scale={2} />
+          </div>
+        }
         {subscriptions.map(sub => (
           <Drawer header={<SubscriptionHeader sub={sub} />} key={sub.id} initiallyCollapsed={false}>
             <section className={styles.body}>
               {(sub.status === 'active' && sub.kCancel.cancel_at == null) &&
                 <PushButton theme={K_Theme.Danger}
                             extraClass={styles.btnCancel}
-                            onClick={() => setIsOpen_CancelSubscriptionDialog(true)}>
+                            onClick={() => { setIsOpen_CancelSubscriptionDialog(sub); }}>
                   Cancel Subscription
                 </PushButton>
               }
@@ -188,9 +215,9 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
           </Drawer>
         ))}
         </div>
-      <CancelSubscriptionDialog isOpen={isOpen_CancelSubscriptionDialog}
-                                notifyClosed={() => setIsOpen_CancelSubscriptionDialog(false)}
-                                subscription={1}
+      <CancelSubscriptionDialog isOpen={isOpen_CancelSubscriptionDialog != null}
+                                notifyClosed={() => setIsOpen_CancelSubscriptionDialog(null)}
+                                subscription={isOpen_CancelSubscriptionDialog}
                                 passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );
