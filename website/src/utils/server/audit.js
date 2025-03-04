@@ -407,6 +407,20 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.REVOKE_CANCEL_SUBSCRIPTION:
+      {
+        await db.auditLog.create({
+          data: {
+            actorEmail: evt.email,
+            eventType: evt.type,
+            ipAddress,
+            userAgent,
+            description: evt.subscriptionId,
+          },
+        });
+      }
+      break;
   }
 };
 

@@ -6,6 +6,17 @@
   flex-direction: column;
   overflow-y: hidden;
   max-height: 100%;
+  position: relative;
+
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    inset: 60px 0 0;
+    background-color: $clrAdminBk;
+    opacity: .75;
+    display: grid;
+    place-items: center;
+  }
 
   .title {
     font-size: 22px;
@@ -21,21 +32,6 @@
     flex-direction: column;
     gap: 30px;
     overflow-y: auto;
-    position: relative;
-
-    &:has(> .overlay) {
-      overflow-y: hidden;
-    }
-
-    .overlay {
-      position: absolute;
-      z-index: 10;
-      inset: 0;
-      background-color: $clrAdminBk;
-      opacity: .75;
-      display: grid;
-      place-items: center;
-    }
 
     .hdr {
       width: 100%;
@@ -264,6 +260,65 @@
               border: 1px solid #E0E0E0;
             }
           }
+        }
+      }
+    }
+  }
+
+  .dlg {
+    display: flex;
+    gap: 20px;
+    color: white;
+    padding: 10px 30px 30px;
+
+    svg.img {
+      width: 60px;
+      min-width: 60px;
+      height: auto;
+      padding: 0;
+    }
+
+    .second {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px 0;
+      gap: 8px;
+
+      .product {
+        @extend %fnt-primary;
+
+        font-size: 18px;
+        color: $clrAdmin_Txt1;
+        text-align: center;
+      }
+
+      .billing {
+        @extend %fnt-secondary;
+
+        font-size: 14px;
+        color: fn-admin-color(60);
+        text-align: center;
+      }
+
+      .detailsGrid {
+        margin: 30px 20px 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 20px;
+        gap: 5px;
+
+        .cell {
+          @extend %fnt-secondary;
+
+          font-size: 14px;
+          color: #687385;
+
+          span.u { text-decoration: underline; }
+
+          &.dk { color: #414552; }
+          &.r { color: #993244; }
         }
       }
     }

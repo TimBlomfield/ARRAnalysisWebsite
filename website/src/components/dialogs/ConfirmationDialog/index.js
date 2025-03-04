@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 
 
 const ConfirmationDialog = ({ isOpen, danger = false, notifyClosed, titleText = 'Dialog Title', button1Text = 'Confirm',
-  button2Text = 'Cancel', onCancel, onConfirm, children }) => {
+  button2Text = 'Cancel', disabled = false, onCancel, onConfirm, children }) => {
   const dlgId = useId();
 
   const closeDialog = useCallback(() => {
@@ -38,6 +38,7 @@ const ConfirmationDialog = ({ isOpen, danger = false, notifyClosed, titleText = 
         <PushButton extraClass={cn(styles.pbtn, {[styles.danger]: danger})}
                     theme={danger ? K_Theme.Danger : K_Theme.Light}
                     invertBkTheme={!danger}
+                    disabled={disabled}
                     onClick={() => {
                       closeDialog();
                       if (onConfirm) onConfirm();
@@ -45,6 +46,7 @@ const ConfirmationDialog = ({ isOpen, danger = false, notifyClosed, titleText = 
           {button1Text}
         </PushButton>
         <PushButton extraClass={styles.pbtn}
+                    disabled={disabled}
                     onClick={() => {
                       closeDialog();
                       if (onCancel) onCancel();

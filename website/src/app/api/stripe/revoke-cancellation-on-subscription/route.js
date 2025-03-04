@@ -18,24 +18,15 @@ const POST = async req => {
   try {
     const { subscriptionId } = await req.json();
 
-    const subscription = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: true });
+    await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: false });
 
     await createAuditLog({
-      type: AuditEvent.CANCEL_SUBSCRIPTION,
+      type: AuditEvent.REVOKE_CANCEL_SUBSCRIPTION,
       email: authToken.email,
       subscriptionId,
-      customerId: subscription.customer,
-      created: subscription.created,
-      start_date: subscription.start_date,
-      current_period_start: subscription.current_period_start,
-      current_period_end: subscription.current_period_end,
-      cancel_at: subscription.cancel_at,
-      interval: subscription.plan.interval,
-      quantity: subscription.quantity,
-      plan_nickname: subscription.plan.nickname,
     }, req);
 
-    return NextResponse.json({ message: 'Subscription cancelled!' }, { status: 200 });
+    return NextResponse.json({ message: 'Subscription cancellation revoked!' }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: err?.message ?? 'Something went wrong!' }, { status: 500 });
   }

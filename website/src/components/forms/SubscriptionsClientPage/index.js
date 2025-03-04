@@ -1,14 +1,16 @@
 'use client';
 
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import { DateTime } from 'luxon';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import { K_Theme } from '@/utils/common';
 import { capitalizeFirstLetter } from '@/utils/func';
 // Components
 import CancelSubscriptionDialog from '@/components/dialogs/CancelSubscriptionDialog';
+import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog';
 import Drawer from '@/components/Drawer';
 import IconButton from '@/components/IconButton';
 import Loading from '@/components/Loading';
@@ -17,6 +19,7 @@ import PushButton from '@/components/PushButton';
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
 import RecurringSvg from '@/../public/Recurring.svg';
 import ClockSvg from '@/../public/Clock.svg';
+import QuestionSvg from '@/../public/question.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -26,6 +29,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
   const router = useRouter();
 
   const [isOpen_CancelSubscriptionDialog, setIsOpen_CancelSubscriptionDialog] = useState(null);
+  const [isOpen_RevokeSubscriptionDialog, setIsOpen_RevokeSubscriptionDialog] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -45,11 +49,31 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
     }
   }, [loading, subscriptions]);
 
-  const SubscriptionHeader = ({ sub, collapsed, expandCollapse }) => (
+  const onRevokeCancellation = useCallback(subscriptionId => {
+    setLoading(true);
+    setIsOpen_RevokeSubscriptionDialog(null);
+
+    try {
+      axios.post('/api/stripe/revoke-cancellation-on-subscription', { subscriptionId })
+        .then(res => {
+          router.refresh();
+          toast.success(res.data.message);
+        })
+        .catch(err => {
+          setLoading(false);
+          toast.error(err.response?.data?.message ?? 'Could not cancel subscription!');
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const SubscriptionHeader = ({ sub, disabled, collapsed, expandCollapse }) => (
     <header className={styles.hdr}>
       <IconButton theme={K_Theme.Light}
                   transparent
                   invertBkTheme
+                  disabled={disabled}
                   svg={TriangleSvg}
                   svgScale={1.5}
                   svgClassName={cn(styles.triangle, {[styles.expanded]: !collapsed})}
@@ -82,18 +106,19 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
 
   return (
     <div className={styles.main}>
+      {loading &&
+        <div className={styles.overlay}>
+          <Loading theme={K_Theme.Dark} scale={2} />
+        </div>
+      }
       <div className={styles.title}>Subscriptions [{subscriptions.length}]</div>
       <div className={styles.subscriptionList}>
-        {loading &&
-          <div className={styles.overlay}>
-            <Loading theme={K_Theme.Dark} scale={2} />
-          </div>
-        }
         {subscriptions.map(sub => (
-          <Drawer header={<SubscriptionHeader sub={sub} />} key={sub.id} initiallyCollapsed={false}>
+          <Drawer header={<SubscriptionHeader sub={sub} disabled={loading} />} key={sub.id} initiallyCollapsed={false}>
             <section className={styles.body}>
               {(sub.status === 'active' && sub.kCancel.cancel_at == null) &&
                 <PushButton theme={K_Theme.Danger}
+                            disabled={loading}
                             extraClass={styles.btnCancel}
                             onClick={() => { setIsOpen_CancelSubscriptionDialog(sub); }}>
                   Cancel Subscription
@@ -101,9 +126,10 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
               }
               {sub.kCancel.cancel_at != null &&
                 <PushButton theme={K_Theme.Light}
+                            disabled={loading}
                             invertBkTheme
                             extraClass={styles.btnCancel}
-                            onClick={() => {}}>
+                            onClick={() => { setIsOpen_RevokeSubscriptionDialog(sub); }}>
                   Revoke Cancellation
                 </PushButton>
               }
@@ -214,11 +240,38 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
             </section>
           </Drawer>
         ))}
-        </div>
+      </div>
       <CancelSubscriptionDialog isOpen={isOpen_CancelSubscriptionDialog != null}
                                 notifyClosed={() => setIsOpen_CancelSubscriptionDialog(null)}
                                 subscription={isOpen_CancelSubscriptionDialog}
                                 passSuccessMessage={msg => setSuccessMessage(msg)} />
+      <ConfirmationDialog isOpen={isOpen_RevokeSubscriptionDialog != null}
+                          notifyClosed={() => setIsOpen_RevokeSubscriptionDialog(null)}
+                          titleText="Revoke Cancellation?"
+                          button1Text="Revoke"
+                          onConfirm={() => onRevokeCancellation(isOpen_RevokeSubscriptionDialog.id)}>
+        <div className={styles.dlg}>
+          <QuestionSvg className={styles.img} />
+          <div className={styles.second}>
+            {isOpen_RevokeSubscriptionDialog != null &&
+              <>
+                <div className={styles.product}>{isOpen_RevokeSubscriptionDialog.kProduct.name}</div>
+                <div className={styles.billing}>(billing {isOpen_RevokeSubscriptionDialog.plan.interval === 'year' ? 'yearly' : 'monthly'})</div>
+                <div className={styles.detailsGrid}>
+                  <div className={styles.cell}>Started</div>
+                  <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(isOpen_RevokeSubscriptionDialog.start_date).toFormat('MMM d yyyy')}</div>
+                  <div className={styles.cell}>Created</div>
+                  <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(isOpen_RevokeSubscriptionDialog.created).toFormat('MMM d yyyy, h:mm a')}</div>
+                  <div className={styles.cell}>Current period</div>
+                  <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(isOpen_RevokeSubscriptionDialog.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(isOpen_RevokeSubscriptionDialog.current_period_end).toFormat('MMM d yyyy')}</span></div>
+                  <div className={cn(styles.cell, styles.r)}>Scheduled to cancel on</div>
+                  <div className={cn(styles.cell, styles.r)}>{DateTime.fromSeconds(isOpen_RevokeSubscriptionDialog.kCancel.cancel_at).toFormat('MMM d yyyy, h:mm a')}</div>
+                </div>
+              </>
+            }
+          </div>
+        </div>
+      </ConfirmationDialog>
     </div>
   );
 };

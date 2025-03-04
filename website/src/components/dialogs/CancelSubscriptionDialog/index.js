@@ -6,12 +6,12 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { toast, ToastContainer } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
-import { validateUnicodeEmail } from '@/utils/validators';
 import { ID_TOASTER_DIALOG_CANCEL_SUBSCRIPTION } from '@/utils/toast-container-ids';
 // Components
-import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
+// Images
+import QuestionSvg from '@/../public/question.svg';
 // Styles
 import styles from './styles.module.scss';
 
@@ -91,15 +91,18 @@ const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSucc
             <Loading theme={K_Theme.Dark} scale={2} />
           </div>
         }
-        <div className={styles.product}>{subscription.kProduct.name}</div>
-        <div className={styles.billing}>(billing {subscription.plan.interval === 'year' ? 'yearly' : 'monthly'})</div>
-        <div className={styles.detailsGrid}>
-          <div className={styles.cell}>Started</div>
-          <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.start_date).toFormat('MMM d yyyy')}</div>
-          <div className={styles.cell}>Created</div>
-          <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.created).toFormat('MMM d yyyy, h:mm a')}</div>
-          <div className={styles.cell}>Current period</div>
-          <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_end).toFormat('MMM d yyyy')}</span></div>
+        <QuestionSvg className={styles.img} />
+        <div className={styles.second}>
+          <div className={styles.product}>{subscription.kProduct.name}</div>
+          <div className={styles.billing}>(billing {subscription.plan.interval === 'year' ? 'yearly' : 'monthly'})</div>
+          <div className={styles.detailsGrid}>
+            <div className={styles.cell}>Started</div>
+            <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.start_date).toFormat('MMM d yyyy')}</div>
+            <div className={styles.cell}>Created</div>
+            <div className={cn(styles.cell, styles.dk)}>{DateTime.fromSeconds(subscription.created).toFormat('MMM d yyyy, h:mm a')}</div>
+            <div className={styles.cell}>Current period</div>
+            <div className={cn(styles.cell, styles.dk)}><span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_start).toFormat('MMM d yyyy')}</span>&nbsp;&nbsp;to&nbsp;&nbsp;<span className={styles.u}>{DateTime.fromSeconds(subscription.current_period_end).toFormat('MMM d yyyy')}</span></div>
+          </div>
         </div>
       </div>
       <div className={styles.buttons}>
