@@ -1,7 +1,10 @@
+import Mailgun from 'mailgun.js';
+import formData from 'form-data';
 import { notFound } from 'next/navigation';
 import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
+import thankYouEmail from '@/utils/emails/thank-you.html';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
@@ -26,6 +29,21 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         where: { id: theUserData.id },
         data: { secret: '' },
       });
+
+      // TODO: Send a "Thank you" email here. I think the email will be sent only once, even if the user refreshes the page.
+      const mailgun = new Mailgun(formData);
+      const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
+
+      const hello = `Hello ${theUserData.firstName} ${theUserData.lastName},`;
+
+      /*
+      const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+        from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
+        to: [theUserData.email],
+        subject: 'Welcome to ARR Analysis - Your Excel Add-in purchase confirmation',
+        text: `${hello}`,
+        html: `${hello}`,
+      });*/
     }
   } catch {
     notFound();
