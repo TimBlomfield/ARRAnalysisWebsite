@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import Mailgun from 'mailgun.js';
 import formData from 'form-data';
 import { notFound } from 'next/navigation';
@@ -5,6 +6,7 @@ import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
 import thankYouEmail from '@/utils/emails/thank-you.html';
+import { getPricingTiers } from '@/utils/server/prices';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
@@ -13,6 +15,8 @@ const PaymentSuccessPage = async ({ searchParams }) => {
 
   try {
     purchaseInfo = JSON.parse(atob(pi));
+
+    const tiers = await getPricingTiers();
 
     const theUserData = await db.userData.findFirst({ where: { secret }});
 
@@ -30,20 +34,37 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         data: { secret: '' },
       });
 
-      // TODO: Send a "Thank you" email here. I think the email will be sent only once, even if the user refreshes the page.
       const mailgun = new Mailgun(formData);
       const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 
-      const hello = `Hello ${theUserData.firstName} ${theUserData.lastName},`;
+      const subscriptions = purchaseInfo.licenses == null || purchaseInfo.licenses === 1 ? 'a subscription' : `${purchaseInfo.licenses} subscriptions`;
+      let prodName = '';
+      switch (purchaseInfo.tier) {
+        case 0: prodName = tiers.One.Desc; break;
+        case 1: prodName = tiers.Two.Desc; break;
+        case 2: prodName = tiers.Three.Desc; break;
+      }
 
-      /*
-      const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+      const html = thankYouEmail.replace('[Logo URL]', `${process.env.NEXTAUTH_URL}/logo-blue.svg`)
+        .replaceAll('[Customer Name]', `${theUserData.firstName} ${theUserData.lastName}`)
+        .replaceAll('[Subscription]', subscriptions)
+        .replaceAll('[Tier]', `Tier ${purchaseInfo.tier + 1}`)
+        .replaceAll('[Product Name]', `${prodName} (Tier ${purchaseInfo.tier + 1})`)
+        .replaceAll('[Subscription Type]', purchaseInfo.period === 0 ? 'Monthly' : 'Yearly')
+        .replaceAll('[Purchase Date]', DateTime.now().toFormat('dd LLL yyyy'))
+        .replaceAll('[Login URL]', process.env.LOGIN_BASEURL)
+        .replaceAll('[Your Name]', 'Tim Blomfield')
+        .replaceAll('[Your Company]', 'ARR Analysis')
+        .replaceAll('[Current Year]', DateTime.now().toFormat('yyyy'))
+        .replaceAll('[Customer Email]', theUserData.email);
+
+      await mg.messages.create(process.env.MAILGUN_DOMAIN, {
         from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
         to: [theUserData.email],
         subject: 'Welcome to ARR Analysis - Your Excel Add-in purchase confirmation',
-        text: `${hello}`,
-        html: `${hello}`,
-      });*/
+        text: `Thank you for your purchase`,
+        html,
+      });
     }
   } catch {
     notFound();
