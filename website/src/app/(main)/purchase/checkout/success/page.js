@@ -62,7 +62,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
         to: [theUserData.email],
         subject: 'Welcome to ARR Analysis - Your Excel Add-in purchase confirmation',
-        text: `Thank you for your purchase`,
+        text: 'Thank you for your purchase',
         html,
       });
     }
