@@ -45,18 +45,18 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         case 2: prodName = tiers.Three.Desc; break;
       }
 
-      const html = thankYouEmail.replace('[Logo URL]', `${process.env.NEXTAUTH_URL}/logo-blue.svg`)
-        .replaceAll('[Customer Name]', `${theUserData.firstName} ${theUserData.lastName}`)
-        .replaceAll('[Subscription]', subscriptions)
-        .replaceAll('[Tier]', `Tier ${purchaseInfo.tier + 1}`)
-        .replaceAll('[Product Name]', `${prodName} (Tier ${purchaseInfo.tier + 1})`)
-        .replaceAll('[Subscription Type]', purchaseInfo.period === 0 ? 'Monthly' : 'Yearly')
-        .replaceAll('[Purchase Date]', DateTime.now().toFormat('dd LLL yyyy'))
-        .replaceAll('[Login URL]', process.env.LOGIN_BASEURL)
-        .replaceAll('[Your Name]', 'Tim Blomfield')
-        .replaceAll('[Your Company]', 'ARR Analysis')
-        .replaceAll('[Current Year]', DateTime.now().toFormat('yyyy'))
-        .replaceAll('[Customer Email]', theUserData.email);
+      const html = thankYouEmail.replaceAll('[[[Logo URL]]]', `${process.env.NEXTAUTH_URL}/logo-blue.svg`)
+        .replaceAll('[[Login URL]]', process.env.LOGIN_BASEURL)
+        .replaceAll('[[Customer Name]]', `${theUserData.firstName} ${theUserData.lastName}`)
+        .replaceAll('[[Subscription]]', subscriptions)
+        .replaceAll('[[Tier]]', `Tier ${purchaseInfo.tier + 1}`)
+        .replaceAll('[[Product Name]]', `${prodName} (Tier ${purchaseInfo.tier + 1})`)
+        .replaceAll('[[Subscription Type]]', purchaseInfo.period === 0 ? 'Monthly' : 'Yearly')
+        .replaceAll('[[Purchase Date]]', DateTime.now().toFormat('dd LLL yyyy'))
+        .replaceAll('[[Your Name]]', 'Tim Blomfield')
+        .replaceAll('[[Your Company]]', 'ARR Analysis')
+        .replaceAll('[[Current Year]]', DateTime.now().toFormat('yyyy'))
+        .replaceAll('[[Customer Email]]', theUserData.email);
 
       await mg.messages.create(process.env.MAILGUN_DOMAIN, {
         from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,

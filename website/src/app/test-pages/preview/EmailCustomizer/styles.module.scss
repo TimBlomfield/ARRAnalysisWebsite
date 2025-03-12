@@ -1,0 +1,88 @@
+@use "globals" as *;
+
+.main {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+
+  &.center {
+    display: grid;
+    place-items: center;
+  }
+
+  .txtNotFound { font-size: 24px; }
+
+  .drawerHeader {
+    width: 100%;
+    background: gainsboro;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 5px;
+    align-items: center;
+    box-sizing: border-box;
+
+    .triangle {
+      rotate: -90deg;
+      transition: rotate 300ms;
+
+      &.expanded { rotate: 0deg; }
+    }
+
+    .inpWrap {
+      max-width: 450px;
+      min-width: 200px;
+
+      .inp {
+        width: 100%;
+      }
+    }
+
+    .btn {
+      height: 48px;
+    }
+  }
+
+  .drawerInner {
+    width: 100%;
+    background: linen;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-row-gap: 8px;
+    border-bottom: 2px solid silver;
+
+    .cell {
+      padding: 4px 20px;
+      background-color: linen;
+
+      &:nth-child(4n + 3), &:nth-child(4n + 4) { background-color: snow; }
+
+      .inpWrapRep {
+        max-width: 700px;
+        min-width: 250px;
+
+        .inpRep {
+          width: 100%;
+        }
+      }
+    }
+
+    .labelCell {
+      font-size: 16px;
+      color: darkblue;
+      white-space: nowrap;
+      padding: 0 10px;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.eVar { animation: blinker .4s linear infinite alternate; }
+
+@keyframes blinker {
+  100% { opacity: 0; }
+}
