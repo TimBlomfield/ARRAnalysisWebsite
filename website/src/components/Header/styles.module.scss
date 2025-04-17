@@ -17,6 +17,9 @@
 .headerPlaceholder {
   height: 60px;
   min-height: 60px;
+  background-color: $clrHeaderDarkBk;
+
+  &.light { background-color: $clrHeaderLightBk; }
 }
 
 .header {
@@ -76,8 +79,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 25px;
-    color: $clrHeaderDarkText;
 
     @media screen and (max-width: 1160px) {
       left: 300px;
@@ -86,10 +87,11 @@
     @media screen and (max-width: 806px) {
       left: 370px;
     }
-  }
 
-  @media screen and (max-width: 770px) {
-    display: none;
+    svg.logo {
+      width: 164px;
+      height: auto;
+    }
   }
 }
 
@@ -100,20 +102,20 @@
   padding-right: 24px;
 
   .title {
-    font-size: 25px;
-    color: $clrHeaderDarkText;
     height: 100%;
     display: flex;
     align-items: center;
+
+    svg.logo {
+      width: 164px;
+      height: auto;
+    }
   }
 
-  &.light {
-    background-color: $clrHeaderLightBk;
+  &.light { background-color: $clrHeaderLightBk; }
+}
 
-    .title { color: $clrHeaderLightText; }
-  }
-
-  @media screen and (max-width: 770px) {
-    display: flex;
-  }
+@media screen and (max-width: 770px) {
+  .header {  display: none; }
+  .narrowHeader {  display: flex; }
 }
