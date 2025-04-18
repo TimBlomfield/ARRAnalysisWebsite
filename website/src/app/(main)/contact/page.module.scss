@@ -2,6 +2,8 @@
 @use "sass:color";
 
 .main {
+  @extend %fnt-secondary;
+
   background-color: $clrHeaderDarkBk;
   padding: 100px 20px;
 
@@ -50,6 +52,8 @@
       }
 
       &.formGap { gap: 24px; }
+
+      .btnSubmit { @extend %fnt-primary; }
     }
   }
 

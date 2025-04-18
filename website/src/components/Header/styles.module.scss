@@ -1,6 +1,8 @@
 @use "globals" as *;
 
 %hdr-common {
+  @extend %fnt-secondary;
+
   position: fixed;
   left: 0;
   top: 0;

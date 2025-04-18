@@ -20,6 +20,8 @@
     }
 
     .adm {
+      @extend %fnt-secondary;
+
       font-size: 28px;
       color: black;
       font-weight: bold;

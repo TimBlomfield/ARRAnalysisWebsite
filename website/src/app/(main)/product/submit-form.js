@@ -25,7 +25,7 @@ const SubmitForm = () => {
       <div className={styles.title} data-animated="text1">Subscribe to our Newsletter</div>
       <div className={styles.text} data-animated="text1">Sign up with your email address to receive news and updates.</div>
       <div className={styles.controls} data-animated="text1">
-        <Input theme={K_Theme.Light} value={email} onChange={handleInputChange} errorText={errorEmail} placeholder="Email Address" />
+        <Input errorTextExtraClass={styles.inpErrFnt2} theme={K_Theme.Light} value={email} onChange={handleInputChange} errorText={errorEmail} placeholder="Email Address" />
         <PushButton theme={K_Theme.Light} onClick={handleBtnClick}>Sign Up</PushButton>
       </div>
     </div>

@@ -1,6 +1,8 @@
 @use "globals" as *;
 
 .animatedNarrow {
+  @extend %fnt-secondary;
+
   position: fixed;
   top: 60px;
   width: 240px;
@@ -43,6 +45,8 @@
 }
 
 .animatedWide {
+  @extend %fnt-secondary;
+
   position: fixed;
   top: 60px;
   left: 0;

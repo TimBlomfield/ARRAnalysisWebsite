@@ -76,6 +76,8 @@
           font-size: 14px;
           height: 34px;
         }
+
+        .txtBilling { @extend %fnt-secondary; }
       }
 
       @media screen and (max-width: 800px) {
@@ -112,6 +114,8 @@
       }
 
       .title {
+        @extend %fnt-secondary;
+
         display: grid;
         place-items: center;
         padding-bottom: 20px;

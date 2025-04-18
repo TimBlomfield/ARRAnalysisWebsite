@@ -28,7 +28,9 @@
       font-weight: bold;
     }
 
-    :nth-child(even) {
+    :nth-child(even):not(.status) {
+      @extend %fnt-secondary;
+
       color: $clrAdmin_LicenseTextValue;
     }
 

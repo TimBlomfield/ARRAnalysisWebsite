@@ -116,7 +116,7 @@ const ContactPage = () => {
                    onChange={messageFn}
                    errorText={errorMessage}
                    style={customTextAreaStyle} />
-            <PushButton theme={K_Theme.Light} onClick={handleBtnClick}>Submit</PushButton>
+            <PushButton extraClass={styles.btnSubmit} theme={K_Theme.Light} onClick={handleBtnClick}>Submit</PushButton>
           </div>
         </div>
       </div>

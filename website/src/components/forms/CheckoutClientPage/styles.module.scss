@@ -36,6 +36,8 @@
     }
 
     section.title {
+      @extend %fnt-secondary;
+
       width: 100%;
       display: flex;
       align-items: center;
@@ -63,6 +65,8 @@
       grid: 50px 126px 60px / repeat(3, 1fr);
 
       .title {
+        @extend %fnt-secondary;
+
         grid-area: 1 / 1 / 2 / 4;
         display: grid;
         place-items: center;
@@ -88,6 +92,8 @@
           font-size: 14px;
           height: 34px;
         }
+
+        .txtBilling { @extend %fnt-secondary; }
       }
 
       @media screen and (max-width: 800px) {
@@ -116,6 +122,8 @@
       gap: 20px;
 
       .title {
+        @extend %fnt-secondary;
+
         grid-area: 1 / 1 / 2 / 3;
         display: grid;
         place-items: center;
@@ -173,6 +181,8 @@
       }
 
       .title {
+        @extend %fnt-secondary;
+
         display: grid;
         place-items: center;
         padding-bottom: 20px;

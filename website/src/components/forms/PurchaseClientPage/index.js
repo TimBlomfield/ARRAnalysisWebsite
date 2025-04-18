@@ -127,7 +127,7 @@ const PurchaseClientPage = ({ tiers }) => {
                          selected={period}
                          onSelect={x => setPeriod(x)}
                          options={['Monthly', 'Yearly']} />
-            <div>Billing</div>
+            <div className={styles.txtBilling}>Billing</div>
           </div>
         </section>
 

@@ -16,6 +16,8 @@
   }
 
   .sectionForm {
+    @extend %fnt-secondary;
+
     display: flex;
     flex-direction: column;
     gap: 16px;

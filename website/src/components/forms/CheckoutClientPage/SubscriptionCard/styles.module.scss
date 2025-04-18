@@ -17,6 +17,8 @@
   }
 
   .title {
+    @extend %fnt-secondary;
+
     font-weight: bold;
     font-size: 14px;
     text-align: center;
@@ -29,6 +31,8 @@
     margin-bottom: 10px;
 
     span.per {
+      @extend %fnt-secondary;
+
       font-size: 14px;
       opacity: .9;
     }

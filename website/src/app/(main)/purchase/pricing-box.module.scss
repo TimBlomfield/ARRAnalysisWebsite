@@ -6,6 +6,8 @@
   align-items: center;
 
   .title {
+    @extend %fnt-secondary;
+
     margin: 33px 0 11px;
     font-size: 26px;
     line-height: 36px;

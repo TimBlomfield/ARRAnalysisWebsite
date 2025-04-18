@@ -19,6 +19,8 @@
   }
 
   .wrapInp {
+    @extend %fnt-secondary;
+
     margin-bottom: 20px;
 
     .inp {

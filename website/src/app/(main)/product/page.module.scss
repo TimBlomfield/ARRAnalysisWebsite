@@ -15,6 +15,8 @@
     align-items: flex-start;
 
     .titleText {
+      @extend %fnt-secondary;
+
       font-size: 52px;
       max-width: $maxHtmlPageWidth;
       text-align: start;
@@ -47,6 +49,8 @@
     overflow: hidden;
 
     .titleText {
+      @extend %fnt-secondary;
+
       font-size: 40px;
       line-height: 50px;
       max-width: $maxHtmlPageWidth;
@@ -90,6 +94,8 @@
     }
 
     .vesaire {
+      @extend %fnt-secondary;
+
       padding-top: 60px;
       font-size: 20px;
     }

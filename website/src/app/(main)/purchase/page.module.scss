@@ -2,12 +2,14 @@
 
 main {
   .title {
+    @extend %fnt-secondary;
+
     font-size: 120px;
     color: $clrHeaderLightText;
     max-width: 1200px;
     text-align: center;
 
-    @media screen and (max-width: 1450px) {
+    @media screen and (max-width: 1250px) {
       @include mx-linscale(font-size, 120, 56, 1450, 360);
     }
 
@@ -28,6 +30,8 @@ main {
       margin: 0 auto;
 
       .txt {
+        @extend %fnt-secondary;
+
         font-size: 18px;
         color: $clrHeaderLightText;
         text-align: center;
@@ -83,6 +87,8 @@ main {
           .title { font-size: 32px; }
 
           .txt {
+            @extend %fnt-secondary;
+
             text-align: center;
             font-size: 18px;
             line-height: 26px;
@@ -174,6 +180,8 @@ main {
     margin-top: 80px;
 
     .inner {
+      @extend %fnt-secondary;
+
       max-width: $maxHtmlPageWidth;
       margin: 0 auto;
       display: flex;

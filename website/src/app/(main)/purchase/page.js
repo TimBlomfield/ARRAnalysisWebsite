@@ -21,7 +21,7 @@ const PurchasePage = async () => {
       <main>
         <section className={styles.s1}>
           <div className={styles.vflex}>
-            <div className={styles.title} data-animated="text1">Great Anaysis. Instantly</div>
+            <div className={styles.title} data-animated="text1">Great Analysis.<br />Instantly</div>
             <div className={styles.txt} data-animated="text1" data-anim-delay=".1">We offer beautiful charts and analysis, accurately, and instantly</div>
             <Image alt="Average ARR per Customer" src={imgGraph} className={styles.img} priority data-animated="text1" data-anim-delay=".2" />
           </div>

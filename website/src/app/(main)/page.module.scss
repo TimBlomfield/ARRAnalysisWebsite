@@ -68,9 +68,15 @@
         align-items: flex-start;
         color: $clrHeaderLightText;
 
-        .txt1 { font-size: 34px; }
+        .txt1 {
+          @extend %fnt-secondary;
+
+          font-size: 34px;
+        }
 
         .txt2 {
+          @extend %fnt-secondary;
+
           padding-top: 83px;
           font-size: 52px;
         }
@@ -146,11 +152,15 @@
       &.f2 { flex: 2; }
 
       p.title {
+        @extend %fnt-secondary;
+
         font-size: 52px;
         line-height: 60px;
       }
 
       p.text {
+        @extend %fnt-secondary;
+
         font-size: 16px;
         line-height: 22px;
         margin: 16px 0;
@@ -159,6 +169,8 @@
       }
 
       ul {
+        @extend %fnt-secondary;
+
         list-style-type: disc;
         padding-inline-start: 30px;
         font-size: 16px;
