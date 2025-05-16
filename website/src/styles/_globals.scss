@@ -55,6 +55,9 @@ $clrPopupMenu_ItemSelected: color.adjust($clrAdminBk, $lightness: -15% );
 $clrPopupMenu_ItemSelectedHover: color.adjust($clrAdminBk, $lightness: -18% );
 $clrPopupMenu_ItemHltBorder: color.adjust($clrAdminBk, $lightness: -35% );
 
+$clrLinkText: #1F6EEF;
+$clrLinkBorder: dimgray;
+
 
 
 @function fn-admin-color($lightness-adjustment) {
@@ -153,7 +156,7 @@ $maxHtmlPageWidth: 1400px;
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: rgb(255 255 255 / 0);
 }
 
 @mixin mx-linscale($prop, $maxVal, $minVal, $maxDim, $minDim, $measure: 100vw) {
@@ -380,7 +383,7 @@ $fontSecondary: var(--font-aspekta-250);
   gap: 20px;
 
   &::backdrop {
-    background-color: rgba(black, 0.5);
+    background-color: rgb(0 0 0 / 0.5);
     backdrop-filter: blur(3px);
   }
 

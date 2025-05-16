@@ -6,7 +6,6 @@ import { downloadFile } from '@/utils/server/s3';
 import { createAuditLog } from '@/utils/server/audit';
 
 
-// Check if an email exists in the system
 const GET = async req => {
   const authToken = await getToken({ req });
 

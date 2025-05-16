@@ -29,10 +29,34 @@
     }
   }
 
-  .pbtn {
-    min-width: 180px;
-    align-self: flex-start;
+  .hfx {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 20px;
+
+    .pbtn { min-width: 180px; }
+
+    .link {
+      @extend %fnt-secondary;
+      @extend %noselect;
+
+      color: $clrLinkText;
+      touch-action: none;
+      text-decoration: underline;
+      outline: none;
+      border: 1px dotted transparent;
+      background-color: transparent;
+      height: 30px;
+
+      &:hover:enabled {
+        text-decoration: none;
+      }
+
+      &:focus-visible {
+        border-color: $clrLinkBorder;
+      }
+    }
   }
 
   @media screen and (max-width: 440px) {

@@ -1,7 +1,7 @@
 // Components
 import LoadingSSR from '@/components/LoadingSSR';
 // Styles
-import styles from './styles.module.scss';
+import styles from './loading.module.scss';
 
 
 const LoadingPage = () => (

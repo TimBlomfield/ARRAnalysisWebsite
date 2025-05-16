@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
-import 'react-toastify/dist/ReactToastify.min.css';
 import '@/styles/globals.scss';
 import styles from './layout.module.scss';
 

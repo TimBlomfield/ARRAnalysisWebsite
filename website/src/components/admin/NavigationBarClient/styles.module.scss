@@ -34,7 +34,7 @@
     text-decoration: none;
 
     &:hover {
-      background: rgba(38, 38, 38, .1);
+      background: rgb(38 38 38 / .1);
       color: color.adjust($clrAdmin_NavbarLinkText, $lightness: -20% );;
     }
 

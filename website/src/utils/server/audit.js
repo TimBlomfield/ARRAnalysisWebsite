@@ -421,6 +421,32 @@ const createAuditLog = async (evt, req) => {
         });
       }
       break;
+
+    case AuditEvent.PASSWORD_RESET_REQUEST:
+      {
+        await db.auditLog.create({
+          data: {
+            actorEmail: evt.email,
+            eventType: evt.type,
+            ipAddress,
+            userAgent,
+          },
+        });
+      }
+      break;
+
+    case AuditEvent.PASSWORD_RESET_SUCCESS:
+      {
+        await db.auditLog.create({
+          data: {
+            actorEmail: evt.email,
+            eventType: evt.type,
+            ipAddress,
+            userAgent,
+          },
+        });
+      }
+      break;
   }
 };
 

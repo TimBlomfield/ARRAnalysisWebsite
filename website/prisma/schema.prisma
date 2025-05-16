@@ -34,6 +34,17 @@ model RegistrationLink {
   expiresAt     DateTime
 }
 
+model ResetPasswordLink {
+  id                     Int      @id @default(autoincrement())
+  token                  String   @unique
+  email                  String   @unique
+  createdAt              DateTime @default(now())
+  expiresAt              DateTime
+  sentCount              Int      @default(1)
+  lockedUntil            DateTime @default(now())
+  bruteForceRefreshCount Int      @default(50)
+}
+
 model Administrator {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -124,6 +135,8 @@ enum AuditEvent {
   DOWNLOAD_FILE
   CANCEL_SUBSCRIPTION
   REVOKE_CANCEL_SUBSCRIPTION
+  PASSWORD_RESET_REQUEST
+  PASSWORD_RESET_SUCCESS
 }
 
 model AuditLog {

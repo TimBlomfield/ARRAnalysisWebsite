@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
 import thankYouEmail from '@/utils/emails/thank-you.html';
+import resetPasswordEmail from '@/utils/emails/reset-password.html';
 // Components
 import CheckBox from '@/components/CheckBox';
 import Drawer from '@/components/Drawer';
@@ -22,6 +23,7 @@ import styles from './styles.module.scss';
 
 const EmailTemplates = {
   'Thank You': thankYouEmail,
+  'Reset Password': resetPasswordEmail,
 };
 
 const DefaultReplacements = {
@@ -67,7 +69,7 @@ const DrawerHeader = ({ to, setTo, subject, setSubject, flash, setFlash, collaps
 );
 
 
-const EmailCustomizer = ({ which, loginUrl, logoUrl }) => {
+const EmailCustomizer = ({ which, loginUrl, passwordResetUrl, logoUrl }) => {
   const [fileContent, setFileContent] = useState('loading');
   const [matches, setMatches] = useState([]);
   const [inpTo, setInpTo] = useState('');
@@ -82,7 +84,8 @@ const EmailCustomizer = ({ which, loginUrl, logoUrl }) => {
 
     if (fc) {
       fc = fc.replaceAll('[[Logo URL]]', logoUrl)
-        .replaceAll('[[Login URL]]', loginUrl);
+        .replaceAll('[[Login URL]]', loginUrl)
+        .replaceAll('[[Password Reset URL]]', passwordResetUrl);
 
       const m = fc.match(/\[\[.*?]]/g);
       const uniq = [...new Set(m)];

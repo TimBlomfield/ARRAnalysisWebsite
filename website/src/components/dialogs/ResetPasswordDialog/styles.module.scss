@@ -1,0 +1,36 @@
+@use "globals" as *;
+
+.dialog {
+  @extend %dialog-common;
+
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    inset: 55px 0 80px;
+    background-color: $clrAdminBk;
+    opacity: .75;
+    display: grid;
+    place-items: center;
+  }
+
+  .wrapInp {
+    padding: 30px 0 20px;
+
+    .inp {
+      height: 48px;
+      width: 100%;
+      background-color: transparent;
+      color: black;
+
+      &.light {
+        &:focus-visible {
+          &.error { outline-color: #E46; }
+        }
+      }
+    }
+  }
+
+  .errorTextXtra {
+    color: #F87A93;
+  }
+}

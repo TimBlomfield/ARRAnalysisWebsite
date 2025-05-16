@@ -19,7 +19,7 @@ const RegistrationPage = async ({ searchParams }) => {
       return <AdminRegistrationPage reglinkEmail={ret.email} />;
 
     case Role.USER:
-      if (ret.userExists)
+      if (ret.userExists) // User must not exist
         notFound();
       const ld = await getLicenseData(ret.userData?.licenseId);
       if (ld == null)

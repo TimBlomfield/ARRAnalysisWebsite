@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
+import ResetPasswordDialog from '@/components/dialogs/ResetPasswordDialog';
 // Styles
 import styles from './styles.module.scss';
 
@@ -25,6 +26,7 @@ const AdminLoginForm = () => {
   const [errPassword, setErrPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [dummyCount, setDummyCount] = useState(0);
+  const [resetEmailDlg, setResetEmailDlg] = useState(false);
 
   const handleInputChange = useCallback((val, fn, errFn) => {
     return evt => {
@@ -108,44 +110,56 @@ const AdminLoginForm = () => {
 
 
   return (
-    <form className={styles.main}> {/* NOTE: using <form> to prevent Chrome warnings */}
-      {loading &&
-        <div className={styles.overlay}>
-          <Loading scale={2} />
+    <>
+      <form className={styles.main}> {/* NOTE: using <form> to prevent Chrome warnings */}
+        {loading &&
+          <div className={styles.overlay}>
+            <Loading scale={2} />
+          </div>
+        }
+        <Input id={ID_EMAIL}
+               name="email"
+               type="email"
+               autoComplete="email"
+               label="Email:"
+               wrapperExtraClass={styles.wrapInp}
+               extraClass={styles.inp}
+               {...(loading ? { disabled: true } : {})}
+               errorPlaceholder
+               value={email}
+               onChange={emailFn}
+               onKeyDown={handleInputReturn}
+               errorText={errEmail} />
+        <Input id={ID_PASSWORD}
+               name="password"
+               type="password"
+               autoComplete="current-password"
+               label="Password:"
+               wrapperExtraClass={styles.wrapInp}
+               extraClass={styles.inp}
+               {...(loading ? { disabled: true } : {})}
+               errorPlaceholder
+               value={password}
+               onChange={passwordFn}
+               onKeyDown={handleInputReturn}
+               errorText={errPassword} />
+        <div className={styles.hfx}>
+          <PushButton extraClass={styles.pbtn}
+                      {...(loading ? { disabled: true } : {})}
+                      onClick={onBtnSubmit}>
+            Sign In
+          </PushButton>
+          <button className={styles.link}
+                  type="button"
+                  onClick={() => setResetEmailDlg(true)}>
+            Forgot Password?
+          </button>
         </div>
-      }
-      <Input id={ID_EMAIL}
-             name="email"
-             type="email"
-             autoComplete="email"
-             label="Email:"
-             wrapperExtraClass={styles.wrapInp}
-             extraClass={styles.inp}
-             {...(loading ? { disabled: true } : {})}
-             errorPlaceholder
-             value={email}
-             onChange={emailFn}
-             onKeyDown={handleInputReturn}
-             errorText={errEmail} />
-      <Input id={ID_PASSWORD}
-             name="password"
-             type="password"
-             autoComplete="current-password"
-             label="Password:"
-             wrapperExtraClass={styles.wrapInp}
-             extraClass={styles.inp}
-             {...(loading ? { disabled: true } : {})}
-             errorPlaceholder
-             value={password}
-             onChange={passwordFn}
-             onKeyDown={handleInputReturn}
-             errorText={errPassword} />
-      <PushButton extraClass={styles.pbtn}
-                  {...(loading ? { disabled: true } : {})}
-                  onClick={onBtnSubmit}>
-        Sign In
-      </PushButton>
-    </form>
+      </form>
+      <ResetPasswordDialog isOpen={resetEmailDlg}
+                           notifyClosed={() => setResetEmailDlg(false)}
+                           onConfirm={email => toast.success(`Email sent to ${email}`) } />
+    </>
   );
 };
 

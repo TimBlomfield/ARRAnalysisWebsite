@@ -8,7 +8,6 @@ const ScrollbarClientStyles = dynamic(() => import('@/components/admin/Scrollbar
 // Styles
 import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
-import 'react-toastify/dist/ReactToastify.min.css';
 import '@/styles/globals.scss';
 
 
