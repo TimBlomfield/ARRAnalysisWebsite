@@ -72,3 +72,16 @@
     }
   }
 }
+
+.cancelAttempts {
+  min-width: 360px;
+  padding-right: 40px;
+
+  .vf {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .b { font-weight: bold; }
+}

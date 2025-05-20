@@ -177,3 +177,8 @@ model AuditLogMetadata {
 
   @@index([id_AuditLog])
 }
+
+model CleanupLog {
+  id      Int      @id
+  lastRun DateTime
+}

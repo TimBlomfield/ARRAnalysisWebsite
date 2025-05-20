@@ -71,7 +71,19 @@ const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSucc
         })
         .catch(err => {
           setLoading(false);
-          toast.error(err.response?.data?.message ?? 'Could not cancel subscription!', { containerId: ID_TOASTER_DIALOG_CANCEL_SUBSCRIPTION });
+          if (err?.status === 429) { // Too many requests
+            const lines = err.response.data.message.split('\n');
+            toast.error(
+              <div className={styles.vf}>
+                <div className={styles.b}>{lines[0]}</div>
+                <div>{lines[1]}&nbsp;<span className={styles.b}>{lines[2]}</span>&nbsp;{lines[3]}</div>
+              </div>,
+              {
+                containerId: ID_TOASTER_DIALOG_CANCEL_SUBSCRIPTION,
+                className: styles.cancelAttempts,
+              });
+          } else
+            toast.error(err.response?.data?.message ?? 'Could not cancel subscription!', { containerId: ID_TOASTER_DIALOG_CANCEL_SUBSCRIPTION });
         });
     } catch (err) {
       closeDialog();

@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import Stripe from 'stripe';
+import { DateTime } from 'luxon';
 import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
 import { isAuthTokenValid } from '@/utils/server/common';
+import db from '@/utils/server/db';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -17,6 +19,29 @@ const POST = async req => {
 
   try {
     const { subscriptionId } = await req.json();
+
+    // Get some recent logs, not older than 20 minutes
+    const twentyMinutesAgo = DateTime.now().minus({ minutes: 20 }).toJSDate();
+    const recentLogs = await db.auditLog.findMany({
+      where: {
+        actorEmail: authToken.email,
+        eventType: AuditEvent.CANCEL_SUBSCRIPTION,
+        createdAt: { gte: twentyMinutesAgo  },
+        metadata: {
+          some: { key: 'subscriptionId', value: subscriptionId },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+    });
+
+    if (recentLogs.length >= 3) {
+      // Too many attempts (restrict the user from doing too many cancel / revoke subscription calls)
+      const thirdLogTime = DateTime.fromJSDate(recentLogs[2].createdAt);
+      const retryTime = thirdLogTime.plus({ minutes: 20 });
+      const secondsUntilRetry = Math.ceil(retryTime.diff(DateTime.now(), 'seconds').seconds);
+      return NextResponse.json({ message: `Too many cancellation attempts!\nTry again in\n${secondsUntilRetry}\nsedonds.` }, { status: 429 });
+    }
 
     const subscription = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: true });
 

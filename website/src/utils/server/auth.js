@@ -5,6 +5,7 @@ import { compare } from 'bcrypt';
 import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
 import { createAuditLog } from '@/utils/server/audit';
+import { runCleanup } from '@/utils/server/cleanup';
 
 
 const K_THIRTY_DAYS = 30 * 24 * 60 * 60; // One week in seconds
@@ -59,6 +60,9 @@ const authOptions = {
             customer,
             user,
           }, req);
+
+          await runCleanup();
+
           return {
             id,
             email,
