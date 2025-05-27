@@ -182,3 +182,8 @@ model CleanupLog {
   id      Int      @id
   lastRun DateTime
 }
+
+model Temp {
+  id    Int    @id @default(autoincrement())
+  value String
+}
