@@ -184,6 +184,8 @@ model CleanupLog {
 }
 
 model Temp {
-  id    Int    @id @default(autoincrement())
+  id    Int      @id @default(autoincrement())
   value String
+  brr   DateTime
+  mrr   Int
 }
