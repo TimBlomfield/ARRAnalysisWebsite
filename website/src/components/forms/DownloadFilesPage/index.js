@@ -48,6 +48,7 @@ const DownloadFilesPage = ({ files }) => {
                   <>
                     <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
                     <LinkButton extraClass={styles.pbtn}
+                                prefetch={false}
                                 href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
                     {arrEncoded_Tier01.length > 1 &&
                       <>
@@ -55,7 +56,7 @@ const DownloadFilesPage = ({ files }) => {
                         {files.tier01.versions.map((ver, idx) => {
                           if (idx === 0) return null;
                           return (
-                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
+                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
                           );
                         })}
                       </>
@@ -82,6 +83,7 @@ const DownloadFilesPage = ({ files }) => {
                   <>
                     <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
                     <LinkButton extraClass={styles.pbtn}
+                                prefetch={false}
                                 href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
                     {arrEncoded_Tier02.length > 1 &&
                       <>
@@ -89,7 +91,7 @@ const DownloadFilesPage = ({ files }) => {
                         {files.tier02.versions.map((ver, idx) => {
                           if (idx === 0) return null;
                           return (
-                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
+                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
                           );
                         })}
                       </>
@@ -116,6 +118,7 @@ const DownloadFilesPage = ({ files }) => {
                   <>
                     <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
                     <LinkButton extraClass={styles.pbtn}
+                                prefetch={false}
                                 href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
                     {arrEncoded_Tier03.length > 1 &&
                       <>
@@ -123,7 +126,7 @@ const DownloadFilesPage = ({ files }) => {
                         {files.tier03.versions.map((ver, idx) => {
                           if (idx === 0) return null;
                           return (
-                            <a className={styles.versionLink} key={idx} href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
+                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
                           );
                         })}
                       </>
