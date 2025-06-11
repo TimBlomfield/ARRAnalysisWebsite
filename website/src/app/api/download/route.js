@@ -15,6 +15,7 @@ const GET = async req => {
 
   const { searchParams } = new URL(req.url);
   const file = searchParams.get('file');
+  const isRscRequest = searchParams.has('_rsc'); // Check for RSC request
 
   if (!file)
     return NextResponse.json({ error: 'No file specified for download!' }, { status: 400 });
@@ -29,11 +30,14 @@ const GET = async req => {
     const arrF = arr[arr.length - 1].split('.');
     const fileName = `${arrF[0]} (version ${arr[arr.length - 2]}).${arrF[1]}`;
 
-    await createAuditLog({
-      type: AuditEvent.DOWNLOAD_FILE,
-      actorEmail: authToken.email,
-      desc: fileName,
-    }, req);
+    // Only log if not an RSC request (prevents duplicate DOWNLOAD_FILE logs)
+    if (!isRscRequest) {
+      await createAuditLog({
+        type: AuditEvent.DOWNLOAD_FILE,
+        actorEmail: authToken.email,
+        desc: fileName,
+      }, req);
+    }
 
     return new NextResponse(bodyContents, {
       headers: {
