@@ -8,6 +8,8 @@ import LabelReq from '@/components/LabelReq';
 import PushButton from '@/components/PushButton';
 import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
+// Images
+import LogoDigicertSvg from '@/../public/logo-digicert.svg';
 // Styles
 import styles from './page.module.scss';
 
@@ -120,6 +122,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
+      <LogoDigicertSvg className={styles.logoDigicert} />
     </AnimateX>
   );
 };
