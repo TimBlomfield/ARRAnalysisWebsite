@@ -69,6 +69,15 @@
           color: $clrAdmin_Txt1;
         }
 
+        .errorArea {
+          width: 100%;
+          flex: 1;
+          font-size: 18px;
+          color: $clrError;
+          padding-top: 40px;
+          text-align: center;
+        }
+
         .ver {
           @extend %fnt-secondary;
 

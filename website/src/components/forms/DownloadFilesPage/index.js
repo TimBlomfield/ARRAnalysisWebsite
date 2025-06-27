@@ -8,7 +8,21 @@ import Loading from '@/components/Loading';
 import styles from './styles.module.scss';
 
 
-const DownloadFilesPage = ({ files }) => {
+const FileNotFound = () => (
+  <div className={styles.errorArea}>
+    ERROR: file not found on server
+  </div>
+);
+
+
+const DownloadNotAllowed = () => (
+  <div className={styles.errorArea}>
+    You neither own a license for this product nor are you assigned to one.
+  </div>
+);
+
+
+const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
   const [arrEncoded_Tier01, setArrEncoded_Tier01] = useState(['']);
   const [arrEncoded_Tier02, setArrEncoded_Tier02] = useState(['']);
   const [arrEncoded_Tier03, setArrEncoded_Tier03] = useState(['']);
@@ -28,6 +42,12 @@ const DownloadFilesPage = ({ files }) => {
     setLoading(false);
   }, [files]);
 
+  const tierCondition = [
+    files.tier01 != null && (isAdmin || allowed[0]),
+    files.tier02 != null && (isAdmin || allowed[1]),
+    files.tier03 != null && (isAdmin || allowed[2]),
+  ];
+
   return (
     <div className={styles.main}>
       <div className={styles.title}>Downloads</div>
@@ -44,23 +64,29 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Basic</div>
                 <div className={styles.tier}>(Tier 1)</div>
                 <div className={styles.desc}>ARR Analysis Excel Add-in</div>
+                {files.tier01 == null && <FileNotFound />}
                 {files.tier01 != null &&
                   <>
-                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
-                    <LinkButton extraClass={styles.pbtn}
-                                prefetch={false}
-                                href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
-                    {arrEncoded_Tier01.length > 1 &&
+                    {tierCondition[0] &&
                       <>
-                        <div className={styles.older}>Older Versions</div>
-                        {files.tier01.versions.map((ver, idx) => {
-                          if (idx === 0) return null;
-                          return (
-                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
-                          );
-                        })}
+                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
+                        <LinkButton extraClass={styles.pbtn}
+                                    prefetch={false}
+                                    href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
+                        {arrEncoded_Tier01.length > 1 &&
+                          <>
+                            <div className={styles.older}>Older Versions</div>
+                            {files.tier01.versions.map((ver, idx) => {
+                              if (idx === 0) return null;
+                              return (
+                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
+                              );
+                            })}
+                          </>
+                        }
                       </>
                     }
+                    {!tierCondition[0] && <DownloadNotAllowed />}
                   </>
                 }
               </>
@@ -79,23 +105,29 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Intermediate</div>
                 <div className={styles.tier}>(Tier 2)</div>
                 <div className={styles.desc}>ARR Analysis + Segmentation</div>
+                {files.tier02 == null && <FileNotFound />}
                 {files.tier02 != null &&
                   <>
-                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
-                    <LinkButton extraClass={styles.pbtn}
-                                prefetch={false}
-                                href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
-                    {arrEncoded_Tier02.length > 1 &&
+                    {tierCondition[1] &&
                       <>
-                        <div className={styles.older}>Older Versions</div>
-                        {files.tier02.versions.map((ver, idx) => {
-                          if (idx === 0) return null;
-                          return (
-                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
-                          );
-                        })}
+                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
+                        <LinkButton extraClass={styles.pbtn}
+                                    prefetch={false}
+                                    href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
+                        {arrEncoded_Tier02.length > 1 &&
+                          <>
+                            <div className={styles.older}>Older Versions</div>
+                            {files.tier02.versions.map((ver, idx) => {
+                              if (idx === 0) return null;
+                              return (
+                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
+                              );
+                            })}
+                          </>
+                        }
                       </>
                     }
+                    {!tierCondition[1] && <DownloadNotAllowed />}
                   </>
                 }
               </>
@@ -114,23 +146,29 @@ const DownloadFilesPage = ({ files }) => {
                 <div className={styles.heading}>Advanced</div>
                 <div className={styles.tier}>(Tier 3)</div>
                 <div className={styles.desc}>Enterprise</div>
+                {files.tier03 == null && <FileNotFound />}
                 {files.tier03 != null &&
                   <>
-                    <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
-                    <LinkButton extraClass={styles.pbtn}
-                                prefetch={false}
-                                href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
-                    {arrEncoded_Tier03.length > 1 &&
+                    {tierCondition[2] &&
                       <>
-                        <div className={styles.older}>Older Versions</div>
-                        {files.tier03.versions.map((ver, idx) => {
-                          if (idx === 0) return null;
-                          return (
-                            <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
-                          );
-                        })}
+                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
+                        <LinkButton extraClass={styles.pbtn}
+                                    prefetch={false}
+                                    href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
+                        {arrEncoded_Tier03.length > 1 &&
+                          <>
+                            <div className={styles.older}>Older Versions</div>
+                            {files.tier03.versions.map((ver, idx) => {
+                              if (idx === 0) return null;
+                              return (
+                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
+                              );
+                            })}
+                          </>
+                        }
                       </>
                     }
+                    {!tierCondition[2] && <DownloadNotAllowed />}
                   </>
                 }
               </>
