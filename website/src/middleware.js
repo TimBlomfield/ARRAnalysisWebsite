@@ -9,7 +9,29 @@ const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K
 
 
 export const middleware = async request => {
+  // Log all headers
+  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+
+  const protto = request.headers.get('x-forwarded-proto');
+  console.log(protto);
+
+  // Normalize header case
+  const protoHeader = [...request.headers.entries()].find(([key]) => key.toLowerCase() === 'x-forwarded-proto')?.[1];
+
+  // Force HTTPS in staging or production
+  if (isStagingOrProd && protoHeader !== 'https')
+    return NextResponse.redirect(new URL(request.url.replace('http://', 'https://')));
+
+  const response = NextResponse.next();
+
   const pathname = request.nextUrl.pathname.toLowerCase();
+  // Add HSTS header in staging or production
+  if (isStagingOrProd) {
+    response.headers.set(
+      'Strict-Transport-Security',
+      'max-age=300; includeSubDomains; preload'
+    );
+  }
 
   if (isStagingOrProd && pathname.startsWith('/test-pages'))
     return NextResponse.redirect(new URL('/', request.url));
@@ -32,7 +54,6 @@ export const middleware = async request => {
         });
       } catch (error) {
         // Delete the cookies (invalidates the token)
-        const response = NextResponse.next();
         const cookieStore = (await cookies()).getAll();
         for (const cookie of cookieStore)
           response.cookies.delete(cookie.name);
@@ -43,7 +64,7 @@ export const middleware = async request => {
     }
   }
 
-  return NextResponse.next();
+  return response;
 };
 
 
