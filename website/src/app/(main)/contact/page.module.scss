@@ -19,6 +19,16 @@
       flex-direction: column;
       color: $clrHeaderDarkText;
 
+      .overlay {
+        position: absolute;
+        z-index: 10;
+        inset: 0;
+        background-color: $clrHeaderDarkBk;
+        opacity: .75;
+        display: grid;
+        place-items: center;
+      }
+
       .title {
         font-size: 94px;
         line-height: 104px;
@@ -53,7 +63,23 @@
 
       &.formGap { gap: 24px; }
 
-      .btnSubmit { @extend %fnt-primary; }
+      .btnSubmit {
+        @extend %fnt-primary;
+
+        min-width: 200px;
+      }
+
+      &.thankYou {
+        @extend %fnt-secondary;
+
+        display: grid;
+        place-content: center;
+        text-align: center;
+        font-size: 24px;
+        font-style: italic;
+        line-height: 30px;
+        color: color.adjust($clrHeaderDarkBk, $lightness: 60% );
+      }
     }
   }
 
@@ -102,10 +128,4 @@
       }
     }
   }
-}
-
-svg.logoDigicert {
-  margin: 20px 0 0 20px;
-  width: 200px;
-  height: auto;
 }

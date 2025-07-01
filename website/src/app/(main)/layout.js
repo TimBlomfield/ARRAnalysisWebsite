@@ -1,5 +1,6 @@
 import localFont from 'next/font/local';
 import cn from 'classnames';
+import { ToastContainer } from 'react-toastify';
 // Components
 import Header from '@/components/Header';
 // Styles
@@ -26,6 +27,7 @@ const MainLayout = ({ children }) => {
       <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary')}>
         <Header />
         {children}
+        <ToastContainer position="bottom-left" stacked />
       </body>
     </html>
   );
