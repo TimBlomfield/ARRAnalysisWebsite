@@ -79,10 +79,13 @@ const ContactPage = () => {
     if (!validateUnicodeEmail(email.trim())) { setErrorEmail('A valid Email is required'); setEmail(''); bError = true; }
     if (message.trim() === '') { setErrorMessage('Message is required'); setMessage(''); bError = true; }
 
+    if (recaptchaToken == null)
+      bError = true;
+
     if (!bError) {
       setPageState(PageState.Sending);
 
-      axios.post('/api/send-contact-us-email', { firstName, lastName, email, message })
+      axios.post('/api/send-contact-us-email', { firstName, lastName, email, message, recaptchaToken })
         .then(res => {
           setTimeout(() => {
             setPageState(PageState.Sent);

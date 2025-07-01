@@ -5,9 +5,18 @@ import { NextResponse } from 'next/server';
 
 
 const POST = async req => {
-  const { firstName, lastName, email, message } = await req.json();
+  const { firstName, lastName, email, message, recaptchaToken } = await req.json();
 
   try {
+    // Verify reCAPTCHA
+    const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
+    const recaptchaResponse = await fetch(verificationUrl, { method: 'POST' });
+    const recaptchaData = await recaptchaResponse.json();
+
+    if (!recaptchaData.success)
+      return NextResponse.json({ message: 'reCAPTCHA verification failed' }, { status: 400 });
+
+    // Send email
     const mailgun = new Mailgun(formData);
     const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 
