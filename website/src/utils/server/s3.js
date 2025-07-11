@@ -46,6 +46,7 @@ const listFiles = async prefix => {
 
   // Parse the files into a json object
   const ret = {};
+  const tierNames = ['Basic', 'Intermediate', 'Advanced'];
   for (const file of files) {
     const parts = file.split('/');
     const tier = parts[2];
@@ -54,7 +55,11 @@ const listFiles = async prefix => {
       throw new Error(`Unexpected file paths: ${files.join(', ')}`);
     const version = parts[3];
     let fileName = parts[4];
-    if (fileName !== `Installer-Tier-${tierLastCh}.rar`)
+    const tierNameId = +tierLastCh - 1;
+    if (!Number.isSafeInteger(tierNameId) || tierNameId < 0 || tierNameId > 2)
+      throw new Error(`Unexpected tierNameId: ${tierNameId}. Should be one of [0, 1, 2]`);
+    const tierName = tierNames[tierNameId];
+    if (fileName !== `ARR-Addin-${tierName}-Setup.exe`)
       throw new Error(`Bad file name encountered: ${fileName}\r\nFiles: ${files.join(', ')}`);
     if (!(tier in ret))
       ret[tier] = { versions: [], fileName };
