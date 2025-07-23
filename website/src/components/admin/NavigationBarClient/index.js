@@ -29,47 +29,49 @@ const NavigationBarClient = ({ isCustomer, isUser }) => {
       <Link className={styles.logoLink} href={LinkPaths.Dashboard}>
         <LogoSvg className={styles.logo} />
       </Link>
-      <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Dashboard)})}
-            prefetch={false}
-            href={LinkPaths.Dashboard}>
-        Dashboard
-      </Link>
-      <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Profile)})}
-            prefetch={false}
-            href={LinkPaths.Profile}>
-        Profile
-      </Link>
-      {isCustomer &&
-        <>
-          <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Subscriptions)})}
-                prefetch={false}
-                href={LinkPaths.Subscriptions}>
-            Subscriptions
-          </Link>
-          <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.CustomerLicenses)})}
-                prefetch={false}
-                href={LinkPaths.CustomerLicenses}>
-            Customer Licenses
-          </Link>
-        </>
-      }
-      {isUser &&
-        <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.UserLicenses)})}
+      <div class={styles.pageLinks}>
+        <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Dashboard)})}
               prefetch={false}
-              href={LinkPaths.UserLicenses}>
-          User Licenses
+              href={LinkPaths.Dashboard}>
+          Dashboard
         </Link>
-      }
-      <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Downloads)})}
-            prefetch={false}
-            href={LinkPaths.Downloads}>
-        Downloads
-      </Link>
-      <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Purchase)})}
-            prefetch={false}
-            href={LinkPaths.Purchase}>
-        Purchase
-      </Link>
+        <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Profile)})}
+              prefetch={false}
+              href={LinkPaths.Profile}>
+          Profile
+        </Link>
+        {isCustomer &&
+          <>
+            <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Subscriptions)})}
+                  prefetch={false}
+                  href={LinkPaths.Subscriptions}>
+              Subscriptions
+            </Link>
+            <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.CustomerLicenses)})}
+                  prefetch={false}
+                  href={LinkPaths.CustomerLicenses}>
+              Customer Licenses
+            </Link>
+          </>
+        }
+        {isUser &&
+          <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.UserLicenses)})}
+                prefetch={false}
+                href={LinkPaths.UserLicenses}>
+            User Licenses
+          </Link>
+        }
+        <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Downloads)})}
+              prefetch={false}
+              href={LinkPaths.Downloads}>
+          Downloads
+        </Link>
+        <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Purchase)})}
+              prefetch={false}
+              href={LinkPaths.Purchase}>
+          Purchase
+        </Link>
+      </div>
     </div>
   );
 };

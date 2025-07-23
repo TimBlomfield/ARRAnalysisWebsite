@@ -3,16 +3,18 @@
 
 .navbar {
   width: 245px;
+  min-width: 245px;
   box-sizing: border-box;
   border-right: 1px solid $clrAdmin_BorderClr;
   display: flex;
   flex-direction: column;
   color: $clrAdmin_Txt0;
   font-size: 20px;
-  gap: 2px;
+  container-type: size;
+  container-name: navigation-bar;
 
   .logoLink {
-    margin: 10px 0 120px;
+    margin: 10px 0 110px;
     width: fit-content;
     align-self: center;
 
@@ -22,42 +24,53 @@
     }
   }
 
-  .pageLink {
-    @extend %fnt-secondary;
+  @container navigation-bar (height < 600px) {
+    .logoLink { @include mx-linscale(margin-bottom, 110, 20, 600, 300, 100vh); }
+  }
 
-    height: 50px;
-    outline-offset: -6px;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: $clrAdmin_NavbarLinkText;
-    text-decoration: none;
+  .pageLinks {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
 
-    &:hover {
-      background: rgb(38 38 38 / .1);
-      color: color.adjust($clrAdmin_NavbarLinkText, $lightness: -20% );;
-    }
+    .pageLink {
+      @extend %fnt-secondary;
 
-    &::before {
-      content: '';
-      background: transparent;
-      width: 6px;
-      border-radius: 3px;
-      height: 100%;
-      display: inline-block;
-      margin-right: 20px;
-      transition: background-color .2s ease;
-    }
+      height: 50px;
+      min-height: 50px;
+      outline-offset: -6px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: $clrAdmin_NavbarLinkText;
+      text-decoration: none;
 
-    &.active {
-      @extend %fnt-primary;
+      &:hover {
+        background: rgb(38 38 38 / .1);
+        color: color.adjust($clrAdmin_NavbarLinkText, $lightness: -20% );;
+      }
 
-      background: color.adjust($clrAdminBk, $lightness: -10% );
-      transition: background-color .2s ease;
-      outline-color: color.adjust($clrAdminBk, $lightness: -15% );
-      color: $clrAdmin_NavbarSelectedLinkText;
+      &::before {
+        content: '';
+        background: transparent;
+        width: 6px;
+        border-radius: 3px;
+        height: 100%;
+        display: inline-block;
+        margin-right: 20px;
+        transition: background-color .2s ease;
+      }
 
-      &::before { background: color.adjust($clrAdminBk, $lightness: -30% ); }
+      &.active {
+        @extend %fnt-primary;
+
+        background: color.adjust($clrAdminBk, $lightness: -10% );
+        transition: background-color .2s ease;
+        outline-color: color.adjust($clrAdminBk, $lightness: -15% );
+        color: $clrAdmin_NavbarSelectedLinkText;
+
+        &::before { background: color.adjust($clrAdminBk, $lightness: -30% ); }
+      }
     }
   }
 }
