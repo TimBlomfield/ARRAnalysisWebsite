@@ -2,11 +2,18 @@ import { DateTime } from 'luxon';
 import Mailgun from 'mailgun.js';
 import formData from 'form-data';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
 import thankYouEmail from '@/utils/emails/thank-you.html';
 import { getPricingTiers } from '@/utils/server/prices';
+// Components
+import LinkButton from '@/components/LinkButton';
+// Images
+import CheckmarkCircle from '@/../public/CheckmarkCircle.svg';
+// Styles
+import styles from './page.module.scss';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
@@ -59,7 +66,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         .replaceAll('[[Customer Email]]', theUserData.email);
 
       await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-        from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
+        from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,
         to: [theUserData.email],
         subject: 'Welcome to ARR Analysis - Your Excel Add-in purchase confirmation',
         text: 'Thank you for your purchase',
@@ -79,12 +86,40 @@ const PaymentSuccessPage = async ({ searchParams }) => {
     secret,
   });
 
+  const tierDesc = purchaseInfo.tier === 0
+    ? 'Basic'
+    : purchaseInfo.tier === 1 ? 'Intermediate' : 'Advanced';
+
+  const licenses = purchaseInfo.licenses == null || purchaseInfo.licenses === 1 ? '1 License' : `${purchaseInfo.licenses} Licenses`;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px' }}>
-      <h1 style={{ fontSize: '32px', marginTop: '60px' }}>Success! You are subscribed now!</h1>
-      <h3 style={{ fontSize: '18px' }}>You&apos;ve purchased Tier-{purchaseInfo.tier + 1} {purchaseInfo.period === 0 ? 'Monthly' : 'Yearly'} subscription(s)</h3>
-      {purchaseInfo.tier === 2 && <h3 style={{ fontSize: '18px', marginTop: '10px', color: 'darkred', fontWeight: 'bold' }}>Count: {purchaseInfo.licenses}</h3>}
-      <h2 style={{ fontSize: '24px', marginTop: '40px', fontStyle: 'italic', color: 'teal' }}>You can now login as a customer!</h2>
+    <div className={styles.main}>
+      <div className={styles.contents}>
+        <CheckmarkCircle className={styles.checkMark} />
+        <div className={styles.txtThankYou}>Thank You for Your Purchase!</div>
+        <div className={styles.txtWelcome}>Your order has been processed successfully. Welcome to the ARR Analysis family!</div>
+        <div className={styles.purchaseSummary}>
+          <div className={styles.txtSummary}>Purchase Summary</div>
+          <div className={styles.gridSummary}>
+            <div className={styles.cell1}>
+              <div className={styles.line1}>ARR Analysis Excel Add-in</div>
+              <div className={styles.line2}>Tier {purchaseInfo.tier + 1}&nbsp;&nbsp;&nbsp;({tierDesc})</div>
+            </div>
+            <div className={styles.cell2}>
+              <div className={styles.txtAmount}>{licenses}</div>
+            </div>
+            <div className={styles.cell1}>
+              <div className={styles.txtSubsType}>Subscription Type</div>
+            </div>
+            <div className={styles.cell2}>
+              <div className={styles.txtPeriod}>{purchaseInfo.period === 0 ? 'Monthly' : 'Yearly'}</div>
+            </div>
+          </div>
+        </div>
+        <LinkButton href="/login" extraClass={styles.loginLink}>
+          Access Your Account
+        </LinkButton>
+        <div className={styles.txtHelp}>Need help getting started? Check out our <Link href="/help-center">help center</Link> or <Link href="mailto:support-team@arr-analysis.com">send an e-mail</Link> to our support team.<br />We&apos;re here to help you succeed!</div>
+      </div>
     </div>
   );
 };

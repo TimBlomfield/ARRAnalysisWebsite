@@ -121,7 +121,7 @@ const POST = async req => {
       : `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`;
 
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-      from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
+      from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],
       subject: 'User Registration',
       text: 'Ephemeral link',

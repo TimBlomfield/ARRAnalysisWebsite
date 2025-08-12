@@ -19,7 +19,7 @@ const sendPwdResetEmail = async (email, token) => {
     .replaceAll('[[Customer Email]]', email);
 
   await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-    from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
+    from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,
     to: [email],
     subject: 'ARR Analysis - Password Reset Request',
     html,

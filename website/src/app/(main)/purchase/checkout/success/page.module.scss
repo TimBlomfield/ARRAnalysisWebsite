@@ -1,0 +1,172 @@
+@use "globals" as *;
+@use "sass:color";
+
+.main {
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 60px);
+  display: grid;
+  place-items: center;
+
+  .contents {
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #EFF2F3;
+    box-shadow: 0 0 15px rgb(0 0 0 / 0.2);
+    border: 1px solid color.adjust($clrSeparator, $lightness: 6%);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .checkMark {
+      margin-top: 20px;
+      height: 100px;
+
+      @media screen and (max-width: 440px) {
+        margin-top: 14px;
+
+        @include mx-linscale(height, 100, 60, 440, 320);
+      }
+    }
+
+    .txtThankYou {
+      @extend %fnt-primary;
+
+      font-size: 32px;
+      text-align: center;
+      line-height: 1.2;
+
+      @media screen and (max-width: 600px) {
+        @include mx-linscale(font-size, 32, 20, 600, 320);
+      }
+    }
+
+    .txtWelcome {
+      @extend %fnt-secondary;
+
+      font-size: 16px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .purchaseSummary {
+      box-sizing: border-box;
+      padding: 20px;
+      margin: 40px 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: min(400px, 100%);
+      align-self: center;
+      background-color: white;
+      border-radius: 8px;
+      border: 2px solid color.adjust(#EFF2F3, $lightness: -10%);
+
+      .txtSummary {
+        @extend %fnt-primary;
+
+        font-size: 24px;
+        text-align: center;
+
+        @media screen and (max-width: 460px) { font-size: 20px; }
+
+        @media screen and (max-width: 342px) { font-size: 18px; }
+      }
+
+      .gridSummary {
+        display: grid;
+        grid: 60px 40px / 1fr 120px;
+
+        .cell1 {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          .line1 {
+            @extend %fnt-secondary;
+
+            font-size: 16px;
+            padding-bottom: 2px;
+          }
+
+          .line2 {
+            @extend %fnt-primary;
+
+            font-size: 13px;
+            color: color.adjust(black, $lightness: 30% );
+            padding-left: 40px;
+          }
+
+          .txtSubsType {
+            @extend %fnt-secondary;
+
+            font-size: 16px;
+          }
+        }
+
+        .cell2 {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+
+          .txtAmount {
+            @extend %fnt-primary;
+
+            font-size: 16px;
+            background-color: #21499E;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px 5px;
+          }
+
+          .txtPeriod {
+            @extend %fnt-primary;
+
+            font-size: 16px;
+            padding-right: 12px;
+          }
+        }
+
+        @media screen and (max-width: 490px) {
+          grid-template: "row1" 70px "row2" 40px / 1fr;
+          grid-row-gap: 8px;
+
+          .cell1 { justify-content: flex-start; }
+          .cell2 { justify-content: flex-end; }
+          .cell1:nth-child(1), .cell2:nth-child(2) { grid-area: row1; }
+          .cell1:nth-child(3), .cell2:nth-child(4) { grid-area: row2; }
+        }
+      }
+
+      @media screen and (max-width: 440px) {
+        margin: 10px 0 0;
+      }
+    }
+
+    .loginLink { margin: 0 auto; }
+
+    .txtHelp {
+      @extend %fnt-secondary;
+
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.2;
+      margin: 0 40px;
+
+      @media screen and (max-width: 600px) {
+        @include mx-linscale(margin-left, 40, 0, 600, 400);
+        @include mx-linscale(margin-right, 40, 0, 600, 400);
+      }
+    }
+
+    @media screen and (max-width: 470px) {
+      @include mx-linscale(gap, 30, 15, 470, 320);
+    }
+  }
+}

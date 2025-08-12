@@ -1,8 +1,9 @@
 import cn from 'classnames';
 import Image from 'next/image';
+import { K_Theme } from '@/utils/common';
+// Components
 import AnimateX from '@/components/AnimateX';
 import LinkButton from '@/components/LinkButton';
-import { K_Theme } from '@/utils/common';
 // Images
 import imgQuart from '@/../public/Quarterly_Cohort-graph.jpg';
 import imgArrWtfl from '@/../public/ARR_Waterfall-graph.jpg';

@@ -29,7 +29,7 @@ const POST = async req => {
     }
 
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
-      from: `The ARR Analysis Support Team <support@${process.env.MAILGUN_DOMAIN}>`,
+      from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],
       subject: 'User Registration',
       text: `${hello}\n\nThis is an ephemeral link for user registration. Please visit the link below to proceed with activating the add-in license:\n\n${regUrl}\n\nThis link will expire in 24 hours.\n\nSincerely,\nThe ArrAnalysis team`,
