@@ -1,8 +1,10 @@
 import Image from 'next/image';
-import AnimateX from '@/components/AnimateX';
 import PricingBox from '@/app/(main)/purchase/pricing-box';
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
+// Components
+import AnimateX from '@/components/AnimateX';
+import Footer from '@/components/Footer';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
 import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
@@ -108,6 +110,10 @@ const PurchasePage = async () => {
             </div>
           </div>
         </section>
+
+        <section className={styles.s6}></section>
+
+        <Footer />
       </main>
     </AnimateX>
   );

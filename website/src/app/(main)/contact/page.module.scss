@@ -2,130 +2,138 @@
 @use "sass:color";
 
 .main {
-  @extend %fnt-secondary;
+  .contact {
+    @extend %fnt-secondary;
 
-  background-color: $clrHeaderDarkBk;
-  padding: 100px 20px;
+    background-color: $clrHeaderDarkBk;
+    padding: 100px 20px;
 
-  .inner {
-    margin: 0 auto;
-    max-width: $maxHtmlPageWidth;
-    display: flex;
-    gap: 40px;
-
-    .part {
-      flex: 1;
+    .inner {
+      margin: 0 auto;
+      max-width: $maxHtmlPageWidth;
       display: flex;
-      flex-direction: column;
-      color: $clrHeaderDarkText;
+      gap: 40px;
 
-      .overlay {
-        position: absolute;
-        z-index: 10;
-        inset: 0;
-        background-color: $clrHeaderDarkBk;
-        opacity: .75;
-        display: grid;
-        place-items: center;
-      }
-
-      .title {
-        font-size: 94px;
-        line-height: 104px;
-        margin-bottom: 34px;
-      }
-
-      .desc {
-        font-size: 24px;
-        line-height: 34px;
-        margin-bottom: 16px;
-      }
-
-      .mail {
-        font-size: 17px;
-        line-height: 25px;
-        color: $clrHeaderDarkText;
-        text-decoration: none;
-        width: fit-content;
-        outline-offset: 8px;
-
-        &:hover { color: color.adjust($clrHeaderDarkText, $lightness: -10%); }
-        &:active { color: color.adjust($clrHeaderDarkText, $lightness: -5%); }
-        &:visited { color: $clrHeaderDarkText; }
-        &:focus { outline: none; }
-        &:focus-visible { outline: 2px solid $clrHeaderDarkText; }
-      }
-
-      .fh {
+      .part {
+        flex: 1;
         display: flex;
-        gap: 10px;
-      }
+        flex-direction: column;
+        color: $clrHeaderDarkText;
 
-      &.formGap { gap: 24px; }
-
-      .btnSubmit {
-        @extend %fnt-primary;
-
-        min-width: 200px;
-      }
-
-      &.thankYou {
-        @extend %fnt-secondary;
-
-        display: grid;
-        place-content: center;
-        text-align: center;
-        font-size: 24px;
-        font-style: italic;
-        line-height: 30px;
-        color: color.adjust($clrHeaderDarkBk, $lightness: 60% );
-      }
-    }
-  }
-
-  @media screen and (max-width: 1450px) {
-    .inner {
-      .part {
-        .title {
-          @include mx-linscale(font-size, 94, 62, 1450, 770);
-          @include mx-linscale(line-height, 104, 72, 1450, 770);
+        .overlay {
+          position: absolute;
+          z-index: 10;
+          inset: 0;
+          background-color: $clrHeaderDarkBk;
+          opacity: .75;
+          display: grid;
+          place-items: center;
         }
-      }
-    }
-  }
 
-  @media screen and (max-width: 840px) {
-    .inner {
-      flex-direction: column;
-      gap: 80px;
-
-      .part {
         .title {
-          @include mx-linscale(font-size, 90, 52, 770, 360);
-          @include mx-linscale(line-height, 100, 62, 770, 360);
+          font-size: 94px;
+          line-height: 104px;
+          margin-bottom: 34px;
         }
-      }
-    }
-  }
 
-  @media screen and (max-width: 480px) {
-    .inner {
-      .part {
         .desc {
-          font-size: 22px;
-          line-height: 32px;
+          font-size: 24px;
+          line-height: 34px;
+          margin-bottom: 16px;
         }
 
         .mail {
-          font-size: 16px;
-          line-height: 24px;
+          font-size: 17px;
+          line-height: 25px;
+          color: $clrHeaderDarkText;
+          text-decoration: none;
+          width: fit-content;
+          outline-offset: 8px;
+
+          &:hover { color: color.adjust($clrHeaderDarkText, $lightness: -10%); }
+          &:active { color: color.adjust($clrHeaderDarkText, $lightness: -5%); }
+          &:visited { color: $clrHeaderDarkText; }
+          &:focus { outline: none; }
+          &:focus-visible { outline: 2px solid $clrHeaderDarkText; }
         }
 
         .fh {
-          flex-direction: column;
-          gap: 24px;
+          display: flex;
+          gap: 10px;
+        }
+
+        &.formGap { gap: 24px; }
+
+        .reCaptchaHolder {
+          min-height: 78px;
+        }
+
+        .btnSubmit {
+          @extend %fnt-primary;
+
+          min-width: 200px;
+        }
+
+        &.thankYou {
+          @extend %fnt-secondary;
+
+          display: grid;
+          place-content: center;
+          text-align: center;
+          font-size: 24px;
+          font-style: italic;
+          line-height: 30px;
+          color: color.adjust($clrHeaderDarkBk, $lightness: 60% );
+        }
+      }
+    }
+
+    @media screen and (max-width: 1450px) {
+      .inner {
+        .part {
+          .title {
+            @include mx-linscale(font-size, 94, 62, 1450, 770);
+            @include mx-linscale(line-height, 104, 72, 1450, 770);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 840px) {
+      .inner {
+        flex-direction: column;
+        gap: 80px;
+
+        .part {
+          .title {
+            @include mx-linscale(font-size, 90, 52, 770, 360);
+            @include mx-linscale(line-height, 100, 62, 770, 360);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .inner {
+        .part {
+          .desc {
+            font-size: 22px;
+            line-height: 32px;
+          }
+
+          .mail {
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .fh {
+            flex-direction: column;
+            gap: 24px;
+          }
         }
       }
     }
   }
+
+  .s1 { padding: 50px 0; }
 }

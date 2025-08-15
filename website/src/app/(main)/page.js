@@ -4,6 +4,7 @@ import { K_Theme } from '@/utils/common';
 // Components
 import AnimateX from '@/components/AnimateX';
 import LinkButton from '@/components/LinkButton';
+import Footer from '@/components/Footer';
 // Images
 import imgQuart from '@/../public/Quarterly_Cohort-graph.jpg';
 import imgArrWtfl from '@/../public/ARR_Waterfall-graph.jpg';
@@ -80,6 +81,7 @@ const LandingPage = () => {
         <section className={styles.s4}>
           <Image alt="Quarterly and Cohort" src={imgQuart} className={styles.img} priority data-animated="text1" />
         </section>
+        <Footer />
       </main>
     </AnimateX>
   );

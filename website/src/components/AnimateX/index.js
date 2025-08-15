@@ -19,6 +19,14 @@ const AnimateX = ({children}) => {
               case 'text1':
                 gsap.to(entry.target, { opacity: 1, y: 0, duration: .75, delay, ease: 'power2.out', startAt: { opacity: 0, y: 20 }});
                 break;
+
+              case 'elasticFadeIn':
+                {
+                  const tl = gsap.timeline({ delay });
+                  tl.fromTo(entry.target, { scaleX: 0.5 }, { scaleX: 1, duration: 1, ease: 'elastic.out' });
+                  tl.fromTo(entry.target, { opacity: 0 }, { opacity: 1, duration: .5, ease: 'none' }, 0);
+                }
+                break;
             }
           })();
         }

@@ -1,0 +1,68 @@
+@use "globals" as *;
+@use "sass:color";
+
+.footer {
+  background: linear-gradient(135deg, $clrHeaderDarkBk 0 25%, #2275a8 100%);
+  padding: 40px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  svg.logo {
+    width: 200px;
+    height: auto;
+  }
+
+  .links1, .links2 {
+    @extend %fnt-secondary;
+
+    display: flex;
+    gap: 80px;
+    margin-top: 20px;
+    align-items: center;
+
+    .link {
+      color: $clrHeaderDarkText;
+      text-decoration: none;
+      padding: 10px;
+      box-sizing: border-box;
+      outline: none;
+      border: 2px solid transparent;
+
+      &:hover { text-decoration: underline; }
+      &:active { color: color.adjust($clrHeaderDarkText, $lightness: -5%); }
+      &:focus-visible { border-color: $clrHeaderDarkText; }
+    }
+
+    .copyright {
+      color: color.adjust($clrHeaderDarkText, $lightness: -30%);
+
+      span.company { font-weight: bold; }
+    }
+
+    @media screen and (max-width: 950px) {
+      @include mx-linscale(gap, 80, 30, 950, 650);
+    }
+
+    @media screen and (max-width: 630px) {
+      flex-direction: column;
+      gap: 20px;
+
+      .copyright { margin-bottom: 20px; }
+    }
+  }
+
+  .links2 {
+    @media screen and (max-width: 630px) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .footerDivider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgb(255 255 255 / 0.3), transparent);
+    margin: 20px 0;
+  }
+}

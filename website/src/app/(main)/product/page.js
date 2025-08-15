@@ -1,8 +1,10 @@
 import Image from 'next/image';
-import AnimateX from '@/components/AnimateX';
-import LinkButton from '@/components/LinkButton';
 import SubmitForm from './submit-form';
 import { K_Theme } from '@/utils/common';
+// Components
+import AnimateX from '@/components/AnimateX';
+import LinkButton from '@/components/LinkButton';
+import Footer from '@/components/Footer';
 // Images
 import imgCol1 from '@/../public/ACV-over-time.jpg';
 import imgCol2 from '@/../public/Cohort-analysis.jpg';
@@ -54,6 +56,10 @@ const ProductPage = () => {
         <section className={styles.s3}>
           <SubmitForm />
         </section>
+
+        <section className={styles.s4} />
+
+        <Footer />
       </main>
     </AnimateX>
   );

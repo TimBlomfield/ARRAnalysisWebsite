@@ -13,6 +13,7 @@ import Input from '@/components/Input';
 import LabelReq from '@/components/LabelReq';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
+import Footer from '@/components/Footer';
 // Styles
 import styles from './page.module.scss';
 
@@ -102,83 +103,89 @@ const ContactPage = () => {
   return (
     <AnimateX>
       <div className={styles.main}>
-        <div className={styles.inner}>
-          <div className={styles.part} data-animated="text1">
-            <div className={styles.title}>Contact Us</div>
-            <div className={styles.desc}>Reach out to learn more</div>
-          </div>
-          {pageState !== PageState.Sent &&
-            <div className={cn(styles.part, styles.formGap)} data-animated="text1">
-              {pageState === PageState.Sending &&
-                <div className={styles.overlay}>
-                  <Loading theme={K_Theme.Light} scale={2} />
+        <div className={styles.contact}>
+          <div className={styles.inner}>
+            <div className={styles.part} data-animated="text1">
+              <div className={styles.title}>Contact Us</div>
+              <div className={styles.desc}>Reach out to learn more</div>
+            </div>
+            {pageState !== PageState.Sent &&
+              <div className={cn(styles.part, styles.formGap)} data-animated="text1">
+                {pageState === PageState.Sending &&
+                  <div className={styles.overlay}>
+                    <Loading theme={K_Theme.Light} scale={2} />
+                  </div>
+                }
+                <div className={styles.fh}>
+                  <Input label={<LabelReq text="First Name" />}
+                         theme={K_Theme.Light}
+                         disabled={pageState !== PageState.Normal}
+                         id={idFirstName}
+                         size={10}
+                         name="First Name"
+                         errorPlaceholder
+                         value={firstName}
+                         onChange={firstNameFn}
+                         errorText={errorFirstName}
+                         style={customInputStyle} />
+                  <Input label={<LabelReq text="Last Name" />}
+                         theme={K_Theme.Light}
+                         disabled={pageState !== PageState.Normal}
+                         id={idLastName}
+                         size={10}
+                         name="Last Name"
+                         errorPlaceholder
+                         value={lastName}
+                         onChange={lastNameFn}
+                         errorText={errorLastName}
+                         style={customInputStyle} />
                 </div>
-              }
-              <div className={styles.fh}>
-                <Input label={<LabelReq text="First Name" />}
+                <Input label={<LabelReq text="Email" />}
                        theme={K_Theme.Light}
                        disabled={pageState !== PageState.Normal}
-                       id={idFirstName}
-                       size={10}
-                       name="First Name"
+                       id={idEmail}
+                       name="Email"
                        errorPlaceholder
-                       value={firstName}
-                       onChange={firstNameFn}
-                       errorText={errorFirstName}
+                       value={email}
+                       onChange={emailFn}
+                       errorText={errorEmail}
                        style={customInputStyle} />
-                <Input label={<LabelReq text="Last Name" />}
+                <Input label={<LabelReq text="Message" />}
                        theme={K_Theme.Light}
                        disabled={pageState !== PageState.Normal}
-                       id={idLastName}
-                       size={10}
-                       name="Last Name"
+                       id={idMessage}
+                       rows={4}
+                       multiline
                        errorPlaceholder
-                       value={lastName}
-                       onChange={lastNameFn}
-                       errorText={errorLastName}
-                       style={customInputStyle} />
+                       value={message}
+                       onChange={messageFn}
+                       errorText={errorMessage}
+                       style={customTextAreaStyle} />
+                {pageState === PageState.Normal &&
+                  <div className={styles.reCaptchaHolder}>
+                    <ReCAPTCHA ref={refRecaptcha}
+                               theme="dark"
+                               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                               onChange={handleRecaptchaChange} />
+                  </div>
+                }
+                <PushButton extraClass={styles.btnSubmit}
+                            disabled={recaptchaToken == null || pageState !== PageState.Normal}
+                            theme={K_Theme.Light}
+                            onClick={handleBtnClick}>
+                  Submit
+                </PushButton>
               </div>
-              <Input label={<LabelReq text="Email" />}
-                     theme={K_Theme.Light}
-                     disabled={pageState !== PageState.Normal}
-                     id={idEmail}
-                     name="Email"
-                     errorPlaceholder
-                     value={email}
-                     onChange={emailFn}
-                     errorText={errorEmail}
-                     style={customInputStyle} />
-              <Input label={<LabelReq text="Message" />}
-                     theme={K_Theme.Light}
-                     disabled={pageState !== PageState.Normal}
-                     id={idMessage}
-                     rows={4}
-                     multiline
-                     errorPlaceholder
-                     value={message}
-                     onChange={messageFn}
-                     errorText={errorMessage}
-                     style={customTextAreaStyle} />
-              {pageState === PageState.Normal &&
-                <ReCAPTCHA ref={refRecaptcha}
-                           theme="dark"
-                           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                           onChange={handleRecaptchaChange} />
-              }
-              <PushButton extraClass={styles.btnSubmit}
-                          disabled={recaptchaToken == null || pageState !== PageState.Normal}
-                          theme={K_Theme.Light}
-                          onClick={handleBtnClick}>
-                Submit
-              </PushButton>
-            </div>
-          }
-          {pageState === PageState.Sent &&
-            <div className={cn(styles.part, styles.thankYou)}>
-              Thank you for contacting us!<br />We&apos;ll review your message and get back to you soon.
-            </div>
-          }
+            }
+            {pageState === PageState.Sent &&
+              <div className={cn(styles.part, styles.thankYou)}>
+                Thank you for contacting us!<br />We&apos;ll review your message and get back to you soon.
+              </div>
+            }
+          </div>
         </div>
+        <div className={styles.s1} />
+        <Footer />
       </div>
     </AnimateX>
   );
