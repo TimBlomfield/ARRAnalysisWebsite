@@ -29,7 +29,7 @@ const NavigationBarClient = ({ isCustomer, isUser }) => {
       <Link className={styles.logoLink} href={LinkPaths.Dashboard}>
         <LogoSvg className={styles.logo} />
       </Link>
-      <div class={styles.pageLinks}>
+      <div className={styles.pageLinks}>
         <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Dashboard)})}
               prefetch={false}
               href={LinkPaths.Dashboard}>

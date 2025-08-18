@@ -117,8 +117,8 @@ const POST = async req => {
     }
 
     const html = bExisting
-      ? `${hello}<p>You have been registered for a new ARR Analysis add-in license.</p><p>Please <a href="${regUrl}">login</a> to the portal and register yourself with the new license.</p><p>Sincerely, the ArrAnalysis team.</p>`
-      : `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`;
+      ? `${hello}<p>You have been registered for a new ARR Analysis add-in license.</p><p>Please <a href="${regUrl}">login</a> to the portal and register yourself with the new license.</p><p>Sincerely, the ARR Analysis team.</p>`
+      : `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ARR Analysis team.</p>`;
 
     const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
       from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,

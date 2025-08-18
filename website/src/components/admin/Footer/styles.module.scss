@@ -1,0 +1,38 @@
+@use "globals" as *;
+@use "sass:color";
+
+.footer {
+  @extend %fnt-secondary;
+
+  font-size: 14px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  max-height: 52px;
+  border-top: 1px solid $clrAdmin_BorderClr;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .copyright {
+    padding: 0 8px;
+    color: color.adjust($clrHeaderLightText, $lightness: 40%);
+  }
+
+  .spacer { flex: 1; }
+
+  .link {
+    color: $clrHeaderLightText;
+    text-decoration: none;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    outline: none;
+    border: 1px dotted transparent;
+
+    &.mr16 { margin-right: 10px; }
+    &:hover { text-decoration: underline; }
+    &:active { color: color.adjust($clrHeaderLightText, $lightness: 5%); }
+    &:focus-visible { border-color: $clrHeaderLightText; }
+  }
+}

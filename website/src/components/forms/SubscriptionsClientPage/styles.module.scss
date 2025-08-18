@@ -1,7 +1,7 @@
 @use "globals" as *;
 
 .main {
-  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
@@ -25,244 +25,251 @@
     text-align: center;
   }
 
-  .subscriptionList {
-    padding: 20px;
+  .listAndFooter {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 30px;
     overflow-y: auto;
 
-    .hdr {
-      width: 100%;
-      background: fn-admin-color(5);
-      display: flex;
-      gap: 20px;
-      padding: 5px 25px 5px 5px;
-      align-items: center;
-      box-sizing: border-box;
-
-      .triangle {
-        rotate: -90deg;
-        transition: rotate 300ms;
-        fill: fn-admin-color(45);
-
-        &.expanded { rotate: 0deg; }
-      }
-
-      .planName {
-        @extend %fnt-primary;
-
-        font-size: 18px;
-        color: $clrAdmin_Txt1;
-      }
-
-      .billing {
-        @extend %fnt-secondary;
-
-        font-size: 14px;
-        color: $clrAdmin_Txt1;
-      }
-
-      .spacer { flex: 1; }
-
-      .activeBar {
-        font-size: 14px;
-        color: #317D15;
-        background-color: #D0F9B2;
-        box-sizing: border-box;
-        padding: 6px 14px;
-        border-radius: 16px 4px;
-        box-shadow: 1px 1px 3px 1px #A7F070;
-      }
-
-      .cancelBar {
-        font-size: 14px;
-        background-color: #EAEDF0;
-        color: #5D6575;
-        box-sizing: border-box;
-        padding: 6px 14px;
-        border-radius: 16px 4px;
-        box-shadow: 1px 1px 3px 1px #D7DDE3;
-
-        &.dk {
-          background-color: #CBCED0;
-          color: #3D424D;
-          box-shadow: 1px 1px 3px 1px #92969A;
-        }
-
-        .clock {
-          width: 15px;
-          min-width: 15px;
-          height: auto;
-          margin-left: 8px;
-          margin-bottom: -2px;
-
-          [data-g1] { fill: #596171; }
-        }
-      }
-    }
-
-    .body {
-      width: 100%;
-      background: white;
-      border: 1px solid fn-admin-color(5);
-      border-top-width: 0;
-      border-radius: 0 0 20px 20px;
-      padding: 50px 30px 30px;
-      box-sizing: border-box;
+    .subscriptionList {
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      position: relative;
+      gap: 30px;
 
-      .btnCancel {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        max-height: 48px;
-      }
-
-      .txtDetails {
-        @extend %fnt-primary;
-
-        font-size: 20px;
-        color: black;
-
-        &.mt50 { margin-top: 50px; }
-      }
-
-      .hr {
-        background-color: fn-admin-color(5);
-        height: 1px;
+      .hdr {
         width: 100%;
-        margin: 5px 0;
-      }
+        background: fn-admin-color(5);
+        display: flex;
+        gap: 20px;
+        padding: 5px 25px 5px 5px;
+        align-items: center;
+        box-sizing: border-box;
 
-      .detailsGrid {
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: minmax(180px, auto) 1fr;
-        grid-auto-rows: 20px;
-        gap: 5px;
+        .triangle {
+          rotate: -90deg;
+          transition: rotate 300ms;
+          fill: fn-admin-color(45);
 
-        .cell {
-          @extend %fnt-secondary;
-
-          font-size: 14px;
-          color: #687385;
-
-          &.dk { color: #414552; }
-
-          span.u { text-decoration: underline; }
+          &.expanded { rotate: 0deg; }
         }
-      }
 
-      .fullUnderline {
-        grid-column: 1 / -1;
-        height: 1px;
-        background-color: #EAEDF0;
-      }
-
-      .invoiceGrid {
-        display: grid;
-        grid-template-columns: 1fr 75px 160px 150px;
-        margin-top: 10px;
-
-        .headerCell {
+        .planName {
           @extend %fnt-primary;
 
-          padding: 8px 24px 8px 4px;
-          font-size: 12px;
-          color: #353A44;
-          text-align: end;
-
-          &.first { text-align: start; }
+          font-size: 18px;
+          color: $clrAdmin_Txt1;
         }
 
-        .lineCell {
+        .billing {
           @extend %fnt-secondary;
 
-          padding: 8px 24px 8px 4px;
           font-size: 14px;
-          color: #353A44;
-          text-align: end;
+          color: $clrAdmin_Txt1;
+        }
 
-          &.first {
-            @extend %fnt-primary;
+        .spacer { flex: 1; }
 
-            text-align: start;
+        .activeBar {
+          font-size: 14px;
+          color: #317D15;
+          background-color: #D0F9B2;
+          box-sizing: border-box;
+          padding: 6px 14px;
+          border-radius: 16px 4px;
+          box-shadow: 1px 1px 3px 1px #A7F070;
+        }
+
+        .cancelBar {
+          font-size: 14px;
+          background-color: #EAEDF0;
+          color: #5D6575;
+          box-sizing: border-box;
+          padding: 6px 14px;
+          border-radius: 16px 4px;
+          box-shadow: 1px 1px 3px 1px #D7DDE3;
+
+          &.dk {
+            background-color: #CBCED0;
+            color: #3D424D;
+            box-shadow: 1px 1px 3px 1px #92969A;
           }
 
-          &.stretch { grid-column: 1 / -1; }
-          &.start2 { grid-column-start: 3; }
-          &.prim { @extend %fnt-primary; }
-        }
-      }
-
-      .invoiceListGrid {
-        display: grid;
-        grid-template-columns: repeat(7, minmax(50px, max-content)) 1fr;
-        margin-top: 10px;
-
-        .cell {
-          padding: 8px 24px 8px 0;
-          font-size: 14px;
-
-          .recur {
-            width: 12px;
-            min-width: 12px;
+          .clock {
+            width: 15px;
+            min-width: 15px;
             height: auto;
-            margin-bottom: 3px;
+            margin-left: 8px;
+            margin-bottom: -2px;
 
             [data-g1] { fill: #596171; }
           }
+        }
+      }
 
-          &.first { padding-left: 4px; }
-          &.f12 { font-size: 12px; }
+      .body {
+        width: 100%;
+        background: white;
+        border: 1px solid fn-admin-color(5);
+        border-top-width: 0;
+        border-radius: 0 0 20px 20px;
+        padding: 50px 30px 30px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        position: relative;
 
-          &.fh {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-          }
+        .btnCancel {
+          position: absolute;
+          right: 15px;
+          top: 10px;
+          max-height: 48px;
+        }
 
-          &.fntPrim {
-            @extend %fnt-primary;
+        .txtDetails {
+          @extend %fnt-primary;
 
-            color: #353A44;
-          }
+          font-size: 20px;
+          color: black;
 
-          &.fntSec {
+          &.mt50 { margin-top: 50px; }
+        }
+
+        .hr {
+          background-color: fn-admin-color(5);
+          height: 1px;
+          width: 100%;
+          margin: 5px 0;
+        }
+
+        .detailsGrid {
+          margin-top: 20px;
+          display: grid;
+          grid-template-columns: minmax(180px, auto) 1fr;
+          grid-auto-rows: 20px;
+          gap: 5px;
+
+          .cell {
             @extend %fnt-secondary;
 
-            color: #596171;
+            font-size: 14px;
+            color: #687385;
+
+            &.dk { color: #414552; }
+
+            span.u { text-decoration: underline; }
+          }
+        }
+
+        .fullUnderline {
+          grid-column: 1 / -1;
+          height: 1px;
+          background-color: #EAEDF0;
+        }
+
+        .invoiceGrid {
+          display: grid;
+          grid-template-columns: 1fr 75px 160px 150px;
+          margin-top: 10px;
+
+          .headerCell {
+            @extend %fnt-primary;
+
+            padding: 8px 24px 8px 4px;
+            font-size: 12px;
+            color: #353A44;
+            text-align: end;
+
+            &.first { text-align: start; }
           }
 
-          .status {
-            border-radius: 4px;
-            padding: 1px 6px;
+          .lineCell {
+            @extend %fnt-secondary;
 
-            &.paid {
-              background-color: #D1FAB3;
-              color: #358F04;
-              border: 1px solid #A8F170;
+            padding: 8px 24px 8px 4px;
+            font-size: 14px;
+            color: #353A44;
+            text-align: end;
+
+            &.first {
+              @extend %fnt-primary;
+
+              text-align: start;
             }
 
-            &.open {
-              background-color: #CEF4F5;
-              color: #0056BB;
-              border: 1px solid #BADBDB;
+            &.stretch { grid-column: 1 / -1; }
+            &.start2 { grid-column-start: 3; }
+            &.prim { @extend %fnt-primary; }
+          }
+        }
+
+        .invoiceListGrid {
+          display: grid;
+          grid-template-columns: repeat(7, minmax(50px, max-content)) 1fr;
+          margin-top: 10px;
+
+          .cell {
+            padding: 8px 24px 8px 0;
+            font-size: 14px;
+
+            .recur {
+              width: 12px;
+              min-width: 12px;
+              height: auto;
+              margin-bottom: 3px;
+
+              [data-g1] { fill: #596171; }
             }
 
-            &.draft {
-              background-color: #EAEDF0;
-              color: #545969;
-              border: 1px solid #E0E0E0;
+            &.first { padding-left: 4px; }
+            &.f12 { font-size: 12px; }
+
+            &.fh {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            }
+
+            &.fntPrim {
+              @extend %fnt-primary;
+
+              color: #353A44;
+            }
+
+            &.fntSec {
+              @extend %fnt-secondary;
+
+              color: #596171;
+            }
+
+            .status {
+              border-radius: 4px;
+              padding: 1px 6px;
+
+              &.paid {
+                background-color: #D1FAB3;
+                color: #358F04;
+                border: 1px solid #A8F170;
+              }
+
+              &.open {
+                background-color: #CEF4F5;
+                color: #0056BB;
+                border: 1px solid #BADBDB;
+              }
+
+              &.draft {
+                background-color: #EAEDF0;
+                color: #545969;
+                border: 1px solid #E0E0E0;
+              }
             }
           }
         }
       }
     }
+
+    .spacer { flex: 1; }
   }
 
   .dlg {

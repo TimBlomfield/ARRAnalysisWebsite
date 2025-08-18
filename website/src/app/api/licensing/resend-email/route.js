@@ -32,8 +32,8 @@ const POST = async req => {
       from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,
       to: [email],
       subject: 'User Registration',
-      text: `${hello}\n\nThis is an ephemeral link for user registration. Please visit the link below to proceed with activating the add-in license:\n\n${regUrl}\n\nThis link will expire in 24 hours.\n\nSincerely,\nThe ArrAnalysis team`,
-      html: `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ArrAnalysis team.</p>`,
+      text: `${hello}\n\nThis is an ephemeral link for user registration. Please visit the link below to proceed with activating the add-in license:\n\n${regUrl}\n\nThis link will expire in 24 hours.\n\nSincerely,\nThe ARR Analysis team`,
+      html: `${hello}<p>This an ephemeral link for user registration.</p><p>Please click the link below to proceed with activating the add-in license.</p><p><a href="${regUrl}">Register</a></p><br /><p>This link will expire in 24 hours.</p><p>Sincerely, the ARR Analysis team.</p>`,
     });
 
     // Update the expiresAt

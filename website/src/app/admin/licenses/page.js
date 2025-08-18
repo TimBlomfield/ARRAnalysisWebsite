@@ -6,6 +6,7 @@ import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { encodeLicenseId } from '@/utils/server/licenses';
 import db from '@/utils/server/db';
 // Components
+import Footer from '@/components/admin/Footer';
 import LicenseItem from '@/components/LicenseItem';
 // Styles
 import styles from './styles.module.scss';
@@ -122,8 +123,12 @@ const LicensesPage = async () => {
   return (
     <div className={styles.page}>
       <div className={styles.title}>Purchased Licenses [{licenseData.results.length}]</div>
-      <div className={styles.licenseList}>
-        {licenseData.results.map(license => <LicenseItem key={license.id} license={license} isAdmin={acuIds.adminId != null} />)}
+      <div className={styles.listAndFooter}>
+        <div className={styles.licenseList}>
+          {licenseData.results.map(license => <LicenseItem key={license.id} license={license} isAdmin={acuIds.adminId != null} />)}
+        </div>
+        <div className={styles.spacer} />
+        <Footer />
       </div>
     </div>
   );

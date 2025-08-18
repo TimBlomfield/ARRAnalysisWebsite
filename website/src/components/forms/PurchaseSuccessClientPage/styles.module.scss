@@ -1,26 +1,34 @@
 @use "globals" as *;
 
 .main {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  overflow-y: auto;
 
-  .title {
-    @extend %fnt-primary;
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 
-    font-size: 28px;
-    color: $clrAdmin_Txt0;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-  }
+    .title {
+      @extend %fnt-primary;
 
-  .desc {
-    @extend %fnt-secondary;
+      font-size: 28px;
+      color: $clrAdmin_Txt0;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
 
-    font-size: 22px;
-    color: $clrAdmin_Txt1;
-    text-align: center;
+    .desc {
+      @extend %fnt-secondary;
+
+      font-size: 22px;
+      color: $clrAdmin_Txt1;
+      text-align: center;
+    }
   }
 }

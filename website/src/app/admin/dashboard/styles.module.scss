@@ -2,11 +2,17 @@
 
 .main {
   height: 100%;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
 
-  .tempText {
-    font-size: 32px;
-    color: black;
+  .dashboard {
+    flex: 1;
+    display: grid;
+    place-items: center;
+
+    .tempText {
+      font-size: 32px;
+      color: black;
+    }
   }
 }

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { DateTime } from 'luxon';
 import db from '@/utils/server/db';
 // Components
-import ClientResetPasswordPage from '@/components/forms/ClientResetPasswordPage';
+import ResetPasswordClientPage from '@/components/forms/ResetPasswordClientPage';
 
 
 const ResetPasswordPage = async ({ searchParams }) => {
@@ -45,7 +45,7 @@ const ResetPasswordPage = async ({ searchParams }) => {
     data: { bruteForceRefreshCount: refreshCount - 1 },
   });
 
-  return <ClientResetPasswordPage email={resetPwdLink.email} token={resetPwdLink.token} />;
+  return <ResetPasswordClientPage email={resetPwdLink.email} token={resetPwdLink.token} />;
 };
 
 

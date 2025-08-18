@@ -5,6 +5,7 @@ import db from '@/utils/server/db';
 import { isAuthTokenValid } from '@/utils/server/common';
 import { authOptions } from '@/utils/server/auth';
 // Components
+import Footer from '@/components/admin/Footer';
 import UserLicenseItem from '@/components/UserLicenseItem';
 // Styles
 import styles from './styles.module.scss';
@@ -53,8 +54,12 @@ const UserLicensesPage = async () => {
   return (
     <div className={styles.page}>
       <div className={styles.title}>Licenses</div>
-      <div className={styles.licenseList}>
-        {licenses.map(license => <UserLicenseItem key={license.id} license={license} email={userData.email} />)}
+      <div className={styles.listAndFooter}>
+        <div className={styles.licenseList}>
+          {licenses.map(license => <UserLicenseItem key={license.id} license={license} email={userData.email} />)}
+        </div>
+        <div className={styles.spacer} />
+        <Footer />
       </div>
     </div>
   );

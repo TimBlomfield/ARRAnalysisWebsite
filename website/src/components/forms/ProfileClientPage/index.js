@@ -14,6 +14,7 @@ import { getCountryCodeFromNumber } from '@/utils/phone';
 import { mkFix } from '@/utils/func';
 // Components
 import ComboBox from '@/components/ComboBox';
+import Footer from '@/components/admin/Footer';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
 import PasswordStrength from '@/components/PasswordStrength';
@@ -475,9 +476,12 @@ const ProfileClientPage = ({ user }) => {
 
   return (
     <div className={styles.main}>
-      {contactDetails_memoRender}
-      {password_memoRender}
-      {accountDetails_memoRender}
+      <div className={styles.profile}>
+        {contactDetails_memoRender}
+        {password_memoRender}
+        {accountDetails_memoRender}
+      </div>
+      <Footer />
     </div>
   );
 };

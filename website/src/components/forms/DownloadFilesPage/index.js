@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 // Components
+import Footer from '@/components/admin/Footer';
 import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 // Styles
@@ -51,130 +52,133 @@ const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
   return (
     <div className={styles.main}>
       <div className={styles.title}>Downloads</div>
-      <div className={styles.cardArea}>
-        <div className={styles.cardWrapper}>
-          <div className={styles.card}>
-            {loading &&
-              <div className={styles.loading}>
-                <Loading scale={2} />
-              </div>
-            }
-            {!loading &&
-              <>
-                <div className={styles.heading}>Basic</div>
-                <div className={styles.tier}>(Tier 1)</div>
-                <div className={styles.desc}>ARR Analysis Excel Add-in</div>
-                {files.tier01 == null && <FileNotFound />}
-                {files.tier01 != null &&
-                  <>
-                    {tierCondition[0] &&
-                      <>
-                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
-                        <LinkButton extraClass={styles.pbtn}
-                                    prefetch={false}
-                                    href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
-                        {arrEncoded_Tier01.length > 1 &&
-                          <>
-                            <div className={styles.older}>Older Versions</div>
-                            {files.tier01.versions.map((ver, idx) => {
-                              if (idx === 0) return null;
-                              return (
-                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
-                              );
-                            })}
-                          </>
-                        }
-                      </>
-                    }
-                    {!tierCondition[0] && <DownloadNotAllowed />}
-                  </>
-                }
-              </>
-            }
+      <div className={styles.cardsAndFooter}>
+        <div className={styles.cardArea}>
+          <div className={styles.cardWrapper}>
+            <div className={styles.card}>
+              {loading &&
+                <div className={styles.loading}>
+                  <Loading scale={2} />
+                </div>
+              }
+              {!loading &&
+                <>
+                  <div className={styles.heading}>Basic</div>
+                  <div className={styles.tier}>(Tier 1)</div>
+                  <div className={styles.desc}>ARR Analysis Excel Add-in</div>
+                  {files.tier01 == null && <FileNotFound />}
+                  {files.tier01 != null &&
+                    <>
+                      {tierCondition[0] &&
+                        <>
+                          <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier01.versions[0]}</span></div>
+                          <LinkButton extraClass={styles.pbtn}
+                                      prefetch={false}
+                                      href={`/api/download?file=${arrEncoded_Tier01[0]}`}>Download</LinkButton>
+                          {arrEncoded_Tier01.length > 1 &&
+                            <>
+                              <div className={styles.older}>Older Versions</div>
+                              {files.tier01.versions.map((ver, idx) => {
+                                if (idx === 0) return null;
+                                return (
+                                  <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier01[idx]}`}>Version {ver}</a>
+                                );
+                              })}
+                            </>
+                          }
+                        </>
+                      }
+                      {!tierCondition[0] && <DownloadNotAllowed />}
+                    </>
+                  }
+                </>
+              }
+            </div>
+          </div>
+          <div className={styles.cardWrapper}>
+            <div className={styles.card}>
+              {loading &&
+                <div className={styles.loading}>
+                  <Loading scale={2} />
+                </div>
+              }
+              {!loading &&
+                <>
+                  <div className={styles.heading}>Intermediate</div>
+                  <div className={styles.tier}>(Tier 2)</div>
+                  <div className={styles.desc}>ARR Analysis + Segmentation</div>
+                  {files.tier02 == null && <FileNotFound />}
+                  {files.tier02 != null &&
+                    <>
+                      {tierCondition[1] &&
+                        <>
+                          <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
+                          <LinkButton extraClass={styles.pbtn}
+                                      prefetch={false}
+                                      href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
+                          {arrEncoded_Tier02.length > 1 &&
+                            <>
+                              <div className={styles.older}>Older Versions</div>
+                              {files.tier02.versions.map((ver, idx) => {
+                                if (idx === 0) return null;
+                                return (
+                                  <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
+                                );
+                              })}
+                            </>
+                          }
+                        </>
+                      }
+                      {!tierCondition[1] && <DownloadNotAllowed />}
+                    </>
+                  }
+                </>
+              }
+            </div>
+          </div>
+          <div className={styles.cardWrapper}>
+            <div className={styles.card}>
+              {loading &&
+                <div className={styles.loading}>
+                  <Loading scale={2} />
+                </div>
+              }
+              {!loading &&
+                <>
+                  <div className={styles.heading}>Advanced</div>
+                  <div className={styles.tier}>(Tier 3)</div>
+                  <div className={styles.desc}>Enterprise</div>
+                  {files.tier03 == null && <FileNotFound />}
+                  {files.tier03 != null &&
+                    <>
+                      {tierCondition[2] &&
+                        <>
+                          <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
+                          <LinkButton extraClass={styles.pbtn}
+                                      prefetch={false}
+                                      href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
+                          {arrEncoded_Tier03.length > 1 &&
+                            <>
+                              <div className={styles.older}>Older Versions</div>
+                              {files.tier03.versions.map((ver, idx) => {
+                                if (idx === 0) return null;
+                                return (
+                                  <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
+                                );
+                              })}
+                            </>
+                          }
+                        </>
+                      }
+                      {!tierCondition[2] && <DownloadNotAllowed />}
+                    </>
+                  }
+                </>
+              }
+            </div>
           </div>
         </div>
-        <div className={styles.cardWrapper}>
-          <div className={styles.card}>
-            {loading &&
-              <div className={styles.loading}>
-                <Loading scale={2} />
-              </div>
-            }
-            {!loading &&
-              <>
-                <div className={styles.heading}>Intermediate</div>
-                <div className={styles.tier}>(Tier 2)</div>
-                <div className={styles.desc}>ARR Analysis + Segmentation</div>
-                {files.tier02 == null && <FileNotFound />}
-                {files.tier02 != null &&
-                  <>
-                    {tierCondition[1] &&
-                      <>
-                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier02.versions[0]}</span></div>
-                        <LinkButton extraClass={styles.pbtn}
-                                    prefetch={false}
-                                    href={`/api/download?file=${arrEncoded_Tier02[0]}`}>Download</LinkButton>
-                        {arrEncoded_Tier02.length > 1 &&
-                          <>
-                            <div className={styles.older}>Older Versions</div>
-                            {files.tier02.versions.map((ver, idx) => {
-                              if (idx === 0) return null;
-                              return (
-                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier02[idx]}`}>Version {ver}</a>
-                              );
-                            })}
-                          </>
-                        }
-                      </>
-                    }
-                    {!tierCondition[1] && <DownloadNotAllowed />}
-                  </>
-                }
-              </>
-            }
-          </div>
-        </div>
-        <div className={styles.cardWrapper}>
-          <div className={styles.card}>
-            {loading &&
-              <div className={styles.loading}>
-                <Loading scale={2} />
-              </div>
-            }
-            {!loading &&
-              <>
-                <div className={styles.heading}>Advanced</div>
-                <div className={styles.tier}>(Tier 3)</div>
-                <div className={styles.desc}>Enterprise</div>
-                {files.tier03 == null && <FileNotFound />}
-                {files.tier03 != null &&
-                  <>
-                    {tierCondition[2] &&
-                      <>
-                        <div className={styles.ver}>Version: <span className={styles.dk}>&nbsp;&nbsp;{files.tier03.versions[0]}</span></div>
-                        <LinkButton extraClass={styles.pbtn}
-                                    prefetch={false}
-                                    href={`/api/download?file=${arrEncoded_Tier03[0]}`}>Download</LinkButton>
-                        {arrEncoded_Tier03.length > 1 &&
-                          <>
-                            <div className={styles.older}>Older Versions</div>
-                            {files.tier03.versions.map((ver, idx) => {
-                              if (idx === 0) return null;
-                              return (
-                                <a className={styles.versionLink} key={idx} rel="nofollow" href={`/api/download?file=${arrEncoded_Tier03[idx]}`}>Version {ver}</a>
-                              );
-                            })}
-                          </>
-                        }
-                      </>
-                    }
-                    {!tierCondition[2] && <DownloadNotAllowed />}
-                  </>
-                }
-              </>
-            }
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );

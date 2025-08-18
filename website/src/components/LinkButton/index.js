@@ -1,5 +1,4 @@
 import cn from 'classnames';
-
 import Link from 'next/link';
 import { K_Theme } from '@/utils/common';
 // Styles

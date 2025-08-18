@@ -14,121 +14,123 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   height: 100%;
-  align-items: center;
 
-  .inner {
-    width: 100%;
-    max-width: 940px;
+  .title {
+    font-size: 22px;
+    color: $clrAdmin_Txt1;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .innerAndFooter {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    height: fit-content;
-    box-sizing: border-box;
-    padding: 0 20px;
+    overflow-y: auto;
+    align-items: center;
 
-    @media screen and (max-width: 550px) {
-      padding: 0 10px;
-    }
-
-    section.title {
+    .inner {
       width: 100%;
+      max-width: 940px;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
       gap: 10px;
-      margin: 50px 0 25px;
-      color: $clrAdmin_Txt1;
-      font-size: 28px;
-      text-align: center;
+      height: fit-content;
+      box-sizing: border-box;
+      padding: 0 20px;
 
-      @media screen and (max-width: 1400px) {
-        @include mx-linscale(margin-top, 100, 40, 1400, 400);
-        @include mx-linscale(margin-bottom, 60, 30, 1400, 400);
+      @media screen and (max-width: 550px) {
+        padding: 0 10px;
       }
-    }
 
-    section.subscription {
-      @extend %card-common;
+      section.subscription {
+        @extend %card-common;
 
-      padding-top: 20px;
-      display: grid;
-      grid: 126px 60px / repeat(3, 1fr);
-
-      .cell {
-        padding: 5px;
-        box-sizing: border-box;
+        padding-top: 20px;
         display: grid;
-        place-items: center;
-      }
+        grid: 126px 60px / repeat(3, 1fr);
 
-      .billing {
-        grid-area: 2 / 1 / 3 / 4;
-        display: flex;
-        align-items: center;
-        padding: 14px 0 0 10px;
-        gap: 8px;
-        font-size: 18px;
-        color: black;
-
-        .mulTogXtra {
-          font-size: 14px;
-          height: 34px;
+        .cell {
+          padding: 5px;
+          box-sizing: border-box;
+          display: grid;
+          place-items: center;
         }
-
-        .txtBilling { @extend %fnt-secondary; }
-      }
-
-      @media screen and (max-width: 800px) {
-        grid: repeat(2, 1fr) 60px / repeat(2, 1fr);
-
-        .billing { grid-area: 3 / 1 / 4 / 3; }
-      }
-
-      @media screen and (max-width: 530px) {
-        grid: repeat(3, 1fr) 60px / 1fr;
 
         .billing {
-          grid-area: auto;
-          justify-content: center;
+          grid-area: 2 / 1 / 3 / 4;
+          display: flex;
+          align-items: center;
+          padding: 14px 0 0 10px;
+          gap: 8px;
+          font-size: 18px;
+          color: black;
+
+          .mulTogXtra {
+            font-size: 14px;
+            height: 34px;
+          }
+
+          .txtBilling { @extend %fnt-secondary; }
+        }
+
+        @media screen and (max-width: 800px) {
+          grid: repeat(2, 1fr) 60px / repeat(2, 1fr);
+
+          .billing { grid-area: 3 / 1 / 4 / 3; }
+        }
+
+        @media screen and (max-width: 530px) {
+          grid: repeat(3, 1fr) 60px / 1fr;
+
+          .billing {
+            grid-area: auto;
+            justify-content: center;
+          }
         }
       }
-    }
 
-    section.paymentMethod {
-      @extend %card-common;
+      section.paymentMethod {
+        @extend %card-common;
 
-      padding: 0 20px 20px;
-      display: grid;
-      grid: 70px 1fr / 1fr;
-      position: relative;
-
-      .overlay {
-        position: absolute;
-        z-index: 10;
-        inset: 5px;
-        background-color: rgb(255 255 255 / 75%);
+        padding: 0 20px 20px;
         display: grid;
-        place-items: center;
+        grid: 70px 1fr / 1fr;
+        position: relative;
+
+        .overlay {
+          position: absolute;
+          z-index: 10;
+          inset: 5px;
+          background-color: rgb(255 255 255 / 75%);
+          display: grid;
+          place-items: center;
+        }
+
+        .title {
+          @extend %fnt-secondary;
+
+          display: grid;
+          place-items: center;
+          padding-bottom: 20px;
+          font-size: 24px;
+          color: fn-admin-color(38);
+        }
       }
 
-      .title {
-        @extend %fnt-secondary;
-
-        display: grid;
-        place-items: center;
-        padding-bottom: 20px;
-        font-size: 24px;
-        color: fn-admin-color(38);
+      .btnPayXtra {
+        width: 100%;
+        max-width: 400px;
+        align-self: center;
+        margin-bottom: 30px;
       }
     }
 
-    .btnPayXtra {
+    .spacer {
+      flex: 1;
       width: 100%;
-      max-width: 400px;
-      align-self: center;
-      margin-bottom: 30px;
     }
   }
+
 }

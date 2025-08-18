@@ -23,7 +23,7 @@ const ID_PASSWORD = 'input-password-AE4B-580CAD80B162';
 const ID_CONFIRM  = 'input-confirm-password-AC66-E4CEDC546FAA';
 
 
-const ClientResetPasswordPage = ({ email, token }) => {
+const ResetPasswordClientPage = ({ email, token }) => {
   const router = useRouter();
 
   const [password, setPassword] = useState('');
@@ -162,4 +162,4 @@ const ClientResetPasswordPage = ({ email, token }) => {
 };
 
 
-export default ClientResetPasswordPage;
+export default ResetPasswordClientPage;

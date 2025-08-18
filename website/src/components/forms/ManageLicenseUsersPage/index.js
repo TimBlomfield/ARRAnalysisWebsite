@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
 // Components
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog';
+import Footer from '@/components/admin/Footer';
 import LinkButton from '@/components/LinkButton';
 import Loading from '@/components/Loading';
 import PushButton from '@/components/PushButton';
@@ -114,101 +115,105 @@ const ManageLicenseUsersPage = ({ license, customer }) => {
             <RegLicenseDesc licenseData={licenseData} />
           </div>
         </div>
-        <div className={styles.bottom}>
-          {Array.isArray(mailsSent) && mailsSent.length > 0 &&
-            <>
-              <div className={styles.t1}>Email invitation(s) sent for this license:</div>
-              <div className={styles.t2}>These are potential portal users. By uninviting them, they will not be able to register as portal users.</div>
-              <div className={cn(styles.bars, styles.padBottom)}>
-                {mailsSent.map(person => {
-                  let other;
-                  let bF = person.f != null && typeof person.f === 'string' && person.f.length > 0;
-                  let bL = person.l != null && typeof person.l === 'string' && person.l.length > 0;
-                  if (bF || bL) {
-                    other = ' (';
-                    if (bF) {
-                      other += person.f;
-                      if (bL) other += ', ';
+        <div className={styles.listAndFooter}>
+          <div className={styles.bottom}>
+            {Array.isArray(mailsSent) && mailsSent.length > 0 &&
+              <>
+                <div className={styles.t1}>Email invitation(s) sent for this license:</div>
+                <div className={styles.t2}>These are potential portal users. By uninviting them, they will not be able to register as portal users.</div>
+                <div className={cn(styles.bars, styles.padBottom)}>
+                  {mailsSent.map(person => {
+                    let other;
+                    let bF = person.f != null && typeof person.f === 'string' && person.f.length > 0;
+                    let bL = person.l != null && typeof person.l === 'string' && person.l.length > 0;
+                    if (bF || bL) {
+                      other = ' (';
+                      if (bF) {
+                        other += person.f;
+                        if (bL) other += ', ';
+                      }
+                      if (bL) other += person.l;
+                      other += ')';
                     }
-                    if (bL) other += person.l;
-                    other += ')';
-                  }
-                  const bBusy = loadingLine[person.email] === true;
-                  return (
-                    <div className={styles.bar} key={person.id}>
-                      <div className={styles.invitee}>
-                        {person.email}
-                        {other != null && <span className={styles.other}>{other}</span>}
+                    const bBusy = loadingLine[person.email] === true;
+                    return (
+                      <div className={styles.bar} key={person.id}>
+                        <div className={styles.invitee}>
+                          {person.email}
+                          {other != null && <span className={styles.other}>{other}</span>}
+                        </div>
+                        <div className={styles.spacer} />
+                        {bBusy && <Loading theme={K_Theme.Dark} />}
+                        <PushButton extraClass={styles.pbX}
+                                    textExtraClass={styles.txX}
+                                    disabled={bBusy}
+                                    onClick={() => onBtnReSend(person)}>
+                          Re-send email
+                        </PushButton>
+                        <PushButton extraClass={styles.pbX}
+                                    textExtraClass={styles.txX}
+                                    disabled={bBusy}
+                                    onClick={() => onBtnUninvite(person)}>
+                          Uninvite
+                        </PushButton>
                       </div>
-                      <div className={styles.spacer} />
-                      {bBusy && <Loading theme={K_Theme.Dark} />}
-                      <PushButton extraClass={styles.pbX}
-                                  textExtraClass={styles.txX}
-                                  disabled={bBusy}
-                                  onClick={() => onBtnReSend(person)}>
-                        Re-send email
-                      </PushButton>
-                      <PushButton extraClass={styles.pbX}
-                                  textExtraClass={styles.txX}
-                                  disabled={bBusy}
-                                  onClick={() => onBtnUninvite(person)}>
-                        Uninvite
-                      </PushButton>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          }
-          {Array.isArray(customer.users) && customer.users.length > 0 &&
-            <>
-              <div className={styles.t1}>Users who are allowed to use this license:</div>
-              <div className={styles.bars}>
-                {customer.users.map(user => {
-                  let other;
-                  let bF = user.data.firstName !== '';
-                  let bL = user.data.lastName !== '';
-                  if (bF || bL) {
-                    other = ' (';
-                    if (bF) {
-                      other += user.data.firstName;
-                      if (bL) other += ', ';
+                    );
+                  })}
+                </div>
+              </>
+            }
+            {Array.isArray(customer.users) && customer.users.length > 0 &&
+              <>
+                <div className={styles.t1}>Users who are allowed to use this license:</div>
+                <div className={styles.bars}>
+                  {customer.users.map(user => {
+                    let other;
+                    let bF = user.data.firstName !== '';
+                    let bL = user.data.lastName !== '';
+                    if (bF || bL) {
+                      other = ' (';
+                      if (bF) {
+                        other += user.data.firstName;
+                        if (bL) other += ', ';
+                      }
+                      if (bL) other += user.data.lastName;
+                      other += ')';
                     }
-                    if (bL) other += user.data.lastName;
-                    other += ')';
-                  }
-                  const bBusy = loadingLine[user.data.email] === true;
-                  const bMultipleLicenses = user.licenseIds.length > 1;
-                  return (
-                    <div className={styles.bar} key={user.id}>
-                      <div className={styles.user}>
-                        {user.data.email}
-                        {other != null && <span className={styles.other}>{other}</span>}
+                    const bBusy = loadingLine[user.data.email] === true;
+                    const bMultipleLicenses = user.licenseIds.length > 1;
+                    return (
+                      <div className={styles.bar} key={user.id}>
+                        <div className={styles.user}>
+                          {user.data.email}
+                          {other != null && <span className={styles.other}>{other}</span>}
+                        </div>
+                        {user.using && <div className={styles.usingBar}
+                                            title={`${user.data.email} is assigned to this license (meaning they are using the add-in).`}>Assigned</div>}
+                        <div className={styles.spacer} />
+                        {bBusy && <Loading theme={K_Theme.Light} />}
+                        <PushButton extraClass={styles.pbX}
+                                    textExtraClass={styles.txX}
+                                    disabled={bBusy}
+                                    onClick={() => onBtnDisallow(user)}>
+                          Disallow
+                        </PushButton>
+                        <PushButton theme={K_Theme.Danger}
+                                    extraClass={styles.pbX}
+                                    textExtraClass={styles.txX}
+                                    disabled={bBusy || bMultipleLicenses}
+                                    {...(bMultipleLicenses ? { title: 'This user is allowed for multiple licenses.' } : {})}
+                                    onClick={() => onBtnDelete(user)}>
+                          Delete
+                        </PushButton>
                       </div>
-                      {user.using && <div className={styles.usingBar}
-                                          title={`${user.data.email} is assigned to this license (meaning they are using the add-in).`}>Assigned</div>}
-                      <div className={styles.spacer} />
-                      {bBusy && <Loading theme={K_Theme.Light} />}
-                      <PushButton extraClass={styles.pbX}
-                                  textExtraClass={styles.txX}
-                                  disabled={bBusy}
-                                  onClick={() => onBtnDisallow(user)}>
-                        Disallow
-                      </PushButton>
-                      <PushButton theme={K_Theme.Danger}
-                                  extraClass={styles.pbX}
-                                  textExtraClass={styles.txX}
-                                  disabled={bBusy || bMultipleLicenses}
-                                  {...(bMultipleLicenses ? { title: 'This user is allowed for multiple licenses.' } : {})}
-                                  onClick={() => onBtnDelete(user)}>
-                        Delete
-                      </PushButton>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          }
+                    );
+                  })}
+                </div>
+              </>
+            }
+          </div>
+          <div className={styles.spacer} />
+          <Footer />
         </div>
       </div>
       <ConfirmationDialog isOpen={confirmDisallowDlg}

@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 // Components
+import Footer from '@/components/admin/Footer';
 import Loading from '@/components/Loading';
 import MultiToggle from '@/components/MultiToggle';
 import SubscriptionCard from '../CheckoutClientPage/SubscriptionCard';
@@ -94,66 +95,69 @@ const PurchaseClientPage = ({ tiers }) => {
 
   return (
     <main className={styles.main}>
-      <form className={styles.inner}>
-        <section className={styles.title}>Purchase additional subscriptions</section>
+      <div className={styles.title}>Purchase additional subscriptions</div>
+      <div className={styles.innerAndFooter}>
+        <form className={styles.inner}>
+          <section className={styles.subscription}>
+            <div className={styles.cell}>
+              <SubscriptionCard tier={tiers.One}
+                                selected={tier === 0}
+                                onSelect={() => setTier(0)}
+                                monthly={period === 0}
+                                processing={processing} />
+            </div>
+            <div className={styles.cell}>
+              <SubscriptionCard tier={tiers.Two}
+                                selected={tier === 1}
+                                onSelect={() => setTier(1)}
+                                monthly={period === 0}
+                                processing={processing} />
+            </div>
+            <div className={styles.cell}>
+              <SubscriptionCard tier={tiers.Three}
+                                selected={tier === 2}
+                                onSelect={() => { setTier(2); setT3Licenses(1); }}
+                                licenceCount={t3Licenses}
+                                setLicenseCount={setT3Licenses}
+                                monthly={period === 0}
+                                processing={processing} />
+            </div>
+            <div className={styles.billing}>
+              <MultiToggle extraClass={styles.mulTogXtra}
+                           disabled={processing}
+                           selected={period}
+                           onSelect={x => setPeriod(x)}
+                           options={['Monthly', 'Yearly']} />
+              <div className={styles.txtBilling}>Billing</div>
+            </div>
+          </section>
 
-        <section className={styles.subscription}>
-          <div className={styles.cell}>
-            <SubscriptionCard tier={tiers.One}
-                              selected={tier === 0}
-                              onSelect={() => setTier(0)}
-                              monthly={period === 0}
-                              processing={processing} />
-          </div>
-          <div className={styles.cell}>
-            <SubscriptionCard tier={tiers.Two}
-                              selected={tier === 1}
-                              onSelect={() => setTier(1)}
-                              monthly={period === 0}
-                              processing={processing} />
-          </div>
-          <div className={styles.cell}>
-            <SubscriptionCard tier={tiers.Three}
-                              selected={tier === 2}
-                              onSelect={() => { setTier(2); setT3Licenses(1); }}
-                              licenceCount={t3Licenses}
-                              setLicenseCount={setT3Licenses}
-                              monthly={period === 0}
-                              processing={processing} />
-          </div>
-          <div className={styles.billing}>
-            <MultiToggle extraClass={styles.mulTogXtra}
-                         disabled={processing}
-                         selected={period}
-                         onSelect={x => setPeriod(x)}
-                         options={['Monthly', 'Yearly']} />
-            <div className={styles.txtBilling}>Billing</div>
-          </div>
-        </section>
+          <section className={styles.paymentMethod}>
+            <div className={styles.title}>Payment Method</div>
+            <Elements stripe={stripePromise}
+                      options={{
+                        mode: 'subscription',
+                        amount,
+                        currency: 'usd',
+                        setupFutureUsage: 'off_session',
+                      }}>
+              <ElementsConsumer>
+                {({stripe, elements}) => {
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  useEffect(() => setSPay({ stripe, elements }), [stripe, elements]);
 
-        <section className={styles.paymentMethod}>
-          <div className={styles.title}>Payment Method</div>
-          <Elements stripe={stripePromise}
-                    options={{
-                      mode: 'subscription',
-                      amount,
-                      currency: 'usd',
-                      setupFutureUsage: 'off_session',
-                    }}>
-            <ElementsConsumer>
-              {({stripe, elements}) => {
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => setSPay({ stripe, elements }), [stripe, elements]);
+                  return <PaymentElement options={{ readOnly: processing }} />;
+                }}
+              </ElementsConsumer>
+            </Elements>
+            {processing && <div className={styles.overlay}><Loading scale={2} /></div>}
+          </section>
 
-                return <PaymentElement options={{ readOnly: processing }} />;
-              }}
-            </ElementsConsumer>
-          </Elements>
-          {processing && <div className={styles.overlay}><Loading scale={2} /></div>}
-        </section>
-
-        <PushButton disabled={bDisablePayButton} extraClass={styles.btnPayXtra} onClick={handlePay}>{processing ? 'Processing...' : txtPayBtn}</PushButton>
-      </form>
+          <PushButton disabled={bDisablePayButton} extraClass={styles.btnPayXtra} onClick={handlePay}>{processing ? 'Processing...' : txtPayBtn}</PushButton>
+        </form>
+        <div className={styles.spacer} />
+        <Footer />
+      </div>
     </main>
   );
 };
