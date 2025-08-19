@@ -152,7 +152,7 @@ const PrivacyPolicyPage = () => {
             <p>Your continued use of our Services after such changes constitutes acceptance of the updated Privacy Policy.</p>
             <h3>12. Contact Information</h3>
             <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:</p>
-            <p>
+            <div className={styles.company}>
               <strong>ARR Analysis, LLC</strong>
               <div className={styles.addr}>
                 <div>Email:</div>
@@ -167,7 +167,7 @@ const PrivacyPolicyPage = () => {
                 <div>Phone:</div>
                 <Link className={styles.link} href="tel:+16468875681">+1 (646) 887-5681</Link>
               </div>
-            </p>
+            </div>
             <div style={{ minHeight: '40px' }} />
             <p><em>This Privacy Policy is designed to comply with applicable privacy laws. Please consult with legal counsel to ensure compliance with specific jurisdictional requirements.</em></p>
           </div>
