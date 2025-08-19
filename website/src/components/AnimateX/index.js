@@ -23,8 +23,9 @@ const AnimateX = ({children}) => {
               case 'elasticFadeIn':
                 {
                   const tl = gsap.timeline({ delay });
-                  tl.fromTo(entry.target, { scaleX: 0.5 }, { scaleX: 1, duration: 1, ease: 'elastic.out' });
-                  tl.fromTo(entry.target, { opacity: 0 }, { opacity: 1, duration: .5, ease: 'none' }, 0);
+                  tl.fromTo(entry.target, { scaleX: 0.75 }, { scaleX: 1, duration: .8, ease: 'elastic.out' });
+                  tl.fromTo(entry.target, { opacity: 0 }, { opacity: 1, duration: .2, ease: 'none' }, 0);
+                  tl.fromTo(entry.target, { y: 20 }, { y: 0, duration: .4, ease: 'power2.out' }, 0);
                 }
                 break;
             }
