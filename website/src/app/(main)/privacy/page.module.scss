@@ -83,6 +83,12 @@
 
         strong { font-weight: 600; }
         em { font-style: italic; }
+
+        .addr {
+          display: grid;
+          grid: auto / min-content 1fr;
+          gap: 5px 20px;
+        }
       }
 
       ul, ol {
