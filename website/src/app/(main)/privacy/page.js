@@ -1,6 +1,7 @@
 import Link from 'next/link';
 // Components
 import AnimateX from '@/components/AnimateX';
+import Company from './Company';
 import Footer from '@/components/Footer';
 // Styles
 import styles from './page.module.scss';
@@ -152,22 +153,7 @@ const PrivacyPolicyPage = () => {
             <p>Your continued use of our Services after such changes constitutes acceptance of the updated Privacy Policy.</p>
             <h3>12. Contact Information</h3>
             <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:</p>
-            <div className={styles.company}>
-              <strong>ARR Analysis, LLC</strong>
-              <div className={styles.addr}>
-                <div>Email:</div>
-                <Link className={styles.link} href="mailto:contact@arr-analysis.com">contact@arr-analysis.com</Link>
-                <div>Address:</div>
-                <div>
-                  219 West 81st street<br />
-                  Apt 2E<br />
-                  New york, New York, 10024<br />
-                  US
-                </div>
-                <div>Phone:</div>
-                <Link className={styles.link} href="tel:+16468875681">+1 (646) 887-5681</Link>
-              </div>
-            </div>
+            <Company styles={styles} />
             <div style={{ minHeight: '40px' }} />
             <p><em>This Privacy Policy is designed to comply with applicable privacy laws. Please consult with legal counsel to ensure compliance with specific jurisdictional requirements.</em></p>
           </div>
