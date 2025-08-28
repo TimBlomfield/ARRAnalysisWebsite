@@ -1,0 +1,46 @@
+@use "globals" as *;
+
+nav.main {
+  min-height: 60px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 20px;
+  flex-wrap: wrap;
+  row-gap: 6px;
+
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    font-size: 16px;
+
+    .active {
+      @extend %fnt-primary;
+
+      color: $clrHelpCenter_TocCateg;
+    }
+
+    .inactive {
+      @extend %fnt-secondary;
+
+      font-weight: 600;
+      text-decoration: none;
+      outline-color: transparent;
+      color: $clrHelpCenter_TocTxt;
+
+      &:focus-visible { outline-color: inherit; }
+      &:hover { color: $clrLinkText; }
+    }
+
+    &:nth-child(n+2)::before {
+      @extend %fnt-primary;
+
+      content: "➤";
+      font-size: 16px;
+      margin: 0 8px 0 4px;
+      color: $clrHeaderDarkBk;
+    }
+  }
+}

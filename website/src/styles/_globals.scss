@@ -58,6 +58,10 @@ $clrPopupMenu_ItemHltBorder: color.adjust($clrAdminBk, $lightness: -35% );
 $clrLinkText: #1F6EEF;
 $clrLinkBorder: dimgray;
 
+$clrHelpCenterBk: #F7F9FC;
+$clrHelpCenter_TocCateg: #11243E;
+$clrHelpCenter_TocTxt: #838588;
+$clrHelpCenter_BreadcrumbActive: color.adjust($clrLinkText, $lightness: -20% );
 
 
 @function fn-admin-color($lightness-adjustment) {

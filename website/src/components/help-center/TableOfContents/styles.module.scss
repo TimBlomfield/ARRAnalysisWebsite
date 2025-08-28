@@ -1,0 +1,44 @@
+@use "globals" as *;
+
+.tableOfContents {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+
+  .title {
+    @extend %fnt-primary;
+
+    font-weight: 600;
+    font-size: 16px;
+    color: $clrHelpCenter_TocCateg;
+    margin: 10px 0;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+
+    .txt {
+      @extend %fnt-secondary;
+
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      padding: 6px 16px 6px 0;
+      color: $clrHelpCenter_TocTxt;
+      text-decoration: none;
+      outline-color: transparent;
+
+      &:focus-visible { outline-color: inherit; }
+
+      &:active,
+      &:hover,
+      &.activeLink {
+        color: $clrLinkText;
+      }
+    }
+  }
+}

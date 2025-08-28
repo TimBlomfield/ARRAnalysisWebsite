@@ -1,0 +1,69 @@
+@use "globals" as *;
+
+.main {
+  background-color: $clrHelpCenterBk;
+  display: flex;
+  flex-direction: column;
+
+  .titleArea {
+    background-color: $clrHeaderDarkBk;
+    padding: 0 20px;
+    height: 140px;
+    display: grid;
+    place-content: center;
+    color: $clrHeaderDarkText;
+
+    .title {
+      @extend %fnt-primary;
+
+      font-size: 38px;
+      line-height: 1.2;
+
+      @media screen and (max-width: 440px) { font-size: 32px; }
+
+      @media screen and (max-width: 390px) { font-size: 30px; }
+    }
+  }
+
+  .contentArea {
+    padding: 40px 16px 100px;
+    flex: 1;
+
+    .content {
+      margin: 0 auto;
+      max-width: 1160px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      container-name: content;
+      container-type: inline-size;
+
+      .breadcrumbs {
+        height: 40px;
+        background-color: red;
+      }
+
+      .book {
+        flex: 1;
+        display: flex;
+        column-gap: 4px;
+
+        .toc {
+          flex: 0 0 24%;
+          min-height: 1580px;
+        }
+
+        .contents {
+          background-color: white;
+          flex: 0 0 76%;
+        }
+      }
+
+      @container content (max-width: 700px) {
+        .book {
+          flex-direction: column-reverse;
+        }
+      }
+    }
+  }
+}
