@@ -13,7 +13,7 @@ import styles from './styles.module.scss';
 
 const MARGIN = 20;
 const MAX_ZOOM = 3;
-const MIN_ZOOM = .5;
+const MIN_ZOOM = .25;
 
 
 const ImageViewer = ({ image, alt, notifyClosed }) => {

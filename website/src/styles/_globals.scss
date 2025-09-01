@@ -62,6 +62,8 @@ $clrHelpCenterBk: #F7F9FC;
 $clrHelpCenter_TocCateg: #11243E;
 $clrHelpCenter_TocTxt: #838588;
 $clrHelpCenter_BreadcrumbActive: color.adjust($clrLinkText, $lightness: -20% );
+$clrHelpCenter_PageTitle: #222;
+$clrHelpCenter_PageText: #465364;
 
 
 @function fn-admin-color($lightness-adjustment) {

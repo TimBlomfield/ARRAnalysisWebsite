@@ -48,14 +48,12 @@
         display: flex;
         column-gap: 4px;
 
-        .toc {
-          flex: 0 0 24%;
-          min-height: 1580px;
-        }
+        .toc { flex: 0 0 24%; }
 
         .contents {
           background-color: white;
           flex: 0 0 76%;
+          box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
         }
       }
 

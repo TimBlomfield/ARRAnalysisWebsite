@@ -30,8 +30,12 @@ nav.main {
       outline-color: transparent;
       color: $clrHelpCenter_TocTxt;
 
-      &:focus-visible { outline-color: inherit; }
       &:hover { color: $clrLinkText; }
+
+      &:focus-visible {
+        outline: none;
+        text-decoration: underline;
+      }
     }
 
     &:nth-child(n+2)::before {

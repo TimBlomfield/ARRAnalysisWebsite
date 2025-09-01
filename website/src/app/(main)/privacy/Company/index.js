@@ -10,7 +10,6 @@ const Company = ({ styles }) => (
       <div>Address:</div>
       <div>
         219 West 81st street<br />
-        Apt 2E<br />
         New york, New York, 10024<br />
         US
       </div>

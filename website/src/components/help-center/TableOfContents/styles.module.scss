@@ -30,9 +30,9 @@
       padding: 6px 16px 6px 0;
       color: $clrHelpCenter_TocTxt;
       text-decoration: none;
-      outline-color: transparent;
+      outline: none;
 
-      &:focus-visible { outline-color: inherit; }
+      &:focus-visible { text-decoration: underline; }
 
       &:active,
       &:hover,
