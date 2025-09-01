@@ -141,7 +141,7 @@ const CheckoutClientPageInner = ({ tiers }) => {
       if (bErrorMissing || bErrorInvalidEmail || bErrorPassMatch || bErrorPassShort || bErrorPassWeak) {
         let strError = 'Customer validation failed:';
         if (bErrorMissing)
-          strError += '\n\u00A0\u00A0\u00A0• Missing required user data';
+          strError += '\n\u00A0\u00A0\u00A0• Missing required customer data';
         if (bErrorInvalidEmail)
           strError += '\n\u00A0\u00A0\u00A0• Invalid email address';
         if (bErrorPassShort)
