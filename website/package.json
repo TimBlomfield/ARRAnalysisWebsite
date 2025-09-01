@@ -52,9 +52,9 @@
     "eslint-config-next": "14.2.3",
     "prisma": "^6.15.0",
     "sass": "^1.91.0",
-    "stylelint": "^16.23.1",
-    "stylelint-config-standard": "^39.0.0",
-    "stylelint-config-standard-scss": "^15.0.1",
-    "stylelint-scss": "^6.12.1"
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard": "^38.0.0",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-scss": "^6.12.0"
   }
 }
