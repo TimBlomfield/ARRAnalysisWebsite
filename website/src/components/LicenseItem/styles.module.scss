@@ -55,6 +55,8 @@
     padding: 24px 0 8px;
     flex-wrap: wrap;
 
+    &.noActions { padding: 0; }
+
     .pbXtra {
       height: 48px;
 

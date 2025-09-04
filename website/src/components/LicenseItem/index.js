@@ -102,6 +102,7 @@ const LicenseItem = ({ license, isAdmin }) => {
   const dateActivated = DateTime.fromISO(license.time_activated);
   const bMailsSent = Array.isArray(license.mailsSent) && license.mailsSent.length > 0;
   const bWaitingToAssign = Array.isArray(license.portalUsers) && license.portalUsers.length > 0;
+  const bNoActions = bLicenseDisabled && !(bMailsSent || bWaitingToAssign || bAssigned) && !isAdmin;
 
   return (
     <div className={styles.licenseBlock}>
@@ -144,19 +145,23 @@ const LicenseItem = ({ license, isAdmin }) => {
           </>
         }
       </div>
-      <div className={styles.actions}>
-        <PushButton extraClass={styles.pbXtra}
-                    disabled={loading}
-                    title="Send an invitation email."
-                    onClick={() => setIsOpen_InviteUserDialog(true)}>
-          Invite User
-        </PushButton>
-        <PushButton extraClass={styles.pbXtra}
-                    disabled={loading}
-                    title="Allow this license for yourself. You will then be able to assign yourself to this license and use the add-in."
-                    onClick={onAllowSelf}>
-          Allow for Self
-        </PushButton>
+      <div className={cn(styles.actions, {[styles.noActions]: bNoActions})}>
+        {!bLicenseDisabled &&
+          <>
+            <PushButton extraClass={styles.pbXtra}
+                        disabled={loading}
+                        title="Send an invitation email."
+                        onClick={() => setIsOpen_InviteUserDialog(true)}>
+              Invite User
+            </PushButton>
+            <PushButton extraClass={styles.pbXtra}
+                        disabled={loading}
+                        title="Allow this license for yourself. You will then be able to assign yourself to this license and use the add-in."
+                        onClick={onAllowSelf}>
+              Allow for Self
+            </PushButton>
+          </>
+        }
         {(bMailsSent || bWaitingToAssign || bAssigned) &&
           <PushButton extraClass={styles.pbXtra}
                       disabled={loading}

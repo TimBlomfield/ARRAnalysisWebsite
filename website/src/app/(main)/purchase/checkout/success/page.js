@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import Mailgun from 'mailgun.js';
 import formData from 'form-data';
-import { notFound } from 'next/navigation';
+import { notFound, redirect, RedirectType } from 'next/navigation';
 import Link from 'next/link';
 import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
@@ -17,8 +17,13 @@ import styles from './page.module.scss';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
-  const { scid: id_stripeCustomer, secret, pi } = searchParams;
+  const { scid: id_stripeCustomer, secret, pi, redirect_status } = searchParams;
   let purchaseInfo;
+
+  if (redirect_status !== 'succeeded') {
+    const queryString = new URLSearchParams(searchParams).toString();
+    redirect(`/purchase/checkout/failed?${queryString}`, RedirectType.replace); // redirect must be called outside a try/catch block
+  }
 
   try {
     purchaseInfo = JSON.parse(atob(pi));

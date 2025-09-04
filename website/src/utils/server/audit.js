@@ -130,6 +130,40 @@ const createAuditLog = async (evt, req) => {
       }
       break;
 
+    case AuditEvent.PAYMENT_FAILED_PAGE:
+      {
+        const meta = await db.auditLogMetadata.findFirst({
+          where: { value: evt.secret },
+          include: {
+            auditLog: {
+              select: {
+                id: true,
+                actorEmail: true,
+              },
+            },
+          },
+        });
+        await db.auditLog.create({
+          data: {
+            actorEmail: meta != null ? meta.auditLog.actorEmail : 'Error',
+            eventType: evt.type,
+            description: evt.description,
+            metadata: {
+              createMany: {
+                data: [
+                  {
+                    key: 'CreateSubscription_AuditLogId',
+                    value: meta != null ? meta.auditLog.id.toString() : 'Error',
+                  },
+                  ...evt.metadata,
+                ],
+              },
+            },
+          },
+        });
+      }
+      break;
+
     case AuditEvent.ADMIN_REGISTERED:
       {
         await db.auditLog.create({

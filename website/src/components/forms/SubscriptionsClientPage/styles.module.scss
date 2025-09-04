@@ -19,10 +19,22 @@
   }
 
   .title {
-    font-size: 22px;
-    color: $clrAdmin_Txt1;
-    padding: 20px;
-    text-align: center;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    .txt {
+      flex: 1;
+      font-size: 22px;
+      color: $clrAdmin_Txt1;
+      text-align: center;
+    }
+
+    .filter {
+      height: 32px;
+      background-color: transparent;
+      font-size: 12px;
+    }
   }
 
   .listAndFooter {
