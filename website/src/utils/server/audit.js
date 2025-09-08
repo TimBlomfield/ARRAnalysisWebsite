@@ -66,6 +66,10 @@ const createAuditLog = async (evt, req) => {
           { key: 'tier', value: evt.tier.toString() },
           { key: 'period', value: evt.period },
         ];
+        if (evt.paymentIntentId)
+          data.push({ key: 'paymentIntentId', value: evt.paymentIntentId });
+        if (evt.stripeCustomerId != null)
+          data.push({ key: 'stripeCustomerId', value: evt.stripeCustomerId });  // If subscription created by an existing customer
         let description = null;
         if (evt.existingUser === true) {
           description = 'Existing user';
@@ -477,6 +481,72 @@ const createAuditLog = async (evt, req) => {
             eventType: evt.type,
             ipAddress,
             userAgent,
+          },
+        });
+      }
+      break;
+
+    case AuditEvent.PAYMENT_SUCCESS_ADMINPAGE:
+      {
+        const meta = await db.auditLogMetadata.findFirst({
+          where: { value: evt.description },
+          include: {
+            auditLog: {
+              select: {
+                id: true,
+                actorEmail: true,
+              },
+            },
+          },
+        });
+        await db.auditLog.create({
+          data: {
+            actorEmail: meta != null ? meta.auditLog.actorEmail : 'Error',
+            eventType: evt.type,
+            description: evt.description,
+            ipAddress,
+            userAgent,
+            metadata: {
+              createMany: {
+                data: [
+                  { key: 'CreateSubscription_AuditLogId', value: meta != null ? meta.auditLog.id.toString() : 'Error' },
+                  { key: 'stripeCustomerId', value: evt.stripeCustomerId },
+                ],
+              },
+            },
+          },
+        });
+      }
+      break;
+
+    case AuditEvent.PAYMENT_FAILED_ADMINPAGE:
+      {
+        const meta = await db.auditLogMetadata.findFirst({
+          where: { value: evt.description },
+          include: {
+            auditLog: {
+              select: {
+                id: true,
+                actorEmail: true,
+              },
+            },
+          },
+        });
+        await db.auditLog.create({
+          data: {
+            actorEmail: meta != null ? meta.auditLog.actorEmail : 'Error',
+            eventType: evt.type,
+            description: evt.description,
+            metadata: {
+              createMany: {
+                data: [
+                  {
+                    key: 'CreateSubscription_AuditLogId',
+                    value: meta != null ? meta.auditLog.id.toString() : 'Error',
+                  },
+                ],
+              },
+            },
           },
         });
       }

@@ -3,6 +3,7 @@ import Mailgun from 'mailgun.js';
 import formData from 'form-data';
 import { notFound, redirect, RedirectType } from 'next/navigation';
 import Link from 'next/link';
+import Stripe from 'stripe';
 import { AuditEvent } from '@prisma/client';
 import { createAuditLog } from '@/utils/server/audit';
 import db from '@/utils/server/db';
@@ -17,10 +18,23 @@ import styles from './page.module.scss';
 
 
 const PaymentSuccessPage = async ({ searchParams }) => {
-  const { scid: id_stripeCustomer, secret, pi, redirect_status } = searchParams;
-  let purchaseInfo;
+  const { scid: id_stripeCustomer, secret, pi, redirect_status, payment_intent } = searchParams;
+  let purchaseInfo, bHasUserData = false, paymentIntentFailed = false;
 
-  if (redirect_status !== 'succeeded') {
+  if (payment_intent != null) {
+    // Verifying the payment intent because it's possible that the redirect_status is 'succeeded' but the payment_intent is not.
+    // This can happen if the payment process redirects to a new tab.
+    try {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+      const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
+      paymentIntentFailed = paymentIntent.status !== 'succeeded';
+    } catch (err) {
+      console.error('An error occurred while trying to verify PaymentIntent:');
+      console.error(err);
+    }
+  }
+
+  if (redirect_status !== 'succeeded' || paymentIntentFailed) {
     const queryString = new URLSearchParams(searchParams).toString();
     redirect(`/purchase/checkout/failed?${queryString}`, RedirectType.replace); // redirect must be called outside a try/catch block
   }
@@ -31,6 +45,8 @@ const PaymentSuccessPage = async ({ searchParams }) => {
     const tiers = await getPricingTiers();
 
     const theUserData = await db.userData.findFirst({ where: { secret }});
+    if (theUserData != null)
+      bHasUserData = true;
 
     if (theUserData != null) {
       await db.customer.create({
@@ -82,14 +98,13 @@ const PaymentSuccessPage = async ({ searchParams }) => {
     notFound();
   }
 
-  await createAuditLog({
-    type: AuditEvent.PAYMENT_SUCCESS_PAGE,
-    stripeCustomerId: id_stripeCustomer,
-    tier: purchaseInfo.tier + 1,
-    period: purchaseInfo.period === 0 ? 'monthly' : 'yearly',
-    quantity: (purchaseInfo.tier === 2) ? purchaseInfo.licenses : 1,
-    secret,
-  });
+  if (bHasUserData) { // Don't audit log if there is no UserData. That's probably a page refresh.
+    await createAuditLog({
+      type: AuditEvent.PAYMENT_SUCCESS_PAGE,
+      stripeCustomerId: id_stripeCustomer,
+      secret,
+    });
+  }
 
   const tierDesc = purchaseInfo.tier === 0
     ? 'Basic'

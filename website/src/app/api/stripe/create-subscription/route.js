@@ -62,6 +62,7 @@ const POST = async req => {
     const hashedPassword = await hash(password, 10);
     const secret = randomBytes(32).toString('hex');
 
+    const paymentIntentId = subscription.latest_invoice?.payment_intent?.id ?? null;
     await createAuditLog({
       type: AuditEvent.CREATE_SUBSCRIPTION,
       firstName,
@@ -73,6 +74,7 @@ const POST = async req => {
       quantity: tier === 2 ? t3Licenses : 1,
       tier: tier + 1,
       period: period === 0 ? 'monthly' : 'yearly',
+      paymentIntentId,
     }, req);
 
     await db.userData.create({

@@ -72,6 +72,8 @@ const POST = async req => {
       quantity: tier === 2 ? t3Licenses : 1,
       tier: tier + 1,
       period: period === 0 ? 'monthly' : 'yearly',
+      paymentIntentId: subscription.latest_invoice?.payment_intent?.id ?? null,
+      stripeCustomerId,
     }, req);
 
     return NextResponse.json({

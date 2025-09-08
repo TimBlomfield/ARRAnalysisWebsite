@@ -124,7 +124,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
       </div>
       <div className={styles.listAndFooter}>
         <div className={styles.subscriptionList}>
-          {subscriptions.map(sub => (mtActive === 0 && ysub.status !== 'active') ? null : (
+          {subscriptions.map(sub => (mtActive === 0 && sub.status !== 'active') ? null : (
             <Drawer header={<SubscriptionHeader sub={sub} disabled={loading} />} key={sub.id} initiallyCollapsed={false}>
               <section className={styles.body}>
                 {(sub.status === 'active' && sub.kCancel.cancel_at == null) &&

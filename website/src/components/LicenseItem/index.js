@@ -104,6 +104,9 @@ const LicenseItem = ({ license, isAdmin }) => {
   const bWaitingToAssign = Array.isArray(license.portalUsers) && license.portalUsers.length > 0;
   const bNoActions = bLicenseDisabled && !(bMailsSent || bWaitingToAssign || bAssigned) && !isAdmin;
 
+  if (!isAdmin && bLicenseDisabled) // Don't show disabled licenses to non-admins
+    return null;
+
   return (
     <div className={styles.licenseBlock}>
       {loading &&
