@@ -58,12 +58,9 @@ const PurchaseSuccessPage = async ({ searchParams }) => {
     redirect(`/admin/purchase/failed?${queryString}`, RedirectType.replace); // redirect must be called outside a try/catch block
   }
 
-  let N, period, tier;
+  let purchaseInfo = { tier: 0, period: 0 };
   try {
-    const purchaseInfo = JSON.parse(atob(searchParams.pi));
-    N = purchaseInfo.licenses ?? 1;
-    period = purchaseInfo.period === 0 ? 'monthly' : 'yearly';
-    tier = purchaseInfo.tier + 1;
+    purchaseInfo = JSON.parse(atob(searchParams.pi));
 
     const theUserData = await db.userData.findUnique({
       where: { email: token.email },
@@ -95,7 +92,7 @@ const PurchaseSuccessPage = async ({ searchParams }) => {
     notFound();
   }
 
-  return <PurchaseSuccessClientPage N={N} period={period} tier={tier} />;
+  return <PurchaseSuccessClientPage {...purchaseInfo} />;
 };
 
 

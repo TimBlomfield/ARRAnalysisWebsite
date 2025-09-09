@@ -2,6 +2,10 @@ import { notFound } from 'next/navigation';
 import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
 import { createAuditLog } from '@/utils/server/audit';
+// Components
+import Footer from '@/components/admin/Footer';
+// styles
+import styles from './styles.module.scss';
 
 
 // Function to check if an audit log exists for the payment intent
@@ -37,9 +41,28 @@ const PaymentFailedPage = async ({ searchParams }) => {
   }
 
   return (
-    <div>
-      Payment Failed
-    </div>
+    <main className={styles.main}>
+      <div className={styles.info}>
+        <div className={styles.title}>Payment Could Not Be Processed</div>
+        <div className={styles.errorDetails}>
+          <div className={styles.txtErrorTitle}>What happened?</div>
+          <div className={styles.txtErrorDetail}>
+            Your payment was declined during processing. This could be due to insufficient funds, security restrictions, or a temporary issue with your payment method.
+          </div>
+        </div>
+        <div className={styles.helpSection}>
+          <div className={styles.txtHelpTitle}>Common Solutions</div>
+          <ul className={styles.helpList}>
+            <li>Check that your card details are entered correctly</li>
+            <li>Ensure you have sufficient funds available</li>
+            <li>Try a different payment method or card</li>
+            <li>Contact your bank to authorize the transaction</li>
+            <li>Check if your card supports online payments</li>
+          </ul>
+        </div>
+      </div>
+      <Footer />
+    </main>
   );
 };
 

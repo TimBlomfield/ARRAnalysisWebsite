@@ -9,7 +9,6 @@
   place-items: center;
 
   .contents {
-    box-sizing: border-box;
     margin: 0 auto;
     width: 100%;
     max-width: 800px;
@@ -19,41 +18,73 @@
     box-shadow: 0 0 15px rgb(0 0 0 / 0.2);
     border: 1px solid color.adjust($clrSeparator, $lightness: 6%);
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
+    align-items: center;
     gap: 30px;
 
-    .checkMark {
-      margin-top: 20px;
-      height: 100px;
+    .iconContainer {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #ff6b6b, #ff8a80);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+      color: #EFF2F3;
+
+      .i {
+        width: 40px;
+        height: 40px;
+      }
 
       @media screen and (max-width: 440px) {
-        margin-top: 14px;
+        @include mx-linscale(width, 80, 60, 440, 320);
+        @include mx-linscale(height, 80, 60, 440, 320);
 
-        @include mx-linscale(height, 100, 60, 440, 320);
+        .i {
+          @include mx-linscale(width, 40, 30, 440, 320);
+          @include mx-linscale(height, 40, 30, 440, 320);
+        }
       }
     }
 
-    .txtThankYou {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .txtPaymentFailed {
       @extend %fnt-primary;
 
       font-size: 32px;
       text-align: center;
       line-height: 1.2;
+      max-width: 400px;
+      color: black;
 
       @media screen and (max-width: 600px) {
         @include mx-linscale(font-size, 32, 20, 600, 320);
       }
     }
 
-    .txtWelcome {
+    .txtIssue {
       @extend %fnt-secondary;
 
       font-size: 16px;
       text-align: center;
       line-height: 1.2;
+      max-width: 500px;
+      color: color.adjust(black, $lightness: 30% );
+
+      @media screen and (max-width: 600px) {
+        @include mx-linscale(font-size, 16, 14, 600, 320);
+      }
     }
 
-    .loginLink { margin: 0 auto; }
+    @extend %failed-payment-common;
 
     .txtHelp {
       @extend %fnt-secondary;

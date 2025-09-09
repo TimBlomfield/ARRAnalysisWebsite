@@ -11,6 +11,7 @@ import thankYouEmail from '@/utils/emails/thank-you.html';
 import { getPricingTiers } from '@/utils/server/prices';
 // Components
 import LinkButton from '@/components/LinkButton';
+import PurchaseSummary from '@/components/PurchaseSummary';
 // Images
 import CheckmarkCircle from '@/../public/CheckmarkCircle.svg';
 // Styles
@@ -111,30 +112,14 @@ const PaymentSuccessPage = async ({ searchParams }) => {
     : purchaseInfo.tier === 1 ? 'Intermediate' : 'Advanced';
 
   const licenses = purchaseInfo.licenses == null || purchaseInfo.licenses === 1 ? '1 License' : `${purchaseInfo.licenses} Licenses`;
+
   return (
     <div className={styles.main}>
       <div className={styles.contents}>
         <CheckmarkCircle className={styles.checkMark} />
         <div className={styles.txtThankYou}>Thank You for Your Purchase!</div>
         <div className={styles.txtWelcome}>Your order has been processed successfully. Welcome to the ARR Analysis family!</div>
-        <div className={styles.purchaseSummary}>
-          <div className={styles.txtSummary}>Purchase Summary</div>
-          <div className={styles.gridSummary}>
-            <div className={styles.cell1}>
-              <div className={styles.line1}>ARR Analysis Excel Add-in</div>
-              <div className={styles.line2}>Tier {purchaseInfo.tier + 1}&nbsp;&nbsp;&nbsp;({tierDesc})</div>
-            </div>
-            <div className={styles.cell2}>
-              <div className={styles.txtAmount}>{licenses}</div>
-            </div>
-            <div className={styles.cell1}>
-              <div className={styles.txtSubsType}>Subscription Type</div>
-            </div>
-            <div className={styles.cell2}>
-              <div className={styles.txtPeriod}>{purchaseInfo.period === 0 ? 'Monthly' : 'Yearly'}</div>
-            </div>
-          </div>
-        </div>
+        <PurchaseSummary {...purchaseInfo} />
         <LinkButton href="/login" extraClass={styles.loginLink}>
           Access Your Account
         </LinkButton>

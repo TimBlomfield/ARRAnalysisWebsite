@@ -418,3 +418,68 @@ $fontSecondary: var(--font-aspekta-250);
     }
   }
 }
+
+
+%failed-payment-common {
+  .errorDetails {
+    background: #FEF7F7;
+    border: 1px solid #FECACA;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 8px 0;
+    text-align: left;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+
+    .txtErrorTitle {
+      @extend %fnt-primary;
+
+      color: #DC2626;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .txtErrorDetail {
+      @extend %fnt-secondary;
+
+      color: #7F1D1D;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  .helpSection {
+    background: #F8FAFC;
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    text-align: left;
+
+    .txtHelpTitle {
+      @extend %fnt-primary;
+
+      color: #475569;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    ul.helpList {
+      @extend %fnt-secondary;
+
+      text-align: left;
+      color: #64748B;
+      font-size: 14px;
+      line-height: 1.6;
+      list-style-type: disc;
+      padding-left: 30px;
+
+      li {
+        margin-bottom: 8px;
+        padding-left: 8px;
+      }
+    }
+  }
+}

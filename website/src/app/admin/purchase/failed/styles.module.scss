@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    gap: 20px;
 
     .title {
       @extend %fnt-primary;
@@ -23,12 +24,6 @@
       margin-bottom: 8px;
     }
 
-    .desc {
-      @extend %fnt-secondary;
-
-      font-size: 22px;
-      color: $clrAdmin_Txt1;
-      text-align: center;
-    }
+    @extend %failed-payment-common;
   }
 }
