@@ -33,9 +33,43 @@ const TermsOfUsePage = () => {
             <h4>3.1 Subscription Tiers</h4>
             <p>We offer three subscription tiers for our Excel Add-in:</p>
             <ul>
-              <li><strong>Basic:</strong> [Brief description of features]</li>
-              <li><strong>Intermediate:</strong> [Brief description of features]</li>
-              <li><strong>Advanced:</strong> [Brief description of features]</li>
+              <li>
+                <strong>Basic (Tier 1):</strong>
+                <ul>
+                  <li><span className={styles.lesser}>Core Excel Add-in:</span> Ability to install and use the ARR Analysis Excel add-in.</li>
+                  <li><span className={styles.lesser}>Recurring Revenue Analysis:</span> Automates standard ARR (Annual Recurring Revenue) calculations inside Excel.</li>
+                  <li><span className={styles.lesser}>Retention & Churn Tracking:</span> Basic reporting on customer retention and churn across monthly, quarterly, annual, and trailing twelve-month time periods.</li>
+                  <li><span className={styles.lesser}>Standard Visualization:</span> Generates charts and reports that can be used in presentations.</li>
+                  <li><span className={styles.lesser}>Subscription Management Dashboard:</span> Access to account management, billing, and license assignment tools.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Intermediate (Tier 2):</strong>
+                <p>Includes all Basic features, plus:</p>
+                <ul className={styles.mTx8}>
+                  <li><span className={styles.lesser}>Cohort Analysis:</span> Track customer retention, churn, and expansion trends by cohort (e.g., by signup month or year).</li>
+                  <li><span className={styles.lesser}>Customer Size Analysis:</span>
+                    <ul>
+                      <li>Cuts of cohorts by size of customer</li>
+                      <li>Provides customer concentration analysis</li>
+                      <li>Analyzes churn, including top churn, and churn cohorts</li>
+                    </ul>
+                  </li>
+                  <li><span className={styles.lesser}>Average Contract Value (ACV) Analysis:</span> Monitor how customer spend per contract evolves across time periods.</li>
+                  <li><span className={styles.lesser}>Flexible Time Periods:</span> Analyze data monthly, quarterly, annually, or across multiple custom periods.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Advanced (Tier 3):</strong>
+                <p>Includes all Intermediate features, plus:</p>
+                <ul className={styles.mTx8}>
+                  <li>Analyze top churns in greater detail.</li>
+                  <li>Analyze unit economics (LTV, CAC, GEI, Payback period).</li>
+                  <li><span className={styles.lesser}>Analyze revenue by segmentation:</span> Analyze retention, growth, and cohorts by geographic segment, customer size, customer vertical, and product line</li>
+                  <li><span className={styles.lesser}>Customizable Outputs:</span> Automatically output to PPT in your company template.</li>
+                  <li><span className={styles.lesser}>Enterprise Support & Maintenance:</span> Priority support channels, faster response times, and access to additional resources.</li>
+                </ul>
+              </li>
             </ul>
             <h4>3.2 Subscription Plans</h4>
             <p>Each tier is available as:</p>
@@ -196,7 +230,7 @@ const TermsOfUsePage = () => {
             </ul>
             <h3>14. Dispute Resolution</h3>
             <h4>14.1 Governing Law</h4>
-            <p>These Terms are governed by the laws of [Your Jurisdiction] without regard to conflict of law principles.</p>
+            <p>These Terms are governed by the laws of the State of Delaware, without regard to conflict of law principles.</p>
             <h4>14.2 Dispute Resolution Process</h4>
             <ul>
               <li>Initial disputes should be addressed through our customer support</li>

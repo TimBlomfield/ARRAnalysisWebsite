@@ -113,6 +113,24 @@
 
           strong { @extend %fnt-primary; }
           em { font-style: italic; }
+          .lesser { font-weight: 600; }
+
+          ul {
+            margin: 16px 0;
+            list-style-type: circle;
+
+            &.mTx8 { margin-top: -8px; }
+
+            ul {
+              list-style-type: none;
+
+              li::before {
+                content: '–';
+                margin-right: 9px;
+                font-weight: 600;
+              }
+            }
+          }
         }
       }
 
