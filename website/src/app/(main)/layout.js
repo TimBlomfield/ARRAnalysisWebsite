@@ -8,6 +8,7 @@ import 'normalize-css/normalize.css';
 import 'reset-css/reset.css';
 import '@/styles/globals.scss';
 
+
 const aspekta750 = localFont({
   src: '../../../public/font/Aspekta-750.woff2',
   variable: '--font-aspekta-750',

@@ -1,0 +1,47 @@
+@use "globals" as *;
+
+
+.main {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px); // Decreased by 60px for the header
+  box-sizing: border-box;
+
+  section.mid {
+    flex: 1;
+    width: min(calc(100vw - 40px), 960px);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    line-height: 1.4;
+    padding: 80px 20px;
+    margin: 0 auto;
+
+    .errorTitle {
+      @extend %fnt-primary;
+
+      font-size: 54px;
+      color: #11243E;
+    }
+
+    .errorDetail {
+      @extend %fnt-secondary;
+
+      font-size: 18px;
+      color: #707070;
+    }
+
+    @media screen and (max-width: 780px) {
+      @include mx-linscale(padding-top, 80, 40, 780, 360);
+      @include mx-linscale(padding-bottom, 80, 40, 780, 360);
+      @include mx-linscale(gap, 40, 32, 780, 360);
+
+      .errorTitle { @include mx-linscale(font-size, 54, 32, 780, 360); }
+    }
+
+    @media screen and (max-width: 540px) {
+      .errorDetail { font-size: 16px; }
+    }
+  }
+}

@@ -1,22 +1,30 @@
 @use "globals" as *;
 
+
 .main {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-sizing: border-box;
-  padding: 20px;
-  text-align: center;
+  height: 100%;
+  overflow-y: auto;
 
-  .txt1 {
-    font-size: 22px;
-    color: $clrAdmin_Txt0;
-  }
+  .errorMsg {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
 
-  .txt2 {
-    color: $clrAdmin_Txt1;
+    .txt1 {
+      font-size: 22px;
+      color: $clrAdmin_Txt0;
+    }
+
+    .txt2 {
+      color: $clrAdmin_Txt1;
+    }
   }
 }
