@@ -12,6 +12,8 @@ export const middleware = async request => {
   // Force HTTPS in staging or production
   // if (isStagingOrProd && !request.url.startsWith('https://'))
   //   return NextResponse.redirect(new URL(request.url.replace('http://', 'https://')));
+  if (isStagingOrProd && request.headers.get('x-forwarded-proto') !== 'https')
+    return NextResponse.redirect(new URL(request.url.replace('http://', 'https://')));
 
   const response = NextResponse.next();
 
