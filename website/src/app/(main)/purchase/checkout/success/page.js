@@ -74,7 +74,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         case 2: prodName = tiers.Three.Desc; break;
       }
 
-      const html = thankYouEmail.replaceAll('[[Logo URL]]', `${process.env.NEXTAUTH_URL}/logo-blue.svg`)
+      const html = thankYouEmail.replaceAll('[[Logo URL]]', `${process.env.NEXTAUTH_URL}/arr-logo-email.png`)
         .replaceAll('[[Login URL]]', process.env.LOGIN_BASEURL)
         .replaceAll('[[Customer Name]]', `${theUserData.firstName} ${theUserData.lastName}`)
         .replaceAll('[[Subscription]]', subscriptions)
