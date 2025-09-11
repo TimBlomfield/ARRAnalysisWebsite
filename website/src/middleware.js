@@ -5,7 +5,7 @@ import axios from 'axios';
 import { isAuthTokenValid } from '@/utils/server/common';
 
 
-const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
+const isStagingOrProd = false;//process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
 
 
 export const middleware = async request => {
@@ -18,12 +18,12 @@ export const middleware = async request => {
   const pathname = request.nextUrl.pathname.toLowerCase();
 
   // Add HSTS header in staging or production
-  if (isStagingOrProd) {/*
+  if (isStagingOrProd) {
     response.headers.set(
       'Strict-Transport-Security',
       'max-age=31536000; includeSubDomains; preload'
     );
-  */}
+  }
 
   if (isStagingOrProd && pathname.startsWith('/test-pages'))
     return NextResponse.redirect(new URL('/', request.url));
