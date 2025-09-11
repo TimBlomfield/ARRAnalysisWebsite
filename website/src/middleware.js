@@ -5,13 +5,13 @@ import axios from 'axios';
 import { isAuthTokenValid } from '@/utils/server/common';
 
 
-const isStagingOrProd = false;//process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
+const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
 
 
 export const middleware = async request => {
   // Force HTTPS in staging or production
-  if (isStagingOrProd && !request.url.startsWith('https://'))
-    return NextResponse.redirect(new URL(request.url.replace('http://', 'https://')));
+  // if (isStagingOrProd && !request.url.startsWith('https://'))
+  //   return NextResponse.redirect(new URL(request.url.replace('http://', 'https://')));
 
   const response = NextResponse.next();
 
