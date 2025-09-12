@@ -73,12 +73,14 @@ const DownloadsPage = async () => {
 
       // Allow download for all products that this customer has purchased a license for
       licenseData.results.forEach(license => {
-        const foundProduct = products.find(prod => prod.id === license.product.id);
-        if (foundProduct != null) {
-          const { code } = foundProduct;
-          if (code.endsWith('tier-1')) allowedDownloads[0] = true;
-          else if (code.endsWith('tier-2')) allowedDownloads[1] = true;
-          else if (code.endsWith('tier-3')) allowedDownloads[2] = true;
+        if (!license.status.toLowerCase().startsWith('disabled')) { // Don't allow disabled licenses, because they are probably from failed payments
+          const foundProduct = products.find(prod => prod.id === license.product.id);
+          if (foundProduct != null) {
+            const { code } = foundProduct;
+            if (code.endsWith('tier-1')) allowedDownloads[0] = true;
+            else if (code.endsWith('tier-2')) allowedDownloads[1] = true;
+            else if (code.endsWith('tier-3')) allowedDownloads[2] = true;
+          }
         }
       });
     }
