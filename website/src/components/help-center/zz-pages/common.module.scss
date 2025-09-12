@@ -9,17 +9,24 @@ section.main {
     font-size: 16px;
     line-height: 1.4;
     color: $clrHelpCenter_PageText;
+    letter-spacing: 0.05em;
 
     h1 {
+      @extend %fnt-primary;
+
       color: $clrHelpCenter_PageTitle;
+      font-size: 32px;
+      line-height: 1.2;
+      margin-bottom: 32px;
+    }
 
-      &.title {
-        @extend %fnt-primary;
+    h2 {
+      @extend %fnt-primary;
 
-        font-size: 32px;
-        line-height: 1.2;
-        margin-bottom: 32px;
-      }
+      color: $clrHelpCenter_PageTitle;
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 24px;
     }
 
     p {
@@ -51,6 +58,20 @@ section.main {
           font-weight: normal;
         }
       }
+
+      &.sub {
+        font-size: 13px;
+        font-style: italic;
+        text-align: center;
+      }
+    }
+
+    hr {
+      height: 2px;
+      min-height: 2px;
+      background-color: $clrHelpCenter_Separator;
+      margin: 20px 0;
+      border: none;
     }
 
     .clickableImage {
@@ -66,6 +87,18 @@ section.main {
         transform: scale(1.02);
         box-shadow: 0 6px 15px rgb(0 0 0 / 20%);
       }
+    }
+
+    .videoContainer {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; // 16:9 aspect ratio
+      margin: 40px 0 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgb(0 0 0 / .1);
     }
   }
 }

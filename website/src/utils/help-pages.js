@@ -5,14 +5,17 @@ const _helpPages = {
     {
       url: 'purchasing-subscriptions',
       title: 'Purchasing Subscriptions',
+      sublink_desc: 'Learn how to purchase subscriptions and become a customer.',
     },
     {
       url: 'admin-section',
       title: 'Admin Section',
+      sublink_desc: 'Administrative tools for managing users, licenses, subscriptions, and organizational settings.',
       children: [
         {
           url: 'customer',
           title: 'Customer Role',
+          sublink_desc: 'Learn how to assign licenses, and manage subscriptions.',
           children: [
             {
               url: 'assign-license-self',
@@ -31,6 +34,7 @@ const _helpPages = {
         {
           url: 'user',
           title: 'User Role',
+          sublink_desc: 'Learn how to activate assigned licenses.',
           children: [
             {
               url: 'activation',
@@ -41,20 +45,24 @@ const _helpPages = {
         {
           url: 'installer',
           title: 'Download and run the Installer',
+          sublink_desc: 'Get the latest installer and installation instructions.',
         },
         {
           url: 'profile',
           title: 'Profile Section',
+          sublink_desc: 'Configure your personal profile and change your password.',
         },
         {
           url: 'purchase-more',
           title: 'Purchasing Additional Subscriptions',
+          sublink_desc: 'How to expand your subscription plan and add more licenses.',
         },
       ],
     },
     {
       url: 'excel-addin',
       title: 'ARR Analysis Excel Add‑in', // Note: Using Unicode NON-BREAKING HYPHEN (U+2011)
+      sublink_desc: 'Installation, activation, and usage guides for our ARR Analysis Excel Add‑in.',
       children: [
         {
           url: 'activation',

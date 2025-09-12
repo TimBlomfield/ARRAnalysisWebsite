@@ -22,7 +22,7 @@ const PurchasingSubscriptionsPage = () => {
   return (
     <section className={styles.main}>
       <article className={styles.full}>
-        <h1 className={styles.title}>Purchasing Subscriptions</h1>
+        <h1>Purchasing Subscriptions</h1>
         <p>To purchase a subscription, visit our <Link className={styles.link} href="/purchase">purchase page</Link>. Near the bottom of this page, you can choose your pricing tier and subscription type.</p>
         <Image className={cn(styles.clickableImage)}
                style={{ width: '80%' }}
