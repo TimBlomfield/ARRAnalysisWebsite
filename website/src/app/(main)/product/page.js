@@ -20,7 +20,7 @@ const ProductPage = () => {
         <section className={styles.s1}>
           <div className={styles.centrer}>
             <div className={styles.titleText} data-animated="text1">For SaaS Investors, Software Executives, or anyone
-              who works with subscription revenue analysis. The ARR Analysis Excel Plug-in reduces time in spreadsheets
+              who works with subscription revenue analysis. The ARR Analysis Excel Add-in reduces time in spreadsheets
               and helps you focus on what matters
             </div>
             <div className={styles.spacer} />

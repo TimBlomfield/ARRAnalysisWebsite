@@ -20,14 +20,17 @@ const _helpPages = {
             {
               url: 'assign-license-self',
               title: 'Assigning a License to yourself',
+              sublink_desc: 'Learn how to assign a license to your own account.',
             },
             {
               url: 'assign-license-other',
               title: 'Assigning a License to someone else',
+              sublink_desc: 'Step-by-step instructions for giving licenses to other users in your organization.',
             },
             {
               url: 'subscriptions',
               title: 'Managing Subscriptions',
+              sublink_desc: 'Find out how to view or cancel your subscriptions.',
             },
           ],
         },

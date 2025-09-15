@@ -45,10 +45,10 @@ const LandingPage = () => {
           </article>
           <article className={cn(styles.article, styles.f2)} data-animated="text1">
             <p className={cn(styles.text, styles.mt0)}>Are you a SaaS investor, SaaS CFO, or subscription revenue
-              business owner that spends hours each month analyzing your recurring revenue? If so, our Excel plug-in may
+              business owner that spends hours each month analyzing your recurring revenue? If so, our Excel add-in may
               be able to help you with some of your automated reporting.</p>
             <p className={styles.text}>Our Excel add-in automates your recurring revenue analysis, so you can make
-              better decisions for your business, faster. Our plug-in streamlines your analysis of recurring revenue and
+              better decisions for your business, faster. Our add-in streamlines your analysis of recurring revenue and
               allows you to focus on growth, revenue and customer satisfaction.</p>
             <p className={styles.text}>With our add-in, you can conduct in-depth analyses, including:</p>
             <ul>
@@ -68,7 +68,7 @@ const LandingPage = () => {
               provides insights into customer lifetime value, helping you make informed decisions about pricing and
               promotions.</p>
             <p className={styles.text}>Cohort analysis is a powerful tool for understanding customer behavior over time.
-              With our plug-in, you can conduct cohort analysis to identify trends in customer behavior, such as churn
+              With our add-in, you can conduct cohort analysis to identify trends in customer behavior, such as churn
               rates, retention rates and revenue growth, and make data-driven decisions to improve your business.</p>
             <p className={styles.text}>Our ARR waterfall feature visually represents your monthly recurring revenue so
               that you can identify the drivers of revenue growth or decline. You can also see the impact of new sales,
