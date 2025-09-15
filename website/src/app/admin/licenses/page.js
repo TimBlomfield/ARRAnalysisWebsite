@@ -4,6 +4,7 @@ import axios from 'axios';
 import { authOptions } from '@/utils/server/auth';
 import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import { encodeLicenseId } from '@/utils/server/licenses';
+import { getFriendlySubscriptionId } from '@/utils/server/subscriptions';
 import db from '@/utils/server/db';
 // Components
 import Footer from '@/components/admin/Footer';
@@ -105,8 +106,10 @@ const LicensesPage = async () => {
             });
         }
       }
-      license.portalCustomerId = customer.id;
-      license.encodedId = encodeLicenseId(license.id);
+      license.kPortalCustomerId = customer.id;
+      license.kEncodedId = encodeLicenseId(license.id);
+      if (license.license_type === 'subscription')
+        license.kFriendlySubscriptionId = getFriendlySubscriptionId(license.order_store_id);
     }
   } catch (err) {
     console.error(err);

@@ -81,6 +81,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                   svgScale={1.5}
                   svgClassName={cn(styles.triangle, {[styles.expanded]: !collapsed})}
                   onClick={expandCollapse} />
+      <div className={styles.friendlyId}>[{sub.kFriendlyId}]</div>
       <div className={styles.planName}>{sub.kProduct.name + (sub.quantity > 1 ? ` × ${sub.quantity}` : '')}</div>
       <div className={styles.billing}>{sub.plan.interval === 'year' ? 'Billing yearly' : 'Billing monthly'}</div>
       <div className={styles.spacer} />

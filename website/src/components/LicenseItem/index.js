@@ -120,7 +120,10 @@ const LicenseItem = ({ license, isAdmin }) => {
         <div>Product name:</div>
         <div>{license.product?.product_name ?? '?'}</div>
         <div>License type:</div>
-        <div>{license.license_type}</div>
+        <div>
+          {license.license_type}
+          {license.kFriendlySubscriptionId != null && <span className={styles.sub}>&nbsp;&nbsp;[{license.kFriendlySubscriptionId}]</span>}
+        </div>
         {dateActivated.isValid &&
           <>
             <div>Activated on:</div>
@@ -168,7 +171,7 @@ const LicenseItem = ({ license, isAdmin }) => {
         {(bMailsSent || bWaitingToAssign || bAssigned) &&
           <PushButton extraClass={styles.pbXtra}
                       disabled={loading}
-                      onClick={() => { router.push(`/admin/licenses/${license.encodedId}/manage-users`); }}>
+                      onClick={() => { router.push(`/admin/licenses/${license.kEncodedId}/manage-users`); }}>
             Manage License Users
           </PushButton>
         }
@@ -183,7 +186,7 @@ const LicenseItem = ({ license, isAdmin }) => {
       <InviteUserDialog isOpen={isOpen_InviteUserDialog}
                         notifyClosed={() => setIsOpen_InviteUserDialog(false)}
                         licenseId={license.id}
-                        customerId={license.portalCustomerId}
+                        customerId={license.kPortalCustomerId}
                         passSuccessMessage={msg => setSuccessMessage(msg)} />
     </div>
   );

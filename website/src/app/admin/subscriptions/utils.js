@@ -1,3 +1,4 @@
+import { getFriendlySubscriptionId } from '@/utils/server/subscriptions';
 
 const getObjectSize = obj => (new Blob([JSON.stringify(obj)])).size;
 
@@ -36,6 +37,8 @@ const heavilyReduce = subs => {
       },
     };
 
+    const kFriendlyId = getFriendlySubscriptionId(id);
+
     return {
       id,
       quantity,
@@ -50,6 +53,7 @@ const heavilyReduce = subs => {
       kCancel,
       ...(upcm != null ? { kUpcoming: upcm } : {}),
       kInvoices,
+      kFriendlyId,
     };
   });
 

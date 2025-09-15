@@ -26,6 +26,7 @@ $clrAdminBk: #F3F2F8;
 $clrAdmin_BorderClr: #C1C1CD;
 $clrAdmin_Txt0: black;
 $clrAdmin_Txt1: #21222A;
+$clrAdmin_SubscriptionID: color.adjust($clrAdmin_Txt1, $lightness: 20% );
 $clrAdmin_RoleCard: color.adjust($clrAdminBk, $lightness: -37% );
 $clrAdmin_TxtLight0: white;
 $clrAdminScrollbar_Track: color.adjust($clrAdminBk, $lightness: -7% );

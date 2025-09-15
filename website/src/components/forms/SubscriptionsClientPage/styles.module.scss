@@ -54,7 +54,7 @@
         width: 100%;
         background: fn-admin-color(5);
         display: flex;
-        gap: 20px;
+        gap: 16px;
         padding: 5px 25px 5px 5px;
         align-items: center;
         box-sizing: border-box;
@@ -65,6 +65,13 @@
           fill: fn-admin-color(45);
 
           &.expanded { rotate: 0deg; }
+        }
+
+        .friendlyId {
+          @extend %fnt-primary;
+
+          font-size: 16px;
+          color: $clrAdmin_SubscriptionID;
         }
 
         .planName {
