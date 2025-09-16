@@ -67,7 +67,7 @@ const LicensePasswordDialog = ({ isOpen, notifyClosed, onConfirm }) => {
 
   return (
     <dialog id={dlgId} className={styles.dialog}>
-      <div className={styles.title}>Change Password</div>
+      <div className={styles.title}>Change License Password</div>
       <Input theme={K_Theme.Dark}
              id={ID_PASSWORD}
              name="password"

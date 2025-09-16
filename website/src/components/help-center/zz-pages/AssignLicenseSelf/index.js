@@ -1,9 +1,14 @@
+import { HelpPageIndex, helpPages } from '@/utils/help-pages';
+// Components
+import AssignLicenseSelfClient from './AssignLicenseSelfClient';
+
 const AssignLicenseSelfPage = () => {
-  return (
-    <div>
-      Assigning a License to yourself Page
-    </div>
-  );
+  const arrLinks = [
+    helpPages.indexer[HelpPageIndex.Installer],
+    helpPages.indexer[HelpPageIndex.AddInActivation],
+  ];
+
+  return <AssignLicenseSelfClient links={arrLinks} />;
 };
 
 export default AssignLicenseSelfPage;

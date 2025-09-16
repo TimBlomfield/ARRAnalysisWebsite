@@ -11,6 +11,7 @@ const routes = {
   '/help-center/admin-section/customer': dynamic(() => import('@/components/help-center/zz-pages/CustomerRole'), { loading: () => <Loading />}),
   '/help-center/admin-section/customer/assign-license-self': dynamic(() => import('@/components/help-center/zz-pages/AssignLicenseSelf'), { loading: () => <Loading />}),
   '/help-center/admin-section/customer/assign-license-other': dynamic(() => import('@/components/help-center/zz-pages/AssignLicenseOther'), { loading: () => <Loading />}),
+  '/help-center/admin-section/customer/manage-license-users': dynamic(() => import('@/components/help-center/zz-pages/ManageLicenseUsers'), { loading: () => <Loading />}),
   '/help-center/admin-section/customer/subscriptions': dynamic(() => import('@/components/help-center/zz-pages/ManageSubscriptions'), { loading: () => <Loading />}),
   '/help-center/admin-section/user': dynamic(() => import('@/components/help-center/zz-pages/UserRole'), { loading: () => <Loading />}),
   '/help-center/admin-section/user/activation': dynamic(() => import('@/components/help-center/zz-pages/ActivateLicense'), { loading: () => <Loading />}),

@@ -4,7 +4,7 @@ import cn from 'classnames';
 import Link from 'next/link';
 import Image from 'next/image';
 import useZoomableImage from '@/utils/client/useZoomableImage';
-import { helpPages } from '@/utils/help-pages';
+import { helpPages, HelpPageIndex } from '@/utils/help-pages';
 // Components
 import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
@@ -35,7 +35,7 @@ const AdminSectionPage = () => {
         <p>Choose the appropriate section below based on your role and the task you need to accomplish.</p>
         <ImageViewer image={image?.img} alt={image?.alt} notifyClosed={() => setImage(null)} />
         <h2 style={{ marginTop: '50px' }}>Browse Subtopics</h2>
-        <Subtopics topics={helpPages.children[1].children} />
+        <Subtopics topics={helpPages.indexer[HelpPageIndex.AdminSection].children} />
       </article>
     </section>
   );

@@ -1,4 +1,4 @@
-import { helpPages } from '@/utils/help-pages';
+import { helpPages, HelpPageIndex } from '@/utils/help-pages';
 // Components
 import Subtopics from '@/components/help-center/Subtopics';
 // Styles
@@ -17,7 +17,7 @@ const HelpCenterPage = () => {
         </figure>
         <p className={styles.sub}>Learn how to use the ARR Analysis Excel Add-In effectively and discover its capabilities in this overview video.</p>
         <h2 style={{ marginTop: '50px' }}>Browse Subtopics</h2>
-        <Subtopics topics={helpPages.children} />
+        <Subtopics topics={helpPages.indexer[HelpPageIndex.HelpCenter].children} />
       </article>
     </section>
   );

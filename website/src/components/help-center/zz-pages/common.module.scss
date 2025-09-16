@@ -29,7 +29,7 @@ section.main {
       margin-bottom: 24px;
     }
 
-    p {
+    p, ul {
       @extend %fnt-secondary;
 
       margin: 0 0 20px;
@@ -64,6 +64,18 @@ section.main {
         font-style: italic;
         text-align: center;
       }
+
+      &.note {
+        padding: 14px 25px;
+        background: #F8F9FA;
+        border-radius: 8px;
+        border-left: 4px solid #007BFF;
+      }
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-inline-start: 30px;
     }
 
     hr {
