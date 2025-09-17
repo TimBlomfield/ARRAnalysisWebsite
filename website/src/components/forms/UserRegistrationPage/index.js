@@ -105,7 +105,7 @@ const UserRegistrationPage = ({ email, licenseData }) => {
                   <Loading scale={2} text="Creating new user..." />
                 </div>
               }
-              <div className={styles.caption}>Create User</div>
+              <div className={styles.caption}>Registration Form</div>
               <div className={styles.text}>Create a password for your ARR Analysis portal account. Once your account is created, you can log in to the portal and assign yourself to the following license:</div>
               <div className={styles.central}>
                 <RegLicenseDesc licenseData={licenseData} />
@@ -151,7 +151,7 @@ const UserRegistrationPage = ({ email, licenseData }) => {
           }
           {userCreated &&
             <>
-              <div className={styles.c1}>User created successfully!</div>
+              <div className={styles.c1}>Registration successful!</div>
               <div className={styles.t1}>You can now <Link href="/login">login here</Link> and assign yourself to an <LogoSvg className={styles.logo} /> Excel Add-in license. You can also review the status of the license(s) you have been assigned to.</div>
             </>
           }

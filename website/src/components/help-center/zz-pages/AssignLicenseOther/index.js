@@ -1,9 +1,16 @@
+import { HelpPageIndex, helpPages } from '@/utils/help-pages';
+// Components
+import AssignLicenseOtherClient from './AssignLicenseOtherClient';
+
+
 const AssignLicenseOtherPage = () => {
-  return (
-    <div>
-      Assigning a License to someone else Page
-    </div>
-  );
+  const arrLinks = [
+    helpPages.indexer[HelpPageIndex.UserRole],
+    helpPages.indexer[HelpPageIndex.ActivateLicense],
+  ];
+
+  return <AssignLicenseOtherClient links={arrLinks} />;
 };
+
 
 export default AssignLicenseOtherPage;

@@ -55,7 +55,7 @@ const _helpPages = {
             },
             {
               url: 'manage-license-users',
-              title: 'Manage License Users',
+              title: 'Managing License Users',
               sublink_desc: 'Learn how to manage user invitations, and unassign users from licenses.',
               index: HelpPageIndex.ManageLicenseUsers,
             },
@@ -70,12 +70,13 @@ const _helpPages = {
         {
           url: 'user',
           title: 'User Role',
-          sublink_desc: 'Learn how to activate assigned licenses.',
+          sublink_desc: 'Learn how to register yourself as a user.',
           index: HelpPageIndex.UserRole,
           children: [
             {
-              url: 'activation',
+              url: 'activate-license',
               title: 'Activating a License',
+              sublink_desc: 'Learn how to activate your assigned license.',
               index: HelpPageIndex.ActivateLicense,
             },
           ],

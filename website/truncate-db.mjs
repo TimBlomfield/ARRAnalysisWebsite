@@ -6,6 +6,7 @@
 // --users: Clears the users
 // --admins: Clears the admins
 // --links: Clears RegistrationLink and ResetPasswordLink entries
+// --stray: Clears all 'stray' UserData i.e., UserData with no admin, customer, or user relations
 
 import { PrismaClient } from '@prisma/client';
 
@@ -20,6 +21,7 @@ const truncate = async () => {
   const bUsers = args.has('--users');
   const bAdmins = args.has('--admins');
   const bLinks = args.has('--links');
+  const bStray = args.has('--stray');
 
   if (bLinks || bAll) {
     const { count: countRegLinks } = await prisma.registrationLink.deleteMany();
@@ -52,6 +54,17 @@ const truncate = async () => {
   if (bAuditLog || bAll) {
     const { count: countAuditLog } = await prisma.auditLog.deleteMany();
     if (countAuditLog > 0) console.log(`Deleted ${countAuditLog} AuditLog(s)`);
+  }
+
+  if (bStray) {
+    const { count: countStray } = await prisma.userData.deleteMany({
+      where: {
+        admin: null,
+        customer: null,
+        user: null,
+      },
+    });
+    if (countStray > 0) console.log(`Deleted ${countStray} Stray UserData(s)`);
   }
 
   if (bAll) {

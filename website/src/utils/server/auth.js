@@ -76,6 +76,18 @@ const authOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
+
+      if (token?.email) { // Check if the user still exists, because it might have been deleted by a customer or an admin
+        const userData = await db.userData.findUnique({
+          where: { email: token.email },
+          select: { id: true },
+        });
+        if (userData == null) {
+          console.info(`User ${token.email} no longer exists. Invalidating session.`);
+          return null;  // User doesn't exist, invalidate session
+        }
+      }
+
       session.token = token;
       return session;
     },
