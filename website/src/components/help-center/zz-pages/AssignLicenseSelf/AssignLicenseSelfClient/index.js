@@ -6,7 +6,7 @@ import useZoomableImage from '@/utils/client/useZoomableImage';
 import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
 // Image
-import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses.jpg';
+import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses1.jpg';
 import imgCustomerBecomesUser from '@/../public/help-center/Customer-Becomes-User.jpg';
 import imgUserLicenses from '@/../public/help-center/User-Licenses.jpg';
 import imgAssignedLicense from '@/../public/help-center/Assigned-License.jpg';
