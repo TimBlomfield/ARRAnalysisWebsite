@@ -8,7 +8,7 @@ import Subtopics from '@/components/help-center/Subtopics';
 // Image
 import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses1.jpg';
 import imgInviteUser from '@/../public/help-center/Invite-User.jpg';
-import imgInvitedByEmail from '@/../public/help-center/Invited-By-Email.jpg';
+import imgInvitedByEmail from '@/../public/help-center/Invited-by-Email.jpg';
 import imgAllowedUser from '@/../public/help-center/Allowed-User.jpg';
 import imgAssignedUser from '@/../public/help-center/Assigned-User.jpg';
 // Styles
