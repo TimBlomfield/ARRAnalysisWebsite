@@ -14,7 +14,7 @@ const routes = {
   '/help-center/admin-section/customer/manage-license-users': dynamic(() => import('@/components/help-center/zz-pages/ManageLicenseUsers'), { loading: () => <Loading />}),
   '/help-center/admin-section/customer/subscriptions': dynamic(() => import('@/components/help-center/zz-pages/ManageSubscriptions'), { loading: () => <Loading />}),
   '/help-center/admin-section/user': dynamic(() => import('@/components/help-center/zz-pages/UserRole'), { loading: () => <Loading />}),
-  '/help-center/admin-section/user/activate-license': dynamic(() => import('@/components/help-center/zz-pages/ActivateLicense'), { loading: () => <Loading />}),
+  '/help-center/admin-section/user/claim-license': dynamic(() => import('@/components/help-center/zz-pages/ClaimLicense'), { loading: () => <Loading />}),
   '/help-center/admin-section/installer': dynamic(() => import('@/components/help-center/zz-pages/Installer'), { loading: () => <Loading />}),
   '/help-center/admin-section/profile': dynamic(() => import('@/components/help-center/zz-pages/Profile'), { loading: () => <Loading />}),
   '/help-center/admin-section/purchase-more': dynamic(() => import('@/components/help-center/zz-pages/PurchaseMore'), { loading: () => <Loading />}),

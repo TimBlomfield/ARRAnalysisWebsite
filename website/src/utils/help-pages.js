@@ -8,7 +8,7 @@ const HelpPageIndex = {
   ManageLicenseUsers: 'ManageLicenseUsers',
   ManageSubscriptions: 'ManageSubscriptions',
   UserRole: 'UserRole',
-  ActivateLicense: 'ActivateLicense',
+  ClaimLicense: 'ClaimLicense',
   Installer: 'Installer',
   Profile: 'Profile',
   PurchaseMore: 'PurchaseMore',
@@ -74,10 +74,10 @@ const _helpPages = {
           index: HelpPageIndex.UserRole,
           children: [
             {
-              url: 'activate-license',
-              title: 'Activating a License',
-              sublink_desc: 'Learn how to activate your assigned license.',
-              index: HelpPageIndex.ActivateLicense,
+              url: 'claim-license',
+              title: 'Claiming a License',
+              sublink_desc: 'Learn how to claim licenses available for your use.',
+              index: HelpPageIndex.ClaimLicense,
             },
           ],
         },
