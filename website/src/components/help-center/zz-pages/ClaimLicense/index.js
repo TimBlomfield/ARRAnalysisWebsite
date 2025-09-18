@@ -1,9 +1,16 @@
+import { HelpPageIndex, helpPages } from '@/utils/help-pages';
+// Components
+import ClaimLicenseClient from './ClaimLicenseClient';
+
+
 const ClaimLicensePage = () => {
-  return (
-    <div>
-      Claim License Page
-    </div>
-  );
+  const arrLinks = [
+    helpPages.indexer[HelpPageIndex.Installer],
+    helpPages.indexer[HelpPageIndex.AddInActivation],
+  ];
+
+  return <ClaimLicenseClient links={arrLinks} />;
 };
+
 
 export default ClaimLicensePage;
