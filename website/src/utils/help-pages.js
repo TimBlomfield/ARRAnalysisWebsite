@@ -116,6 +116,7 @@ const _helpPages = {
         {
           url: 'usage',
           title: 'Using the ARR Analysis Excel Add‑in',
+          sublink_desc: 'Discover the main features and workflows of the ARR Analysis Excel Add-in.',
           index: HelpPageIndex.Usage,
         },
       ],
