@@ -70,7 +70,7 @@ const _helpPages = {
         {
           url: 'user',
           title: 'User Role',
-          sublink_desc: 'Learn how to register yourself as a user.',
+          sublink_desc: 'Learn how to register as a user and claim your license.',
           index: HelpPageIndex.UserRole,
           children: [
             {
