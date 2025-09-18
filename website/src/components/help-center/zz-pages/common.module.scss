@@ -5,6 +5,13 @@ section.main {
   display: block;
   padding: 32px;
 
+  .fxCenter {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
   article.full {
     font-size: 16px;
     line-height: 1.4;
@@ -78,6 +85,10 @@ section.main {
     ul {
       list-style-type: disc;
       padding-inline-start: 30px;
+
+      &.spaceItems {
+        li { margin-bottom: 10px; }
+      }
     }
 
     hr {
@@ -101,6 +112,12 @@ section.main {
         transform: scale(1.02);
         box-shadow: 0 6px 15px rgb(0 0 0 / 20%);
       }
+    }
+
+    .img1 {
+      max-width: 60vw;
+      width: auto;
+      height: auto;
     }
 
     .videoContainer {

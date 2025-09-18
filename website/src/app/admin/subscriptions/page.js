@@ -25,7 +25,7 @@ const SubscriptionsPage = async () => {
   if (acuIds?.customerId == null)
     notFound();
 
-  let subscriptions = null;
+  let subscriptions = null, activeCount = 0;
   try {
     // Get the stripe-customer-id
     const customer = await db.customer.findUnique({
@@ -76,12 +76,13 @@ const SubscriptionsPage = async () => {
     }
 
     subscriptions = heavilyReduce(subscriptions.data);
+    activeCount = subscriptions.filter(sub => sub.status === 'active').length;
   } catch (err) {
     console.error(err);
     notFound();
   }
 
-  return <SubscriptionsClientPage subscriptions={subscriptions} />;
+  return <SubscriptionsClientPage subscriptions={subscriptions} activeCount={activeCount} />;
 };
 
 

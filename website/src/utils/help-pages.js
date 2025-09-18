@@ -83,7 +83,7 @@ const _helpPages = {
         },
         {
           url: 'installer',
-          title: 'Download and run the Installer',
+          title: 'Downloading and running the Installer',
           sublink_desc: 'Get the latest installer and installation instructions.',
           index: HelpPageIndex.Installer,
         },

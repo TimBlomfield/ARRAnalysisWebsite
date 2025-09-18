@@ -26,7 +26,7 @@ import QuestionSvg from '@/../public/question.svg';
 import styles from './styles.module.scss';
 
 
-const SubscriptionsClientPage = ({ subscriptions }) => {
+const SubscriptionsClientPage = ({ subscriptions, activeCount }) => {
   const refPrevSub = useRef(subscriptions);
   const router = useRouter();
 
@@ -121,7 +121,7 @@ const SubscriptionsClientPage = ({ subscriptions }) => {
                      selected={mtActive}
                      options={['Active', 'All']}
                      onSelect={x => setMtActive(x)} />
-        <div className={styles.txt}>Subscriptions [{subscriptions.length}]</div>
+        <div className={styles.txt}>Subscriptions [{mtActive === 0 ? activeCount : subscriptions.length}]</div>
       </div>
       <div className={styles.listAndFooter}>
         <div className={styles.subscriptionList}>
