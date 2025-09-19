@@ -19,7 +19,7 @@ const ProfilePage = () => {
   return (
     <section className={styles.main}>
       <article className={styles.full}>
-        <h1>Profile</h1>
+        <h1>Profile Section</h1>
         <p>The Profile page in the Admin Section lets you manage your personal information, account details, and password securely. All personal data you provide is protected under our <Link className={styles.link} href="/privacy">Privacy Policy</Link>.</p>
         <p>After logging in, open the <strong>Profile</strong> page to view and update the following sections:</p>
         <hr />

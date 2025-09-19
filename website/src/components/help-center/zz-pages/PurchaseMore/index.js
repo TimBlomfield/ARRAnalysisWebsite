@@ -21,7 +21,7 @@ const PurchaseMorePage = () => {
   return (
     <section className={styles.main}>
       <article className={styles.full}>
-        <h1>Purchase Additional Subscriptions</h1>
+        <h1>Purchasing Additional Subscriptions</h1>
         <p>Click <strong className={styles.more}>Purchase</strong> in the navigation bar on the left to open the <strong>Purchase Additional Subscriptions</strong> page. Here, you can acquire additional licenses by purchasing new subscriptions.</p>
         <hr />
         <h2>Select Your Product and Billing Period</h2>
