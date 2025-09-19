@@ -21,7 +21,7 @@ const ManageLicenseUsersPage = () => {
         <h1>Managing License Users</h1>
         <p>When you invite someone to use a license — or allow the license for yourself — a user becomes associated with that license. At this point, the <strong className={styles.more}>Manage License Users</strong> button appears for that license.</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(660px, 100%)' }}
                src={imgLicenseWithUser}
                alt="License with User"
                priority
@@ -31,7 +31,7 @@ const ManageLicenseUsersPage = () => {
         <h2>Managing Pending Invitations</h2>
         <p>If you’ve sent an invitation and the recipient hasn’t registered on the website yet, you will see this page:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(720px, 100%)' }}
                src={imgManageLicenseInvitation}
                alt="Manage License Invitation"
                onClick={() => setImage({ img: imgManageLicenseInvitation, alt: 'Manage License Invitation' })} />
@@ -44,7 +44,7 @@ const ManageLicenseUsersPage = () => {
         <h2>Managing Registered or Allowed Users</h2>
         <p>If the user has registered on the website — or if you allowed yourself to use the license — you will see this page:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(720px, 100%)' }}
                src={imgManageLicenseUsr}
                alt="Manage License Registered User"
                onClick={() => setImage({ img: imgManageLicenseUsr, alt: 'Manage License Registered User' })} />

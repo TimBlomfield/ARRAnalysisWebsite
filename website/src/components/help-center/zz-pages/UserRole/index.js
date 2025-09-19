@@ -29,7 +29,7 @@ const UserRolePage = () => {
             <strong>New Users: </strong>
             If you are not yet registered, the invitation email will include a registration link that is valid for 24 hours. Clicking the link will take you to a registration page that looks like this:
             <Image className={styles.clickableImage}
-                   style={{ maxWidth: '80%' }}
+                   style={{ width: 'min(600px, 100%)' }}
                    src={imgRegisterUser}
                    alt="User Registration Form"
                    priority
@@ -39,7 +39,7 @@ const UserRolePage = () => {
         </ul>
         <p>After logging in, you will see the Admin Section with the following layout:</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '80%' }}
+               style={{ width: 'min(660px, 100%)' }}
                src={imgUserLoggedIn}
                alt="Admin Section"
                onClick={() => setImage({ img: imgUserLoggedIn, alt: 'Admin Section' })} />

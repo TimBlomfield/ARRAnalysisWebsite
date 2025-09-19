@@ -32,7 +32,7 @@ const AssignLicenseOtherClient = ({ links }) => {
           <li>Two licenses from a <strong>Tier 3</strong> subscription</li>
         </ul>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgCustomerLicenses}
                alt="Customer Licenses"
                priority
@@ -41,7 +41,7 @@ const AssignLicenseOtherClient = ({ links }) => {
         <h2>Step 2: Invite someone to use the License</h2>
         <p>As a <strong>Customer</strong>, you decide who can use each license. For the license you want to assign to someone else — such as a coworker or friend — click <strong className={styles.more}>Invite User.</strong></p>
         <Image className={styles.clickableImage}
-               style={{ width: '60%' }}
+               style={{ maxWidth: '100%' }}
                src={imgInviteUser}
                alt="Invite User"
                onClick={() => setImage({ img: imgInviteUser, alt: 'Invite User' })} />
@@ -54,7 +54,7 @@ const AssignLicenseOtherClient = ({ links }) => {
           <strong className={styles.more}>Note:</strong> You can invite multiple people to a single license, but only <em>one person</em> can claim it.<br /><br />For example: If you invite 3 people, the <em>first person</em> to register and assign the license to themselves will be the one who can use the add-in.
         </p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(660px, 100%)' }}
                src={imgInvitedByEmail}
                alt="Invited by Email"
                onClick={() => setImage({ img: imgInvitedByEmail, alt: 'Invited by Email' })} />
@@ -62,13 +62,13 @@ const AssignLicenseOtherClient = ({ links }) => {
         <h2>Step 3: Track the Invitation Status</h2>
         <p>Once the user registers through the email link, the license will show them as an <strong>Allowed User</strong>.</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(660px, 100%)' }}
                src={imgAllowedUser}
                alt="Allowed User"
                onClick={() => setImage({ img: imgAllowedUser, alt: 'Allowed User' })} />
         <p>When they assign the license to themselves, they will appear as the <strong>Assigned User</strong>.</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(660px, 100%)' }}
                src={imgAssignedUser}
                alt="Assigned User"
                onClick={() => setImage({ img: imgAssignedUser, alt: 'Assigned User' })} />

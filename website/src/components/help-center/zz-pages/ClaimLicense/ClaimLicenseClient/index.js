@@ -25,7 +25,7 @@ const ClaimLicenseClient = ({ links }) => {
         <h2>Step 1: Open the User Licenses Page</h2>
         <p>Navigate to the <strong>User Licenses</strong> page. The example below shows a license assigned to you by <strong className={styles.more}>kara.newman@example.com</strong>:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgUserLicensesUser}
                alt="User Licenses"
                priority
@@ -34,7 +34,7 @@ const ClaimLicenseClient = ({ links }) => {
         <h2>Step 2: Assign Yourself to the License</h2>
         <p>To use the <strong>ARR Analysis Excel Add-In</strong>, click <strong className={styles.more}>Assign Self</strong> on the desired license. After that your license will look like this:</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '96%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgAssignedLicense}
                alt="Assigned License"
                onClick={() => setImage({ img: imgAssignedLicense, alt: 'Assigned License' })} />
@@ -45,7 +45,7 @@ const ClaimLicenseClient = ({ links }) => {
         </ul>
         <p>We <strong>strongly recommend</strong> changing the initial password for security. Click <strong className={styles.more}>Change Password</strong> to set a new one.</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '96%' }}
+               style={{ maxWidth: '100%' }}
                src={imgChangeLicensePassword}
                alt="Change License Password"
                onClick={() => setImage({ img: imgChangeLicensePassword, alt: 'Change License Password' })} />

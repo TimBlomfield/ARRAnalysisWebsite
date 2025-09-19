@@ -27,7 +27,7 @@ const CustomerRolePage = () => {
         <p>When you purchase a subscription, you automatically become a <strong>Customer</strong>. As a customer, you can log in to the Admin Section to manage your subscriptions, licenses, and users.</p>
         <p>After logging in, you will see the following view in the Admin Section:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgCustomerLoggedIn}
                alt="Customer Logged In"
                priority

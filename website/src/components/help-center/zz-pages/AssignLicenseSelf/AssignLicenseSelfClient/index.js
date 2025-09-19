@@ -32,7 +32,7 @@ const AssignLicenseSelfClient = ({ links }) => {
           <li>Two licenses from a <strong>Tier 3</strong> subscription</li>
         </ul>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgCustomerLicenses}
                alt="Customer Licenses"
                priority
@@ -49,7 +49,7 @@ const AssignLicenseSelfClient = ({ links }) => {
           <li>A new button, <strong className={styles.more}>Manage License Users</strong>, appears for the license.</li>
         </ul>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgCustomerBecomesUser}
                alt="Customer becomes User"
                onClick={() => setImage({ img: imgCustomerBecomesUser, alt: 'Customer becomes User' })} />
@@ -57,7 +57,7 @@ const AssignLicenseSelfClient = ({ links }) => {
         <h2>Step 3: View Your User Licenses</h2>
         <p>Open the <strong>User Licenses</strong> page to see all licenses that you are allowed to use.</p>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgUserLicenses}
                alt="User Licenses"
                onClick={() => setImage({ img: imgUserLicenses, alt: 'User Licenses' })} />
@@ -65,7 +65,7 @@ const AssignLicenseSelfClient = ({ links }) => {
         <h2>Step 4: Assign Yourself to the License</h2>
         <p>To use the <strong>ARR Analysis Excel Add-In</strong>, click <strong className={styles.more}>Assign Self</strong> on the desired license. After that your license will look like this:</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '96%' }}
+               style={{ maxWidth: '100%' }}
                src={imgAssignedLicense}
                alt="Assigned License"
                onClick={() => setImage({ img: imgAssignedLicense, alt: 'Assigned License' })} />
@@ -76,7 +76,7 @@ const AssignLicenseSelfClient = ({ links }) => {
         </ul>
         <p>We <strong>strongly recommend</strong> changing the initial password for security. Click <strong className={styles.more}>Change Password</strong> to set a new one.</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '96%' }}
+               style={{ maxWidth: '100%' }}
                src={imgChangeLicensePassword}
                alt="Change License Password"
                onClick={() => setImage({ img: imgChangeLicensePassword, alt: 'Change License Password' })} />

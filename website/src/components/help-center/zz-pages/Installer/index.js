@@ -27,7 +27,7 @@ const InstallerPage = () => {
         <h2>Step 1: Access the Downloads Page</h2>
         <p>To download the installer, open the <strong>Downloads</strong> page in the Admin Section:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '80%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgDownloadsPage}
                alt="Downloads Page"
                priority
@@ -42,12 +42,12 @@ const InstallerPage = () => {
         <p>After downloading the correct installer (an <strong>.EXE</strong> file), run it to start the setup wizard. Follow the on-screen steps to complete the installation.</p>
         <p>If you’re <strong>updating to a newer version</strong> of the add-in, the process is the same — simply run the new installer and follow the steps.</p>
         <Image className={styles.clickableImage}
-               style={{ width: '60%' }}
+               style={{ maxWidth: '100%' }}
                src={imgInstallerStart}
                alt="Installer Wizard First Step"
                onClick={() => setImage({ img: imgInstallerStart, alt: 'Installer Wizard First Step' })} />
         <Image className={styles.clickableImage}
-               style={{ width: '60%' }}
+               style={{ maxWidth: '100%' }}
                src={imgInstallerFinish}
                alt="Installer Wizard Last Step"
                onClick={() => setImage({ img: imgInstallerFinish, alt: 'Installer Wizard Last Step' })} />
@@ -55,7 +55,7 @@ const InstallerPage = () => {
         <h2>Step 3: Verify the Installation</h2>
         <p>Once installation is complete, open Excel. You should see the <strong>ARR Analysis</strong> tab in the Excel ribbon bar:</p>
         <Image className={styles.clickableImage}
-               style={{ width: '90%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgExcel}
                alt="Excel"
                onClick={() => setImage({ img: imgExcel, alt: 'Excel' })} />
