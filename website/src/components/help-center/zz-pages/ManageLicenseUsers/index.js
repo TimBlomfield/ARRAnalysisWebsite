@@ -29,7 +29,7 @@ const ManageLicenseUsersPage = () => {
         <p>After you click the <strong className={styles.more}>Manage License Users</strong> button, the sections below explain what you can do next.</p>
         <hr />
         <h2>Managing Pending Invitations</h2>
-        <p>If you&apos;ve sent an invitation and the recipient hasn&apos;t registered on the website yet, you will see this page:</p>
+        <p>If you’ve sent an invitation and the recipient hasn’t registered on the website yet, you will see this page:</p>
         <Image className={styles.clickableImage}
                style={{ width: '80%' }}
                src={imgManageLicenseInvitation}
@@ -37,8 +37,8 @@ const ManageLicenseUsersPage = () => {
                onClick={() => setImage({ img: imgManageLicenseInvitation, alt: 'Manage License Invitation' })} />
         <p>On this page you can:</p>
         <ul>
-          <li><strong className={styles.more}>Re-send email</strong> — Sends a new invitation if the user hasn&apos;t registered within 24 hours and the original link has expired.</li>
-          <li><strong className={styles.more}>Uninvite</strong> — Invalidates the registration link. The original email remains in the recipient&apos;s inbox, but the link will no longer work.</li>
+          <li><strong className={styles.more}>Re-send email</strong> — Sends a new invitation if the user hasn’t registered within 24 hours and the original link has expired.</li>
+          <li><strong className={styles.more}>Uninvite</strong> — Invalidates the registration link. The original email remains in the recipient’s inbox, but the link will no longer work.</li>
         </ul>
         <hr />
         <h2>Managing Registered or Allowed Users</h2>

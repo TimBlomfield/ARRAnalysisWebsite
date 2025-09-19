@@ -48,7 +48,7 @@ const AssignLicenseOtherClient = ({ links }) => {
         <p>When you send the invitation, the system emails the recipient a registration link.</p>
         <ul>
           <li>The link is valid for <strong>24 hours</strong>.</li>
-          <li>If they don&apos;t register in time, you&apos;ll need to <strong>re-send</strong> the invitation.</li>
+          <li>If they don’t register in time, you’ll need to <strong>re-send</strong> the invitation.</li>
         </ul>
         <p className={styles.note}>
           <strong className={styles.more}>Note:</strong> You can invite multiple people to a single license, but only <em>one person</em> can claim it.<br /><br />For example: If you invite 3 people, the <em>first person</em> to register and assign the license to themselves will be the one who can use the add-in.

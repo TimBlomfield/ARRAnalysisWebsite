@@ -20,7 +20,7 @@ const TermsOfUsePage = () => {
         <div className={styles.contentArea}>
           <div className={styles.content}>
             <h3>1. Acceptance of Terms</h3>
-            <p>By accessing or using ARR Analysis&apos; website, Excel Add-in software, or any related services (collectively, the &ldquo;Services&rdquo;), you agree to be bound by these Terms of Use (&ldquo;Terms&rdquo;). If you do not agree to these Terms, do not use our Services.</p>
+            <p>By accessing or using ARR Analysis’ website, Excel Add-in software, or any related services (collectively, the &ldquo;Services&rdquo;), you agree to be bound by these Terms of Use (&ldquo;Terms&rdquo;). If you do not agree to these Terms, do not use our Services.</p>
             <h3>2. Definitions</h3>
             <ol>
               <li><strong>&ldquo;Customer&rdquo;</strong> means an individual or entity that purchases a subscription to our Services</li>
@@ -81,7 +81,7 @@ const TermsOfUsePage = () => {
             <ul>
               <li>Customers can assign licenses from their subscriptions to Users</li>
               <li>A Customer may purchase multiple subscriptions and assign multiple Users</li>
-              <li>License assignments can be managed through the Customer&apos;s account</li>
+              <li>License assignments can be managed through the Customer’s account</li>
             </ul>
             <h3>4. Account Registration and Access</h3>
             <h4>4.1 Account Creation</h4>
@@ -111,7 +111,7 @@ const TermsOfUsePage = () => {
             <h4>5.1 Subscription Fees</h4>
             <ul>
               <li>All subscription fees are due in advance</li>
-              <li>Prices are subject to change with 30 days&apos; notice</li>
+              <li>Prices are subject to change with 30 days’ notice</li>
               <li>All fees are non-refundable except as required by law</li>
             </ul>
             <h4>5.2 Payment Processing</h4>
@@ -148,7 +148,7 @@ const TermsOfUsePage = () => {
             <h4>6.3 License Compliance</h4>
             <ul>
               <li>Use the Add-in only according to your assigned license</li>
-              <li>Ensure compliance with Microsoft Excel&apos;s terms of use</li>
+              <li>Ensure compliance with Microsoft Excel’s terms of use</li>
               <li>Maintain appropriate software licenses for underlying systems</li>
             </ul>
             <h3>7. Intellectual Property Rights</h3>

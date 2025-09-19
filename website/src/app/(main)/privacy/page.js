@@ -141,7 +141,7 @@ const PrivacyPolicyPage = () => {
             <p>You can manage cookie preferences through your browser settings.</p>
             <h3>9. International Data Transfers</h3>
             <p>If you are located outside of The United States of America, please note that your information may be transferred to and processed in The United States of America where our servers are located. We ensure appropriate safeguards are in place for such transfers.</p>
-            <h3>10. Children&apos;s Privacy</h3>
+            <h3>10. Children’s Privacy</h3>
             <p>Our Services are not directed to children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.</p>
             <h3>11. Changes to This Privacy Policy</h3>
             <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by:</p>

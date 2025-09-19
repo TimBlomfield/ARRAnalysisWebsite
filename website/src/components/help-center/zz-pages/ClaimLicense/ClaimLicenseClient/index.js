@@ -20,7 +20,7 @@ const ClaimLicenseClient = ({ links }) => {
     <section className={styles.main}>
       <article className={styles.full}>
         <h1>Claiming a License</h1>
-        <p>As a <strong>User</strong>, you&apos;ve been granted access to use a license by a <strong>Customer</strong>. In most cases, you&apos;ll have just one license assigned to you, though in some situations, you might be allowed to use multiple licenses.</p>
+        <p>As a <strong>User</strong>, you’ve been granted access to use a license by a <strong>Customer</strong>. In most cases, you’ll have just one license assigned to you, though in some situations, you might be allowed to use multiple licenses.</p>
         <hr />
         <h2>Step 1: Open the User Licenses Page</h2>
         <p>Navigate to the <strong>User Licenses</strong> page. The example below shows a license assigned to you by <strong className={styles.more}>kara.newman@example.com</strong>:</p>

@@ -179,7 +179,7 @@ const ContactPage = () => {
             }
             {pageState === PageState.Sent &&
               <div className={cn(styles.part, styles.thankYou)}>
-                Thank you for contacting us!<br />We&apos;ll review your message and get back to you soon.
+                Thank you for contacting us!<br />We’ll review your message and get back to you soon.
               </div>
             }
           </div>

@@ -22,7 +22,7 @@ const InstallerPage = () => {
     <section className={styles.main}>
       <article className={styles.full}>
         <h1>Downloading and Running the Installer</h1>
-        <p>Whether you&apos;re a <strong>Customer</strong> or a <strong>User</strong>, you can download the <strong>ARR Analysis Excel Add-in</strong> installer for any product you have access to. There are three versions of the installer — one for each product.</p>
+        <p>Whether you’re a <strong>Customer</strong> or a <strong>User</strong>, you can download the <strong>ARR Analysis Excel Add-in</strong> installer for any product you have access to. There are three versions of the installer — one for each product.</p>
         <hr />
         <h2>Step 1: Access the Downloads Page</h2>
         <p>To download the installer, open the <strong>Downloads</strong> page in the Admin Section:</p>
@@ -33,14 +33,14 @@ const InstallerPage = () => {
                priority
                onClick={() => setImage({ img: imgDownloadsPage, alt: 'Downloads Page' })} />
         <ul>
-          <li><strong>Customers:</strong> You can download the installer for any product for which you&apos;ve purchased a subscription (i.e., you own a license).</li>
-          <li><strong>Users:</strong> You can download the installer for any product for which you&apos;ve been assigned a license (i.e., you&apos;ve claimed a license).</li>
+          <li><strong>Customers:</strong> You can download the installer for any product for which you’ve purchased a subscription (i.e., you own a license).</li>
+          <li><strong>Users:</strong> You can download the installer for any product for which you’ve been assigned a license (i.e., you’ve claimed a license).</li>
         </ul>
-        <p>If you don&apos;t own or haven&apos;t claimed a license for a product, the download option for that product will be unavailable for you.</p>
+        <p>If you don’t own or haven’t claimed a license for a product, the download option for that product will be unavailable for you.</p>
         <hr />
         <h2>Step 2: Run the Installer</h2>
         <p>After downloading the correct installer (an <strong>.EXE</strong> file), run it to start the setup wizard. Follow the on-screen steps to complete the installation.</p>
-        <p>If you&apos;re <strong>updating to a newer version</strong> of the add-in, the process is the same — simply run the new installer and follow the steps.</p>
+        <p>If you’re <strong>updating to a newer version</strong> of the add-in, the process is the same — simply run the new installer and follow the steps.</p>
         <Image className={styles.clickableImage}
                style={{ width: '60%' }}
                src={imgInstallerStart}

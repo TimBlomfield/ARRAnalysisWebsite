@@ -54,7 +54,7 @@ const PurchasingSubscriptionsPage = () => {
                src={imgThankYouPage}
                alt="Thank You Page"
                onClick={() => setImage({ img: imgThankYouPage, alt: 'Thank You Page' })} />
-        <p>To access your account, click the <strong className={styles.more}>Access your Account</strong> button on the Thank You page or in the confirmation email. You can also use the <strong className={styles.more}>Login</strong> button in the top-right corner of our website. This will take you to the <Link className={styles.link} href="/login">login page</Link>, where you can sign in with the credentials you provided and access our website&apos;s Admin Section.</p>
+        <p>To access your account, click the <strong className={styles.more}>Access your Account</strong> button on the Thank You page or in the confirmation email. You can also use the <strong className={styles.more}>Login</strong> button in the top-right corner of our website. This will take you to the <Link className={styles.link} href="/login">login page</Link>, where you can sign in with the credentials you provided and access our website’s Admin Section.</p>
         <ImageViewer image={image?.img} alt={image?.alt} notifyClosed={() => setImage(null)} />
       </article>
     </section>

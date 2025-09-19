@@ -56,7 +56,7 @@ const ManageSubscriptionsPage = () => {
             </ul>
           </li>
           <li><strong>Billing Period</strong> → Monthly or yearly.</li>
-          <li><div className={styles.fxCenter}><strong>Status</strong><Image src={imgStatusActive} alt="Status" className={styles.img1} /></div> → Shows the subscription&apos;s current state (e.g., Active, Pending Cancellation, Cancelled).</li>
+          <li><div className={styles.fxCenter}><strong>Status</strong><Image src={imgStatusActive} alt="Status" className={styles.img1} /></div> → Shows the subscription’s current state (e.g., Active, Pending Cancellation, Cancelled).</li>
         </ul>
         <hr />
         <h2>Cancelling and Revoking Cancellations</h2>

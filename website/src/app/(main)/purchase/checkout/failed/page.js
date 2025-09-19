@@ -76,7 +76,7 @@ const PaymentFailedPage = async ({ searchParams }) => {
           Payment Could Not Be Processed
         </div>
         <div className={styles.txtIssue}>
-          We encountered an issue while processing your payment. Don&apos;t worry, no charge was made to your account.
+          We encountered an issue while processing your payment. Don’t worry, no charge was made to your account.
         </div>
         <div className={styles.errorDetails}>
           <div className={styles.txtErrorTitle}>What happened?</div>

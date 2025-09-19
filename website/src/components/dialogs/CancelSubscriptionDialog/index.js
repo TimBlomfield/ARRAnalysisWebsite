@@ -130,7 +130,7 @@ const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSucc
         <PushButton extraClass={styles.pbtn}
                     {...(loading ? { disabled: true } : {})}
                     onClick={closeDialog}>
-          Don&apos;t Cancel
+          Don’t Cancel
         </PushButton>
       </div>
     </dialog>

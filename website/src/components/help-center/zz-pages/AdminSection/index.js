@@ -24,7 +24,7 @@ const AdminSectionPage = () => {
         <p>Administrative tools and guides for managing subscriptions, licenses, users, and settings.</p>
         <hr />
         <h2>Overview</h2>
-        <p>The <strong>Admin Section</strong> provides comprehensive tools for managing your organization&apos;s subscriptions, users, and licenses. It covers the responsibilities of both the <strong>Customer Role</strong> and the <strong>User Role</strong>. Note that a single person can hold both roles—for example, when a customer assigns a purchased license to themselves, they also become a user.</p>
+        <p>The <strong>Admin Section</strong> provides comprehensive tools for managing your organization’s subscriptions, users, and licenses. It covers the responsibilities of both the <strong>Customer Role</strong> and the <strong>User Role</strong>. Note that a single person can hold both roles—for example, when a customer assigns a purchased license to themselves, they also become a user.</p>
         <p>To access the <strong>Admin Section</strong> you need to visit our <Link className={styles.link} href="/login">login page</Link> and log in using your credentials.</p>
         <Image className={cn(styles.clickableImage)}
                style={{ width: '60%' }}

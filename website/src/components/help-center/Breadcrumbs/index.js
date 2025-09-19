@@ -16,7 +16,7 @@ const renderElementsFromPathname = pathName => {
   if (arrPath.length > 0 && arrPath[0] === '')
     arrPath.shift();
 
-  while (arrPath.length > 0) {
+  while (arrPath.length > 0 && finder) {
     const next = finder.find(elem => elem.url === arrPath[0]);
     if (next == null)
       break;
