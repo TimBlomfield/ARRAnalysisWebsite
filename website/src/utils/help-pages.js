@@ -104,7 +104,7 @@ const _helpPages = {
     {
       url: 'excel-addin',
       title: 'ARR Analysis Excel Add‑in', // Note: Using Unicode NON-BREAKING HYPHEN (U+2011)
-      sublink_desc: 'Installation, activation, and usage guides for our ARR Analysis Excel Add‑in.',
+      sublink_desc: 'Activation and usage guides for our ARR Analysis Excel Add‑in.',
       index: HelpPageIndex.ExcelAddin,
       children: [
         {
