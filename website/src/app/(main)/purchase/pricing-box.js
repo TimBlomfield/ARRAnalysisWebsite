@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 // Components
-import MultiToggle from '@/components/MultiToggle';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './pricing-box.module.scss';
+
+// Disable SSR for MultiToggle
+// This fix is due to a rendering issue with the MultiToggle component when loading the /purchase page for the first time.
+const MultiToggle = dynamic(() => import('@/components/MultiToggle'), { ssr: false });
 
 
 const PricingBox = ({ tier, animDelay = 0 }) => {
