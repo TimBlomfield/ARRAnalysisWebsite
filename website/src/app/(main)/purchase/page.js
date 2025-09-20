@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import PricingBox from '@/app/(main)/purchase/pricing-box';
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
 // Components
 import AnimateX from '@/components/AnimateX';
 import Footer from '@/components/Footer';
+import PricingBox from './PricingBox';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
 import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
