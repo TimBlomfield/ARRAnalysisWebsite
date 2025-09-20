@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 // Components
-import MultiToggle from '@/components/MultiToggle';
 import PushButton from '@/components/PushButton';
 // Styles
 import styles from './styles.module.scss';
@@ -12,7 +11,7 @@ import styles from './styles.module.scss';
 // Disable SSR for MultiToggle
 // This fix is due to a rendering issue with the MultiToggle component when loading the /purchase page for the first time.
 // This is a known rendering issue, and is called Flash of Unstyled Content (FOUC)
-// const MultiToggle = dynamic(() => import('@/components/MultiToggle'), { ssr: false });
+const MultiToggle = dynamic(() => import('@/components/MultiToggle'), { ssr: false });
 
 
 const Index = ({ tier, animDelay = 0 }) => {

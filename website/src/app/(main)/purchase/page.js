@@ -1,19 +1,16 @@
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
 // Components
 import AnimateX from '@/components/AnimateX';
 import Footer from '@/components/Footer';
-// import PricingBox from './PricingBox';
+import PricingBox from './PricingBox';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
 import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
 import imgBeginARR from '@/../public/Beginning-ARR.jpg';
 // Styles
 import styles from './page.module.scss';
-
-const PricingBox = dynamic(() => import('./PricingBox'), { ssr: false }); // Prevent FOUC
 
 
 const PurchasePage = async () => {
