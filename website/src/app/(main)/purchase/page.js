@@ -1,10 +1,11 @@
-import { Suspense } from 'react'; // Possibly helps with FOUC
+import { Suspense } from 'react'; // <Suspense> possibly helps with FOUC
 import Image from 'next/image';
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
 // Components
 import AnimateX from '@/components/AnimateX';
 import Footer from '@/components/Footer';
+import LoadingSSR from '@/components/LoadingSSR';
 import PricingBox from './PricingBox';
 // Images
 import imgGraph from '@/../public/Purchase-page-graph.jpg';
@@ -12,7 +13,6 @@ import imgBeginLogoCount from '@/../public/Beginning-logo-count.jpg';
 import imgBeginARR from '@/../public/Beginning-ARR.jpg';
 // Styles
 import styles from './page.module.scss';
-import LoadingSSR from '@/components/LoadingSSR';
 
 
 const PurchasePage = async () => {
@@ -21,7 +21,7 @@ const PurchasePage = async () => {
     notFound();
 
   return (
-    <Suspense fallback={<LoadingSSR scale={2} />}>
+    <Suspense fallback={<div style="position: fixed;width: 100%;height: 100vh;display: grid;place-items: center;"><LoadingSSR scale={2} /></div>}>
       <AnimateX>
         <main>
           <section className={styles.s1}>
