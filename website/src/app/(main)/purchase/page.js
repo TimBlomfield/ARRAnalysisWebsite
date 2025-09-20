@@ -21,7 +21,7 @@ const PurchasePage = async () => {
     notFound();
 
   return (
-    <Suspense fallback={<div style="position: fixed;width: 100%;height: 100vh;display: grid;place-items: center;background:red;"><LoadingSSR scale={2} /></div>}>
+    <Suspense fallback={<div style={{ position: 'fixed', width: '100%', height: '100vh', display: 'grid', placeItems: 'center', background: 'red' }}><LoadingSSR scale={2} /></div>}>
       <AnimateX>
         <main>
           <section className={styles.s1}>
