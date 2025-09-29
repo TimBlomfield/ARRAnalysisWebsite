@@ -110,13 +110,13 @@ const _helpPages = {
         {
           url: 'activation',
           title: 'Activating the ARR Analysis Excel Add‑in',
-          sublink_desc: 'Learn how to activate and start using the ARR Analysis Excel Add-In.',
+          sublink_desc: 'Learn how to activate and start using the ARR Analysis Excel Add‑in.',
           index: HelpPageIndex.AddInActivation,
         },
         {
           url: 'usage',
           title: 'Using the ARR Analysis Excel Add‑in',
-          sublink_desc: 'Discover the main features and workflows of the ARR Analysis Excel Add-in.',
+          sublink_desc: 'Discover the main features and workflows of the ARR Analysis Excel Add‑in.',
           index: HelpPageIndex.Usage,
         },
       ],

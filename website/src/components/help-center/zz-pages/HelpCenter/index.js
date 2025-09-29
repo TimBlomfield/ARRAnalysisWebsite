@@ -21,7 +21,7 @@ const HelpCenterPage = () => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen />
         </figure>
-        <p className={styles.sub}>Learn how to use the ARR Analysis Excel Add-In effectively and discover its capabilities in this overview video.</p>
+        <p className={styles.sub}>Learn how to use the ARR Analysis Excel Add-in effectively and discover its capabilities in this overview video.</p>
         <h2 style={{ marginTop: '50px' }}>Browse Subtopics</h2>
         <Subtopics topics={helpPages.indexer[HelpPageIndex.HelpCenter].children} />
       </article>

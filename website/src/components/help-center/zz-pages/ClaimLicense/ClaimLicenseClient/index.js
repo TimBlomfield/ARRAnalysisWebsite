@@ -32,7 +32,7 @@ const ClaimLicenseClient = ({ links }) => {
                onClick={() => setImage({ img: imgUserLicensesUser, alt: 'User Licenses' })} />
         <hr />
         <h2>Step 2: Assign Yourself to the License</h2>
-        <p>To use the <strong>ARR Analysis Excel Add-In</strong>, click <strong className={styles.more}>Assign Self</strong> on the desired license. After that your license will look like this:</p>
+        <p>To use the <strong>ARR Analysis Excel Add-in</strong>, click <strong className={styles.more}>Assign Self</strong> on the desired license. After that your license will look like this:</p>
         <Image className={styles.clickableImage}
                style={{ width: 'min(750px, 100%)' }}
                src={imgAssignedLicense}
