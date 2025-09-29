@@ -123,7 +123,7 @@ const PaymentSuccessPage = async ({ searchParams }) => {
         <LinkButton href="/login" extraClass={styles.loginLink}>
           Access Your Account
         </LinkButton>
-        <div className={styles.txtHelp}>Need help getting started? Check out our <Link href="/help-center">help center</Link> or <Link href="mailto:support-team@arr-analysis.com">send an e-mail</Link> to our support team.<br />We’re here to help you succeed!</div>
+        <div className={styles.txtHelp}>Need help getting started? Check out our <Link href="/help-center">help center</Link> or <Link href="mailto:support-team@mail.arr-analysis.com">send an e-mail</Link> to our support team.<br />We’re here to help you succeed!</div>
       </div>
     </div>
   );

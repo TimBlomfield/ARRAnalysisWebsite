@@ -94,7 +94,7 @@ const PaymentFailedPage = async ({ searchParams }) => {
             <li>Check if your card supports online payments</li>
           </ul>
         </div>
-        <div className={styles.txtHelp}>Need help? Check out our <Link href="/help-center">help center</Link> or <Link href="mailto:support-team@arr-analysis.com">send an e-mail</Link> to our support team.</div>
+        <div className={styles.txtHelp}>Need help? Check out our <Link href="/help-center">help center</Link> or <Link href="mailto:support-team@mail.arr-analysis.com">send an e-mail</Link> to our support team.</div>
       </div>
     </div>
   );
