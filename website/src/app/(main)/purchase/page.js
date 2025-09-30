@@ -21,7 +21,7 @@ const PurchasePage = async () => {
     notFound();
 
   return (
-    <Suspense fallback={<div style={{ position: 'fixed', width: '100%', height: '100vh', display: 'grid', placeItems: 'center' }}><LoadingSSR scale={2} /></div>}>
+    
       <AnimateX>
         <main>
           <section className={styles.s1}>
@@ -119,7 +119,7 @@ const PurchasePage = async () => {
           <Footer />
         </main>
       </AnimateX>
-    </Suspense>
+
   );
 };
 
