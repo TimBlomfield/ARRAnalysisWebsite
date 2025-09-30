@@ -10,7 +10,7 @@ import styles from './page.module.scss';
 
 const PrivacyPolicyPage = () => {
   return (
-    <Suspense fallback={<div style={{ position: 'fixed', width: '100%', height: '100vh', display: 'grid', placeItems: 'center' }}><LoadingSSR scale={2} /></div>}>
+
       <AnimateX>
         <div className={styles.main}>
           <div className={styles.titleArea}>
@@ -163,7 +163,7 @@ const PrivacyPolicyPage = () => {
           <Footer />
         </div>
       </AnimateX>
-    </Suspense>
+
   );
 };
 
