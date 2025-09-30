@@ -1,4 +1,4 @@
-import { Suspense } from 'react'; // <Suspense> does  help with FOUC. FOUC happens here because this page is async and SSR.
+import { Suspense } from 'react'; // <Suspense> helps with FOUC. FOUC happens here because this page is async and SSR.
 import Image from 'next/image';
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
