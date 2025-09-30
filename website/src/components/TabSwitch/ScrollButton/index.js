@@ -8,7 +8,7 @@ import ArrowLeftSvg from '@/../public/ArrowLeft.svg';
 
 const ScrollButton = ({ theme = K_Theme.Dark, styles, right = false, onClick }) => {
   return (
-    <button className={styles.scrollButton} onClick={onClick} tabIndex={-1}>
+    <button className={cn(styles.scrollButton, {[styles.dark]: theme === K_Theme.Dark, [styles.light]: theme === K_Theme.Light || theme === K_Theme.Danger})} onClick={onClick} tabIndex={-1}>
       <ArrowLeftSvg className={cn(styles.tri, {[styles.right]: right})} />
     </button>
   );

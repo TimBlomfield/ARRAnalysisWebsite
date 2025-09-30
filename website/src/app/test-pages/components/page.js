@@ -142,6 +142,7 @@ const ComponentsPage = () => {
   const [tabSwitch_bold, setTabSwitch_bold] = useState(true);
   const [tabSwitch_stepMode, setTabSwitch_stepMode] = useState(false);
   const [tabSwitch_tabs, setTabSwitch_tabs] = useState(() => tabSwitchData.tsItems(5));
+  const [tabSwitch_mtLightDark, setTabSwitch_mtLightDark] = useState(0);
 
 
   // Effects
@@ -447,79 +448,79 @@ const ComponentsPage = () => {
           <CheckBox checked={slider_chkDisabled} setChecked={setSlider_chkDisabled} text="Disabled" />
         </div>
         <div className={styles.slider_grid}>
-        <div className={cn(styles.s1, styles.b)}>
-          <Slider ticks={sliderTicks.time}
-                  selected={slider_horizontal01}
-                  onSelect={setSlider_horizontal01}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
+          <div className={cn(styles.s1, styles.b)}>
+            <Slider ticks={sliderTicks.time}
+                    selected={slider_horizontal01}
+                    onSelect={setSlider_horizontal01}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s2, styles.b)}>
+            <Slider ticks={sliderTicks.deg}
+                    selected={slider_horizontal02}
+                    onSelect={setSlider_horizontal02}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s3, styles.b)}>
+            <Slider min={0}
+                    max={50}
+                    tot={51}
+                    selected={slider_horizontal03}
+                    onSelect={setSlider_horizontal03}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s4, styles.b)}>
+            <Slider min={-20000}
+                    max={50000}
+                    tot={130}
+                    selected={slider_horizontal04}
+                    onSelect={setSlider_horizontal04}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s5, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 1 : 3 }}>
+            <Slider vertical
+                    ticks={sliderTicks.time}
+                    selected={slider_vertical01}
+                    onSelect={setSlider_vertical01}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s6, styles.b)} style={{ zIndex: 2 }}>
+            <Slider vertical
+                    ticks={sliderTicks.deg}
+                    selected={slider_vertical02}
+                    onSelect={setSlider_vertical02}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
+          <div className={cn(styles.s7, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 3 : 1 }}>
+            <Slider vertical
+                    min={-5}
+                    max={5}
+                    tot={3}
+                    selected={slider_vertical03}
+                    onSelect={setSlider_vertical03}
+                    small={slider_chkThin}
+                    disabled={slider_chkDisabled}
+                    showValue={slider_mtgShowValue}
+                    valuePos={slider_mtgValuePos} />
+          </div>
         </div>
-        <div className={cn(styles.s2, styles.b)}>
-          <Slider ticks={sliderTicks.deg}
-                  selected={slider_horizontal02}
-                  onSelect={setSlider_horizontal02}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-        <div className={cn(styles.s3, styles.b)}>
-          <Slider min={0}
-                  max={50}
-                  tot={51}
-                  selected={slider_horizontal03}
-                  onSelect={setSlider_horizontal03}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-        <div className={cn(styles.s4, styles.b)}>
-          <Slider min={-20000}
-                  max={50000}
-                  tot={130}
-                  selected={slider_horizontal04}
-                  onSelect={setSlider_horizontal04}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-        <div className={cn(styles.s5, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 1 : 3 }}>
-          <Slider vertical
-                  ticks={sliderTicks.time}
-                  selected={slider_vertical01}
-                  onSelect={setSlider_vertical01}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-        <div className={cn(styles.s6, styles.b)} style={{ zIndex: 2 }}>
-          <Slider vertical
-                  ticks={sliderTicks.deg}
-                  selected={slider_vertical02}
-                  onSelect={setSlider_vertical02}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-        <div className={cn(styles.s7, styles.b)} style={{ zIndex: slider_mtgValuePos === 2 ? 3 : 1 }}>
-          <Slider vertical
-                  min={-5}
-                  max={5}
-                  tot={3}
-                  selected={slider_vertical03}
-                  onSelect={setSlider_vertical03}
-                  small={slider_chkThin}
-                  disabled={slider_chkDisabled}
-                  showValue={slider_mtgShowValue}
-                  valuePos={slider_mtgValuePos} />
-        </div>
-      </div>
       </>
     );
   }, [slider_mtgShowValue, slider_mtgValuePos, slider_chkThin, slider_chkDisabled, slider_horizontal01,
@@ -1175,9 +1176,16 @@ const ComponentsPage = () => {
           <CheckBox checked={tabSwitch_hiliteOnTop} setChecked={setTabSwitch_hiliteOnTop} text="Highlight on top" title="Show the selected tab line on the top instead of on the bottom of tabs" />
           <CheckBox checked={tabSwitch_bold} setChecked={setTabSwitch_bold} text="Bold font" />
           <CheckBox checked={tabSwitch_stepMode} setChecked={setTabSwitch_stepMode} text="Step mode" />
+          <div className={styles.mtg}>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={tabSwitch_mtLightDark}
+                         options={['Dark', 'Light']}
+                         onSelect={setTabSwitch_mtLightDark} />
+          </div>
         </div>
-        <Box caption="Resizable Frame" resizable bodyStyle={{ minWidth: 200, padding: '25px 25px 15px' }} style={{ minWidth: 202 }}>
-          <TabSwitch options={tabSwitch_tabs}
+        <Box caption="Resizable Frame" resizable bodyStyle={{ minWidth: 150, padding: '25px 25px 15px', ...(tabSwitch_mtLightDark === 1 ? { backgroundColor: '#253551'} : {}) }} style={{ minWidth: 152 }}>
+          <TabSwitch theme={tabSwitch_mtLightDark === 0 ? K_Theme.Dark : K_Theme.Light}
+                     options={tabSwitch_tabs}
                      selected={tabSwitch_comboCurTab}
                      onSelect={setTabSwitch_comboCurTab}
                      forceTabWidth={forceTabWidth}
@@ -1192,7 +1200,7 @@ const ComponentsPage = () => {
       </>
     );
   }, [tabSwitch_comboNumTabs, tabSwitch_comboCurTab, tabSwitch_forceTabWidth, tabSwitch_maxTabWidth, tabSwitch_minTextWidth,
-    tabSwitch_autoScrollButtons, tabSwitch_hiliteOnTop, tabSwitch_bold, tabSwitch_stepMode, tabSwitch_tabs]);
+    tabSwitch_autoScrollButtons, tabSwitch_hiliteOnTop, tabSwitch_bold, tabSwitch_stepMode, tabSwitch_tabs, tabSwitch_mtLightDark]);
 
 
   return (

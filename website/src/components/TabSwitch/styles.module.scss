@@ -1,8 +1,263 @@
 @use "globals" as *;
 
+// TODO: define all these variables
+$clrSeparator: #E0E0E0;
+$clrText_Lesser: #666;
+$clrText_Standard: #333;
+$clrText_Disabled: #999;
+$clrTabSwitch_ActiveLine_Dark: #24B47E;
+$clrTabSwitch_ActiveLine_Light: #E7E7CC;
+$clrTabSwitch_HiliteSelected: #24B47E;
+$clrTabSwitch_HiliteNotSelected: #E0E0E0;
+$clrTabSwitch_ArrowBtnIcon: #666;
+$clrTabSwitch_ArrowBtnHover: #E0E0E0;
+$clrTabSwitch_ArrowBtnPressed: #C0C0C0;
+$clrPageBackground_Regular: white;
 
-.tops {
-  width: 300px;
-  height: 150px;
-  background-color: red;
+.light {
+  --clr-active-line: #{$clrTabSwitch_ActiveLine_Light};
+}
+
+.dark {
+  --clr-active-line: #{$clrTabSwitch_ActiveLine_Dark};
+}
+
+
+.tsComponent {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+
+  .tabswitch {
+    height: 48px;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &.mobile {
+      overflow-x: scroll;
+      scrollbar-width: none;
+      &::-webkit-scrollbar { display: none; }
+    }
+
+    .tabcontainer {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      box-sizing: border-box;
+      position: relative;
+
+      .tab {
+        height: 100%;
+        width: fit-content;
+        box-sizing: border-box;
+        border-right: 1px solid transparent;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+
+        &.stepMode {
+          border-bottom: 1px solid $clrSeparator;
+          padding: 0;
+          justify-content: space-between;
+
+          .txt { padding: 0 20px; }
+
+          &.disabled {
+            cursor: not-allowed;
+
+            .txt {
+              color: $clrText_Disabled;
+            }
+          }
+        }
+
+        .txt {
+          @extend %noselect;
+          @extend %fnt-secondary;
+          @include mx-txt-overflow-hidden;
+
+          color: $clrText_Lesser;
+          text-align: center;
+          z-index: 5;
+
+          &.sel {
+            color: $clrText_Standard;
+          }
+
+          &.bold {
+            font-weight: 600;
+          }
+        }
+
+        svg.break {
+          fill: $clrSeparator;
+          stroke: none;
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          min-height: 24px;
+          transform: scaleX(-1);
+        }
+      }
+
+      .dummyTab {
+        width: 96px;
+        min-width: 96px;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .line {
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 5;
+        background-color: var(--clr-active-line);
+        height: 4px;
+        left: 0;
+        width: 0;
+        transition: left 0.5s ease, width 0.5s ease;
+
+        &.top { top: 0; }
+        &.bottom { bottom: 0; }
+        &.stepMode { height: 2px; }
+      }
+
+      .ripple {
+        position: absolute;
+        box-sizing: border-box;
+        overflow: hidden;
+        z-index: 0;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 48px;
+
+        .inner {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 0;
+          height: 0;
+
+          &.enter {
+            animation: ui-ripple-enter 550ms cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.3;
+            transform: scale(1);
+          }
+
+          &.exit {
+            animation: ui-ripple-exit 550ms cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: scale(0);
+          }
+
+          .pulsator {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: $clrTabSwitch_HiliteSelected;
+            animation: ui-ripple-pulsate 2500ms cubic-bezier(0.4, 0, 0.2, 1) 200ms infinite;
+
+            &.noSel { background-color: $clrTabSwitch_HiliteNotSelected; }
+          }
+        }
+      }
+    }
+  }
+
+  .lrbtns {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 48px;
+    width: 96px;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    background-color: $clrPageBackground_Regular;
+
+    &.stepMode {
+      box-sizing: border-box;
+      border-bottom: 1px solid $clrSeparator;
+    }
+
+    .scrollButton {
+      width: 48px;
+      height: 48px;
+      box-sizing: border-box;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+
+      &:hover:enabled {
+        background-color: $clrTabSwitch_ArrowBtnHover;
+      }
+
+      &:active:enabled {
+        background-color: $clrTabSwitch_ArrowBtnPressed;
+      }
+
+      svg.tri {
+        fill: $clrTabSwitch_ArrowBtnIcon;
+
+        &.right {
+          transform: scaleX(-1);
+        }
+      }
+    }
+  }
+}
+
+
+
+@keyframes ui-ripple-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+@keyframes ui-ripple-exit {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes ui-ripple-pulsate {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.92);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
