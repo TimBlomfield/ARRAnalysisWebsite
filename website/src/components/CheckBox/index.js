@@ -3,8 +3,8 @@
 import styles from './styles.module.scss';
 
 
-const CheckBox = ({checked = false, setChecked, text = '', disabled = false}) => (
-  <label className={styles.checkbox}>
+const CheckBox = ({checked = false, setChecked, text = '', disabled = false, title = ''}) => (
+  <label className={styles.checkbox} title={title}>
     <input type="checkbox"
            className={styles.inputCb}
            checked={checked}

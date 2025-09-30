@@ -22,8 +22,9 @@ const NavigationBar = async () => {
 
   const isCustomer = acuIds.customerId != null;
   const isUser = acuIds.userId != null;
+  const isAdmin = acuIds.adminId != null;
 
-  return <NavigationBarClient isCustomer={isCustomer} isUser={isUser} />;
+  return <NavigationBarClient isCustomer={isCustomer} isUser={isUser} isAdmin={isAdmin} />;
 };
 
 

@@ -28,6 +28,7 @@ import PlusMinusButton from '@/components/PlusMinusButton';
 import Popper from '@/components/Popper';
 import PushButton from '@/components/PushButton';
 import Slider from '@/components/Slider';
+import TabSwitch from '@/components/TabSwitch';
 // Images
 import blankAvatar from '@/../public/BlankAvatar.png';
 import InterphoneSvg from '@/../public/international-call.svg';
@@ -35,6 +36,19 @@ import PlusSvg from '@/../public/Plus.svg';
 import TriangleSvg from '@/../public/DropdownTriangle.svg';
 // Styles
 import styles from './styles.module.scss';
+
+
+const tabSwitchData = {
+  tabCount: Array.from(new Array(29), (x, i) => (i + 2).toString()),
+  curTabFn: total => Array.from(new Array(total), (x, i) => (i + 1).toString()),
+  tsItems: total => [
+    'Item One', 'Item Two aenean venenatis nibh mi fringilla aliquet varius natoque penatibus',  'Item Three', 'Item Four',
+    'V', 'Item Six', 'Item Seven', 'Item Eight', 'Item Nine', 'Item Ten', 'Item Eleven', 'Item Twelve', 'Item Thirteen',
+    'Item Fourteen', 'Item Fifteen', 'Item Sixteen', 'Item Seventeen', 'Item Eighteen', 'Item Nineteen', 'Item Twenty',
+    'Item Twenty One', 'Item Twenty Two', 'Item Twenty Three', 'Item Twenty Four', 'Item Twenty Five', 'Item Twenty Six',
+    'Item Twenty Seven', 'Item Twenty Eight', 'Item Twenty Nine', 'Item Thirty',
+  ].slice(0, total),
+};
 
 
 const ComponentsPage = () => {
@@ -117,6 +131,17 @@ const ComponentsPage = () => {
   const [cboxsect_comboCountriesLt, setCboxsect_comboCountriesLt] = useState(-1);
   const [cboxsect_comboUsersDk, setCboxsect_comboUsersDk] = useState(-1);
   const [cboxsect_comboUsersLt, setCboxsect_comboUsersLt] = useState(6);
+  // TabSwitch Section - local states
+  const [tabSwitch_comboNumTabs, setTabSwitch_comboNumTabs] = useState(3);
+  const [tabSwitch_comboCurTab, setTabSwitch_comboCurTab] = useState(0);
+  const [tabSwitch_forceTabWidth, setTabSwitch_forceTabWidth] = useState(0);
+  const [tabSwitch_maxTabWidth, setTabSwitch_maxTabWidth] = useState(0);
+  const [tabSwitch_minTextWidth, setTabSwitch_minTextWidth] = useState(0);
+  const [tabSwitch_autoScrollButtons, setTabSwitch_autoScrollButtons] = useState(true);
+  const [tabSwitch_hiliteOnTop, setTabSwitch_hiliteOnTop] = useState(false);
+  const [tabSwitch_bold, setTabSwitch_bold] = useState(true);
+  const [tabSwitch_stepMode, setTabSwitch_stepMode] = useState(false);
+  const [tabSwitch_tabs, setTabSwitch_tabs] = useState(() => tabSwitchData.tsItems(5));
 
 
   // Effects
@@ -1077,6 +1102,99 @@ const ComponentsPage = () => {
   }, []);
 
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // TabSwitch Section
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const TabSwitchSection_MemoRender = useMemo(() => {
+
+    const onChangeTabCount = newCountIdx => {
+      const nextNumberOfTabs = +tabSwitchData.tabCount[newCountIdx];
+      if (tabSwitch_comboCurTab >= nextNumberOfTabs) setTabSwitch_comboCurTab(nextNumberOfTabs - 1);
+      setTabSwitch_comboNumTabs(newCountIdx);
+      setTabSwitch_tabs(tabSwitchData.tsItems(nextNumberOfTabs));
+    };
+
+    const forceTabWidth = tabSwitch_forceTabWidth > 0
+      ? +['Off', '100', '150', '200', '250', '300'][tabSwitch_forceTabWidth]
+      : undefined;
+    const maxTabWidth = tabSwitch_maxTabWidth > 0
+      ? +['Off', '100', '150', '200', '300', '500'][tabSwitch_maxTabWidth]
+      : undefined;
+    const minTextWidth = tabSwitch_minTextWidth > 0
+      ? +['Off', '100', '150', '200', '300', '500'][tabSwitch_minTextWidth]
+      : undefined;
+
+    return (
+      <>
+        <div className={cn(styles.title, styles.pt)}>&lt;TabSwitch ... /&gt;</div>
+        <div className={styles.tweaker}>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Total Tabs</div>
+            <ComboBox style={{ height: 32 }}
+                      wrapperExtraClass={styles.cmb80}
+                      pop_MatchWidth
+                      disableClearable
+                      searchable={false}
+                      options={tabSwitchData.tabCount}
+                      selected={tabSwitch_comboNumTabs}
+                      onSelect={onChangeTabCount} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Current tab #</div>
+            <ComboBox style={{ height: 32 }}
+                      wrapperExtraClass={styles.cmb80}
+                      pop_MatchWidth
+                      disableClearable
+                      searchable={false}
+                      options={tabSwitchData.curTabFn(+tabSwitchData.tabCount[tabSwitch_comboNumTabs])}
+                      selected={tabSwitch_comboCurTab}
+                      onSelect={setTabSwitch_comboCurTab} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Force Tab Width</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={tabSwitch_forceTabWidth}
+                         options={['Off', '100', '150', '200', '250', '300']}
+                         onSelect={setTabSwitch_forceTabWidth} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Max Tab Width</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={tabSwitch_maxTabWidth}
+                         options={['Off', '100', '150', '200', '250', '300']}
+                         onSelect={setTabSwitch_maxTabWidth} />
+          </div>
+          <div className={styles.mtg}>
+            <div className={styles.titleM}>Min Text Width</div>
+            <MultiToggle extraClass={styles.xtraMT}
+                         selected={tabSwitch_minTextWidth}
+                         options={['Off', '100', '150', '200', '250', '300']}
+                         onSelect={setTabSwitch_minTextWidth} />
+          </div>
+          <CheckBox checked={tabSwitch_autoScrollButtons} setChecked={setTabSwitch_autoScrollButtons} text="autoScrollButtons" title="Automatically decide whether to show the scroll buttons based on tablet/mobile flag" />
+          <CheckBox checked={tabSwitch_hiliteOnTop} setChecked={setTabSwitch_hiliteOnTop} text="Highlight on top" title="Show the selected tab line on the top instead of on the bottom of tabs" />
+          <CheckBox checked={tabSwitch_bold} setChecked={setTabSwitch_bold} text="Bold font" />
+          <CheckBox checked={tabSwitch_stepMode} setChecked={setTabSwitch_stepMode} text="Step mode" />
+        </div>
+        <Box caption="Resizable Frame" resizable bodyStyle={{ minWidth: 200, padding: '25px 25px 15px' }} style={{ minWidth: 202 }}>
+          <TabSwitch options={tabSwitch_tabs}
+                     selected={tabSwitch_comboCurTab}
+                     onSelect={setTabSwitch_comboCurTab}
+                     forceTabWidth={forceTabWidth}
+                     maxTabWidth={maxTabWidth}
+                     minTextWidth={minTextWidth}
+                     highlightTop={tabSwitch_hiliteOnTop}
+                     bold={tabSwitch_bold}
+                     stepMode={tabSwitch_stepMode}
+                     revealedSteps={Math.round(tabSwitch_tabs.length * 0.6)}
+                     autoScrollButtons={tabSwitch_autoScrollButtons} />
+        </Box>
+      </>
+    );
+  }, [tabSwitch_comboNumTabs, tabSwitch_comboCurTab, tabSwitch_forceTabWidth, tabSwitch_maxTabWidth, tabSwitch_minTextWidth,
+    tabSwitch_autoScrollButtons, tabSwitch_hiliteOnTop, tabSwitch_bold, tabSwitch_stepMode, tabSwitch_tabs]);
+
+
   return (
     <main className={styles.main}>
       {LoadingSection_MemoRender}
@@ -1090,6 +1208,7 @@ const ComponentsPage = () => {
       {InputSection_MemoRender}
       {ComboBoxSection_MemoRender}
       {DrawerSection_MemoRender}
+      {TabSwitchSection_MemoRender}
     </main>
   );
 };

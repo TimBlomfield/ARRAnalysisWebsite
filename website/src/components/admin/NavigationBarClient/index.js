@@ -18,10 +18,11 @@ const LinkPaths = {
   UserLicenses: '/admin/user-licenses',
   Downloads: '/admin/downloads',
   Purchase: '/admin/purchase',
+  Upload: '/admin/upload',
 };
 
 
-const NavigationBarClient = ({ isCustomer, isUser }) => {
+const NavigationBarClient = ({ isCustomer, isUser, isAdmin }) => {
   const pathname = usePathname();
 
   return (
@@ -71,6 +72,13 @@ const NavigationBarClient = ({ isCustomer, isUser }) => {
               href={LinkPaths.Purchase}>
           Purchase
         </Link>
+        {isAdmin &&
+          <Link className={cn(styles.pageLink, {[styles.active]: pathname.startsWith(LinkPaths.Upload)})}
+                prefetch={false}
+                href="/admin/upload">
+            Upload
+          </Link>
+        }
       </div>
     </div>
   );
