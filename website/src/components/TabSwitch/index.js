@@ -283,8 +283,8 @@ const TabSwitch = ({theme = K_Theme.Dark, extraClass = '', style, highlightTop =
       </div>
       {bScrlBtns &&
         <div className={cn(styles.lrbtns, {[styles.stepMode]: stepMode})}>
-          <ScrollButton styles={styles} onClick={fnScrollLeft} />
-          <ScrollButton styles={styles} right onClick={fnScrollRight} />
+          <ScrollButton theme={theme} styles={styles} onClick={fnScrollLeft} />
+          <ScrollButton theme={theme} styles={styles} right onClick={fnScrollRight} />
         </div>
       }
     </div>

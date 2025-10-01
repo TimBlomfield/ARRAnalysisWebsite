@@ -1,25 +1,53 @@
 @use "globals" as *;
+@use "sass:color";
 
-// TODO: define all these variables
-$clrSeparator: #E0E0E0;
-$clrText_Lesser: #666;
-$clrText_Standard: #333;
+
+$clrTabSwitch_ActiveLine_Dark: #5E5299;
+$clrTabSwitch_ActiveLine_Light: white;
+$clrText_Lesser_Dark: #696977;
+$clrText_Lesser_Light: #F3F2F8DF;
+$clrText_Standard_Dark: #554A8A;
+$clrText_Standard_Light: white;
+$clrSeparator_Dark: #5E529975;
+$clrSeparator_Light: #FFFFFF75;
 $clrText_Disabled: #999;
-$clrTabSwitch_ActiveLine_Dark: #24B47E;
-$clrTabSwitch_ActiveLine_Light: #E7E7CC;
-$clrTabSwitch_HiliteSelected: #24B47E;
-$clrTabSwitch_HiliteNotSelected: #E0E0E0;
-$clrTabSwitch_ArrowBtnIcon: #666;
-$clrTabSwitch_ArrowBtnHover: #E0E0E0;
-$clrTabSwitch_ArrowBtnPressed: #C0C0C0;
-$clrPageBackground_Regular: white;
+$clrTabSwitch_HiliteSelected_Dark: #7B6BC8;
+$clrTabSwitch_HiliteSelected_Light: #E3E3E3;
+$clrTabSwitch_HiliteNotSelected_Dark: #7B6BC875;
+$clrTabSwitch_HiliteNotSelected_Light: #E3E3E375;
+$clrArrowBtns_PageBackground_Dark: #F3F2F8;
+$clrArrowBtns_PageBackground_Light: #253551;
+$clrArrowBtns_PageBackground_Hover_Dark: color.adjust($clrArrowBtns_PageBackground_Dark, $lightness: -5% );
+$clrArrowBtns_PageBackground_Hover_Light: color.adjust($clrArrowBtns_PageBackground_Light, $lightness: 9% );
+$clrArrowBtns_PageBackground_Down_Dark: color.adjust($clrArrowBtns_PageBackground_Dark, $lightness: -10% );
+$clrArrowBtns_PageBackground_Down_Light: color.adjust($clrArrowBtns_PageBackground_Light, $lightness: 18% );
+$clrArrowBtns_Icon_Dark: #666;
+$clrArrowBtns_Icon_Light: #CCC;
 
 .light {
   --clr-active-line: #{$clrTabSwitch_ActiveLine_Light};
+  --clr-text-lesser: #{$clrText_Lesser_Light};
+  --clr-text-standard: #{$clrText_Standard_Light};
+  --clr-separator: #{$clrSeparator_Light};
+  --clr-hilite-not-selected: #{$clrTabSwitch_HiliteNotSelected_Light};
+  --clr-hilite-selected: #{$clrTabSwitch_HiliteSelected_Light};
+  --clr-arwbtns-page-background: #{$clrArrowBtns_PageBackground_Light};
+  --clr-arwbtns-page-background-hover: #{$clrArrowBtns_PageBackground_Hover_Light};
+  --clr-arwbtns-page-background-pressed: #{$clrArrowBtns_PageBackground_Down_Light};
+  --clr-arwbtns-icon: #{$clrArrowBtns_Icon_Light};
 }
 
 .dark {
   --clr-active-line: #{$clrTabSwitch_ActiveLine_Dark};
+  --clr-text-lesser: #{$clrText_Lesser_Dark};
+  --clr-text-standard: #{$clrText_Standard_Dark};
+  --clr-separator: #{$clrSeparator_Dark};
+  --clr-hilite-not-selected: #{$clrTabSwitch_HiliteNotSelected_Dark};
+  --clr-hilite-selected: #{$clrTabSwitch_HiliteSelected_Dark};
+  --clr-arwbtns-page-background: #{$clrArrowBtns_PageBackground_Dark};
+  --clr-arwbtns-page-background-hover: #{$clrArrowBtns_PageBackground_Hover_Dark};
+  --clr-arwbtns-page-background-pressed: #{$clrArrowBtns_PageBackground_Down_Dark};
+  --clr-arwbtns-icon: #{$clrArrowBtns_Icon_Dark};
 }
 
 
@@ -62,7 +90,7 @@ $clrPageBackground_Regular: white;
         -webkit-tap-highlight-color: transparent;
 
         &.stepMode {
-          border-bottom: 1px solid $clrSeparator;
+          border-bottom: 1px solid var(--clr-separator);
           padding: 0;
           justify-content: space-between;
 
@@ -82,12 +110,12 @@ $clrPageBackground_Regular: white;
           @extend %fnt-secondary;
           @include mx-txt-overflow-hidden;
 
-          color: $clrText_Lesser;
+          color: var(--clr-text-lesser);
           text-align: center;
           z-index: 5;
 
           &.sel {
-            color: $clrText_Standard;
+            color: var(--clr-text-standard);
           }
 
           &.bold {
@@ -96,7 +124,7 @@ $clrPageBackground_Regular: white;
         }
 
         svg.break {
-          fill: $clrSeparator;
+          fill: var(--clr-separator);
           stroke: none;
           width: 24px;
           height: 24px;
@@ -164,10 +192,10 @@ $clrPageBackground_Regular: white;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background-color: $clrTabSwitch_HiliteSelected;
+            background-color: var(--clr-hilite-selected);
             animation: ui-ripple-pulsate 2500ms cubic-bezier(0.4, 0, 0.2, 1) 200ms infinite;
 
-            &.noSel { background-color: $clrTabSwitch_HiliteNotSelected; }
+            &.noSel { background-color: var(--clr-hilite-not-selected); }
           }
         }
       }
@@ -183,11 +211,11 @@ $clrPageBackground_Regular: white;
     z-index: 10;
     display: flex;
     flex-direction: row;
-    background-color: $clrPageBackground_Regular;
+    background-color: var(--clr-arwbtns-page-background);
 
     &.stepMode {
       box-sizing: border-box;
-      border-bottom: 1px solid $clrSeparator;
+      border-bottom: 1px solid var(--clr-separator);
     }
 
     .scrollButton {
@@ -204,15 +232,15 @@ $clrPageBackground_Regular: white;
       -webkit-tap-highlight-color: transparent;
 
       &:hover:enabled {
-        background-color: $clrTabSwitch_ArrowBtnHover;
+        background-color: var(--clr-arwbtns-page-background-hover);
       }
 
       &:active:enabled {
-        background-color: $clrTabSwitch_ArrowBtnPressed;
+        background-color: var(--clr-arwbtns-page-background-pressed);
       }
 
       svg.tri {
-        fill: $clrTabSwitch_ArrowBtnIcon;
+        fill: var(--clr-arwbtns-icon);
 
         &.right {
           transform: scaleX(-1);
