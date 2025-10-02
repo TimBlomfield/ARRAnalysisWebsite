@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { AuditEvent } from '@prisma/client';
 import db from '@/utils/server/db';
+import loggedInCheck from '@/utils/server/logged-in-check';
 import { createAuditLog } from '@/utils/server/audit';
 // Components
 import Footer from '@/components/admin/Footer';
@@ -25,6 +26,8 @@ const checkExistingAuditLog = async paymentIntentId => {
 
 
 const PaymentFailedPage = async ({ searchParams }) => {
+  await loggedInCheck();
+
   const { scid: stripeCustomerId, payment_intent: description } = searchParams;
 
   try {

@@ -1,22 +1,9 @@
-import { notFound, redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
-import { authOptions } from '@/utils/server/auth';
+import { redirect } from 'next/navigation';
+import CheckLoggedIn from '@/utils/server/logged-in-check';
 
 
 const UploadPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
-
-  const acuIds = await getACU_Ids(token.email);
-  if (acuIds?.adminId == null)
-    notFound();
+  await CheckLoggedIn(true);
 
   redirect('/admin/upload/overview');
 };

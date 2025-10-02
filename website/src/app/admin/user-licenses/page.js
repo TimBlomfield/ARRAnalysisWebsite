@@ -1,9 +1,7 @@
-import { notFound, redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { notFound } from 'next/navigation';
 import axios from 'axios';
 import db from '@/utils/server/db';
-import { isAuthTokenValid } from '@/utils/server/common';
-import { authOptions } from '@/utils/server/auth';
+import loggedInCheck from '@/utils/server/logged-in-check';
 // Components
 import Footer from '@/components/admin/Footer';
 import UserLicenseItem from '@/components/UserLicenseItem';
@@ -12,14 +10,7 @@ import styles from './styles.module.scss';
 
 
 const UserLicensesPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
+  const { token } = await loggedInCheck(false, true, false);
 
   const userData = await db.userData.findUnique({
     where: { email: token.email },

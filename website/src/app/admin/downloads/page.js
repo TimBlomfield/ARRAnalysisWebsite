@@ -1,8 +1,7 @@
-import { notFound, redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { notFound } from 'next/navigation';
 import axios from 'axios';
-import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
-import { authOptions } from '@/utils/server/auth';
+import { getACU_Ids } from '@/utils/server/common';
+import loggedInCheck from '@/utils/server/logged-in-check';
 import { listFiles } from '@/utils/server/s3';
 import db from '@/utils/server/db';
 // Components
@@ -10,14 +9,7 @@ import DownloadFilesPage from '@/components/forms/DownloadFilesPage';
 
 
 const DownloadsPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
+  const { token } = await loggedInCheck();
 
   let acuIds, allowedDownloads;
   try {

@@ -1,11 +1,9 @@
 import { notFound, redirect, RedirectType } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { getServerSession } from 'next-auth';
 import Stripe from 'stripe';
-import { authOptions } from '@/utils/server/auth';
-import { isAuthTokenValid } from '@/utils/server/common';
 import db from '@/utils/server/db';
 import { createAuditLog } from '@/utils/server/audit';
+import loggedInCheck from '@/utils/server/logged-in-check';
 import { AuditEvent } from '@prisma/client';
 // Components
 import PurchaseSuccessClientPage from '@/components/forms/PurchaseSuccessClientPage';
@@ -28,14 +26,7 @@ const checkExistingAuditLog = async paymentIntentId => {
 
 
 const PurchaseSuccessPage = async ({ searchParams }) => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
+  const { token } = await loggedInCheck();
 
   const { scid: id_stripeCustomer, redirect_status, payment_intent } = searchParams;
   let paymentIntentFailed = false;

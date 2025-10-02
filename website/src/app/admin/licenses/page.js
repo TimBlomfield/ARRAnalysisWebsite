@@ -1,8 +1,6 @@
-import { notFound, redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
+import { notFound } from 'next/navigation';
 import axios from 'axios';
-import { authOptions } from '@/utils/server/auth';
-import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
+import loggedInCheck from '@/utils/server/logged-in-check';
 import { encodeLicenseId } from '@/utils/server/licenses';
 import { getFriendlySubscriptionId } from '@/utils/server/subscriptions';
 import db from '@/utils/server/db';
@@ -14,18 +12,7 @@ import styles from './styles.module.scss';
 
 
 const LicensesPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
-
-  const acuIds = await getACU_Ids(token.email);
-  if (acuIds?.customerId == null)
-    notFound();
+  const { acuIds } = await loggedInCheck(false, false, true);
 
   let licenseData;
 

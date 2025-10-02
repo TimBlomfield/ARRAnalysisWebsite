@@ -1,9 +1,7 @@
-import { getServerSession } from 'next-auth';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Stripe from 'stripe';
-import { authOptions } from '@/utils/server/auth';
-import { getACU_Ids, isAuthTokenValid } from '@/utils/server/common';
 import db from '@/utils/server/db';
+import loggedInCheck from '@/utils/server/logged-in-check';
 import heavilyReduce from './utils';
 // Components
 import SubscriptionsClientPage from '@/components/forms/SubscriptionsClientPage';
@@ -12,18 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 const SubscriptionsPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  if (session?.token?.email == null)
-    redirect('/login');
-
-  const { token } = session;
-  if (!isAuthTokenValid(token))
-    redirect('/login');
-
-  const acuIds = await getACU_Ids(token.email);
-  if (acuIds?.customerId == null)
-    notFound();
+  const { acuIds } = await loggedInCheck(false, false, true);
 
   let subscriptions = null, activeCount = 0;
   try {

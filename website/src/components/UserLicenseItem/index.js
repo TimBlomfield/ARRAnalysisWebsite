@@ -107,7 +107,7 @@ const UserLicenseItem = ({ license, email }) => {
             <PushButton extraClass={styles.btnCntr}
                         disabled={loading}
                         onClick={onAssignSelf}>
-              Assing Self
+              Assign Self
             </PushButton>
           </>
         }

@@ -1,10 +1,13 @@
+import loggedInCheck from '@/utils/server/logged-in-check';
 // Components
 import Footer from '@/components/admin/Footer';
 // Styles
 import styles from './styles.module.scss';
 
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  await loggedInCheck();
+
   return (
     <div className={styles.main}>
       <div className={styles.dashboard}>
