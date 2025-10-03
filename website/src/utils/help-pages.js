@@ -21,6 +21,7 @@ const HelpPageIndex = {
 const _helpPages = {
   url: 'help-center',
   title: 'Help Center',
+  sublink_desc: 'Comprehensive guides for managing accounts, subscriptions, and the ARR Analysis Excel Add-in.',
   index: HelpPageIndex.HelpCenter,
   children: [
     {

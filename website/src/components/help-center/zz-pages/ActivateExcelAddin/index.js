@@ -19,6 +19,7 @@ import styles from '../common.module.scss';
 
 const ActivateExcelAddinPage = () => {
   const [image, setImage] = useZoomableImage();
+
   return (
     <section className={styles.main}>
       <article className={styles.full}>
