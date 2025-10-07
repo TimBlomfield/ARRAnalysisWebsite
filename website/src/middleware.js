@@ -2,16 +2,42 @@ import { NextResponse } from 'next/server';
 import { cookies  } from 'next/headers';
 import { getToken } from 'next-auth/jwt';
 import axios from 'axios';
-import { isAuthTokenValid } from '@/utils/server/common';
+import { isAuthTokenValid, requiresBasicAuth } from '@/utils/server/common';
 
 
 const isStagingOrProd = process.env.K_ENVIRONMENT === 'Staging' || process.env.K_ENVIRONMENT === 'Production';
+const isDevelopmentOrStaging = process.env.K_ENVIRONMENT === 'Development' || process.env.K_ENVIRONMENT === 'Staging';
+const USER = process.env.K_ALLOWED_USER || 'admin';
+const PASS = process.env.K_ALLOWED_PASS || 'password';
 
 
 export const middleware = async request => {
   const response = NextResponse.next();
-
   const pathname = request.nextUrl.pathname.toLowerCase();
+
+  // Require basic authentication in the Development and Staging heroku apps
+  if (isDevelopmentOrStaging && requiresBasicAuth(pathname)) {
+    const basicAuth = request.headers.get("authorization");
+
+    const unauthorized = new NextResponse("Authentication required!", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="Secure Development or Staging Area"',
+      },
+    });
+
+    if (!basicAuth) return unauthorized;
+
+    try {
+      const [user, pass] = Buffer.from(basicAuth.split(" ")[1], "base64")
+        .toString()
+        .split(":");
+
+      if (user !== USER || pass !== PASS) return unauthorized;
+    } catch {
+      return unauthorized;
+    }
+  }
 
   // Add HSTS header in staging or production
   if (isStagingOrProd) {

@@ -85,10 +85,28 @@ const getACU_Ids = async email => {
 
 const debugWait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+const requiresBasicAuth = pathname => {
+  if (!pathname || typeof pathname !== 'string') return true;
+
+  // Note: It's better to do it this way, because there are paths that should be allowed, such as static images, or /robots.txt or other files
+  return pathname === '/'
+    || pathname.startsWith('/contact')
+    || pathname.startsWith('/help-center')
+    || pathname.startsWith('/privacy')
+    || pathname.startsWith('/product')
+    || pathname.startsWith('/purchase')
+    || pathname.startsWith('/terms')
+    || pathname.startsWith('/admin')
+    || pathname.startsWith('/api')
+    || pathname.startsWith('/login')
+    || pathname.startsWith('/test-pages');
+}
+
 export {
   RegTokenState,
   checkRegToken,
   isAuthTokenValid,
   getACU_Ids,
   debugWait,
+  requiresBasicAuth
 };
