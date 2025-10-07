@@ -100,7 +100,8 @@ const requiresBasicAuth = pathname => {
     || pathname.startsWith('/api')
     || pathname.startsWith('/login')
     || pathname.startsWith('/test-pages');
-}
+};
+
 
 export {
   RegTokenState,
@@ -108,5 +109,5 @@ export {
   isAuthTokenValid,
   getACU_Ids,
   debugWait,
-  requiresBasicAuth
+  requiresBasicAuth,
 };

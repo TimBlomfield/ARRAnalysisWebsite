@@ -17,21 +17,21 @@ export const middleware = async request => {
 
   // Require basic authentication in the Development and Staging heroku apps
   if (isDevelopmentOrStaging && requiresBasicAuth(pathname)) {
-    const basicAuth = request.headers.get("authorization");
+    const basicAuth = request.headers.get('authorization');
 
-    const unauthorized = new NextResponse("Authentication required!", {
+    const unauthorized = new NextResponse('Authentication required!', {
       status: 401,
       headers: {
-        "WWW-Authenticate": 'Basic realm="Secure Development or Staging Area"',
+        'WWW-Authenticate': 'Basic realm="Secure Development or Staging Area"',
       },
     });
 
     if (!basicAuth) return unauthorized;
 
     try {
-      const [user, pass] = Buffer.from(basicAuth.split(" ")[1], "base64")
+      const [user, pass] = Buffer.from(basicAuth.split(' ')[1], 'base64')
         .toString()
-        .split(":");
+        .split(':');
 
       if (user !== USER || pass !== PASS) return unauthorized;
     } catch {
