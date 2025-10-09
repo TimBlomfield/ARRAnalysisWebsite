@@ -1,0 +1,49 @@
+@use "globals" as *;
+
+
+.popper {
+  @extend %noselect;
+
+  z-index: 200;
+
+  .frame {
+    padding: 4px;
+    border: 1px solid $clrAdmin_10;
+    border-radius: 4px;
+    background-color: $clrPopupMenu_Background;
+    box-shadow: $shdPopupMenu;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    .menuItem {
+      min-width: 150px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+
+      .txt {
+        @extend %fnt-secondary;
+
+        font-size: 16px;
+        color: $clrAdmin_NavbarSelectedLinkText;
+      }
+
+      &:hover {
+        background-color: $clrAdmin_10;
+
+        .txt { font-weight: 600; }
+      }
+    }
+
+    .separator {
+      height: 1px;
+      background-color: $clrAdmin_10;
+      margin: 4px 0;
+    }
+  }
+}

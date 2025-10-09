@@ -1,0 +1,64 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.dialog {
+  @extend %dialog-common;
+
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    inset: 50px 0 0;
+    background: linear-gradient($clrAdmin_DlgDarkerBk -200px, $clrAdminBk 15%, $clrAdminBk 75%, $clrAdmin_DlgDarkerBk);
+    opacity: .75;
+    display: grid;
+    place-items: center;
+  }
+
+  .lblFrom { margin-bottom: 8px; }
+
+  .from {
+    border: 2px solid color.adjust($clrAdminBk, $lightness: -12%);
+    background-color: color.adjust($clrAdminBk, $lightness: -5%);
+    border-radius: 8px;
+    height: 100px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    .txtFrom {
+      @extend %fnt-secondary;
+
+      font-size: 18px;
+      letter-spacing: .4px;
+      font-weight: 600;
+      color: $clrAdmin_Txt1;
+    }
+  }
+
+  .destHolder {
+    position: relative;
+
+    .imposedTxt {
+      @extend %fnt-primary;
+
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      font-size: 16px;
+      color: color.adjust($clrAdminBk, $lightness: -50%);
+    }
+
+    .inp {
+      height: 120px;
+      padding: 6px 16px 0;
+      width: 100%;
+      background-color: transparent;
+      color: black;
+      resize: none;
+      font-weight: 600;
+      letter-spacing: .8px;
+    }
+
+    .errorTextXtra { color: #F87A93; }
+  }
+}

@@ -53,7 +53,7 @@ const LicenseItem = ({ license, isAdmin }) => {
   const onEnableDisableLicense = useCallback(() => {
     setLoading(true);
 
-    axios.post('/api/licensing/enable-disable/', { licenseId: license.id, enable: bLicenseDisabled })
+    axios.post('/api/admin/licensing/enable-disable/', { licenseId: license.id, enable: bLicenseDisabled })
       .then(res => {
         router.refresh();
         setLoadingHelper(bLicenseDisabled ? LoadingHelper.Enable : LoadingHelper.Disable);

@@ -1,0 +1,50 @@
+@use "globals" as *;
+
+
+.adminUploadOverview {
+  flex: 1;
+  height: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .btnUpload {
+    height: 44px;
+    padding: 0 20px;
+  }
+
+  .extraNfo {
+    @extend %fnt-secondary;
+
+    margin-left: 10px;
+    font-size: 14px;
+    color: $clrAdmin_Txt1;
+    display: grid;
+    width: fit-content;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr min-content;
+    grid-gap: 3px 10px;
+
+    div {
+      display: flex;
+      align-items: flex-end;
+      white-space: nowrap;
+    }
+
+    .bold {
+      @extend %fnt-primary;
+
+      font-size: 16px;
+
+      &.folder { color: $clrAdmin_NavbarSelectedLinkText; }
+      &.error { animation: k-flash .5s infinite; }
+
+      @keyframes k-flash {
+        0%, 100% { color: $clrError; }
+        50% { color: $clrAdmin_Txt1; }
+      }
+    }
+  }
+}

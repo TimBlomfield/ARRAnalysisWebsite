@@ -326,6 +326,14 @@ $maxHtmlPageWidth: 1400px;
     stroke: $clrSvg;
   }
 
+  .char {
+    @extend %fnt-primary;
+
+    z-index: 1;
+    font-size: 24px;
+    color: $clrSvg;
+  }
+
   &:hover:enabled { .inner { background-color: $clrBackground_Hover; } }
   &:active:enabled { .inner { background-color: $clrBackground_Active; } }
   &:focus-visible { border-color: $clrBorder_Focus; }

@@ -1,0 +1,33 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.dialog {
+  @extend %dialog-common;
+
+  .body {
+    padding: 20px;
+    display: grid;
+    place-items: center;
+
+    .theFile {
+      @extend %fnt-secondary;
+
+      font-size: 14px;
+      letter-spacing: .2px;
+      font-weight: 600;
+      text-align: center;
+      color: color.adjust($clrAdmin_Txt1, $lightness: 10%);
+      padding-bottom: 10px;
+    }
+
+    a {
+      @extend %fnt-primary;
+
+      font-size: 20px;
+      color: $clrLinkText;
+
+      &:hover { color: color.adjust($clrLinkText, $lightness: -20%); }
+    }
+  }
+}

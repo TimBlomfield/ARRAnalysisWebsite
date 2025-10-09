@@ -88,7 +88,8 @@ const debugWait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const requiresBasicAuth = pathname => {
   if (!pathname || typeof pathname !== 'string') return true;
 
-  // Note: It's better to do it this way, because there are paths that should be allowed, such as static images, or /robots.txt or other files
+  // Note: It's better to do it this way, because there are paths that should be allowed without basic auth,
+  //       such as static images, or /robots.txt or favicon.ico or other files
   return pathname === '/'
     || pathname.startsWith('/contact')
     || pathname.startsWith('/help-center')

@@ -1,15 +1,18 @@
 'use client';
 
+import { forwardRef } from 'react';
 import cn from 'classnames';
 import { K_Theme } from '@/utils/common';
 // Styles
 import styles from './styles.module.scss';
 
 
-const IconButton = ({theme = K_Theme.Dark, transparent = false, invertBkTheme = false, scale = 1, svgScale = 1,
-  extraClass = '', svg = '', svgClassName = '', svgStyle = {}, noBkgnd = false, ...attr}) => {
+const IconButton = forwardRef(({theme = K_Theme.Dark, transparent = false, invertBkTheme = false, scale = 1, svgScale = 1,
+  extraClass = '', svg = '', svgClassName = '', svgStyle = {}, char = '', charClassName = '', charStyle = {},
+  noBkgnd = false, ...attr}, ref) => {
   const Img = svg;
-  const classImg = cn(svgClassName || styles.image);
+  const classImg = svgClassName || styles.image;
+  const classChar = charClassName || styles.char;
 
   const btnStyle = {
     width: `${scale*48}px`,
@@ -22,6 +25,10 @@ const IconButton = ({theme = K_Theme.Dark, transparent = false, invertBkTheme = 
     scale: svgScale,
     ...svgStyle,
   };
+  const chStyle = {
+    scale: svgScale,
+    ...charStyle,
+  };
 
   return (
     <button className={cn(styles.iconButton, {
@@ -32,14 +39,18 @@ const IconButton = ({theme = K_Theme.Dark, transparent = false, invertBkTheme = 
                           [styles.light_TransparentBk]: theme === K_Theme.Light && transparent,
                           [styles.red_TransparentBk]: theme === K_Theme.Danger && transparent,
                           [styles.invertBkTheme]: invertBkTheme }, extraClass)}
+            ref={ref}
             {...attr}
             style={btnStyle}>
-      <Img className={classImg} style={imgStyle} />
+      {svg && <Img className={classImg} style={imgStyle} />}
+      {char && <div className={classChar} style={chStyle}>{char}</div>}
       <div className={styles.inner}
            {...(noBkgnd ? { style: { backgroundColor: 'transparent' } } : {})} />
     </button>
   );
-};
+});
+
+IconButton.displayName = 'IconButton';
 
 
 export default IconButton;

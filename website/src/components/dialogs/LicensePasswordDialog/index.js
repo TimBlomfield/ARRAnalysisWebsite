@@ -56,7 +56,7 @@ const LicensePasswordDialog = ({ isOpen, notifyClosed, onConfirm }) => {
     if (evt.code === 'Enter' || evt.code === 'NumpadEnter') {
       switch (evt.target.id) {
         case ID_PASSWORD:
-          onBtnConfirm(password);
+          onBtnConfirm();
           break;
       }
     }

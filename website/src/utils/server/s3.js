@@ -76,6 +76,23 @@ const listFiles = async prefix => {
 };
 
 
+const listAllFiles = async prefix => {
+  const paginator = paginateListObjectsV2(
+    { client },
+    {
+      Bucket: process.env.CLOUDCUBE_BUCKET,
+      Prefix: prefix,
+    }
+  );
+
+  const files = [];
+  for await (const page of paginator)
+    files.push(...page.Contents.map(file => ({ name: file.Key, size: file.Size, lastModified: file.LastModified })));
+
+  return files;
+};
+
+
 const downloadFile = async fileKey => {
   try {
     const command = new GetObjectCommand({
@@ -98,5 +115,6 @@ const downloadFile = async fileKey => {
 
 export {
   listFiles,
+  listAllFiles,
   downloadFile,
 };

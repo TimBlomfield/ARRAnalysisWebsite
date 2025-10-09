@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/server/auth';
 import db from '@/utils/server/db';
 // Components
+import ExtraHeaderContent from '@/components/admin/ExtraHeaderContent';
 import SignOutButton from '@/components/SignOutButton';
 import SignOutHelper from '@/components/SignOutHelper';
 // Styles
@@ -51,6 +52,7 @@ const Header = async () => {
           {bUser && <div className={styles.card}>User</div>}
         </div>
       </div>
+      <ExtraHeaderContent />
       <SignOutButton />
     </div>
   );

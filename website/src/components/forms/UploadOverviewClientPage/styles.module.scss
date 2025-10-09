@@ -1,0 +1,53 @@
+@use "globals" as *;
+
+
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  max-height: 100%;
+  position: relative;
+
+  .listAndFooter {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .files {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .file {
+        border: 1px solid gainsboro;
+        border-radius: 10px;
+        box-sizing: border-box;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+        .name {
+          @extend %fnt-secondary;
+
+          font-size: 16px;
+          color: black;
+          letter-spacing: 0.6px;
+          flex: 3;
+        }
+
+        .size {
+          @extend %fnt-primary;
+
+          font-size: 16px;
+          color: black;
+          flex: 1;
+        }
+      }
+    }
+
+    .spacer { flex: 1; }
+  }
+}

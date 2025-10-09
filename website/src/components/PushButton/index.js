@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 
 const PushButton = forwardRef(({theme = K_Theme.Dark, invertBkTheme = false, extraClass = '', textExtraClass = '',
-  children, type = 'button', ...attr}, ref) => {
+  textStyle = {}, children, type = 'button', ...attr}, ref) => {
   return (
     <button ref={ref}
             className={cn(styles.pushButton, {
@@ -19,7 +19,7 @@ const PushButton = forwardRef(({theme = K_Theme.Dark, invertBkTheme = false, ext
             }, extraClass)}
             type={type}
             {...attr}>
-      <div className={cn(styles.text, textExtraClass)}>
+      <div className={cn(styles.text, textExtraClass)} style={textStyle}>
         {children}
       </div>
       <div className={styles.inner} />

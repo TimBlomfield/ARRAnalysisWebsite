@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { K_Theme } from '@/utils/common';
 // Components
 import TabSwitch from '@/components/TabSwitch';
@@ -9,7 +9,12 @@ import TabSwitch from '@/components/TabSwitch';
 
 const PageSelector = ({ theme = K_Theme.Dark, tabs }) => {
   const router = useRouter();
-  const [selected, setSelected] = useState(0);
+  const pathname = usePathname();
+
+  const [selected, setSelected] = useState(() => {
+    const index = tabs.findIndex(tab => tab.url === pathname);
+    return index !== -1 ? index : 0;
+  });
 
   const selectFn = useCallback(opt => {
     setSelected(opt);

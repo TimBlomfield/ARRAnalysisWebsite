@@ -40,6 +40,8 @@
   }
 
   .txt {
+    @extend %fnt-primary;
+
     max-width: 220px;
     margin-top: 14px;
     text-align: center;
