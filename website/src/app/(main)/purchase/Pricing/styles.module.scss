@@ -1,0 +1,178 @@
+@use "globals" as *;
+
+
+.main {
+  padding: 40px 20px 0;
+
+  .vflex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: $maxHtmlPageWidth;
+    margin: 0 auto;
+    color: $clrHeaderLightText;
+
+    .title {
+      @extend %fnt-secondary;
+
+      font-size: 60px;
+      color: $clrHeaderLightText;
+      max-width: 1200px;
+      text-align: center;
+      margin-bottom: 19px;
+
+      @media screen and (max-width: 670px) {
+        @include mx-linscale(font-size, 60, 32, 670, 360);
+      }
+
+      @media screen and (max-width: 480px) {
+        text-align: left;
+      }
+    }
+
+    .subtitle {
+      @extend %fnt-secondary;
+
+      font-size: 18px;
+      color: $clrHeaderLightText;
+      text-align: center;
+      letter-spacing: .6px;
+      margin-bottom: 39px;
+    }
+
+    .mtWrap {
+      font-size: 14px;
+      margin-bottom: 32px;
+
+      .multiToggleExtra {
+        height: 36px;
+        background: rgb(74 129 186 / .1);
+      }
+    }
+
+    .grid {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 32px;
+
+      @media screen and (max-width: 1085px) {
+        grid-template-columns: 1fr 1fr;
+        grid-row-gap: 50px;
+        max-width: 800px;
+      }
+
+      @media screen and (max-width: 760px) {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+
+      .pbox {
+        background: linear-gradient(rgb(74 129 186 / .18), rgb(74 129 186 / .06));
+        box-shadow: 0 18px 18px 0 rgb(31 44 78 / .06),0 5px 6px 0 rgb(17 36 62 / .06);
+        border-radius: 10px;
+        padding: 40px 30px;
+        min-height: 500px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        &.featured {
+          border: 3px solid #667EEA;
+          padding-bottom: 37px;
+
+          &::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #667EEA;
+            color: white;
+            padding: 5px 35px 5px 45px;
+            transform: rotate(45deg);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+          }
+        }
+
+        .tierName {
+          @extend %fnt-primary;
+
+          font-size: 26px;
+          color: #1A202C;
+          margin-bottom: 16px;
+          letter-spacing: .4px;
+        }
+
+        .tierDesc {
+          @extend %fnt-secondary;
+
+          color: #5A6677;
+          font-size: 15.4px;
+          line-height: 1.4;
+          min-height: 66px;
+          letter-spacing: .6px;
+        }
+
+        .priceContainer {
+          margin: 30px 0;
+
+          .price {
+            @extend %fnt-primary;
+
+            font-size: 56px;
+            color: #667EEA;
+            line-height: 1;
+          }
+
+          .period {
+            @extend %fnt-secondary;
+
+            font-size: 16px;
+            color: #6F7E93;
+            margin-left: 8px;
+          }
+        }
+
+        ul.features {
+          list-style: none;
+          margin-bottom: 30px;
+
+          li {
+            @extend %fnt-secondary;
+
+            padding: 8px 0;
+            color: #3D4656;
+            font-size: 15.4px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            &::before {
+              content: '✓';
+              color: #48BB78;
+              font-weight: 600;
+              font-size: 19.5px;
+            }
+          }
+        }
+
+        .spacer {
+          min-height: 10px;
+          flex: 1;
+        }
+
+        .btn {
+          width: 100%;
+          height: 52px;
+        }
+      }
+    }
+  }
+}

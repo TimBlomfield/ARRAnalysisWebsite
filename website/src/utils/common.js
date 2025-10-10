@@ -6,7 +6,15 @@ const K_Theme = {
 
 const PORTAL_ID_MENU = 'UNIQUE_ELEMENT_PORTAL_MENU_AC3C1A816472';
 
+const TierNames = {
+  Basic: 'Basic',
+  SaaSAnalyst: 'SaaS Analyst',
+  FullStackAnalyst: 'Full Stack Analyst',
+  toArray: () => Object.values(TierNames),
+};
+
 export {
   K_Theme,
   PORTAL_ID_MENU,
+  TierNames,
 };

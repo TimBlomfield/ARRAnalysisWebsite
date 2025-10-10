@@ -67,19 +67,19 @@ const PaymentSuccessPage = async ({ searchParams }) => {
       const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 
       const subscriptions = purchaseInfo.licenses == null || purchaseInfo.licenses === 1 ? 'a subscription' : `${purchaseInfo.licenses} subscriptions`;
-      let prodName = '';
+      let tierName = '';
       switch (purchaseInfo.tier) {
-        case 0: prodName = tiers.One.Desc; break;
-        case 1: prodName = tiers.Two.Desc; break;
-        case 2: prodName = tiers.Three.Desc; break;
+        case 0: tierName = tiers.One.Desc; break;
+        case 1: tierName = tiers.Two.Desc; break;
+        case 2: tierName = tiers.Three.Desc; break;
       }
 
       const html = thankYouEmail.replaceAll('[[Logo URL]]', `${process.env.NEXTAUTH_URL}/arr-logo-email.png`)
         .replaceAll('[[Login URL]]', process.env.LOGIN_BASEURL)
         .replaceAll('[[Customer Name]]', `${theUserData.firstName} ${theUserData.lastName}`)
         .replaceAll('[[Subscription]]', subscriptions)
-        .replaceAll('[[Tier]]', `Tier ${purchaseInfo.tier + 1}`)
-        .replaceAll('[[Product Name]]', `${prodName} (Tier ${purchaseInfo.tier + 1})`)
+        .replaceAll('[[Tier]]', tierName)
+        .replaceAll('[[Product Name]]', `ARR Analysis Excel Add-in (${tierName})`)
         .replaceAll('[[Subscription Type]]', purchaseInfo.period === 0 ? 'Monthly' : 'Yearly')
         .replaceAll('[[Purchase Date]]', DateTime.now().toFormat('dd LLL yyyy'))
         .replaceAll('[[Your Name]]', 'Tim Blomfield')
@@ -106,12 +106,6 @@ const PaymentSuccessPage = async ({ searchParams }) => {
       secret,
     });
   }
-
-  const tierDesc = purchaseInfo.tier === 0
-    ? 'Basic'
-    : purchaseInfo.tier === 1 ? 'Intermediate' : 'Advanced';
-
-  const licenses = purchaseInfo.licenses == null || purchaseInfo.licenses === 1 ? '1 License' : `${purchaseInfo.licenses} Licenses`;
 
   return (
     <div className={styles.main}>

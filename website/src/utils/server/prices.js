@@ -1,5 +1,6 @@
 import 'server-only';
 import Stripe from 'stripe';
+import { TierNames } from '@/utils/common';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -14,21 +15,21 @@ const getPricingTiers = async () => {
           Monthly: -1,
           Yearly: -1,
         },
-        Desc: 'ARR Analysis Excel Add-in',
+        Desc: TierNames.Basic,
       },
       Two: {
         Prices: {
           Monthly: -1,
           Yearly: -1,
         },
-        Desc: 'ARR Analysis + Segmentation',
+        Desc: TierNames.SaaSAnalyst,
       },
       Three: {
         Prices: {
           Monthly: -1,
           Yearly: -1,
         },
-        Desc: 'Enterprise',
+        Desc: TierNames.FullStackAnalyst,
       },
     };
 

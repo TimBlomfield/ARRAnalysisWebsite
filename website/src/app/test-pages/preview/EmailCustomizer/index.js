@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useReducer, useState } from 'react';
 import cn from 'classnames';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { K_Theme } from '@/utils/common';
+import { K_Theme, TierNames } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
 import thankYouEmail from '@/utils/emails/thank-you.html';
 import resetPasswordEmail from '@/utils/emails/reset-password.html';
@@ -29,8 +29,8 @@ const EmailTemplates = {
 const DefaultReplacements = {
   '[[Customer Name]]': 'John Doe',
   '[[Subscription]]': '4 subscriptions',
-  '[[Tier]]': 'Tier 2',
-  '[[Product Name]]': 'ARR Analysis Intermediate (Tier 2)',
+  '[[Tier]]': TierNames.SaaSAnalyst,
+  '[[Product Name]]': `ARR Analysis Excel Add-In (${TierNames.SaaSAnalyst})`,
   '[[Subscription Type]]': 'Monthly',
   '[[Purchase Date]]': '17 Feb 2023',
   '[[Your Name]]': 'Maci Middleton',

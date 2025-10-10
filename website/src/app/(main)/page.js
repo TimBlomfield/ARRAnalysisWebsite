@@ -21,7 +21,7 @@ const LandingPage = () => {
           <div className={styles.titleText} data-animated="text1">Quickly, Acurately and Presentably</div>
           <div className={styles.spacer} />
           <div >
-            <LinkButton theme={K_Theme.Light} href="/about" data-animated="text1" data-anim-delay=".5">
+            <LinkButton theme={K_Theme.Light} href="/product" data-animated="text1" data-anim-delay=".5">
               Learn More
             </LinkButton>
           </div>
