@@ -58,6 +58,8 @@ export const middleware = async request => {
   }
   if (pathname === '/login')
     console.log('Pathname IS /login');
+  if (pathname.includes('login'))
+    console.log(`Pathname includado: "${pathname}"`);
   // Redirect to /admin if logged in
   if (pathname === '/login') {
     const token = await getToken({ req: request });
