@@ -13,6 +13,7 @@ const GET = async req => {
   if (!emailExists)
     return NextResponse.json({ message: `User Check failed! (the email ${email} doesn't exist in the DB)` }, { status: 403 });
 
+  console.log('User Check succeeded!');
   return NextResponse.json({ message: 'User Check succeeded!' }, { status: 200 });
 };
 
