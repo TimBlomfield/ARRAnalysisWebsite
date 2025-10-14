@@ -88,4 +88,6 @@ const LandingPage = () => {
 };
 
 
+// Force dynamic rendering for this page (resolves FOUC)
+export const dynamic = 'force-dynamic';
 export default LandingPage;

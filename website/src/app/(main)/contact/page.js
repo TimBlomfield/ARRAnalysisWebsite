@@ -192,4 +192,6 @@ const ContactPage = () => {
 };
 
 
+// Force dynamic rendering for this page (resolves FOUC)
+export const dynamic = 'force-dynamic';
 export default ContactPage;
