@@ -6,11 +6,11 @@ import useZoomableImage from '@/utils/client/useZoomableImage';
 import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
 // Image
-import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses1.jpg';
+import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses.png';
 import imgInviteUser from '@/../public/help-center/Invite-User.jpg';
-import imgInvitedByEmail from '@/../public/help-center/Invited-by-Email.jpg';
-import imgAllowedUser from '@/../public/help-center/Allowed-User.jpg';
-import imgAssignedUser from '@/../public/help-center/Assigned-User.jpg';
+import imgInvitedByEmail from '@/../public/help-center/Invited-by-Email.png';
+import imgAllowedUser from '@/../public/help-center/Allowed-User.png';
+import imgAssignedUser from '@/../public/help-center/Assigned-User.png';
 // Styles
 import styles from '../../common.module.scss';
 
@@ -23,13 +23,13 @@ const AssignLicenseOtherClient = ({ links }) => {
       <article className={styles.full}>
         <h1>Assigning a License to someone else</h1>
         <p>As a <strong>Customer</strong>, you have purchased one or more subscriptions. Each subscription includes one or more licenses.</p>
-        <p className={styles.note}><strong className={styles.more}>Note:</strong> Subscriptions with multiple licenses are available only for <strong>Tier 3</strong> plans.</p>
+        <p className={styles.note}><strong className={styles.more}>Note:</strong> Subscriptions with multiple licenses are available only for <strong>Full Stack Analyst</strong> plans.</p>
         <hr />
         <h2>Step 1: Open the Customer Licenses Page</h2>
         <p>Go to the <strong>Customer Licenses</strong> page. The image below shows a customer with three licenses:</p>
         <ul>
-          <li>One license from a <strong>Tier 2</strong> subscription</li>
-          <li>Two licenses from a <strong>Tier 3</strong> subscription</li>
+          <li>One license from a <strong>SaaS Analyst</strong> subscription</li>
+          <li>Two licenses from a <strong>Full Stack Analyst</strong> subscription</li>
         </ul>
         <Image className={styles.clickableImage}
                style={{ width: 'min(750px, 100%)' }}

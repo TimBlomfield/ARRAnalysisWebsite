@@ -27,11 +27,11 @@ const PurchaseMorePage = () => {
         <h2>Select Your Product and Billing Period</h2>
         <p>At the top of the page, choose one of the following products:</p>
         <ul>
-          <li>ARR Analysis Excel Add-in (Tier 1)</li>
-          <li>ARR Analysis + Segmentation (Tier 2)</li>
-          <li>Enterprise (Tier 3)</li>
+          <li>Basic</li>
+          <li>SaaS Analyst</li>
+          <li>Full Stack Analyst</li>
         </ul>
-        <p>For <strong>Tier 1</strong> and <strong>Tier 2</strong>, only one license per subscription can be purchased, and for <strong>Tier 3</strong>, a license counter appears so you can purchase multiple licenses in one subscription.</p>
+        <p>For <strong>Basic</strong> and <strong>SaaS Analyst</strong>, only one license per subscription can be purchased, and for <strong>Full Stack Analyst</strong>, a license counter appears so you can purchase multiple licenses in one subscription.</p>
         <p>Use the <strong className={styles.more}>Monthly / Yearly</strong> toggle to select your billing frequency:</p>
         <ul>
           <li><strong className={styles.more}>Monthly</strong> → Billed every month.</li>
@@ -63,7 +63,7 @@ const PurchaseMorePage = () => {
         <hr />
         <h2>View Your Purchase Summary</h2>
         <p>After a successful purchase, the page displays a <strong>Thank You</strong> message along with the details of your new subscription.</p>
-        <p>Example for a monthly subscription for the Enterprise (Tier 3) product with 4 licenses:</p>
+        <p>Example for a monthly subscription for the <strong>Full Stack Analyst</strong> product with 4 licenses:</p>
         <Image className={styles.clickableImage}
                style={{ width: 'min(750px, 100%)' }}
                src={imgThankYou}

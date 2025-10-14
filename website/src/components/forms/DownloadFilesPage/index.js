@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { TierNames } from '@/utils/common';
 // Components
 import Footer from '@/components/admin/Footer';
 import LinkButton from '@/components/LinkButton';
@@ -33,7 +34,7 @@ const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
     if (f[tier] == null)
       return '';
     const fileName = f[tier].fileName;
-    return f[tier].versions.map(ver => window.btoa(`${tier}/${ver}/${fileName}`));
+    return f[tier].versions.map(ver => window.btoa(`${ver}/${tier}/${fileName}`));
   }, []);
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
               }
               {!loading &&
                 <>
-                  <div className={styles.heading}>Basic</div>
+                  <div className={styles.heading}>{TierNames.Basic}</div>
                   <div className={styles.tier}>(Tier 1)</div>
                   <div className={styles.desc}>ARR Analysis Excel Add-in</div>
                   {files.tier01 == null && <FileNotFound />}
@@ -104,9 +105,9 @@ const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
               }
               {!loading &&
                 <>
-                  <div className={styles.heading}>Intermediate</div>
+                  <div className={styles.heading}>{TierNames.SaaSAnalyst}</div>
                   <div className={styles.tier}>(Tier 2)</div>
-                  <div className={styles.desc}>ARR Analysis + Segmentation</div>
+                  <div className={styles.desc}>ARR Analysis Excel Add-in</div>
                   {files.tier02 == null && <FileNotFound />}
                   {files.tier02 != null &&
                     <>
@@ -145,9 +146,9 @@ const DownloadFilesPage = ({ files, isAdmin, allowed }) => {
               }
               {!loading &&
                 <>
-                  <div className={styles.heading}>Advanced</div>
+                  <div className={styles.heading}>{TierNames.FullStackAnalyst}</div>
                   <div className={styles.tier}>(Tier 3)</div>
-                  <div className={styles.desc}>Enterprise</div>
+                  <div className={styles.desc}>ARR Analysis Excel Add-in</div>
                   {files.tier03 == null && <FileNotFound />}
                   {files.tier03 != null &&
                     <>

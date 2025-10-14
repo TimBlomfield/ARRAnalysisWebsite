@@ -8,14 +8,14 @@ import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
 // Images
 import imgActiveAllToggle from '@/../public/help-center/Active-All-ToggleButton.png';
-import imgSubscriptionActive from '@/../public/help-center/Subscription-Active.jpg';
+import imgSubscriptionActive from '@/../public/help-center/Subscription-Active.png';
 import imgContentToggle from '@/../public/help-center/SubscriptionContent-ToggleButton.png';
 import imgSubscriptionId from '@/../public/help-center/Subscription-ID.png';
 import imgProductName from '@/../public/help-center/Subscription-Product-Name.png';
 import imgLicenseCount from '@/../public/help-center/Subscription-License-Count.png';
 import imgStatusActive from '@/../public/help-center/Subscription-Status-Active.png';
-import imgSubscriptionPendingCancel from '@/../public/help-center/Subscription-Pending-Cancel.jpg';
-import imgSubscriptionScreen from '@/../public/help-center/Subscriptions-Screen.jpg';
+import imgSubscriptionPendingCancel from '@/../public/help-center/Subscription-Pending-Cancel.png';
+import imgSubscriptionScreen from '@/../public/help-center/Subscriptions-Screen.png';
 import imgSubscriptionCancelled from '@/../public/help-center/Subscription-Cancelled.jpg';
 import imgSubscriptionExpired from '@/../public/help-center/Subscription-Expired.jpg';
 // Styles

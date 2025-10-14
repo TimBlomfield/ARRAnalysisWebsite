@@ -41,7 +41,7 @@ const PrivacyPolicyPage = () => {
             </ul>
             <h4>2.3 Subscription and License Data</h4>
             <ul>
-              <li>Subscription tier (Basic, Intermediate, Advanced)</li>
+              <li>Subscription tier (Basic, SaaS Analyst, Full Stack Analyst)</li>
               <li>Billing cycle (monthly or yearly)</li>
               <li>License assignment information</li>
               <li>Subscription status and history</li>

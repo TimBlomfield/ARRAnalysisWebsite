@@ -6,11 +6,11 @@ import useZoomableImage from '@/utils/client/useZoomableImage';
 // Components
 import ImageViewer from '@/components/help-center/ImageViewer';
 // Images
-import imgPricingOptions from '@/../public/help-center/Pricing-Options.jpg';
-import imgCheckoutSubscription from '@/../public/help-center/Checkout-Subscription.jpg';
+import imgPricingOptions from '@/../public/help-center/Pricing-Options.png';
+import imgCheckoutSubscription from '@/../public/help-center/Checkout-Subscription.png';
 import imgCheckoutCustomerInfo from '@/../public/help-center/Checkout-Customer-Info.jpg';
 import imgCheckoutPaymentMethod from '@/../public/help-center/Checkout-Payment-Method.png';
-import imgThankYouPage from '@/../public/help-center/Thank-You-Page.jpg';
+import imgThankYouPage from '@/../public/help-center/Thank-You-Page.png';
 // Styles
 import styles from '../common.module.scss';
 
@@ -22,21 +22,21 @@ const PurchasingSubscriptionsPage = () => {
     <section className={styles.main}>
       <article className={styles.full}>
         <h1>Purchasing Subscriptions</h1>
-        <p>To purchase a subscription, visit our <Link className={styles.link} href="/purchase">purchase page</Link>. Near the bottom of this page, you can choose your pricing tier and subscription type.</p>
+        <p>To purchase a subscription, visit our <Link className={styles.link} href="/purchase">purchase page</Link>. On this page, you can choose your subscription pricing tier and subscription billing period (monthly or yearly).</p>
         <Image className={styles.clickableImage}
                style={{ width: 'min(620px, 100%)' }}
                src={imgPricingOptions}
                alt="Pricing Options"
                priority
                onClick={() => setImage({ img: imgPricingOptions, alt: 'Pricing Options' })} />
-        <p>Clicking one of the three <strong className={styles.more}>Sign up</strong> buttons will take you to the checkout page, where you can review and adjust your subscription tier and billing period.</p>
-        <p>For the <strong>Enterprise</strong> tier, you also have the option to purchase multiple licenses.</p>
+        <p>Clicking one of the three <strong className={styles.more}>Buy Now</strong> buttons will take you to the checkout page, where you can review and adjust your pricing tier and billing period.</p>
+        <p>For the <strong>Full Stack Analyst</strong> tier, you also have the option to purchase multiple licenses.</p>
         <Image className={styles.clickableImage}
                style={{ width: 'min(620px, 100%)' }}
                src={imgCheckoutSubscription}
                alt="Subscription Tier and Billing Period"
                onClick={() => setImage({ img: imgCheckoutSubscription, alt: 'Subscription Tier and Billing Period' })} />
-        <p>Once you have chosen your subscription tier and billing period, enter your personal details in the form below. Required fields include your first and last name, email, and password. The Company field is optional. Your information is protected under our <Link className={styles.link} href="/privacy">Privacy Policy</Link>.</p>
+        <p>Once you have chosen your subscription pricing tier and billing period, enter your personal details in the form below. Required fields include your first and last name, email, and password. The Company field is optional. Your information is protected under our <Link className={styles.link} href="/privacy">Privacy Policy</Link>.</p>
         <Image className={styles.clickableImage}
                style={{ width: 'min(620px, 100%)' }}
                src={imgCheckoutCustomerInfo}

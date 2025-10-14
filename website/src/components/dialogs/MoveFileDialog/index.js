@@ -66,7 +66,7 @@ const MoveFileDialog = ({ file, topFolder = '', notifyClosed }) => {
 
   const onBtnConfirm = useCallback(() => {
     setLoading(true);
-    axios.post('/api/admin/move-file', { file, destination: topFolder + destination })
+    axios.post('/api/admin/move-file', { file, destination: topFolder + destination.trim() })
       .then(res => {
         setLoading(false);
         toast.success(res.data?.message ?? 'File Moved!');

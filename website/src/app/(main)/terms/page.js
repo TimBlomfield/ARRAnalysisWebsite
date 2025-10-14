@@ -25,7 +25,7 @@ const TermsOfUsePage = () => {
             <ol>
               <li><strong>&ldquo;Customer&rdquo;</strong> means an individual or entity that purchases a subscription to our Services</li>
               <li><strong>&ldquo;User&rdquo;</strong> means an individual assigned a license by a Customer to use the Excel Add-in</li>
-              <li><strong>&ldquo;Add-in&rdquo;</strong> refers to our Excel Add-in software available in Basic, Intermediate, and Advanced tiers</li>
+              <li><strong>&ldquo;Add-in&rdquo;</strong> refers to our Excel Add-in software available in Basic, SaaS Analyst, and Full Stack Analyst tiers</li>
               <li><strong>&ldquo;Subscription&rdquo;</strong> means a paid plan (monthly or yearly) that provides access to the Add-in</li>
               <li><strong>&ldquo;Account&rdquo;</strong> means your registered account on our website</li>
             </ol>
@@ -44,7 +44,7 @@ const TermsOfUsePage = () => {
                 </ul>
               </li>
               <li>
-                <strong>Intermediate (Tier 2):</strong>
+                <strong>SaaS Analyst (Tier 2):</strong>
                 <p>Includes all Basic features, plus:</p>
                 <ul className={styles.mTx8}>
                   <li><span className={styles.lesser}>Cohort Analysis:</span> Track customer retention, churn, and expansion trends by cohort (e.g., by signup month or year).</li>
@@ -60,8 +60,8 @@ const TermsOfUsePage = () => {
                 </ul>
               </li>
               <li>
-                <strong>Advanced (Tier 3):</strong>
-                <p>Includes all Intermediate features, plus:</p>
+                <strong>Full Stack Analyst (Tier 3):</strong>
+                <p>Includes all SaaS Analyst features, plus:</p>
                 <ul className={styles.mTx8}>
                   <li>Analyze top churns in greater detail.</li>
                   <li>Analyze unit economics (LTV, CAC, GEI, Payback period).</li>

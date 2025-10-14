@@ -5,9 +5,9 @@ import useZoomableImage from '@/utils/client/useZoomableImage';
 // Components
 import ImageViewer from '@/components/help-center/ImageViewer';
 // Images
-import imgLicenseWithUser from '@/../public/help-center/License-With-User.jpg';
-import imgManageLicenseInvitation from '@/../public/help-center/Manage-License-Invitation.jpg';
-import imgManageLicenseUsr from '@/../public/help-center/Manage-License-Allowed-User.jpg';
+import imgLicenseWithUser from '@/../public/help-center/License-With-User.png';
+import imgManageLicenseInvitation from '@/../public/help-center/Manage-License-Invitation.png';
+import imgManageLicenseUsr from '@/../public/help-center/Manage-License-Allowed-User.png';
 // Styles
 import styles from '../common.module.scss';
 

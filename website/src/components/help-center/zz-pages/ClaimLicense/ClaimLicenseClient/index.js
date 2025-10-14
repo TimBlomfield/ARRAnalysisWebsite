@@ -7,8 +7,8 @@ import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
 // Image
 import imgUserLicensesUser from '@/../public/help-center/User-Licenses-User.jpg';
-import imgAssignedLicense from '@/../public/help-center/Assigned-License.jpg';
-import imgChangeLicensePassword from '@/../public/help-center/Change-License-Password.jpg';
+import imgAssignedLicense from '@/../public/help-center/Assigned-License.png';
+import imgChangeLicensePassword from '@/../public/help-center/Change-License-Password.png';
 // Styles
 import styles from '../../common.module.scss';
 

@@ -28,7 +28,7 @@ const GET = async req => {
     // Add the version to the filename
     const arr = fileKey.split('/');
     const arrF = arr[arr.length - 1].split('.');
-    const fileName = `${arrF[0]} (version ${arr[arr.length - 2]}).${arrF[1]}`;
+    const fileName = `ARR Analysis Excel Add-in (${arrF[0]}) [version ${arr[arr.length - 3]}].${arrF[1]}`;
 
     // Only log if not an RSC request (prevents duplicate DOWNLOAD_FILE logs)
     if (!isRscRequest) {

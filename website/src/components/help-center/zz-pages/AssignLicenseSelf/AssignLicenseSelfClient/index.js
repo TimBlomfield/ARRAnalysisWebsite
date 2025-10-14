@@ -6,11 +6,11 @@ import useZoomableImage from '@/utils/client/useZoomableImage';
 import ImageViewer from '@/components/help-center/ImageViewer';
 import Subtopics from '@/components/help-center/Subtopics';
 // Image
-import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses1.jpg';
-import imgCustomerBecomesUser from '@/../public/help-center/Customer-Becomes-User.jpg';
-import imgUserLicenses from '@/../public/help-center/User-Licenses.jpg';
-import imgAssignedLicense from '@/../public/help-center/Assigned-License.jpg';
-import imgChangeLicensePassword from '@/../public/help-center/Change-License-Password.jpg';
+import imgCustomerLicenses from '@/../public/help-center/Customer-Licenses.png';
+import imgCustomerBecomesUser from '@/../public/help-center/Customer-Becomes-User.png';
+import imgUserLicenses from '@/../public/help-center/User-Licenses.png';
+import imgAssignedLicense from '@/../public/help-center/Assigned-License.png';
+import imgChangeLicensePassword from '@/../public/help-center/Change-License-Password.png';
 // Styles
 import styles from '../../common.module.scss';
 
@@ -23,13 +23,13 @@ const AssignLicenseSelfClient = ({ links }) => {
       <article className={styles.full}>
         <h1>Assigning a License to Yourself</h1>
         <p>As a <strong>Customer</strong>, you have purchased one or more subscriptions. Each subscription includes one or more licenses.</p>
-        <p className={styles.note}><strong className={styles.more}>Note:</strong> Subscriptions with multiple licenses are available only for <strong>Tier 3</strong> plans.</p>
+        <p className={styles.note}><strong className={styles.more}>Note:</strong> Subscriptions with multiple licenses are available only for <strong>Full Stack Analyst</strong> plans.</p>
         <hr />
         <h2>Step 1: Open the Customer Licenses Page</h2>
         <p>Go to the <strong>Customer Licenses</strong> page. The image below shows a customer with three licenses:</p>
         <ul>
-          <li>One license from a <strong>Tier 2</strong> subscription</li>
-          <li>Two licenses from a <strong>Tier 3</strong> subscription</li>
+          <li>One license from a <strong>SaaS Analyst</strong> subscription</li>
+          <li>Two licenses from a <strong>Full Stack Analyst</strong> subscription</li>
         </ul>
         <Image className={styles.clickableImage}
                style={{ width: 'min(750px, 100%)' }}
@@ -65,7 +65,7 @@ const AssignLicenseSelfClient = ({ links }) => {
         <h2>Step 4: Assign Yourself to the License</h2>
         <p>To use the <strong>ARR Analysis Excel Add-in</strong>, click <strong className={styles.more}>Assign Self</strong> on the desired license. After that your license will look like this:</p>
         <Image className={styles.clickableImage}
-               style={{ maxWidth: '100%' }}
+               style={{ width: 'min(750px, 100%)' }}
                src={imgAssignedLicense}
                alt="Assigned License"
                onClick={() => setImage({ img: imgAssignedLicense, alt: 'Assigned License' })} />
