@@ -42,8 +42,6 @@ const AdminLoginForm = () => {
 
   useEffect(() => {
     // Client side redirection (fix for caching and link navigation)
-    console.log(session);
-    console.log(status);
     if (status === 'loading') return; // Wait for session check
 
     if (session)
