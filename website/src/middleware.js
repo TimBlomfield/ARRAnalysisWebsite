@@ -56,7 +56,7 @@ export const middleware = async request => {
     if (!isAuthTokenValid(token))
       return NextResponse.redirect(new URL('/login', request.url));
   }
-
+  console.log(`Pathname: ${pathname}`);
   // Redirect to /admin if logged in
   if (pathname === '/login') {
     const token = await getToken({ req: request });
