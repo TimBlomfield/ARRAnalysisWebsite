@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { validateUnicodeEmail } from '@/utils/validators';
 import { toast } from 'react-toastify';
 // Components
@@ -19,6 +19,7 @@ const ID_PASSWORD = 'input-password-3ed52da1f277-566727';
 
 const AdminLoginForm = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +39,16 @@ const AdminLoginForm = () => {
   }, []);
   const emailFn = handleInputChange(email, setEmail, setErrEmail);
   const passwordFn = handleInputChange(password, setPassword, setErrPassword);
+
+  useEffect(() => {
+    // Client side redirection (fix for caching and link navigation)
+    console.log(session);
+    console.log(status);
+    if (status === 'loading') return; // Wait for session check
+
+    if (session)
+      router.push('/admin');  // Redirect if logged in
+  }, [session, status, router]);
 
   useEffect(() => {
     const elemEmail = document.getElementById(ID_EMAIL);
