@@ -33,4 +33,6 @@ const LoginPage = () => {
 };
 
 
+// Force dynamic: fix for middleware being skipped (for cached pages)
+export const dynamic = 'force-dynamic';
 export default LoginPage;

@@ -14,7 +14,6 @@ const PASS = process.env.K_ALLOWED_PASS || 'password';
 export const middleware = async request => {
   const response = NextResponse.next();
   const pathname = request.nextUrl.pathname.toLowerCase();
-  console.log(`DA PATHNAME: ${pathname}`);
 
   // Require basic authentication in the Development and Staging heroku apps
   if (isDevelopmentOrStaging && requiresBasicAuth(pathname)) {
@@ -62,14 +61,12 @@ export const middleware = async request => {
   if (pathname === '/login') {
     const token = await getToken({ req: request });
     if (isAuthTokenValid(token)) {
-      console.log('token is valid');
       // Check if the token email exists in the database. This prevents infinite redirects which can happen if the auth-token is valid but the user has been manually deleted from the db.
       try {
         await axios.get(`${process.env.NEXTAUTH_URL}/api/middleware/user-check`, {
           params: { email: token.email },
         });
       } catch (error) {
-        console.log('about to clear cookies');
         // Delete the cookies (invalidates the token)
         const cookieStore = (await cookies()).getAll();
         for (const cookie of cookieStore)
@@ -77,10 +74,8 @@ export const middleware = async request => {
         return response;
       }
 
-      console.log('about to redirect to /admin');
       return NextResponse.redirect(new URL('/admin', request.url));
-    } else
-      console.log('token is NOT valid');
+    }
   }
 
   return response;
