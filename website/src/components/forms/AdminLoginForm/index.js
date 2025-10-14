@@ -118,10 +118,12 @@ const AdminLoginForm = () => {
   }, [onBtnSubmit]);
 
 
+  const isLoading = loading || (status === 'loading');
+
   return (
     <>
       <form className={styles.main}> {/* NOTE: using <form> to prevent Chrome warnings */}
-        {loading &&
+        {isLoading &&
           <div className={styles.overlay}>
             <Loading scale={2} />
           </div>
@@ -133,7 +135,7 @@ const AdminLoginForm = () => {
                label="Email:"
                wrapperExtraClass={styles.wrapInp}
                extraClass={styles.inp}
-               {...(loading ? { disabled: true } : {})}
+               {...(isLoading ? { disabled: true } : {})}
                errorPlaceholder
                value={email}
                onChange={emailFn}
@@ -146,7 +148,7 @@ const AdminLoginForm = () => {
                label="Password:"
                wrapperExtraClass={styles.wrapInp}
                extraClass={styles.inp}
-               {...(loading ? { disabled: true } : {})}
+               {...(isLoading ? { disabled: true } : {})}
                errorPlaceholder
                value={password}
                onChange={passwordFn}
@@ -154,7 +156,7 @@ const AdminLoginForm = () => {
                errorText={errPassword} />
         <div className={styles.hfx}>
           <PushButton extraClass={styles.pbtn}
-                      {...(loading ? { disabled: true } : {})}
+                      {...(isLoading ? { disabled: true } : {})}
                       onClick={onBtnSubmit}>
             Sign In
           </PushButton>
