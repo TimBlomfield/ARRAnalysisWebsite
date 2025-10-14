@@ -56,10 +56,12 @@ export const middleware = async request => {
     if (!isAuthTokenValid(token))
       return NextResponse.redirect(new URL('/login', request.url));
   }
-  console.log(`Pathname: ${pathname}`);
+  if (pathname === '/login')
+    console.log('Pathname IS /login');
   // Redirect to /admin if logged in
   if (pathname === '/login') {
     const token = await getToken({ req: request });
+    console.log('Token:', token);
     if (isAuthTokenValid(token)) {
       // Check if the token email exists in the database. This prevents infinite redirects which can happen if the auth-token is valid but the user has been manually deleted from the db.
       try {
