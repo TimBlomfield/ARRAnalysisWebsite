@@ -143,12 +143,29 @@ const ProfileClientPage = ({ user }) => {
     const onBtnSubmit = () => {
       setProcessing_formContactDetails(true);
 
-      axios.post('/api/profile/update-contact-details', { firstName, lastName, phone, jobTitle, company })
+      const firstNameFixed = firstName.replace(/\s+/g, ' ').trim();
+      const lastNameFixed = lastName.replace(/\s+/g, ' ').trim();
+      const jobTitleFixed = jobTitle.replace(/\s+/g, ' ').trim();
+      const companyFixed = company.replace(/\s+/g, ' ').trim();
+
+      axios.post('/api/profile/update-contact-details',
+        {
+          firstName: firstNameFixed,
+          lastName: lastNameFixed,
+          phone,
+          jobTitle: jobTitleFixed,
+          company: companyFixed,
+        })
         .then(res => {
           setProcessing_formContactDetails(false);
           setChanged_formContactDetails(false);
           toast.success(res.data?.message ?? 'Your contact details were updated!');
           router.refresh();
+
+          setFirstName(firstNameFixed);
+          setLastName(lastNameFixed);
+          setJobTitle(jobTitleFixed);
+          setCompany(companyFixed);
         })
         .catch(err => {
           setProcessing_formContactDetails(false);
@@ -335,12 +352,36 @@ const ProfileClientPage = ({ user }) => {
 
       const countryCode = (country >= 0 && country < countries.length) ? countries[country] : '';
       const stateCode = (stateProv >= 0 && stateProv < allStates.length) ? allStates[stateProv].isoCode : '';
-      axios.post('/api/profile/update-account-details', { address: addressName, street1, street2, street3, city, postalCode, country: countryCode, state: stateCode })
+      const addrNameFixed = addressName.replace(/\s+/g, ' ').trim();
+      const street1Fixed = street1.replace(/\s+/g, ' ').trim();
+      const street2Fixed = street2.replace(/\s+/g, ' ').trim();
+      const street3Fixed = street3.replace(/\s+/g, ' ').trim();
+      const cityFixed = city.replace(/\s+/g, ' ').trim();
+      const postalCodeFixed = postalCode.replace(/\s+/g, ' ').trim();
+
+      axios.post('/api/profile/update-account-details',
+        {
+          address: addrNameFixed,
+          street1: street1Fixed,
+          street2: street2Fixed,
+          street3: street3Fixed,
+          city: cityFixed,
+          postalCode: postalCodeFixed,
+          country: countryCode,
+          state: stateCode,
+        })
         .then(res => {
           setProcessing_formAccountDetails(false);
           setChanged_formAccountDetails(false);
           toast.success(res.data?.message ?? 'Your account details were updated!');
           router.refresh();
+
+          setAddressName(addrNameFixed);
+          setStreet1(street1Fixed);
+          setStreet2(street2Fixed);
+          setStreet3(street3Fixed);
+          setCity(cityFixed);
+          setPostalCode(postalCodeFixed);
         })
         .catch(err => {
           setProcessing_formAccountDetails(false);
