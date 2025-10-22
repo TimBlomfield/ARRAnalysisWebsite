@@ -10,7 +10,7 @@ const TierNames = {
   Basic: 'Basic',
   SaaSAnalyst: 'SaaS Analyst',
   FullStackAnalyst: 'Full Stack Analyst',
-  toArray: () => Object.values(TierNames),
+  toArray: function() { return [this.Basic, this.SaaSAnalyst, this.FullStackAnalyst]; },
 };
 
 export {

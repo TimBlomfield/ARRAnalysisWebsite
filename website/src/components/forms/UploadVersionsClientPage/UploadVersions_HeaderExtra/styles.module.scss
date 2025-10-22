@@ -1,0 +1,31 @@
+@use "globals" as *;
+
+
+.adminUploadOverview {
+  flex: 1;
+  height: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .btnUpload {
+    height: 44px;
+    padding: 0 20px;
+  }
+
+  .wrpInp {
+    box-sizing: border-box;
+    padding: 0 20px;
+    max-width: 200px;
+
+    .inp {
+      background-color: transparent;
+      height: 48px;
+      color: black;
+      font-weight: 600;
+      letter-spacing: .8px;
+    }
+  }
+}

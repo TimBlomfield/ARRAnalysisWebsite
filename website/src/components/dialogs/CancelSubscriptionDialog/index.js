@@ -16,11 +16,6 @@ import QuestionSvg from '@/../public/question.svg';
 import styles from './styles.module.scss';
 
 
-const ID_FIRST_NAME = 'input-first-name-8887-7c97c8f85497';
-const ID_LAST_NAME  = 'input-last-name-bc62-3fe9ad4aaa4e';
-const ID_EMAIL      = 'input-email-ab86-5abcab5a9688';
-
-
 const CancelSubscriptionDialog = ({ isOpen, notifyClosed, subscription, passSuccessMessage }) => {
   const dlgId = useId();
 

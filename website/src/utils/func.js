@@ -35,6 +35,24 @@ const isValidS3Key = (key, options = { strictSafeChars: false }) => {
   return { valid: true };
 };
 
+const isValidVersionNumber = verNum => {
+  if (verNum == null || typeof verNum !== 'string') return false;
+  if (verNum.length < 5) return false;
+
+  const isNumeric = ch => ch !== ' ' && !isNaN(ch);
+
+  const vNums = verNum.split('.');
+  if (vNums.length !== 3) return false;
+
+  for (const part of vNums) {
+    if (part.length === 0 || part.length > 6) return false;
+    if (part.length > 1 && part[0] === '0') return false;
+    if (!part.split('').every(isNumeric)) return false;
+  }
+
+  return true;
+};
+
 
 export {
   generateUniqueId,
@@ -44,4 +62,5 @@ export {
   capitalizeFirstLetter,
   getByteLength,
   isValidS3Key,
+  isValidVersionNumber,
 };

@@ -1,0 +1,52 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.dialog {
+  @extend %dialog-common;
+
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    inset: 50px 0 0;
+    background: linear-gradient($clrAdmin_DlgDarkerBk -200px, $clrAdminBk 15%, $clrAdminBk 75%, $clrAdmin_DlgDarkerBk);
+    opacity: .88;
+    display: grid;
+    place-items: center;
+    padding-bottom: 60px;
+  }
+
+  .body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    .ver {
+      @extend %fnt-primary;
+
+      font-size: 32px;
+      color: black;
+    }
+
+    .wrpInp {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 60px;
+
+      .inp {
+        background-color: transparent;
+        height: 48px;
+        color: black;
+        font-weight: 600;
+        letter-spacing: .8px;
+      }
+    }
+
+    .errorTextXtra {
+      color: #F87A93;
+      height: 40px;
+    }
+  }
+}

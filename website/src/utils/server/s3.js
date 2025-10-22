@@ -122,4 +122,5 @@ export {
   listFiles,
   listAllFiles,
   downloadFile,
+  compareVersions,
 };

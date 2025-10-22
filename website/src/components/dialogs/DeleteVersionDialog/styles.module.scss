@@ -1,0 +1,43 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.dialog {
+  @extend %dialog-common;
+
+  .overlay {
+    position: absolute;
+    z-index: 10;
+    inset: 50px 0 0;
+    background: linear-gradient($clrAdmin_DlgDarkerBk -200px, $clrAdminBk 15%, $clrAdminBk 75%, $clrAdmin_DlgDarkerBk);
+    opacity: .88;
+    display: grid;
+    place-items: center;
+    padding-bottom: 60px;
+  }
+
+  .body {
+    padding: 20px;
+    display: grid;
+    place-items: center;
+
+    .theVersion {
+      @extend %fnt-primary;
+
+      font-size: 32px;
+      letter-spacing: .6px;
+      text-align: center;
+      color: black;
+      padding-bottom: 10px;
+    }
+
+    .question {
+      @extend %fnt-primary;
+
+      font-size: 16px;
+      letter-spacing: .2px;
+      text-align: center;
+      color: $clrAdmin_Txt1;
+    }
+  }
+}

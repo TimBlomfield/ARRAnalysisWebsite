@@ -13,12 +13,11 @@ import PushButton from '@/components/PushButton';
 import styles from './styles.module.scss';
 
 
-const DeleteFileDialog = ({ file, notifyClosed }) => {
+const DeleteVersionDialog = ({ version, versionKeys, files, notifyClosed }) => {
   const router = useRouter();
   const dlgId = useId();
-  const isOpen = file != null;
+  const isOpen = version != null;
 
-  const [fileNameBetter, setFileNameBetter] = useState('');
   const [loading, setLoading] = useState(false);
 
   const closeDialog = useCallback(() => {
@@ -27,26 +26,30 @@ const DeleteFileDialog = ({ file, notifyClosed }) => {
       dialog.close();
   }, []);
 
+  const onCloseDialog = useCallback(() => {
+    notifyClosed();
+    setLoading(false);
+  }, []);
+
   const onBtnConfirm = useCallback(() => {
     setLoading(true);
-    axios.post('/api/admin/delete-file', { file })
+    axios.post('/api/admin/delete-version', { version, versionObj: versionKeys[version], files })
       .then(res => {
         setLoading(false);
-        toast.success(res.data?.message ?? 'File Deleted!');
+        toast.success(res.data?.message ?? 'Version Deleted!');
         closeDialog();
         router.refresh();
       })
       .catch(err => {
         setLoading(false);
-        toast.error(err.response?.data?.message ?? 'An error occurred while deleting the file!', { containerId: ID_TOASTER_DIALOG_DELETE_FILE });
+        toast.error(err.response?.data?.message ?? `An error occurred while deleting version ${version}!`, { containerId: ID_TOASTER_DIALOG_DELETE_FILE });
       });
-  }, [file]);
+  }, [version]);
 
   useEffect(() => {
     if (isOpen) {
-      setFileNameBetter(file.name.replaceAll('/', ' / '));
       const dialog = document.getElementById(dlgId);
-      dialog.addEventListener('close', notifyClosed);
+      dialog.addEventListener('close', onCloseDialog);
       dialog.showModal();
     }
   }, [isOpen]);
@@ -58,13 +61,13 @@ const DeleteFileDialog = ({ file, notifyClosed }) => {
     <dialog id={dlgId} className={styles.dialog}>
       {loading &&
         <div className={styles.overlay}>
-          <Loading scale={2} text="Deleting file..." />
+          <Loading scale={2} text="Deleting version..." />
         </div>
       }
-      <div className={styles.title}>Delete File</div>
+      <div className={styles.title}>Delete Version</div>
       <div className={styles.body}>
-        <div className={styles.theFile}>{fileNameBetter}</div>
-        <div className={styles.question}>Delete this file?</div>
+        <div className={styles.theVersion}>{version}</div>
+        <div className={styles.question}>Delete this version?</div>
       </div>
       <div className={styles.buttons}>
         {/* ToastContainer is placed here to avoid extra gap at the bottom */}
@@ -73,7 +76,7 @@ const DeleteFileDialog = ({ file, notifyClosed }) => {
                     theme={K_Theme.Danger}
                     disabled={loading}
                     onClick={onBtnConfirm}>
-          Delete File
+          Delete Version
         </PushButton>
         <PushButton extraClass={styles.pbtn}
                     disabled={loading}
@@ -86,4 +89,4 @@ const DeleteFileDialog = ({ file, notifyClosed }) => {
 };
 
 
-export default DeleteFileDialog;
+export default DeleteVersionDialog;
