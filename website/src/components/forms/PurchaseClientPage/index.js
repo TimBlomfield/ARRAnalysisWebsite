@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, ElementsConsumer, PaymentElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 // Components
 import Footer from '@/components/admin/Footer';
 import Loading from '@/components/Loading';
@@ -89,7 +90,11 @@ const PurchaseClientPage = ({ tiers }) => {
         } else
           strErr = (error?.message?.length > 0) ? error.message : 'An unknown error has occurred.';
       }
-      if (!!strErr) console.error(strErr);
+      if (!!strErr) {
+        console.error(strErr);
+        toast.error(strErr);
+      }
+      setProcessing(false);
     }
   };
 
