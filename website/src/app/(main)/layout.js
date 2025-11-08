@@ -2,6 +2,7 @@ import localFont from 'next/font/local';
 import cn from 'classnames';
 import { ToastContainer } from 'react-toastify';
 // Components
+import CookiebotManager from '@/components/CookiebotManager';
 import Header from '@/components/Header';
 // Styles
 import 'normalize-css/normalize.css';
@@ -24,29 +25,14 @@ const aspekta250 = localFont({
 
 const MainLayout = ({ children }) => {
   return (
-    <html lang="en">
-      <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary')}>
-        <Header />
-        {children}
-        <ToastContainer position="bottom-left" stacked />
-      </body>
-    </html>
+    <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary')}>
+      <Header />
+      {children}
+      <ToastContainer position="bottom-left" stacked />
+      <CookiebotManager domainGroupId={process.env.COOKIEBOT_DOMAIN_GROUP_ID} />
+    </body>
   );
 };
 
 
-const metadata = {
-  title: 'ARR Analysis',
-  description: 'ARR Analysis',
-  icons: {
-    icon: {
-      rel: 'icon',
-      url: '/arr-analysis.ico',
-      type: 'image/x-icon',
-    },
-  },
-};
-
-
 export default MainLayout;
-export { metadata };

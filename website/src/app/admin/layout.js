@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import cn from 'classnames';
 import { ToastContainer } from 'react-toastify';
 // Components
+import CookiebotManager from '@/components/CookiebotManager';
 import Header from '@/components/admin/Header';
 import NavigationBar from '@/components/admin/NavigationBar';
 const ScrollbarClientStyles = dynamic(() => import('@/components/admin/ScrollbarClientStyles'), { ssr: false });
@@ -28,33 +29,24 @@ const aspekta250 = localFont({
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
-      <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary', styles.layoutBody)}>
-        <ScrollbarClientStyles />
-        <NavigationBar />
-        <div className={styles.viewWithHeader}>
-          <Header />
-          <div className={styles.mainView}>
-            {children}
-          </div>
+    <body className={cn(aspekta750.variable, aspekta250.variable, 'g_fontPrimary', styles.layoutBody)}>
+      <ScrollbarClientStyles />
+      <NavigationBar />
+      <div className={styles.viewWithHeader}>
+        <Header />
+        <div className={styles.mainView}>
+          {children}
         </div>
-        <ToastContainer position="bottom-left" stacked />
-      </body>
-    </html>
+      </div>
+      <ToastContainer position="bottom-left" stacked />
+      <CookiebotManager domainGroupId={process.env.COOKIEBOT_DOMAIN_GROUP_ID} />
+    </body>
   );
 };
 
 
 const metadata = {
-  title: 'ARR Analysis',
   description: 'ARR Analysis - Admin Section',
-  icons: {
-    icon: {
-      rel: 'icon',
-      url: '/arr-analysis.ico',
-      type: 'image/x-icon',
-    },
-  },
 };
 
 

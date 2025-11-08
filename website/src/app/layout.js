@@ -1,8 +1,11 @@
 // Note: visiting /login/not-found or /test-pages/not-found or /admin/not-found produce an error unless this file is present
 
+
 const MainLayout = ({ children }) => {
   return (
-    <>{children}</>
+    <html lang="en">
+      {children}
+    </html>
   );
 };
 
