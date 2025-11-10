@@ -105,7 +105,7 @@ const ContactPage = () => {
   useEffect(() => {
     const updateConsent = () => {
       // Marketing = third-party services such as reCAPTCHA
-      const hasMarketingConsent = Cookiebot.consent && Cookiebot.consent.marketing;
+      const hasMarketingConsent = window?.Cookiebot?.consent?.marketing;
       setConsentAccepted(hasMarketingConsent);
     };
 
@@ -185,7 +185,7 @@ const ContactPage = () => {
                        onChange={messageFn}
                        errorText={errorMessage}
                        style={customTextAreaStyle} />
-                {pageState === PageState.Normal && consentAccepted &&
+                {pageState === PageState.Normal && // consentAccepted && // For now, we won't ask for consent
                   <div className={styles.reCaptchaHolder}>
                     <ReCAPTCHA ref={refRecaptcha}
                                theme="dark"
