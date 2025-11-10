@@ -4,10 +4,14 @@ import { useEffect } from 'react';
 
 
 const CookiebotManager = ({ domainGroupId }) => {
+  console.log('CookiebotManager rendered, domainGroupId:', domainGroupId);
   useEffect(() => {
+    console.log('CookiebotManager useEffect running on:', window.location.pathname);
     if (typeof window !== 'undefined' && domainGroupId && document) {
       const scriptCB = document.head.querySelector('script#CookieBot');
+      console.log('Existing CookieBot script:', scriptCB);
       if (scriptCB == null) {
+        console.log('Adding CookieBot script...');
         const script = document.createElement('script');
         script.setAttribute('id', 'CookieBot');
         script.setAttribute('src', 'https://consent.cookiebot.com/uc.js');
@@ -17,10 +21,12 @@ const CookiebotManager = ({ domainGroupId }) => {
 
         const head = document.querySelector('html > head');
         head.insertBefore(script, head.firstChild);
+        console.log('CookieBot script added');
       }
     }
 
     return () => {
+      console.log('CookiebotManager cleanup on:', window.location.pathname);
       // Remove the CookieBot script from the DOM when the component unmounts
       const scriptCB = document.head.querySelector('script#CookieBot');
       if (scriptCB) scriptCB.remove();
