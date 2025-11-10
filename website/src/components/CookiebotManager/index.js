@@ -3,30 +3,32 @@
 import { useEffect } from 'react';
 
 
-const CookiebotManager = ({ domainGroupId }) => {
-  console.log('CookiebotManager rendered, domainGroupId:', domainGroupId);
+const CookiebotManager = ({ domainGroupId, isLocal }) => {
+
   useEffect(() => {
-    console.log('CookiebotManager useEffect running on:', window.location.pathname);
+    let timeoutId;
+
     if (typeof window !== 'undefined' && domainGroupId && document) {
       const scriptCB = document.head.querySelector('script#CookieBot');
-      console.log('Existing CookieBot script:', scriptCB);
-      if (scriptCB == null) {
-        console.log('Adding CookieBot script...');
-        const script = document.createElement('script');
-        script.setAttribute('id', 'CookieBot');
-        script.setAttribute('src', 'https://consent.cookiebot.com/uc.js');
-        script.setAttribute('data-cbid', domainGroupId);
-        // script.setAttribute('data-blockingmode', 'auto');
-        script.setAttribute('type', 'text/javascript');
 
-        const head = document.querySelector('html > head');
-        head.insertBefore(script, head.firstChild);
-        console.log('CookieBot script added');
+      if (scriptCB == null) {
+        timeoutId = setTimeout(() => {
+          const script = document.createElement('script');
+          script.setAttribute('id', 'CookieBot');
+          script.setAttribute('src', 'https://consent.cookiebot.com/uc.js');
+          script.setAttribute('data-cbid', domainGroupId);
+          if (!isLocal) script.setAttribute('data-blockingmode', 'auto');
+          script.setAttribute('type', 'text/javascript');
+
+          const head = document.querySelector('html > head');
+          head.insertBefore(script, head.firstChild);
+        }, 200);
       }
     }
 
     return () => {
-      console.log('CookiebotManager cleanup on:', window.location.pathname);
+      if (timeoutId) clearTimeout(timeoutId);
+
       // Remove the CookieBot script from the DOM when the component unmounts
       const scriptCB = document.head.querySelector('script#CookieBot');
       if (scriptCB) scriptCB.remove();
@@ -40,6 +42,8 @@ const CookiebotManager = ({ domainGroupId }) => {
       delete window.CookieConsent;
     };
   }, [domainGroupId]);
+
+  return null;
 };
 
 

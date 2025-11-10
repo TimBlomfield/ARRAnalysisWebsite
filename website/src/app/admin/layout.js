@@ -39,7 +39,7 @@ const RootLayout = ({ children }) => {
         </div>
       </div>
       <ToastContainer position="bottom-left" stacked />
-      <CookiebotManager domainGroupId={process.env.COOKIEBOT_DOMAIN_GROUP_ID} />
+      <CookiebotManager domainGroupId={process.env.COOKIEBOT_DOMAIN_GROUP_ID} isLocal={process.env.K_ENVIRONMENT === 'Local'} />
     </body>
   );
 };
