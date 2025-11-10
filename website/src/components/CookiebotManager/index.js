@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 
-const CookiebotManager = ({ domainGroupId, isLocal }) => {
+const CookiebotManager = ({ domainGroupId }) => {
 
   useEffect(() => {
     let timeoutId;
@@ -17,7 +17,7 @@ const CookiebotManager = ({ domainGroupId, isLocal }) => {
           script.setAttribute('id', 'CookieBot');
           script.setAttribute('src', 'https://consent.cookiebot.com/uc.js');
           script.setAttribute('data-cbid', domainGroupId);
-          if (!isLocal) script.setAttribute('data-blockingmode', 'auto');
+          // script.setAttribute('data-blockingmode', 'auto');
           script.setAttribute('type', 'text/javascript');
 
           const head = document.querySelector('html > head');

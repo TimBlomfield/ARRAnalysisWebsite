@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import cn from 'classnames';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -45,6 +45,8 @@ const ContactPage = () => {
   const idEmail = useId();
   const idMessage = useId();
   const refRecaptcha = useRef(null);
+
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -99,6 +101,28 @@ const ContactPage = () => {
         });
     }
   };
+
+  useEffect(() => {
+    const updateConsent = () => {
+      // Marketing = third-party services such as reCAPTCHA
+      const hasMarketingConsent = Cookiebot.consent && Cookiebot.consent.marketing;
+      setConsentAccepted(hasMarketingConsent);
+    };
+
+    window.addEventListener('CookiebotOnAccept', updateConsent);
+    window.addEventListener('CookiebotOnDecline', updateConsent);
+    window.addEventListener('CookiebotOnConsentReady', updateConsent);
+    window.addEventListener('CookiebotOnLoad', updateConsent);
+
+    updateConsent();
+
+    return () => {
+      window.removeEventListener('CookiebotOnAccept', updateConsent);
+      window.removeEventListener('CookiebotOnDecline', updateConsent);
+      window.removeEventListener('CookiebotOnConsentReady', updateConsent);
+      window.removeEventListener('CookiebotOnLoad', updateConsent);
+    };
+  }, []);
 
   return (
     <AnimateX>
@@ -161,7 +185,7 @@ const ContactPage = () => {
                        onChange={messageFn}
                        errorText={errorMessage}
                        style={customTextAreaStyle} />
-                {pageState === PageState.Normal &&
+                {pageState === PageState.Normal && consentAccepted &&
                   <div className={styles.reCaptchaHolder}>
                     <ReCAPTCHA ref={refRecaptcha}
                                theme="dark"
