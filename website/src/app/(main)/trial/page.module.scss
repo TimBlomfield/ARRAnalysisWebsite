@@ -1,0 +1,264 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+  overflow-x: hidden;
+
+  .s1 {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 120px 20px 0;
+    align-items: center;
+    color: $clrHelpCenter_PageText;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+
+    .titleText {
+      @extend %fnt-secondary;
+
+      font-size: 72px;
+      max-width: $maxHtmlPageWidth;
+      text-align: center;
+      color: $clrHelpCenter_PageTitle;
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+    }
+
+    @media screen and (max-width: 1450px) {
+      @include mx-linscale(padding-top, 120, 60, 1450, 450);
+
+      .titleText { @include mx-linscale(font-size, 72, 30, 1450, 360); }
+    }
+
+    @media screen and (max-width: 640px) {
+      .titleText { text-align: start; }
+    }
+
+    @media screen and (max-width: 480px) {
+      align-items: flex-start;
+    }
+  }
+
+  .s2 {
+    box-sizing: border-box;
+    padding: 0 20px;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+
+    ul.cc {
+      @extend %fnt-secondary;
+
+      list-style-type: none;
+      padding-inline-start: 30px;
+      padding: 20px 0;
+      font-size: 20px;
+
+      @media screen and (max-width: 660px) {
+        @include mx-linscale(font-size, 20, 16, 660, 360);
+      }
+
+      li {
+        padding-left: 32px; /* adjust this value */
+        position: relative;
+        margin: 20px 0;
+        color: $clrHelpCenter_PageText;
+
+        &::before {
+          content: '\■';
+          display: inline-block;
+          position: absolute;
+          color: #0B4A97;
+          font-size: 14px;
+          left: 0;
+          top: 4px;
+
+          @media screen and (max-width: 660px) {
+            @include mx-linscale(font-size, 14, 10, 660, 360);
+          }
+        }
+      }
+    }
+
+    .fx {
+      display: flex;
+      padding-bottom: 20px;
+      flex-wrap: wrap;
+
+      .txtComp {
+        @extend %fnt-secondary;
+
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 0.04em;
+        line-height: 1.2;
+        color: $clrHelpCenter_PageTitle;
+
+        &.xl {
+          font-weight: normal;
+          color: #217346;
+          letter-spacing: 0.02em;
+        }
+      }
+
+      .xlLogo {
+        width: 40px;
+        max-width: 40px;
+        height: auto;
+        margin: 0 20px;
+
+        @media screen and (max-width: 460px) {
+          width: 30px;
+          max-width: 30px;
+        }
+      }
+
+      @media screen and (max-width: 750px) {
+        .txtComp { @include mx-linscale(font-size, 32, 24, 750, 360); }
+
+        .xlLogo {
+          @include mx-linscale(margin-left, 20, 8, 750, 360);
+          @include mx-linscale(margin-right, 20, 8, 750, 360);
+        }
+      }
+
+      .grp {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    }
+
+    .versions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+
+      .versionBadge {
+        background: #F1F5F9;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #1A1A1A;
+      }
+
+      @media (max-width: 768px) {
+        gap: 12px;
+
+        .version-badge {
+          padding: 10px 16px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .platformInfo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #EFF6FF;
+      border: 1px solid #93C5FD;
+      border-radius: 8px;
+      padding: 12px 24px;
+      margin-bottom: 24px;
+      perspective: 100px;
+
+      .windowsIcon {
+        width: 24px;
+        height: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 2px;
+        transform: rotate3d(0, 1, 0, 45deg);
+
+        .windowsPane { background: #0078d4; }
+      }
+
+      .platform-text {
+        font-size: 16px;
+        color: #1E40AF;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .s3 {
+    box-sizing: border-box;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid: 1fr / 1fr 200px;
+    gap: 20px;
+    align-items: end;
+
+    .inp {
+      height: 48px;
+      min-width: 100px;
+      width: 100%;
+    }
+
+    .btn {
+      height: 52px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 520px) {
+      grid: 1fr 1fr / 1fr;
+      align-items: start;
+      gap: 0;
+
+      .btn { margin-bottom: 0; }
+    }
+  }
+
+  .s4 {
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 1000px;
+    color: $clrHeaderLightText;
+
+    .link {
+      color: $clrHelpCenter_PageTitle;
+      text-decoration: underline;
+      box-sizing: border-box;
+      outline: none;
+      border: 1px dotted transparent;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+
+      &:hover { color: $clrLinkText; }
+      &:active { color: color.adjust($clrHeaderLightText, $lightness: 5%); }
+      &:focus-visible { border-color: $clrHeaderLightText; }
+    }
+
+    .txtSmall {
+      @extend %fnt-secondary;
+
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      color: $clrHelpCenter_PageTitle;
+    }
+
+    .txtBig {
+      @extend %fnt-secondary;
+
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      margin: 50px 0;
+      color: $clrHelpCenter_PageTitle;
+    }
+  }
+  .spacer { flex: 1; }
+}
