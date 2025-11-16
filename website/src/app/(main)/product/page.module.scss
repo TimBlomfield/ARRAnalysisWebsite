@@ -2,6 +2,8 @@
 
 
 .main {
+  @extend %lnk-free-trial;
+
   .centrer {
     margin: 0 auto;
   }

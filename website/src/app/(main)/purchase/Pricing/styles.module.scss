@@ -4,6 +4,10 @@
 .main {
   padding: 40px 20px 0;
 
+  @media screen and (max-width: 1000px) {
+    padding-top: 60px;
+  }
+
   .vflex {
     display: flex;
     flex-direction: column;

@@ -1,8 +1,10 @@
 import { getPricingTiers } from '@/utils/server/prices';
 import { notFound } from 'next/navigation';
+import { K_Theme } from '@/utils/common';
 // Components
 import AnimateX from '@/components/AnimateX';
 import Footer from '@/components/Footer';
+import LinkButton from '@/components/LinkButton';
 import Pricing from './Pricing';
 // Styles
 import styles from './page.module.scss';
@@ -16,6 +18,13 @@ const PurchasePage = async () => {
   return (
     <AnimateX>
       <main>
+        <LinkButton extraClass={styles.linkFreeTrial}
+                    theme={K_Theme.Trial}
+                    href="/trial"
+                    data-animated="text2"
+                    data-anim-delay="1">
+          Start Free Trial&nbsp;&nbsp;&nbsp;→
+        </LinkButton>
 
         <Pricing tiers={tiers} />
 

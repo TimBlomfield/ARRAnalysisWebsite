@@ -20,6 +20,13 @@ const ProductPage = () => {
   return (
     <AnimateX>
       <main className={styles.main}>
+        <LinkButton extraClass={styles.linkFreeTrial}
+                    theme={K_Theme.Trial}
+                    href="/trial"
+                    data-animated="text2"
+                    data-anim-delay="1">
+          Start Free Trial&nbsp;&nbsp;&nbsp;→
+        </LinkButton>
         <section className={styles.s1}>
           <div className={styles.centrer}>
             <div className={styles.titleText} data-animated="text1">For SaaS Investors, Software Executives, or anyone

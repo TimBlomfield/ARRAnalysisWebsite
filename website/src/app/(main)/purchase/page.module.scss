@@ -2,6 +2,8 @@
 
 
 main {
+  @extend %lnk-free-trial;
+
   .s2 {
     background-color: $clrHeaderDarkBk;
     padding: 100px 20px;

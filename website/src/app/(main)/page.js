@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { K_Theme } from '@/utils/common';
 // Components
 import AnimateX from '@/components/AnimateX';
-import LinkButton from '@/components/LinkButton';
 import Footer from '@/components/Footer';
+import LinkButton from '@/components/LinkButton';
 // Images
 import imgQuart from '@/../public/Quarterly_Cohort-graph.jpg';
 import imgArrWtfl from '@/../public/ARR_Waterfall-graph.jpg';
@@ -16,6 +16,13 @@ const LandingPage = () => {
   return (
     <AnimateX>
       <main className={styles.main}>
+        <LinkButton extraClass={styles.linkFreeTrial}
+                    theme={K_Theme.Trial}
+                    href="/trial"
+                    data-animated="text2"
+                    data-anim-delay="1">
+          Start Free Trial&nbsp;&nbsp;&nbsp;→
+        </LinkButton>
         <section className={styles.s1}>
           <div className={cn(styles.titleText, styles.mb10)} data-animated="text1">Automate your Revenue Analysis.</div>
           <div className={styles.titleText} data-animated="text1">Quickly, Acurately and Presentably</div>

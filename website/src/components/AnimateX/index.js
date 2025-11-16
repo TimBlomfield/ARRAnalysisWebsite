@@ -20,6 +20,10 @@ const AnimateX = ({children}) => {
                 gsap.to(entry.target, { opacity: 1, y: 0, duration: .75, delay, ease: 'power2.out', startAt: { opacity: 0, y: 20 }});
                 break;
 
+              case 'text2':
+                gsap.to(entry.target, { opacity: 1, x: 0, duration: .75, delay, ease: 'power2.out', startAt: { opacity: 0, x: -12 }});
+                break;
+
               case 'elasticFadeIn':
                 {
                   const tl = gsap.timeline({ delay });

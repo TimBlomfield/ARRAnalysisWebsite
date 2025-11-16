@@ -18,4 +18,5 @@
 
   &.dark { @include mx-link-button($mapButton_Dark); }
   &.light { @include mx-link-button($mapButton_Light); }
+  &.trial { @include mx-link-button($mapButton_Trial); }
 }

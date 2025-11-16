@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 
 const LinkButton = ({theme = K_Theme.Dark, invertBkTheme = false, disabled = false, extraClass = '', href, children, ...attr}) => {
   return (
-    <Link className={cn(styles.button, theme === K_Theme.Dark ? styles.dark : styles.light, {[styles.invertBkTheme]: invertBkTheme}, extraClass)}
+    <Link className={cn(styles.button, theme === K_Theme.Dark ? styles.dark : (theme === K_Theme.Trial ? styles.trial : styles.light), {[styles.invertBkTheme]: invertBkTheme}, extraClass)}
           {...(disabled ? { 'aria-disabled': true, tabIndex: -1, href: '#' } : { href: href })}
           {...attr}>
       <div className={styles.text}>

@@ -2,6 +2,8 @@
 
 
 .main {
+  @extend %lnk-free-trial;
+
   .s1 {
     background-color: $clrHeaderDarkBk;
     min-height: 550px;

@@ -156,6 +156,18 @@ $mapButton_Red_TransparentBk: (
   'border-inv':           transprent,
 );
 
+$mapButton_Trial: (
+  'background':           #1473E6,
+  'text':                 $clrHeaderDarkText,
+  'background-hover':     #0D66D0,
+  'background-active':    color.adjust(#1473E6, $lightness: 5%),
+  'border-focus':         #1473E6,
+  'background-disabled':  $clrHeaderLight_Disabled,
+  'text-disabled':        $clrHeaderDark_Disabled,
+  'border-focus-inv':     $clrHeaderLightBk,
+  'border-inv':           $clrHeaderLightBk,
+);
+
 $maxHtmlPageWidth: 1400px;
 
 %noselect {
@@ -166,6 +178,17 @@ $maxHtmlPageWidth: 1400px;
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
   -webkit-tap-highlight-color: rgb(255 255 255 / 0);
+}
+
+%lnk-free-trial {
+  .linkFreeTrial {
+    position: fixed;
+    right: max(20px, calc((100dvw - 1280px) * 0.5));
+    top: 64px;
+    z-index: 3;
+    min-height: 52px;
+    box-shadow: 5px 5px 10px 0 rgb(5  41  84 / .37);
+  }
 }
 
 @mixin mx-linscale($prop, $maxVal, $minVal, $maxDim, $minDim, $measure: 100vw) {
