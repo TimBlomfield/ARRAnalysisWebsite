@@ -1,5 +1,6 @@
 import 'server-only';
 import { DateTime } from 'luxon';
+import crypto from 'crypto';
 import db from '@/utils/server/db';
 
 
@@ -39,6 +40,49 @@ const runCleanup = async () => {
           expiresAt: { lt: dtNow },
         },
       });
+
+      // Delete TrialRequestLimitIp records whose updatedAt is older than 72 hours
+      await db.trialRequestLimitIp.deleteMany({
+        where: {
+          updatedAt: { lt: DateTime.now().minus({ hours: 72 }).toJSDate() },
+        },
+      });
+
+      // Delete TrialRequest records older than 3 years
+      await db.trialRequest.deleteMany({
+        where: {
+          expiresAt: { lt: DateTime.now().minus({ years: 3 }).toJSDate() },
+        },
+      });
+
+      // Anonymize TrialRequest records older than 180 days
+      // 1. Find all TrialRequests older than 180 days that are NOT yet anonymized
+      const oldTrialRequests = await db.trialRequest.findMany({
+        where: {
+          expiresAt: {
+            lt: DateTime.now().minus({ days: 180 }).toJSDate(),
+          },
+          NOT: {  // avoid re-anonymizing hashed values
+            email: { startsWith: 'anon-' },
+          },
+        },
+      });
+      // 2. Update each old TrialRequest to anonymize its hashed email
+      for (const trialRequest of oldTrialRequests) {
+        const hash = crypto.createHash('sha256').update(trialRequest.email).digest('hex');
+
+        await db.trialRequest.update({
+          where: { id: trialRequest.id },
+          data: {
+            email: `anon-${hash}`,
+            firstName: null,
+            lastName: null,
+            company: null,
+            phone: null,
+            jobTitle: null,
+          },
+        });
+      }
 
       // Update/Create the CleanupLog singleton object
       const lastRun = DateTime.now().toJSDate();

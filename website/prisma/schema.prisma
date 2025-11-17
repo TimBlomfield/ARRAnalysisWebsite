@@ -45,6 +45,44 @@ model ResetPasswordLink {
   bruteForceRefreshCount Int      @default(50)
 }
 
+enum TrialStatus {
+  PENDING_VERIFICATION
+  EMAIL_VERIFIED
+  ACTIVATED // Optional, for future use
+  EXPIRED
+}
+
+model TrialRequest {
+  id        Int         @id @default(autoincrement())
+  email     String
+  token     String      @unique
+  createdAt DateTime    @default(now())
+  expiresAt DateTime
+  ipAddress String
+  status    TrialStatus @default(PENDING_VERIFICATION)
+
+  // The following two fields are for audit purposes
+  userAgent String
+  attempts  Int    @default(0)
+
+  // Optional fields added after successful verification
+  firstName String?
+  lastName  String?
+  company   String?
+  phone     String?
+  jobTitle  String?
+
+  licenseId       BigInt?
+  licensePassword String?
+}
+
+model TrialRequestLimitIp {
+  ipAddress   String   @id
+  sentCount   Int      @default(0)
+  lockedUntil DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Administrator {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())

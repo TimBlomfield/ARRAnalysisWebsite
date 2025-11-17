@@ -18,6 +18,38 @@
     letter-spacing: 0.05em;
     line-height: 1.4;
 
+    .session {
+      width: 100%;
+      max-width: 1000px;
+      min-height: 80px;
+      background: #FDE8EB;
+      margin-bottom: 20px;
+      margin-top: -30px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      box-sizing: border-box;
+      padding: 10px 20px;
+      box-shadow: 1px 1px 5px 0 rgb(0 0 0 / .2);
+
+      svg.imgExclamation {
+        width: 30px;
+        min-width: 30px;
+        height: auto;
+        padding: 5px 15px 5px 5px;
+
+        [data-g1] { fill: #460712; }
+      }
+
+      .txtSession {
+        @extend %fnt-secondary;
+
+        font-size: 18px;
+        line-height: 1.75;
+        letter-spacing: 0.03em;
+      }
+    }
+
     .titleText {
       @extend %fnt-secondary;
 
@@ -200,6 +232,16 @@
     grid: 1fr / 1fr 200px;
     gap: 20px;
     align-items: end;
+
+    .overlay {
+      position: absolute;
+      z-index: 8;
+      inset: 0;
+      background-color: $clrHeaderLightBk;
+      opacity: .5;
+      display: grid;
+      place-items: center;
+    }
 
     .inp {
       height: 48px;
