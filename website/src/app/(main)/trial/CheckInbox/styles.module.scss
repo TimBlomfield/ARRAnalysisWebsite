@@ -1,0 +1,85 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 200px);
+  overflow-x: hidden;
+
+  .titleArea {
+    background-color: $clrHeaderDarkBk;
+    padding: 0 20px;
+    height: 140px;
+    display: grid;
+    place-content: center;
+    color: $clrHeaderDarkText;
+
+    .title {
+      @extend %fnt-primary;
+
+      font-size: 38px;
+      line-height: 1.2;
+
+      @media screen and (max-width: 440px) { font-size: 32px; }
+
+      @media screen and (max-width: 390px) { font-size: 30px; }
+    }
+  }
+
+  .s1 {
+    box-sizing: border-box;
+    padding: 0 20px;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+
+    .txtCheck {
+      @extend %fnt-secondary;
+
+      font-size: 42px;
+      font-weight: bold;
+      line-height: 1.2;
+      letter-spacing: .3px;
+      margin: 80px 0 40px;
+      color: $clrHelpCenter_PageTitle;
+    }
+
+    p {
+      margin: 20px 0;
+      max-width: 680px;
+
+      .txtDesc {
+        @extend %fnt-secondary;
+
+        font-size: 18px;
+        line-height: 1.5;
+        letter-spacing: .7px;
+        color: $clrHelpCenter_PageText;
+
+        strong {
+          @extend %fnt-primary;
+        }
+
+        em {
+          font-weight: bold;
+        }
+
+        .link {
+          color: $clrHelpCenter_PageTitle;
+          text-decoration: underline;
+          box-sizing: border-box;
+          outline: none;
+          border: 1px dotted transparent;
+          font-weight: bold;
+          letter-spacing: 0.04em;
+
+          &:hover { color: $clrLinkText; }
+          &:active { color: color.adjust($clrHeaderLightText, $lightness: 5%); }
+          &:focus-visible { border-color: $clrHeaderLightText; }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import axios from 'axios';
 import { DateTime } from 'luxon';
 import Mailgun from 'mailgun.js';
 import formData from 'form-data';
@@ -9,8 +10,50 @@ import db from '@/utils/server/db';
 
 const POST = async req => {
   try {
-    const { email } = await req.json();
+    const { token, firstName, lastName, phone, company, country, jobTitle } = await req.json();
 
+    const trialRequest = await db.trialRequest.findUnique({ where: { token }});
+    if (trialRequest == null || trialRequest.status !== TrialStatus.PENDING_VERIFICATION)
+      return NextResponse.json({ message: 'Something went wrong!' }, { status: 500 });
+
+    // See if a LicenseSpring customer with this email already exists
+    let customer;
+    const { data } = await axios.get('https://saas.licensespring.com/api/v1/customers/',
+      {
+        headers: {
+          Authorization: `Api-Key ${process.env.LICENSESPRING_MANAGEMENT_API_KEY}`,
+        },
+        params: {
+          email: trialRequest.email,
+        },
+      }
+    );
+    if (data.count > 0)
+      customer = data.results[0];
+
+    // Create a LicenseSpring customer if it doesn't exist
+    if (customer == null) {
+      const { data: dataCreate } = await axios.post('https://saas.licensespring.com/api/v1/customers/',
+        {
+          email: trialRequest.email,
+          first_name: firstName,
+          last_name: lastName,
+          phone,
+          company_name: company,
+          country,
+        },
+        {
+          headers: {
+            Authorization: `Api-Key ${process.env.LICENSESPRING_MANAGEMENT_API_KEY}`,
+          },
+        }
+      );
+      customer = dataCreate;
+    }
+
+    // TODO: create an order for this customer and a 14 day trial license
+    // Create a trial license in license spring for 14 days
+    /*
     let ipAddress, userAgent;
     if (req.headers?.get != null && (typeof req.headers.get === 'function')) {
       ipAddress = req.headers.get('x-forwarded-for') || req.ip;
@@ -89,7 +132,7 @@ const POST = async req => {
         html,
       });
     }
-
+    */
     return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({ message: err?.message ?? 'Something went wrong!' }, { status: 500 });

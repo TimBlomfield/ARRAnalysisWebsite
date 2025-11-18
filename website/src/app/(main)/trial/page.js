@@ -11,6 +11,7 @@ import { K_Theme } from '@/utils/common';
 import { validateUnicodeEmail } from '@/utils/validators';
 // Components
 import AnimateX from '@/components/AnimateX';
+import CheckInbox from './CheckInbox';
 import Footer from '@/components/Footer';
 import Input from '@/components/Input';
 import Loading from '@/components/Loading';
@@ -87,7 +88,8 @@ const TrialPage = () => {
   }, [onRequestTrialClick]);
 
   if (emailParam && emailParam.trim() !== '')
-    return <div>Redirecting to trial page...</div>;
+    return <CheckInbox />;
+    // return <div>error</div>;
 
   return (
     <AnimateX>
@@ -142,6 +144,8 @@ const TrialPage = () => {
           <Input id={idEmail}
                  name="Email"
                  label="Email:"
+                 type="email"
+                 autoComplete="email"
                  theme={K_Theme.Dark}
                  errorPlaceholder
                  disabled={loading}

@@ -80,6 +80,7 @@ const runCleanup = async () => {
             company: null,
             phone: null,
             jobTitle: null,
+            country: null,
           },
         });
       }

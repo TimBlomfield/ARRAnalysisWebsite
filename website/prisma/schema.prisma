@@ -71,6 +71,7 @@ model TrialRequest {
   company   String?
   phone     String?
   jobTitle  String?
+  country   String?
 
   licenseId       BigInt?
   licensePassword String?
@@ -78,7 +79,7 @@ model TrialRequest {
 
 model TrialRequestLimitIp {
   ipAddress   String   @id
-  sentCount   Int      @default(0)
+  sentCount   Int      @default(1)
   lockedUntil DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

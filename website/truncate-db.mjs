@@ -6,6 +6,7 @@
 // --users: Clears the users
 // --admins: Clears the admins
 // --links: Clears RegistrationLink and ResetPasswordLink entries
+// --trial: Clears TrialRequest and TrialRequestLimitIp entries
 // --stray: Clears all 'stray' UserData i.e., UserData with no admin, customer, or user relations
 
 import { PrismaClient } from '@prisma/client';
@@ -21,6 +22,7 @@ const truncate = async () => {
   const bUsers = args.has('--users');
   const bAdmins = args.has('--admins');
   const bLinks = args.has('--links');
+  const bTrial = args.has('--trial');
   const bStray = args.has('--stray');
 
   if (bLinks || bAll) {
@@ -28,6 +30,13 @@ const truncate = async () => {
     if (countRegLinks > 0) console.log(`Deleted ${countRegLinks} RegistrationLink(s)`);
     const { count: countPassLinks } = await prisma.resetPasswordLink.deleteMany();
     if (countPassLinks > 0) console.log(`Deleted ${countPassLinks} ResetPasswordLink(s)`);
+  }
+
+  if (bTrial || bAll) {
+    const { count: countTrialIPs } = await prisma.trialRequestLimitIp.deleteMany();
+    if (countTrialIPs > 0) console.log(`Deleted ${countTrialIPs} TrialRequestLimitIp(s)`);
+    const { count: countTrialRequests } = await prisma.trialRequest.deleteMany();
+    if (countTrialRequests > 0) console.log(`Deleted ${countTrialRequests} TrialRequest(s)`);
   }
 
   if (bAdmins || bAll) {
