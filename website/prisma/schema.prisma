@@ -49,7 +49,6 @@ enum TrialStatus {
   PENDING_VERIFICATION
   EMAIL_VERIFIED
   ACTIVATED // Optional, for future use
-  EXPIRED
 }
 
 model TrialRequest {
@@ -63,7 +62,8 @@ model TrialRequest {
 
   // The following two fields are for audit purposes
   userAgent String
-  attempts  Int    @default(0)
+  attempts  Int    @default(0) // For audit purposes
+  downloads Int    @default(0) // For audit purposes
 
   // Optional fields added after successful verification
   firstName String?

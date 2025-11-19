@@ -79,7 +79,7 @@ const POST = async req => {
       const mg = mailgun.client({ username: 'api', key: process.env.MAILGUN_API_KEY });
 
       const regUrl = process.env.NEXTAUTH_URL + '/trial/register?token=' + trialRequestRecord.token;
-      const html = `Hi,<p>Thank you for your interest in ARR Analysis.</p><p>To proceed with your request please register at the following web page within the next few minutes:</p><p><a href="${regUrl}">${regUrl}</a></p><p>If you are visiting the above-mentioned page later, the session might have expired. In this case, please simply complete the request form again to receive a new registration link.</p><p></p><p>Kind regards, the ARR Analysis team.</p>`;
+      const html = `Hi,<p>Thank you for your interest in ARR Analysis.</p><p>To proceed with your request please register at the following web page within the next few minutes:</p><p><a href="${regUrl}">${regUrl}</a></p><p>If you are visiting the above-mentioned page later, the session might have expired. In this case, please simply complete the request form again to receive a new registration link.</p><p></p><p>Kind regards,<br />the ARR Analysis team</p>`;
 
       const msg = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
         from: `The ARR Analysis Support Team <support-team@${process.env.MAILGUN_DOMAIN}>`,

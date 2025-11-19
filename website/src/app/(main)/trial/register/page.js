@@ -22,9 +22,7 @@ const TrialRegisterPage = async ({ searchParams }) => {
     ?? headersList.get('x-vercel-ip-country')
     ?? 'US'; // fallback
 
-  return (
-    <RegisterTrialClientPage token={token} detectedCountry={country} />
-  );
+  return <RegisterTrialClientPage token={token} detectedCountry={country} />;
 };
 
 

@@ -125,8 +125,7 @@ const RegisterTrialClientPage = ({ token, detectedCountry }) => {
 
     axios.post('/api/trial-requestor-info', { token, firstName: theFirstName, lastName: theLastName, phone: thePhone, company: theCompany, country: theCountry, jobTitle: theJobTitle })
       .then(res => {
-        // TODO: redirect to download page here
-        router.push('/');
+        router.push(`/trial/download?token=${token}`);  // Redirect to download page
       })
       .catch(err => {
         router.push('/trial?session=expired');  // Redirect to session expired page
