@@ -1,9 +1,10 @@
 'use client';
 
-import { useCallback } from 'react';
+import {useCallback, useState} from 'react';
 import cn from 'classnames';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { DateTime } from 'luxon';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 // Components
@@ -16,10 +17,20 @@ import DownloadSvg from '@/../public/download.svg';
 import styles from './styles.module.scss';
 
 
-const DownloadTrialClientPage = ({ token, password, email }) => {
+const DownloadTrialClientPage = ({ token, password, email, expiresAt }) => {
   const router = useRouter();
 
+  const [cooldown, setCooldown] = useState(false);
+
   const onDownloadClick = useCallback(() => {
+    if (cooldown > 0) return;
+
+    setCooldown(true);
+
+    const timer = setTimeout(() => {
+      setCooldown(false);
+    }, 5000);
+
     axios.post('/api/trial-download', { token })
       .then(res => {
         if (res.data.redirect === true)
@@ -30,7 +41,7 @@ const DownloadTrialClientPage = ({ token, password, email }) => {
       .catch(err => {
         toast.error(err.response?.data?.message ?? 'Unexpected error while downloading.');
       });
-  }, [token]);
+  }, [token, cooldown]);
 
   return (
     <AnimateX>
@@ -66,6 +77,7 @@ const DownloadTrialClientPage = ({ token, password, email }) => {
               <div className={cn(styles.txtDesc, styles.f16)}>Download the setup file and open it:</div>
               <PushButton extraClass={styles.btnDownload}
                           textExtraClass={styles.btnTxt}
+                          disabled={cooldown}
                           onClick={onDownloadClick}>
                 <DownloadSvg className={styles.dload} />
                 Download ARR Analysis
@@ -87,7 +99,11 @@ const DownloadTrialClientPage = ({ token, password, email }) => {
               <div className={cn(styles.txtDesc, styles.f16, styles.pad)}><em>{email}</em></div>
               <div className={cn(styles.txtDesc, styles.f16)}>Your License Password:</div>
               <div className={cn(styles.txtDesc, styles.f16, styles.pad)}><em>{password}</em></div>
-              <div className={cn(styles.txtDesc, styles.f16, styles.mt8)}>Please do not pass on the license password to people outside of your company.</div>
+              <div className={cn(styles.txtDesc, styles.f16, styles.mt8)}>
+                Your license is valid until:&nbsp;&nbsp;
+                <span style={{ whiteSpace: 'nowrap' }}>{DateTime.fromJSDate(expiresAt).toFormat('dd - LLL - yyyy')}</span>
+              </div>
+              <div className={cn(styles.txtDesc, styles.f16)}>Please do not pass on the license password to people outside of your company.</div>
             </div>
             <div className={styles.cell}><div className={styles.num}>6</div></div>
             <div className={styles.cell}>

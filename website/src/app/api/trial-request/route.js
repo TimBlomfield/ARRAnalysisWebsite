@@ -5,6 +5,7 @@ import formData from 'form-data';
 import { randomBytes } from 'node:crypto';
 import { TrialStatus } from '@prisma/client';
 import db from '@/utils/server/db';
+import sendDownloadEmail from '@/utils/server/send-download-email';
 
 
 const POST = async req => {
@@ -88,6 +89,13 @@ const POST = async req => {
         text: 'Ephemeral link',
         html,
       });
+    } else if (trialRequestRecord.status === TrialStatus.EMAIL_VERIFIED) {
+      if (trialRequestRecord.expiresAt < DateTime.now().toJSDate())
+        return NextResponse.json({ expired: true });  // This will redirect to the expired page (/trial/expired?email={this_user_email})
+      else {
+        await sendDownloadEmail(trialRequestRecord.token, trialRequestRecord.firstName, trialRequestRecord.email, trialRequestRecord.licensePassword, DateTime.fromJSDate(trialRequestRecord.expiresAt));
+        return NextResponse.json({ download: true, token: trialRequestRecord.token });
+      }
     }
 
     return NextResponse.json({ success: true });

@@ -20,7 +20,7 @@ const TrialDownloadPage = async ({ searchParams }) => {
   if (regLink.expiresAt < DateTime.now().toJSDate())
     redirect(`/trial/expired?email=${regLink.email}`);
 
-  return <DownloadTrialClientPage token={token} password={regLink.licensePassword} email={regLink.email} />;
+  return <DownloadTrialClientPage token={token} password={regLink.licensePassword} email={regLink.email} expiresAt={regLink.expiresAt} />;
 };
 
 

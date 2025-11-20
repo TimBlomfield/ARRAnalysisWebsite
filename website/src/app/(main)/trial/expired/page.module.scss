@@ -1,0 +1,128 @@
+@use "globals" as *;
+@use "sass:color";
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 200px);
+  overflow-x: hidden;
+
+  .titleArea {
+    background-color: $clrHeaderDarkBk;
+    padding: 0 20px;
+    height: 140px;
+    display: grid;
+    place-content: center;
+    color: $clrHeaderDarkText;
+
+    .title {
+      @extend %fnt-primary;
+
+      font-size: 38px;
+      line-height: 1.2;
+
+      @media screen and (max-width: 400px) { font-size: 34px; }
+    }
+  }
+
+  section.s1 {
+    box-sizing: border-box;
+    padding: 0 20px;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+
+    .txtExpired {
+      @extend %fnt-secondary;
+
+      font-size: 42px;
+      font-weight: bold;
+      line-height: 1.2;
+      letter-spacing: .3px;
+      margin: 80px 0 40px;
+      color: $clrHelpCenter_PageTitle;
+      text-align: center;
+
+      @media screen and (max-width: 480px) {
+        @include mx-linscale(font-size, 42, 32, 480, 320);
+      }
+    }
+
+    p {
+      @extend %fnt-secondary;
+
+      margin: 20px auto;
+      max-width: 680px;
+      font-size: 18px;
+      line-height: 1.5;
+      letter-spacing: .7px;
+      color: $clrHelpCenter_PageText;
+      text-align: center;
+
+      strong {
+        @extend %fnt-primary;
+      }
+
+      em {
+        font-weight: bold;
+      }
+    }
+
+    .txtContinue {
+      @extend %fnt-primary;
+
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
+      letter-spacing: .3px;
+      margin: 60px 0 40px;
+      color: $clrHelpCenter_PageTitle;
+      text-align: center;
+    }
+
+
+    .benefits {
+      margin: 30px auto;
+      text-align: left;
+      max-width: 680px;
+
+      .benefitItem {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: #f7fafc;
+        border-radius: 8px;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: translateX(5px);
+        }
+
+        &::before {
+          content: "✓";
+          color: #48bb78;
+          font-weight: bold;
+          font-size: 20px;
+          margin-right: 12px;
+          flex-shrink: 0;
+        }
+
+        .benefitText {
+          @extend %fnt-secondary;
+
+          color: #4a5568;
+          font-size: 18px;
+          font-weight: bold;
+          line-height: 1.2;
+          letter-spacing: .6px;
+        }
+      }
+    }
+
+    .lnk {
+      margin: 40px auto 100px;
+    }
+  }
+}

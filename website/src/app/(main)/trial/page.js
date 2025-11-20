@@ -69,7 +69,12 @@ const TrialPage = () => {
     axios.post('/api/trial-request', { email: theEmail })
       .then(res => {
         setLoading(false);
-        router.push(`/trial?email=${encodeURIComponent(theEmail)}`);
+        if (res.data.expired === true)
+          router.push(`/trial/expired?email=${encodeURIComponent(theEmail)}`);
+        else if (res.data.download === true)
+          router.push(`/trial/download?token=${res.data.token}`);
+        else
+          router.push(`/trial?email=${encodeURIComponent(theEmail)}`);
         setEmail('');
         setErrorEmail('');
       })
@@ -89,7 +94,6 @@ const TrialPage = () => {
 
   if (emailParam && emailParam.trim() !== '')
     return <CheckInbox />;
-    // return <div>error</div>;
 
   return (
     <AnimateX>
