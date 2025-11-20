@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 // Components
 import AnimateX from '@/components/AnimateX';
@@ -11,7 +11,6 @@ import styles from './styles.module.scss';
 
 const CheckInbox = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const email = searchParams.get('email');
 

@@ -94,7 +94,7 @@ const POST = async req => {
         return NextResponse.json({ expired: true });  // This will redirect to the expired page (/trial/expired?email={this_user_email})
       else {
         await sendDownloadEmail(trialRequestRecord.token, trialRequestRecord.firstName, trialRequestRecord.email, trialRequestRecord.licensePassword, DateTime.fromJSDate(trialRequestRecord.expiresAt));
-        return NextResponse.json({ download: true, token: trialRequestRecord.token });
+        return NextResponse.json({ download: true, token: trialRequestRecord.token });  // This will redirect to the download page (/trial/download?token={this_user_token})
       }
     }
 

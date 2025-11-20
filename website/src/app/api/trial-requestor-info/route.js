@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import Mailgun from 'mailgun.js';
-import formData from 'form-data';
 import { TrialStatus } from '@prisma/client';
 import db from '@/utils/server/db';
 import sendDownloadEmail from '@/utils/server/send-download-email';

@@ -15,9 +15,9 @@ const TrialDownloadPage = async ({ searchParams }) => {
 
   if (regLink == null)
     redirect('/trial?session=expired');
-  if (regLink.status !== TrialStatus.EMAIL_VERIFIED)
+  if (regLink.status === TrialStatus.PENDING_VERIFICATION)
     redirect(`/trial/register?token=${token}`);
-  if (regLink.expiresAt < DateTime.now().toJSDate())
+  if (regLink.expiresAt < DateTime.now().toJSDate())  // regLink.status is TrialStatus.EMAIL_VERIFIED
     redirect(`/trial/expired?email=${regLink.email}`);
 
   return <DownloadTrialClientPage token={token} password={regLink.licensePassword} email={regLink.email} expiresAt={regLink.expiresAt} />;

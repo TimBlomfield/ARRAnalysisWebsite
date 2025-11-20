@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { redirect } from 'next/navigation';
 import { DateTime } from 'luxon';
 import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -13,7 +12,7 @@ const POST = async req => {
     const { token } = await req.json();
 
     // Check if the token is valid
-    const trialRequest = await db.trialRequest.findUnique({ where: { token} });
+    const trialRequest = await db.trialRequest.findUnique({ where: { token } });
     if (!trialRequest || trialRequest.expiresAt < DateTime.now().toJSDate() || trialRequest.status !== TrialStatus.EMAIL_VERIFIED)
       return NextResponse.json({ redirect: true }, { status: 200 });
 

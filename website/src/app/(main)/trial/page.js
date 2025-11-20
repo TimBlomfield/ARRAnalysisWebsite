@@ -23,19 +23,6 @@ import TriangleSvg from '@/../public/exclamation-triangle.svg';
 import styles from './page.module.scss';
 
 
-const customInputStyle = {
-  height: '48px',
-  fontSize: '16px',
-  minWidth: '100px',
-};
-
-const customButtonStyle = {
-  height: '52px',
-  fontSize: '16px',
-  width: '100%',
-};
-
-
 const TrialPage = () => {
   const idEmail = useId();
   const searchParams = useSearchParams();

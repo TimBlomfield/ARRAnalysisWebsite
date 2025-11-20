@@ -1,4 +1,4 @@
-[data-animated^='text'] { // This means when data-animated starts with text i.e. it covers both "text1" and "text2"
+[data-animated^='text'] { // This means when data-animated starts with text i.e. it covers "text1", "text2" etc
   opacity: 0;
 }
 
