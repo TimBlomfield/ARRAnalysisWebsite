@@ -19,7 +19,7 @@ const POST = async req => {
 
     // Create a LicenseSpring order, a customer (if not already created), and a user for a trial license (14 days)
     const requestBody = {
-      id: `trial-order-9f3df381--c95cf7af86d5`,
+      id: 'trial-order-9f3df381--c95cf7af86d5',
       reference: 'Trial Request Order',
       is_trial: true,
       append: true,
