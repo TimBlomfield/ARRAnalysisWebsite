@@ -19,9 +19,10 @@ const POST = async req => {
 
     // Create a LicenseSpring order, a customer (if not already created), and a user for a trial license (14 days)
     const requestBody = {
-      id: `trial-order-${token}`,
-      reference: 'Trial',
+      id: `trial-order-9f3df381--c95cf7af86d5`,
+      reference: 'Trial Request Order',
       is_trial: true,
+      append: true,
       items: [
         {
           product_code: productCodes[2],
@@ -31,7 +32,14 @@ const POST = async req => {
               is_trial: true,
               trial_days: 14,
               validity_period: luxonDateAfter14Days.toJSDate(),
-              note: `Generated license for trial request from ${trialRequest.email} on ${DateTime.now().toJSDate()} with job title ${jobTitle ?? 'N/A'}, from company: ${company ?? 'N/A'}`,
+              note: `Generated license for trial request from ${trialRequest.email}`,
+              metadata: {
+                email: trialRequest.email,
+                date: DateTime.now().toJSDate(),
+                jobTitle: jobTitle ?? 'N/A',
+                company,
+                token,
+              },
               users: [{
                 email: trialRequest.email,
                 is_manager: false,
