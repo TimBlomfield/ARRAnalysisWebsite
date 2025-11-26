@@ -4,7 +4,7 @@
 import { Fragment, useMemo, useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
-import { countries } from 'country-flag-icons';
+import countries from '@/utils/safe-countries';
 import { CircleFlag } from 'react-circle-flags';
 import Flags from 'country-flag-icons/react/3x2';
 import { K_Theme, PORTAL_ID_MENU } from '@/utils/common';

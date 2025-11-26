@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { isValidPhoneNumber } from 'libphonenumber-js';
-import { countries } from 'country-flag-icons';
+import countries from '@/utils/safe-countries';
 import Flags from 'country-flag-icons/react/3x2';
 import { K_Theme } from '@/utils/common';
 import { getCountryCodeFromNumber } from '@/utils/phone';

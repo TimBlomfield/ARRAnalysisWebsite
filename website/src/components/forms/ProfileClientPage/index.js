@@ -8,7 +8,7 @@ import { State }  from 'country-state-city';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { K_Theme } from '@/utils/common';
-import { countries } from 'country-flag-icons';
+import countries from '@/utils/safe-countries';
 import Flags from 'country-flag-icons/react/3x2';
 import { getCountryCodeFromNumber } from '@/utils/phone';
 import { mkFix } from '@/utils/func';
