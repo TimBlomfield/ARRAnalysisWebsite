@@ -25,7 +25,7 @@ const LandingPage = () => {
         </LinkButton>
         <section className={styles.s1}>
           <div className={cn(styles.titleText, styles.mb10)} data-animated="text1">Automate your Revenue Analysis.</div>
-          <div className={styles.titleText} data-animated="text1">Quickly, Acurately and Presentably</div>
+          <div className={styles.titleText} data-animated="text1">Quickly, Accurately and Presentably</div>
           <div className={styles.spacer} />
           <div >
             <LinkButton theme={K_Theme.Light} href="/product" data-animated="text1" data-anim-delay=".5">
