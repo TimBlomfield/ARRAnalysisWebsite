@@ -63,6 +63,10 @@ const POST = async req => {
       }
     );
 
+    const orderItem = createdOrder.order_items.find(item => item.licenses[0].license_users[0].true_email === trialRequest.email);
+    if (orderItem == null)
+      return NextResponse.json({ message: `Order item not found! (${trialRequest.email})` }, { status: 500 });
+
     // Update the TrialRequest
     const trialRequestUpdated = await db.trialRequest.update({
       where: { token },
@@ -75,8 +79,8 @@ const POST = async req => {
         phone,
         jobTitle,
         country,
-        licenseId: createdOrder.order_items[0].licenses[0].id,
-        licensePassword: createdOrder.order_items[0].licenses[0]?.license_users[0]?.initial_password ?? 'N/A',
+        licenseId: orderItem.licenses[0].id,
+        licensePassword: orderItem.licenses[0]?.license_users[0]?.initial_password ?? 'N/A',
       },
     });
 
